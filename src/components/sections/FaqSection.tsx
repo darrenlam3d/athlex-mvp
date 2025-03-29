@@ -18,10 +18,6 @@ const FaqSection = () => {
       answer: "Yes. ATHLEX will offer a free tier for all athletes. Premium features and services will be available as optional upgrades."
     },
     {
-      question: "What kind of sports does ATHLEX support?",
-      answer: "ATHLEX is designed for multiple sports including football, basketball, rugby, tennis, volleyball, badminton, and more — with performance tools tailored to each sport."
-    },
-    {
       question: "How do I get early access?",
       answer: "Just sign up for the waitlist. We'll roll out early access in phases and notify you when it's your turn."
     },
