@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -203,7 +202,7 @@ GDPR Consent: ${registration.gdprConsent ? "Yes" : "No"}
 
               <div>
                 <label htmlFor="feedback" className="block text-sm font-medium mb-2">
-                  What would you like to see in ATHLEX?
+                  If you have any questions or would like further clarification about ATHLEX, feel free to let us know.
                 </label>
                 <Textarea
                   id="feedback"
