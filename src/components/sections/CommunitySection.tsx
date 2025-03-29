@@ -6,8 +6,8 @@ import { toast } from 'sonner';
 
 const CommunitySection = () => {
   const handleFormRedirect = () => {
-    // In a real implementation, this would link to an external form
-    window.open("https://forms.google.com/", "_blank");
+    // Link to the provided Google form
+    window.open("https://docs.google.com/forms/d/e/1FAIpQLSfQLtY1m837BH7MMNSEMdHGPLK6v7TPj7wSGAjhN7o_I5GTrw/viewform?usp=header", "_blank");
   };
   
   const handleCopyLink = () => {
