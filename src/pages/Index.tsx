@@ -1,12 +1,93 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useEffect } from 'react';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import HeroSection from '@/components/sections/HeroSection';
+import FeaturesSection from '@/components/sections/FeaturesSection';
+import WhySection from '@/components/sections/WhySection';
+import QuoteSection from '@/components/sections/QuoteSection';
+import SignUpSection from '@/components/sections/SignUpSection';
+import CommunitySection from '@/components/sections/CommunitySection';
+import FaqSection from '@/components/sections/FaqSection';
 
 const Index = () => {
+  // Reveal animation on scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      revealElements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
+
+  // Update title and meta description for SEO
+  useEffect(() => {
+    document.title = "ATHLEX – Built by Athletes, For Athletes";
+    
+    // Update meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'ATHLEX - The global platform for athletes to showcase their journey, track performance, connect with professionals, and unlock real opportunities.');
+    }
+    
+    // Update Open Graph meta tags
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    let ogDescription = document.querySelector('meta[property="og:description"]');
+    
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'ATHLEX – Built by Athletes, For Athletes');
+    }
+    
+    if (ogDescription) {
+      ogDescription.setAttribute('content', 'Take control of your journey. Track your growth. Get discovered.');
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-athlex-background text-white">
+      <Navbar />
+      
+      <main>
+        <HeroSection />
+        
+        <div className="reveal">
+          <FeaturesSection />
+        </div>
+        
+        <div className="reveal">
+          <WhySection />
+        </div>
+        
+        <div className="reveal">
+          <QuoteSection />
+        </div>
+        
+        <div className="reveal">
+          <SignUpSection />
+        </div>
+        
+        <div className="reveal">
+          <CommunitySection />
+        </div>
+        
+        <div className="reveal">
+          <FaqSection />
+        </div>
+      </main>
+      
+      <Footer />
     </div>
   );
 };
