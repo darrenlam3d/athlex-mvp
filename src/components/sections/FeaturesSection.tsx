@@ -8,10 +8,10 @@ const FeaturesSection = () => {
   return (
     <section id="features" className="section-padding py-24 md:py-32 bg-gradient-to-b from-athlex-background to-athlex-gray-900">
       <div className="container">
-        <div className="text-center max-w-3xl mx-auto mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text inline-block">Platform Features</h2>
-          <p className="text-white/70 text-lg">
-            ATHLEX provides tailored features for everyone in the sports ecosystem.
+          <p className="text-white/70 text-lg mb-4">
+            ATHLEX is designed for today's athlete — dynamic, ambitious, and ready to grow. Whether you're just getting started or playing at an elite level, ATHLEX gives you the tools to take control of your path.
           </p>
         </div>
 
@@ -38,34 +38,44 @@ const FeaturesSection = () => {
           <TabsContent value="athletes" className="animate-fade-in">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               <FeatureCard
+                icon="🆔"
+                title="Verified Digital Profile"
+                description="Your official athlete identity that stays with you across teams, seasons, and countries."
+              />
+              <FeatureCard
                 icon="📊"
-                title="Verified Profile & Stats"
-                description="Create a comprehensive profile with verified performance history to showcase your authentic athletic journey."
+                title="Performance Tracking"
+                description="Record metrics across physical, technical, and tactical domains."
               />
               <FeatureCard
-                icon="🔍"
-                title="AI-Powered Training"
-                description="Get personalized training suggestions and self-assessments powered by cutting-edge AI technology."
+                icon="🎯"
+                title="Goal Setting & Milestones"
+                description="Define your targets and measure progress over time."
               />
               <FeatureCard
-                icon="🏆"
-                title="Goal Tracking"
-                description="Set, track, and achieve your athletic goals with milestone badges to mark your progress."
-              />
-              <FeatureCard
-                icon="🎓"
-                title="Educational Content"
-                description="Access exclusive video content designed to improve your skills and knowledge."
+                icon="🤖"
+                title="AI-Generated Training Suggestions"
+                description="Get smart, role-specific training recommendations."
               />
               <FeatureCard
                 icon="📈"
-                title="Peer Benchmarking"
-                description="Compare your stats with peers and participate in community challenges to push your limits."
+                title="Skill Development Pathways"
+                description="Follow structured drills and progressions."
               />
               <FeatureCard
-                icon="🌎"
-                title="Global Visibility"
-                description="Get discovered by coaches and scouts looking for talent just like yours from around the world."
+                icon="📚"
+                title="Educational Resources"
+                description="Learn from top-tier, curated videos and guides."
+              />
+              <FeatureCard
+                icon="📊"
+                title="Peer Benchmarking"
+                description="Compare anonymously with athletes in your position, age, or sport."
+              />
+              <FeatureCard
+                icon="🏆"
+                title="Community Challenges & Badges"
+                description="Stay motivated with trackable rewards and recognition."
               />
             </div>
           </TabsContent>
@@ -74,33 +84,28 @@ const FeaturesSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               <FeatureCard
                 icon="🔍"
-                title="Searchable Athlete Database"
-                description="Find athletes that match your criteria with advanced filters for age, stats, region, and more."
-              />
-              <FeatureCard
-                icon="📋"
-                title="Shortlisting & Notes"
-                description="Create lists of promising athletes and keep detailed notes on their development."
-              />
-              <FeatureCard
-                icon="✅"
-                title="Verified Statistics"
-                description="Make informed decisions with access to verified athlete performance data and history."
-              />
-              <FeatureCard
-                icon="💬"
-                title="Direct Communication"
-                description="Connect with athletes (with their consent) directly through the platform."
+                title="Talent Discovery Engine"
+                description="Search for athletes based on sport, age, performance, and more."
               />
               <FeatureCard
                 icon="📊"
-                title="Performance Analytics"
-                description="Track athlete development over time with comprehensive analytics and reporting."
+                title="Verified Performance Dashboards"
+                description="View clean, structured data across key metrics."
               />
               <FeatureCard
-                icon="🤝"
-                title="Endorsements"
-                description="Provide meaningful endorsements that help athletes build credibility in their profile."
+                icon="👍"
+                title="Endorsement Tools"
+                description="Support athletes with credibility and feedback."
+              />
+              <FeatureCard
+                icon="📋"
+                title="Shortlists & Notes"
+                description="Organize talent pipelines across age groups or competitions."
+              />
+              <FeatureCard
+                icon="✉️"
+                title="Direct Contact Requests"
+                description="Reach out to athletes (with permission) when ready."
               />
             </div>
           </TabsContent>
