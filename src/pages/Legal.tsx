@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -37,27 +36,17 @@ const Legal = () => {
       <Navbar />
       
       <main className="container py-12">
-        <div className="mb-8 flex items-center justify-between">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center text-athlex-accent hover:text-athlex-accent/80 mr-4">
-              <ArrowLeft size={16} className="mr-1" />
-              Back to Home
-            </Link>
-            <h1 className="text-3xl font-bold">Legal Policies</h1>
-          </div>
-          
-          <Button asChild variant="secondary" className="hidden sm:flex">
-            <Link to="/" className="gap-2">
-              <Home size={16} />
-              Return to Homepage
-            </Link>
-          </Button>
+        <div className="mb-8 flex items-center">
+          <Link to="/" className="flex items-center text-athlex-accent hover:text-athlex-accent/80 mr-4">
+            <ArrowLeft size={16} className="mr-1" />
+            Back to Home
+          </Link>
+          <h1 className="text-3xl font-bold">Legal Policies</h1>
         </div>
         
         <div className="bg-athlex-gray-800/40 border border-athlex-gray-700 rounded-lg p-6 mb-8">
           <p className="text-white/80">
             You are currently viewing our legal documentation. Use the tabs below to navigate between different policies.
-            If you'd like to return to the main website, click the "Back to Home" or "Return to Homepage" button.
           </p>
         </div>
         
@@ -239,15 +228,6 @@ const Legal = () => {
             </TabsContent>
           </div>
         </Tabs>
-        
-        <div className="mt-8 flex justify-center">
-          <Button size="lg" asChild className="bg-athlex-accent hover:bg-athlex-accent/90">
-            <Link to="/" className="gap-2">
-              <Home size={18} />
-              Return to Main Site
-            </Link>
-          </Button>
-        </div>
       </main>
       
       <Footer />
