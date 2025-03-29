@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -149,7 +148,7 @@ GDPR Consent: ${registration.gdprConsent ? "Yes" : "No"}
             <span className="text-athlex-accent">Elevate the Next Generation</span>
           </h2>
           <p className="text-white/70 text-lg">
-            Be among the first to experience ATHLEX and help us build the platform that truly serves your needs.
+            Be the first to experience ATHLEX and help define the future of athletic development.
           </p>
         </div>
 
