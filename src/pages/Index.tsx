@@ -45,7 +45,7 @@ const Index = () => {
     // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'ATHLEX - The global platform for athletes to showcase their journey, track performance, connect with professionals, and unlock real opportunities.');
+      metaDescription.setAttribute('content', 'ATHLEX - Empowering athletes to grow, connect, and get discovered—globally.');
     }
     
     // Update Open Graph meta tags
@@ -57,7 +57,7 @@ const Index = () => {
     }
     
     if (ogDescription) {
-      ogDescription.setAttribute('content', 'Take control of your journey. Track your growth. Get discovered.');
+      ogDescription.setAttribute('content', 'Empowering athletes to grow, connect, and get discovered—globally.');
     }
   }, []);
 

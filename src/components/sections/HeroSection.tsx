@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Shield, Award, Target, TrendingUp, Users, Search } from 'lucide-react';
@@ -58,7 +59,7 @@ const HeroSection = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-white/80 mb-6 animate-fade-in text-shadow-black" style={{ animationDelay: "0.2s" }}>
-            Take control of your journey. Track your growth. Get discovered.
+            Empowering athletes to grow, connect, and get discovered—globally.
           </p>
           
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 mb-8 animate-fade-in" style={{ animationDelay: "0.3s" }}>
