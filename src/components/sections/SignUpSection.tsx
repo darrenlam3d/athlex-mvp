@@ -6,10 +6,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from 'sonner';
+import { Phone } from 'lucide-react';
 
 // Interface for waitlist registration data
 interface WaitlistRegistration {
   email: string;
+  phoneNumber?: string;
   role: string;
   feedback: string;
   timestamp: string;
@@ -21,6 +23,7 @@ const ADMIN_EMAIL = "athlex.gaia@gmail.com";
 
 const SignUpSection = () => {
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [role, setRole] = useState('');
   const [feedback, setFeedback] = useState('');
   const [gdprConsent, setGdprConsent] = useState(false);
@@ -52,6 +55,7 @@ const SignUpSection = () => {
     // Create waitlist registration object
     const registration: WaitlistRegistration = {
       email,
+      ...(phoneNumber && { phoneNumber }),
       role,
       feedback,
       timestamp: new Date().toISOString(),
@@ -69,6 +73,7 @@ const SignUpSection = () => {
       
       // Reset form
       setEmail('');
+      setPhoneNumber('');
       setRole('');
       setFeedback('');
       setGdprConsent(false);
@@ -110,6 +115,7 @@ const SignUpSection = () => {
 New waitlist registration:
 
 Email: ${registration.email}
+${registration.phoneNumber ? `Phone: ${registration.phoneNumber}` : ''}
 Role: ${registration.role}
 Feedback: ${registration.feedback}
 Timestamp: ${registration.timestamp}
@@ -159,6 +165,21 @@ GDPR Consent: ${registration.gdprConsent ? "Yes" : "No"}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="phoneNumber" className="block text-sm font-medium mb-2 flex items-center gap-2">
+                  <Phone size={16} />
+                  Phone Number <span className="text-white/50 text-xs">(Optional)</span>
+                </label>
+                <Input
+                  id="phoneNumber"
+                  type="tel"
+                  placeholder="+1 (234) 567-8910"
+                  className="bg-athlex-gray-900 border-athlex-gray-700"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
 
