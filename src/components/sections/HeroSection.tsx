@@ -59,7 +59,7 @@ const HeroSection = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-white/80 mb-6 animate-fade-in text-shadow-black" style={{ animationDelay: "0.2s" }}>
-            Empowering athletes to grow, connect, and get discovered—globally.
+            Empowering athletes to grow, connect, and get discovered—<span className="font-bold text-athlex-accent">globally</span>.
           </p>
           
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 mb-8 animate-fade-in" style={{ animationDelay: "0.3s" }}>
