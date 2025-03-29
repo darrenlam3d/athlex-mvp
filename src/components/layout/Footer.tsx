@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Linkedin, Instagram, Mail } from "lucide-react";
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -58,9 +59,21 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-white/60 hover:text-athlex-accent">Privacy Policy</a></li>
-              <li><a href="#" className="text-white/60 hover:text-athlex-accent">Terms of Service</a></li>
-              <li><a href="#" className="text-white/60 hover:text-athlex-accent">Cookie Policy</a></li>
+              <li>
+                <Link to="/legal?tab=privacy" className="text-white/60 hover:text-athlex-accent">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal?tab=terms" className="text-white/60 hover:text-athlex-accent">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link to="/legal?tab=cookies" className="text-white/60 hover:text-athlex-accent">
+                  Cookie Policy
+                </Link>
+              </li>
             </ul>
           </div>
           
@@ -91,7 +104,11 @@ const Footer = () => {
             &copy; {currentYear} ATHLEX. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0">
-            <a href="#" className="text-white/60 hover:text-athlex-accent text-sm">
+            <Link to="/legal" className="text-white/60 hover:text-athlex-accent text-sm">
+              Legal Policies
+            </Link>
+            <span className="mx-2 text-white/30">|</span>
+            <a href="mailto:athlex.gaia@gmail.com" className="text-white/60 hover:text-athlex-accent text-sm">
               Contact Us
             </a>
           </div>
