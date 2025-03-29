@@ -61,28 +61,22 @@ const Index = () => {
       
       <main>
         <HeroSection />
-        
-        <div className="reveal mb-10">
+        <div className="reveal">
           <FeaturesSection />
         </div>
-        
-        <div className="reveal mb-10">
+        <div className="reveal">
           <WhySection />
         </div>
-        
-        <div className="reveal mb-10">
+        <div className="reveal">
           <QuoteSection />
         </div>
-        
-        <div className="reveal mb-10">
+        <div className="reveal">
           <SignUpSection />
         </div>
-        
-        <div className="reveal mb-10">
+        <div className="reveal">
           <CommunitySection />
         </div>
-        
-        <div className="reveal mb-10">
+        <div className="reveal">
           <FaqSection />
         </div>
       </main>

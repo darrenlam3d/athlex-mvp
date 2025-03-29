@@ -6,7 +6,7 @@ const WhySection = () => {
     <section id="why" className="section-padding py-24 md:py-32 bg-athlex-gray-900">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Why ATHLEX</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text inline-block">Why ATHLEX</h2>
           <p className="text-white/70 text-lg">
             ATHLEX transforms the sports ecosystem by addressing critical gaps in athlete development and discovery.
           </p>

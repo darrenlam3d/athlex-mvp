@@ -9,7 +9,7 @@ const FeaturesSection = () => {
     <section id="features" className="section-padding py-24 md:py-32 bg-gradient-to-b from-athlex-background to-athlex-gray-900">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Platform Features</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text inline-block">Platform Features</h2>
           <p className="text-white/70 text-lg">
             ATHLEX provides tailored features for everyone in the sports ecosystem.
           </p>
@@ -21,14 +21,14 @@ const FeaturesSection = () => {
               <TabsTrigger 
                 value="athletes" 
                 onClick={() => setActiveTab("athletes")}
-                className={`px-6 py-3 transition-all duration-300 ${activeTab === "athletes" ? "text-white" : "text-white/60"}`}
+                className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "athletes" ? "text-white gradient-text" : "text-white/60"}`}
               >
                 For Athletes
               </TabsTrigger>
               <TabsTrigger 
                 value="coaches" 
                 onClick={() => setActiveTab("coaches")}
-                className={`px-6 py-3 transition-all duration-300 ${activeTab === "coaches" ? "text-white" : "text-white/60"}`}
+                className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "coaches" ? "text-white gradient-text" : "text-white/60"}`}
               >
                 For Coaches & Scouts
               </TabsTrigger>
