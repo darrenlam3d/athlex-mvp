@@ -7,6 +7,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from 'sonner';
 
+// Interface for waitlist registration data
+interface WaitlistRegistration {
+  email: string;
+  role: string;
+  feedback: string;
+  timestamp: string;
+  gdprConsent: boolean;
+}
+
 const SignUpSection = () => {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
@@ -36,13 +45,20 @@ const SignUpSection = () => {
     // Simulate form submission
     setIsSubmitting(true);
     
+    // Create waitlist registration object
+    const registration: WaitlistRegistration = {
+      email,
+      role,
+      feedback,
+      timestamp: new Date().toISOString(),
+      gdprConsent
+    };
+    
+    // Save to localStorage for now (in a real app, you'd send this to a server)
+    saveWaitlistRegistration(registration);
+    
     setTimeout(() => {
-      console.log({
-        email,
-        role,
-        feedback,
-        gdprConsent
-      });
+      console.log("Registration saved:", registration);
       
       // Reset form
       setEmail('');
@@ -54,6 +70,27 @@ const SignUpSection = () => {
       // Show success message
       toast.success("You're in! We'll be in touch soon.");
     }, 1500);
+  };
+
+  // Function to save registration to localStorage
+  const saveWaitlistRegistration = (registration: WaitlistRegistration) => {
+    try {
+      // Get existing registrations
+      const existingRegistrationsJSON = localStorage.getItem('waitlistRegistrations');
+      let registrations: WaitlistRegistration[] = existingRegistrationsJSON 
+        ? JSON.parse(existingRegistrationsJSON) 
+        : [];
+      
+      // Add new registration
+      registrations.push(registration);
+      
+      // Save back to localStorage
+      localStorage.setItem('waitlistRegistrations', JSON.stringify(registrations));
+      
+      console.log(`Registration saved successfully. Total registrations: ${registrations.length}`);
+    } catch (error) {
+      console.error('Error saving registration:', error);
+    }
   };
 
   return (
