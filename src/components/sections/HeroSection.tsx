@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Shield, Award, Target, TrendingUp, Users, Search } from 'lucide-react';
@@ -12,13 +11,11 @@ const HeroSection = () => {
       featuresSection.scrollIntoView({ behavior: 'smooth' });
     }
     
-    // Then, select the coaches tab
-    const coachesTabTrigger = document.querySelector('[value="coaches"]');
-    if (coachesTabTrigger && coachesTabTrigger instanceof HTMLElement) {
-      setTimeout(() => {
-        coachesTabTrigger.click();
-      }, 500); // Wait a bit for the scroll to complete
-    }
+    // Store a flag in sessionStorage to indicate that coaches tab should be active
+    sessionStorage.setItem('activeTab', 'coaches');
+    
+    // Force a re-render of the FeaturesSection by dispatching a custom event
+    window.dispatchEvent(new CustomEvent('tabChange', { detail: 'coaches' }));
   };
 
   return (

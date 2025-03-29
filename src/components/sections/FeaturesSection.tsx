@@ -5,24 +5,33 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 const FeaturesSection = () => {
   const [activeTab, setActiveTab] = useState("athletes");
 
-  // Listen for URL hash changes to control the active tab
+  // Listen for changes to set the active tab
   useEffect(() => {
-    // Check if we need to change the tab based on URL hash
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash === '#coaches-tab') {
+    // Function to check sessionStorage and set tab
+    const checkStoredTab = () => {
+      const storedTab = sessionStorage.getItem('activeTab');
+      if (storedTab === 'coaches') {
+        setActiveTab("coaches");
+        // Clear after using
+        sessionStorage.removeItem('activeTab');
+      }
+    };
+
+    // Check initially
+    checkStoredTab();
+
+    // Listen for custom event
+    const handleTabChange = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail === 'coaches') {
         setActiveTab("coaches");
       }
     };
 
-    // Check on initial load
-    handleHashChange();
-
-    // Listen for hash changes
-    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('tabChange', handleTabChange as EventListener);
     
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('tabChange', handleTabChange as EventListener);
     };
   }, []);
 
