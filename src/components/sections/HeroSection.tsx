@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import { Shield, Award, Target, TrendingUp, Users, Search } from 'lucide-react';
 
 const HeroSection = () => {
   return (
@@ -42,9 +43,18 @@ const HeroSection = () => {
             </span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-white/80 mb-10 animate-fade-in text-shadow-black" style={{ animationDelay: "0.2s" }}>
+          <p className="text-xl md:text-2xl text-white/80 mb-6 animate-fade-in text-shadow-black" style={{ animationDelay: "0.2s" }}>
             Take control of your journey. Track your growth. Get discovered.
           </p>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 mb-8 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+            <FeatureIcon icon={<Shield className="text-athlex-accent" />} label="Verified Profile" />
+            <FeatureIcon icon={<TrendingUp className="text-athlex-accent" />} label="Performance Tracking" />
+            <FeatureIcon icon={<Target className="text-athlex-accent" />} label="Goal Setting" />
+            <FeatureIcon icon={<Award className="text-athlex-accent" />} label="Skill Development" />
+            <FeatureIcon icon={<Users className="text-athlex-accent" />} label="Peer Benchmarking" />
+            <FeatureIcon icon={<Search className="text-athlex-accent" />} label="Talent Discovery" />
+          </div>
           
           <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8 animate-fade-in" style={{ animationDelay: "0.4s" }}>
             <a href="#signup">
@@ -83,6 +93,15 @@ const HeroSection = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+const FeatureIcon = ({ icon, label }: { icon: React.ReactNode, label: string }) => {
+  return (
+    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-athlex-gray-800/40 hover:bg-athlex-gray-800/70 transition-all duration-300 border border-athlex-gray-700/50">
+      <div className="text-3xl mb-2">{icon}</div>
+      <p className="text-sm text-white/80">{label}</p>
+    </div>
   );
 };
 
