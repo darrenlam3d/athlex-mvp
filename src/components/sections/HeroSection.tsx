@@ -5,33 +5,43 @@ import { Button } from "@/components/ui/button";
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-athlex-background overflow-hidden pt-16">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-athlex-accent/10 to-transparent"></div>
-      
-      {/* Background with Overlay */}
-      <div 
-        className="absolute inset-0 z-0 opacity-20"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'grayscale(100%)',
-        }}
-      >
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/80"></div>
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-black/70 z-10"></div>
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-silhouettes-of-people-training-in-a-gym-1393-large.mp4" type="video/mp4" />
+          {/* Fallback image if video doesn't load */}
+          <div 
+            className="absolute inset-0 z-0 opacity-20"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'grayscale(100%)',
+            }}
+          ></div>
+        </video>
       </div>
+      
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-athlex-accent/10 to-transparent z-[5]"></div>
       
       <div className="container relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in text-shadow-black">
             <span className="block">ATHLEX</span>
             <span className="block mt-2 text-2xl md:text-3xl lg:text-4xl text-white/90">
               Built by Athletes, For Athletes
             </span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-white/80 mb-10 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+          <p className="text-xl md:text-2xl text-white/80 mb-10 animate-fade-in text-shadow-black" style={{ animationDelay: "0.2s" }}>
             Take control of your journey. Track your growth. Get discovered.
           </p>
           

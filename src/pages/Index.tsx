@@ -9,15 +9,21 @@ import QuoteSection from '@/components/sections/QuoteSection';
 import SignUpSection from '@/components/sections/SignUpSection';
 import CommunitySection from '@/components/sections/CommunitySection';
 import FaqSection from '@/components/sections/FaqSection';
+import ScrollToTopButton from '@/components/ui/ScrollToTopButton';
 
 const Index = () => {
-  // Reveal animation on scroll
+  // Enhanced reveal animation on scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('active');
+            // Add different animation classes based on data attribute
+            const animationType = entry.target.getAttribute('data-animation');
+            if (animationType) {
+              entry.target.classList.add(animationType);
+            }
           }
         });
       },
@@ -61,27 +67,28 @@ const Index = () => {
       
       <main>
         <HeroSection />
-        <div className="reveal">
+        <div className="reveal" data-animation="animate-fade-in">
           <FeaturesSection />
         </div>
-        <div className="reveal">
+        <div className="reveal" data-animation="animate-fade-in">
           <WhySection />
         </div>
-        <div className="reveal">
+        <div className="reveal" data-animation="animate-fade-in">
           <QuoteSection />
         </div>
-        <div className="reveal">
+        <div className="reveal" data-animation="animate-fade-in">
           <SignUpSection />
         </div>
-        <div className="reveal">
+        <div className="reveal" data-animation="animate-fade-in">
           <CommunitySection />
         </div>
-        <div className="reveal">
+        <div className="reveal" data-animation="animate-fade-in">
           <FaqSection />
         </div>
       </main>
       
       <Footer />
+      <ScrollToTopButton />
     </div>
   );
 };
