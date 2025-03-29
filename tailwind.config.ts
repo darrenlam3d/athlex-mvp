@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -69,8 +70,8 @@ export default {
 				athlex: {
 					'background': '#0a0a0a',
 					'foreground': '#ffffff',
-					'accent': '#3b82f6', // Changed from indigo to blue
-					'accent-alt': '#2979FF', // Kept blue as secondary accent
+					'accent': '#9b87f5', // Changed from blue to neon purple
+					'accent-alt': '#8B5CF6', // Changed secondary accent to purple
 					'gray-100': '#f3f4f6',
 					'gray-200': '#e5e7eb',
 					'gray-300': '#d1d5db',
@@ -128,3 +129,4 @@ export default {
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+
