@@ -6,44 +6,37 @@ const FeaturesSection = () => {
   const [activeTab, setActiveTab] = useState("athletes");
 
   return (
-    <section id="features" className="section-padding bg-gradient-to-b from-athlex-background to-athlex-gray-900">
+    <section id="features" className="section-padding py-24 md:py-32 bg-gradient-to-b from-athlex-background to-athlex-gray-900">
       <div className="container">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Platform Features</h2>
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Platform Features</h2>
           <p className="text-white/70 text-lg">
             ATHLEX provides tailored features for everyone in the sports ecosystem.
           </p>
         </div>
 
         <Tabs defaultValue="athletes" className="w-full">
-          <div className="flex justify-center mb-10">
+          <div className="flex justify-center mb-16">
             <TabsList className="bg-athlex-gray-800 p-1">
               <TabsTrigger 
                 value="athletes" 
                 onClick={() => setActiveTab("athletes")}
-                className={`px-4 py-2 transition-all duration-300 ${activeTab === "athletes" ? "text-white" : "text-white/60"}`}
+                className={`px-6 py-3 transition-all duration-300 ${activeTab === "athletes" ? "text-white" : "text-white/60"}`}
               >
                 For Athletes
               </TabsTrigger>
               <TabsTrigger 
                 value="coaches" 
                 onClick={() => setActiveTab("coaches")}
-                className={`px-4 py-2 transition-all duration-300 ${activeTab === "coaches" ? "text-white" : "text-white/60"}`}
+                className={`px-6 py-3 transition-all duration-300 ${activeTab === "coaches" ? "text-white" : "text-white/60"}`}
               >
                 For Coaches & Scouts
-              </TabsTrigger>
-              <TabsTrigger 
-                value="teams" 
-                onClick={() => setActiveTab("teams")}
-                className={`px-4 py-2 transition-all duration-300 ${activeTab === "teams" ? "text-white" : "text-white/60"}`}
-              >
-                For High-Performance Teams
               </TabsTrigger>
             </TabsList>
           </div>
 
           <TabsContent value="athletes" className="animate-fade-in">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               <FeatureCard
                 icon="📊"
                 title="Verified Profile & Stats"
@@ -78,7 +71,7 @@ const FeaturesSection = () => {
           </TabsContent>
 
           <TabsContent value="coaches" className="animate-fade-in">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               <FeatureCard
                 icon="🔍"
                 title="Searchable Athlete Database"
@@ -111,41 +104,6 @@ const FeaturesSection = () => {
               />
             </div>
           </TabsContent>
-
-          <TabsContent value="teams" className="animate-fade-in">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <FeatureCard
-                icon="🗃️"
-                title="Athlete Registry"
-                description="Maintain a comprehensive registry of all athletes in your organization with compliance tools."
-              />
-              <FeatureCard
-                icon="📈"
-                title="Development Tracking"
-                description="Monitor athlete progress across all your programs with detailed performance metrics."
-              />
-              <FeatureCard
-                icon="👥"
-                title="Staff Assignment"
-                description="Easily assign coaches and staff to athletes or teams within your organization."
-              />
-              <FeatureCard
-                icon="📊"
-                title="Admin Dashboard"
-                description="Access comprehensive reports and analytics for organizational decision-making."
-              />
-              <FeatureCard
-                icon="🔄"
-                title="Seamless Integration"
-                description="Integrate with your existing systems for a unified high-performance ecosystem."
-              />
-              <FeatureCard
-                icon="📱"
-                title="Communication Hub"
-                description="Centralize all communications between athletes, coaches, and administration."
-              />
-            </div>
-          </TabsContent>
         </Tabs>
       </div>
     </section>
@@ -154,9 +112,9 @@ const FeaturesSection = () => {
 
 const FeatureCard = ({ icon, title, description }: { icon: string, title: string, description: string }) => {
   return (
-    <div className="bg-athlex-gray-800/40 border border-athlex-gray-700 p-6 rounded-lg hover:border-athlex-accent transition-all duration-300">
-      <div className="text-4xl mb-4">{icon}</div>
-      <h3 className="text-xl font-semibold mb-3">{title}</h3>
+    <div className="bg-athlex-gray-800/40 border border-athlex-gray-700 p-8 rounded-lg hover:border-athlex-accent transition-all duration-300">
+      <div className="text-4xl mb-5">{icon}</div>
+      <h3 className="text-xl font-semibold mb-4">{title}</h3>
       <p className="text-white/70">{description}</p>
     </div>
   );

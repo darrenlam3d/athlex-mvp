@@ -37,7 +37,7 @@ const Navbar = () => {
       <div className="container flex justify-between items-center">
         <div className="flex items-center">
           <a href="#" className="flex items-center">
-            <span className="text-xl md:text-2xl font-bold gradient-text">ATHLEX</span>
+            <span className="text-xl md:text-2xl font-bold text-white hover:text-shadow-black transition-all duration-300">ATHLEX</span>
           </a>
         </div>
         

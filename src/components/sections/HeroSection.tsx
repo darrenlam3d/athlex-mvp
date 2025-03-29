@@ -38,7 +38,7 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8 animate-fade-in" style={{ animationDelay: "0.4s" }}>
             <a href="#signup">
               <Button variant="default" className="cta-button text-base sm:text-lg w-full sm:w-auto">
-                Join the Early Access Waitlist
+                Join the Waitlist
               </Button>
             </a>
             <a href="#features">
