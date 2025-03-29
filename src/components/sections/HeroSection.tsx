@@ -4,6 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Shield, Award, Target, TrendingUp, Users, Search } from 'lucide-react';
 
 const HeroSection = () => {
+  // Function to handle click on the coach/scout button
+  const handleCoachScoutClick = () => {
+    // First, scroll to the features section
+    const featuresSection = document.getElementById('features');
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Then, select the coaches tab
+    const coachesTabTrigger = document.querySelector('[value="coaches"]');
+    if (coachesTabTrigger && coachesTabTrigger instanceof HTMLElement) {
+      setTimeout(() => {
+        coachesTabTrigger.click();
+      }, 500); // Wait a bit for the scroll to complete
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-athlex-background overflow-hidden pt-16">
       {/* Video Background */}
@@ -62,11 +79,13 @@ const HeroSection = () => {
                 Join the Waitlist
               </Button>
             </a>
-            <a href="#features">
-              <Button variant="default" className="cta-button-secondary text-base sm:text-lg w-full sm:w-auto">
-                I'm a Coach / Scout / Federation
-              </Button>
-            </a>
+            <Button 
+              variant="default" 
+              className="cta-button-secondary text-base sm:text-lg w-full sm:w-auto"
+              onClick={handleCoachScoutClick}
+            >
+              I'm a Coach / Scout / Federation
+            </Button>
           </div>
           
           <div className="mt-16 animate-fade-in" style={{ animationDelay: "0.6s" }}>

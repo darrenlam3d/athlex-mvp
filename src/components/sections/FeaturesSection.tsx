@@ -1,9 +1,30 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const FeaturesSection = () => {
   const [activeTab, setActiveTab] = useState("athletes");
+
+  // Listen for URL hash changes to control the active tab
+  useEffect(() => {
+    // Check if we need to change the tab based on URL hash
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash === '#coaches-tab') {
+        setActiveTab("coaches");
+      }
+    };
+
+    // Check on initial load
+    handleHashChange();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+    
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
 
   return (
     <section id="features" className="section-padding py-24 md:py-32 bg-gradient-to-b from-athlex-background to-athlex-gray-900">
@@ -15,19 +36,17 @@ const FeaturesSection = () => {
           </p>
         </div>
 
-        <Tabs defaultValue="athletes" className="w-full">
+        <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="flex justify-center mb-16">
             <TabsList className="bg-athlex-gray-800 p-1">
               <TabsTrigger 
                 value="athletes" 
-                onClick={() => setActiveTab("athletes")}
                 className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "athletes" ? "text-white gradient-text" : "text-white/60"}`}
               >
                 For Athletes
               </TabsTrigger>
               <TabsTrigger 
                 value="coaches" 
-                onClick={() => setActiveTab("coaches")}
                 className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "coaches" ? "text-white gradient-text" : "text-white/60"}`}
               >
                 For Coaches & Scouts
