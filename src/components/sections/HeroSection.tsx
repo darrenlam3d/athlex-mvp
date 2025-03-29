@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Shield, Award, Target, TrendingUp, Users, Search } from 'lucide-react';
+import { Shield, Award, Target, TrendingUp, Users, Search, Zap, BookOpen, Medal, BarChart } from 'lucide-react';
 
 const HeroSection = () => {
   return (
@@ -46,14 +46,37 @@ const HeroSection = () => {
           <p className="text-xl md:text-2xl text-white/80 mb-6 animate-fade-in text-shadow-black" style={{ animationDelay: "0.2s" }}>
             Take control of your journey. Track your growth. Get discovered.
           </p>
+
+          <div className="text-center mb-8 animate-fade-in" style={{ animationDelay: "0.25s" }}>
+            <h2 className="text-athlex-accent font-semibold text-lg mb-1">⚙️ Features That Put You First</h2>
+            <p className="text-white/80 text-sm">
+              ATHLEX is designed for today's athlete — dynamic, ambitious, and ready to grow.
+            </p>
+          </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 mb-8 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-            <FeatureIcon icon={<Shield className="text-athlex-accent" />} label="Verified Profile" />
-            <FeatureIcon icon={<TrendingUp className="text-athlex-accent" />} label="Performance Tracking" />
-            <FeatureIcon icon={<Target className="text-athlex-accent" />} label="Goal Setting" />
-            <FeatureIcon icon={<Award className="text-athlex-accent" />} label="Skill Development" />
-            <FeatureIcon icon={<Users className="text-athlex-accent" />} label="Peer Benchmarking" />
-            <FeatureIcon icon={<Search className="text-athlex-accent" />} label="Talent Discovery" />
+          <div className="mb-6 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+            <h3 className="text-white font-medium text-lg mb-3">🏃 For Athletes</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+              <FeatureIcon icon={<Shield className="text-athlex-accent" />} label="Verified Digital Profile" />
+              <FeatureIcon icon={<BarChart className="text-athlex-accent" />} label="Performance Tracking" />
+              <FeatureIcon icon={<Target className="text-athlex-accent" />} label="Goal Setting" />
+              <FeatureIcon icon={<Zap className="text-athlex-accent" />} label="AI Training Suggestions" />
+              <FeatureIcon icon={<Award className="text-athlex-accent" />} label="Skill Development" />
+              <FeatureIcon icon={<BookOpen className="text-athlex-accent" />} label="Educational Resources" />
+              <FeatureIcon icon={<Users className="text-athlex-accent" />} label="Peer Benchmarking" />
+              <FeatureIcon icon={<Medal className="text-athlex-accent" />} label="Community Challenges" />
+            </div>
+          </div>
+          
+          <div className="mb-8 animate-fade-in" style={{ animationDelay: "0.35s" }}>
+            <h3 className="text-white font-medium text-lg mb-3">🎯 For Coaches & Scouts</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <FeatureIcon icon={<Search className="text-athlex-accent" />} label="Talent Discovery Engine" />
+              <FeatureIcon icon={<BarChart className="text-athlex-accent" />} label="Verified Performance Data" />
+              <FeatureIcon icon={<Award className="text-athlex-accent" />} label="Endorsement Tools" />
+              <FeatureIcon icon={<Users className="text-athlex-accent" />} label="Shortlists & Notes" />
+              <FeatureIcon icon={<Shield className="text-athlex-accent" />} label="Direct Contact Requests" />
+            </div>
           </div>
           
           <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8 animate-fade-in" style={{ animationDelay: "0.4s" }}>
@@ -99,8 +122,8 @@ const HeroSection = () => {
 const FeatureIcon = ({ icon, label }: { icon: React.ReactNode, label: string }) => {
   return (
     <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-athlex-gray-800/40 hover:bg-athlex-gray-800/70 transition-all duration-300 border border-athlex-gray-700/50">
-      <div className="text-3xl mb-2">{icon}</div>
-      <p className="text-sm text-white/80">{label}</p>
+      <div className="text-2xl mb-1">{icon}</div>
+      <p className="text-xs md:text-sm text-white/80">{label}</p>
     </div>
   );
 };
