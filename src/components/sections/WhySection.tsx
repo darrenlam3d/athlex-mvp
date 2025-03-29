@@ -9,7 +9,7 @@ const WhySection = () => {
       <div 
         className="absolute inset-0 z-0 opacity-15"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1493962853295-0fd70327578a?q=80&w=2000&auto=format&fit=crop')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1452378174528-3090a4bba7b2?q=80&w=2000&auto=format&fit=crop')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'grayscale(60%)',
