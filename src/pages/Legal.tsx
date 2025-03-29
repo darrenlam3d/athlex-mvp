@@ -1,15 +1,17 @@
+
 import React, { useEffect, useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ScrollToTopButton from '@/components/ui/ScrollToTopButton';
-import { Mail, ArrowLeft, Home } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Mail, ArrowLeft } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const Legal = () => {
   const [activeTab, setActiveTab] = useState("privacy");
+  const navigate = useNavigate();
   
   // Get the tab from URL params if available
   useEffect(() => {
@@ -31,16 +33,24 @@ const Legal = () => {
     }
   }, []);
 
+  const handleBackToHome = () => {
+    navigate('/');
+  };
+
   return (
     <div className="min-h-screen bg-athlex-background text-white">
       <Navbar />
       
       <main className="container py-12">
         <div className="mb-8 flex items-center">
-          <Link to="/" className="flex items-center text-athlex-accent hover:text-athlex-accent/80 mr-4">
+          <Button 
+            variant="ghost" 
+            onClick={handleBackToHome}
+            className="flex items-center text-athlex-accent hover:text-athlex-accent/80 mr-4"
+          >
             <ArrowLeft size={16} className="mr-1" />
             Back to Home
-          </Link>
+          </Button>
           <h1 className="text-3xl font-bold">Legal Policies</h1>
         </div>
         
