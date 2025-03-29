@@ -6,20 +6,44 @@ import { HelpCircle } from 'lucide-react';
 const FaqSection = () => {
   const faqs = [
     {
+      question: "What is ATHLEX?",
+      answer: "ATHLEX is an athlete-first platform that helps you track performance, build a verified profile, connect with coaches and scouts, and unlock growth opportunities — all in one place."
+    },
+    {
+      question: "Who is ATHLEX for?",
+      answer: "It's built for athletes of all levels, as well as coaches, scouts, and high-performance teams looking to discover, manage, or support talent more effectively."
+    },
+    {
       question: "Is ATHLEX free?",
-      answer: "ATHLEX will offer both free and premium tiers. The free tier will provide essential features for athletes to create profiles and track basic metrics, while premium features will unlock advanced analytics, AI recommendations, and enhanced visibility to scouts."
+      answer: "Yes. ATHLEX will offer a free tier for all athletes. Premium features and services will be available as optional upgrades."
     },
     {
-      question: "Who is it for?",
-      answer: "ATHLEX is designed for the entire sports ecosystem: athletes seeking development and opportunities, coaches looking to discover and develop talent, scouts searching for promising prospects, and organizations managing athlete programs and data."
+      question: "What kind of sports does ATHLEX support?",
+      answer: "ATHLEX is designed for multiple sports including football, basketball, rugby, tennis, volleyball, badminton, and more — with performance tools tailored to each sport."
     },
     {
-      question: "What sports does it support?",
-      answer: "At launch, ATHLEX will support major team sports including soccer, basketball, volleyball, and baseball/softball, as well as individual sports like track & field, swimming, and tennis. We plan to expand to more sports based on community demand."
+      question: "How do I get early access?",
+      answer: "Just sign up for the waitlist. We'll roll out early access in phases and notify you when it's your turn."
     },
     {
-      question: "What happens after I sign up?",
-      answer: "Once you sign up for early access, you'll receive updates about the platform's development and launch timeline. Early registrants will be invited to beta test the platform, providing valuable feedback before the public launch."
+      question: "I'm a coach or scout — what can I do on ATHLEX?",
+      answer: "You'll be able to search and filter athletes, build shortlists, view verified performance data, and connect with athletes (with consent)."
+    },
+    {
+      question: "What makes ATHLEX different from other sports platforms?",
+      answer: "Unlike fragmented tools, ATHLEX brings everything together — athlete profiles, analytics, development tools, and discovery — in one unified, intelligent system."
+    },
+    {
+      question: "Is my data safe and private?",
+      answer: "Yes. You have full control over your profile visibility. ATHLEX is GDPR-compliant and built with athlete data privacy in mind."
+    },
+    {
+      question: "When is ATHLEX launching?",
+      answer: "We're currently in development and onboarding early users. Join the waitlist to stay updated and gain early access when available."
+    },
+    {
+      question: "Can I share ATHLEX with my team or coach?",
+      answer: "Yes! After signing up, you'll receive a referral link to invite teammates, coaches, or scouts to join the community."
     }
   ];
 
