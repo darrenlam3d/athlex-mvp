@@ -16,17 +16,18 @@ const HeroSection = () => {
           playsInline
         >
           <source src="https://assets.mixkit.co/videos/preview/mixkit-silhouettes-of-people-training-in-a-gym-1393-large.mp4" type="video/mp4" />
-          {/* Fallback image if video doesn't load */}
-          <div 
-            className="absolute inset-0 z-0 opacity-20"
-            style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'grayscale(100%)',
-            }}
-          ></div>
+          Your browser does not support the video tag.
         </video>
+        {/* Fallback image if video doesn't load */}
+        <div 
+          className="absolute inset-0 z-0 opacity-20"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'grayscale(100%)',
+          }}
+        ></div>
       </div>
       
       {/* Background Gradient */}
