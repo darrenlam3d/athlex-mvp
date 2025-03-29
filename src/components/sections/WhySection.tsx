@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Trophy, Medal, Award, GraduationCap } from 'lucide-react';
 
@@ -9,7 +8,7 @@ const WhySection = () => {
       <div 
         className="absolute inset-0 z-0 opacity-15"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2000&auto=format&fit=crop')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=2000&auto=format&fit=crop')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'grayscale(60%)',
