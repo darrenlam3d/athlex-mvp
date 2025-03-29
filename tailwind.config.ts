@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -70,7 +69,7 @@ export default {
 				athlex: {
 					'background': '#0a0a0a',
 					'foreground': '#ffffff',
-					'accent': '#6366f1', // Changed from neon green to indigo
+					'accent': '#3b82f6', // Changed from indigo to blue
 					'accent-alt': '#2979FF', // Kept blue as secondary accent
 					'gray-100': '#f3f4f6',
 					'gray-200': '#e5e7eb',
