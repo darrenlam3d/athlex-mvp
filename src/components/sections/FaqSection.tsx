@@ -20,10 +20,6 @@ const FaqSection = () => {
     {
       question: "What happens after I sign up?",
       answer: "Once you sign up for early access, you'll receive updates about the platform's development and launch timeline. Early registrants will be invited to beta test the platform, providing valuable feedback before the public launch."
-    },
-    {
-      question: "When is it launching?",
-      answer: "ATHLEX is currently in development with a planned beta launch in Q3 of this year. Early access members will receive priority invitations to join before the public release."
     }
   ];
 
