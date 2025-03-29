@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -30,7 +29,7 @@ const Footer = () => {
               <span className="text-xl font-bold gradient-text">ATHLEX</span>
             </a>
             <p className="text-white/60 mb-4">
-              Built by athletes, for athletes. Take control of your journey, track your growth, and get discovered.
+              Built by athletes, for athletes. Take control of your journey, track your growth, and get discovered—<span className="font-bold text-athlex-accent">globally</span>.
             </p>
             <div className="flex space-x-4 mt-6">
               <a href="#" className="text-white/60 hover:text-athlex-accent" aria-label="LinkedIn">
