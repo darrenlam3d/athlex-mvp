@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -106,8 +105,8 @@ export default {
 					"100%": { opacity: "1", transform: "translateX(0)" }
 				},
 				"glow": {
-					"0%, 100%": { boxShadow: "0 0 5px rgba(0, 230, 118, 0.6), 0 0 10px rgba(0, 230, 118, 0.4)" },
-					"50%": { boxShadow: "0 0 20px rgba(0, 230, 118, 0.8), 0 0 30px rgba(0, 230, 118, 0.6)" }
+					"0%, 100%": { boxShadow: "0 0 5px rgba(155, 135, 245, 0.6), 0 0 10px rgba(155, 135, 245, 0.4)" },
+					"50%": { boxShadow: "0 0 20px rgba(155, 135, 245, 0.8), 0 0 30px rgba(155, 135, 245, 0.6)" }
 				},
 				"pulse-soft": {
 					"0%, 100%": { opacity: "1" },
@@ -129,4 +128,3 @@ export default {
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
-

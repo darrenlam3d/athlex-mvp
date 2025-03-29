@@ -8,18 +8,18 @@ const HeroSection = () => {
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-athlex-accent/10 to-transparent"></div>
       
-      {/* Background Image with Overlay */}
+      {/* Background with Overlay */}
       <div 
-        className="absolute inset-0 z-0 opacity-30"
+        className="absolute inset-0 z-0 opacity-20"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?q=80&w=1920&auto=format&fit=crop')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=1920&auto=format&fit=crop')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'grayscale(100%)',
         }}
       >
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/70"></div>
+        <div className="absolute inset-0 bg-black/80"></div>
       </div>
       
       <div className="container relative z-10">
