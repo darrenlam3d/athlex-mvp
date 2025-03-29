@@ -16,13 +16,15 @@ interface WaitlistRegistration {
   gdprConsent: boolean;
 }
 
+// Admin email address
+const ADMIN_EMAIL = "athlex.gaia@gmail.com";
+
 const SignUpSection = () => {
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
   const [feedback, setFeedback] = useState('');
   const [gdprConsent, setGdprConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [adminEmail, setAdminEmail] = useState('');
   const [showAdminSettings, setShowAdminSettings] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -59,10 +61,8 @@ const SignUpSection = () => {
     // Save to localStorage for now (in a real app, you'd send this to a server)
     saveWaitlistRegistration(registration);
     
-    // Send email if admin email is set
-    if (adminEmail) {
-      sendEmailNotification(registration);
-    }
+    // Always send email to the specified admin address
+    sendEmailNotification(registration);
     
     setTimeout(() => {
       console.log("Registration saved:", registration);
@@ -118,12 +118,12 @@ GDPR Consent: ${registration.gdprConsent ? "Yes" : "No"}
       
       // Create a hidden link to trigger the email
       const mailtoLink = document.createElement('a');
-      mailtoLink.href = `mailto:${adminEmail}?subject=${subject}&body=${body}`;
+      mailtoLink.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
       document.body.appendChild(mailtoLink);
       mailtoLink.click();
       document.body.removeChild(mailtoLink);
       
-      console.log("Email notification sent to:", adminEmail);
+      console.log("Email notification sent to:", ADMIN_EMAIL);
     } catch (error) {
       console.error("Error sending email notification:", error);
     }
@@ -142,48 +142,6 @@ GDPR Consent: ${registration.gdprConsent ? "Yes" : "No"}
           <p className="text-white/70 text-lg">
             Be among the first to experience ATHLEX and help us build the platform that truly serves your needs.
           </p>
-          
-          {/* Admin settings toggle button */}
-          <div className="mt-4">
-            <Button 
-              variant="outline" 
-              className="text-xs opacity-50 hover:opacity-100" 
-              onClick={toggleAdminSettings}
-            >
-              {showAdminSettings ? "Hide Admin Settings" : "Admin Settings"}
-            </Button>
-          </div>
-          
-          {/* Admin settings panel */}
-          {showAdminSettings && (
-            <div className="mt-4 p-4 bg-athlex-gray-900/50 border border-athlex-gray-700 rounded-lg">
-              <h3 className="text-sm font-medium mb-2">Admin Email Settings</h3>
-              <div className="flex gap-2">
-                <Input
-                  type="email"
-                  placeholder="admin@example.com"
-                  className="bg-athlex-gray-900 border-athlex-gray-700"
-                  value={adminEmail}
-                  onChange={(e) => setAdminEmail(e.target.value)}
-                />
-                <Button 
-                  variant="secondary" 
-                  onClick={() => {
-                    if (adminEmail) {
-                      toast.success(`Email notifications will be sent to: ${adminEmail}`);
-                    } else {
-                      toast.error("Please enter an email address");
-                    }
-                  }}
-                >
-                  Save
-                </Button>
-              </div>
-              <p className="text-xs text-white/50 mt-2">
-                Enter your email to receive waitlist notifications
-              </p>
-            </div>
-          )}
         </div>
 
         <div className="bg-athlex-gray-800/40 border border-athlex-gray-700 rounded-lg p-6 md:p-8">
