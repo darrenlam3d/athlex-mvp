@@ -70,8 +70,8 @@ export default {
 				athlex: {
 					'background': '#0a0a0a',
 					'foreground': '#ffffff',
-					'accent': '#00E676', // Neon green
-					'accent-alt': '#2979FF', // Neon blue
+					'accent': '#6366f1', // Changed from neon green to indigo
+					'accent-alt': '#2979FF', // Kept blue as secondary accent
 					'gray-100': '#f3f4f6',
 					'gray-200': '#e5e7eb',
 					'gray-300': '#d1d5db',
