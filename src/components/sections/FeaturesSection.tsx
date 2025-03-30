@@ -40,8 +40,8 @@ const FeaturesSection = () => {
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text inline-block">Platform Features</h2>
-          <p className="text-white/70 text-lg mb-4">
-            ATHLEX is designed for today's athlete — dynamic, ambitious, and ready to grow. Whether you're just getting started or playing at an elite level, ATHLEX gives you the tools to take control of your path.
+          <p className="text-white/70 text-lg mb-4 font-bold">
+            ATHLEX: For every athlete, at every level — powered by technology to accelerate growth, performance, and global discovery.
           </p>
         </div>
 
