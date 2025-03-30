@@ -67,43 +67,33 @@ const FeaturesSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               <FeatureCard
                 icon="🆔"
-                title="Verified Digital Profile"
-                description="Your official athlete identity that stays with you across teams, seasons, and countries."
+                title="Verified Athlete ID"
+                description="A unified digital profile that evolves with you across teams, seasons, and borders."
               />
               <FeatureCard
                 icon="📊"
-                title="Performance Tracking"
-                description="Record metrics across physical, technical, and tactical domains."
+                title="Performance & Benchmarking"
+                description="Track key metrics and benchmark against peers by age, role, or sport."
               />
               <FeatureCard
                 icon="🎯"
                 title="Goal Setting & Milestones"
-                description="Define your targets and measure progress over time."
+                description="Set personalized objectives and monitor progress over time."
               />
               <FeatureCard
                 icon="🤖"
-                title="AI-Generated Training Suggestions"
-                description="Get smart, role-specific training recommendations."
+                title="AI-Driven Training Insights"
+                description="Receive tailored training recommendations based on your performance profile."
               />
               <FeatureCard
                 icon="📈"
-                title="Skill Development Pathways"
-                description="Follow structured drills and progressions."
-              />
-              <FeatureCard
-                icon="📚"
-                title="Educational Resources"
-                description="Learn from top-tier, curated videos and guides."
-              />
-              <FeatureCard
-                icon="📊"
-                title="Peer Benchmarking"
-                description="Compare anonymously with athletes in your position, age, or sport."
+                title="Structured Skill Development"
+                description="Follow guided drills and progression pathways aligned to your sport and role."
               />
               <FeatureCard
                 icon="🏆"
-                title="Community Challenges & Badges"
-                description="Stay motivated with trackable rewards and recognition."
+                title="Community & Achievement"
+                description="Participate in challenges, earn recognition, and stay motivated through shared goals."
               />
             </div>
           </TabsContent>
