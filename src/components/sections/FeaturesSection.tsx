@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Smartphone, Award, Users, Video, Handshake, Lock } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const FeaturesSection = () => {
   const [activeTab, setActiveTab] = useState("edge");
@@ -76,6 +78,13 @@ const FeaturesSection = () => {
                 ATHLEX Edge is the official newsletter and early-access community for the ATHLEX platform. 
                 It serves as the inner circle for athletes, coaches, scouts, and performance leaders who want to grow with ATHLEX from the ground up.
               </p>
+              <div className="mt-8">
+                <Link to="/edge-signup">
+                  <Button className="cta-button text-lg">
+                    Join ATHLEX Edge
+                  </Button>
+                </Link>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
