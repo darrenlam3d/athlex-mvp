@@ -60,6 +60,12 @@ const FeaturesSection = () => {
               >
                 For Coaches & Scouts
               </TabsTrigger>
+              <TabsTrigger 
+                value="edge" 
+                className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "edge" ? "text-white gradient-text" : "text-white/60"}`}
+              >
+                ATHLEX Edge
+              </TabsTrigger>
             </TabsList>
           </div>
 
@@ -124,6 +130,41 @@ const FeaturesSection = () => {
                 icon="✉️"
                 title="Direct Contact Requests"
                 description="Reach out to athletes (with permission) when ready."
+              />
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="edge" className="animate-fade-in">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              <FeatureCard
+                icon="📱"
+                title="Premium Platform Access"
+                description="Unlock exclusive features and priority support."
+              />
+              <FeatureCard
+                icon="👨‍🏫"
+                title="One-on-One Coaching"
+                description="Connect with certified coaches for personalized guidance."
+              />
+              <FeatureCard
+                icon="📊"
+                title="Advanced Analytics"
+                description="Deeper insights and predictive performance modeling."
+              />
+              <FeatureCard
+                icon="🎬"
+                title="Video Analysis"
+                description="Professional breakdown of your game footage with actionable feedback."
+              />
+              <FeatureCard
+                icon="🤝"
+                title="Industry Connections"
+                description="Network with scouts, teams, and sports industry professionals."
+              />
+              <FeatureCard
+                icon="🔒"
+                title="Enhanced Visibility"
+                description="Priority placement in talent searches and scouting reports."
               />
             </div>
           </TabsContent>
