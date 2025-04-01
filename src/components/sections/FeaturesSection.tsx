@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Smartphone, Award, Users, Video, Handshake, Lock } from 'lucide-react';
 
 const FeaturesSection = () => {
-  const [activeTab, setActiveTab] = useState("athletes");
+  const [activeTab, setActiveTab] = useState("edge");
 
   // Listen for changes to set the active tab
   useEffect(() => {
@@ -50,6 +50,12 @@ const FeaturesSection = () => {
           <div className="flex justify-center mb-16">
             <TabsList className="bg-athlex-gray-800 p-1">
               <TabsTrigger 
+                value="edge" 
+                className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "edge" ? "text-white gradient-text" : "text-white/60"}`}
+              >
+                ATHLEX Edge
+              </TabsTrigger>
+              <TabsTrigger 
                 value="athletes" 
                 className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "athletes" ? "text-white gradient-text" : "text-white/60"}`}
               >
@@ -61,14 +67,50 @@ const FeaturesSection = () => {
               >
                 For Coaches & Scouts
               </TabsTrigger>
-              <TabsTrigger 
-                value="edge" 
-                className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "edge" ? "text-white gradient-text" : "text-white/60"}`}
-              >
-                ATHLEX Edge
-              </TabsTrigger>
             </TabsList>
           </div>
+
+          <TabsContent value="edge" className="animate-fade-in">
+            <div className="mb-8 text-center max-w-3xl mx-auto">
+              <p className="text-white/80 text-lg mb-6">
+                ATHLEX Edge is the official newsletter and early-access community for the ATHLEX platform. 
+                It serves as the inner circle for athletes, coaches, scouts, and performance leaders who want to grow with ATHLEX from the ground up.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              <FeatureCard
+                icon={<Smartphone className="text-athlex-accent" size={28} />}
+                title="Early Access"
+                description="Receive product updates and new features before they're released to the public."
+              />
+              <FeatureCard
+                icon={<Award className="text-athlex-accent" size={28} />}
+                title="Premium Content"
+                description="High-value insights on performance, recovery, mindset, and athlete growth strategies."
+              />
+              <FeatureCard
+                icon={<Users className="text-athlex-accent" size={28} />}
+                title="Beta Testing"
+                description="Exclusive access to beta testing and feature previews of the ATHLEX platform."
+              />
+              <FeatureCard
+                icon={<Video className="text-athlex-accent" size={28} />}
+                title="Global Opportunities"
+                description="Discover scholarships, showcases, trials, and more opportunities in global sports."
+              />
+              <FeatureCard
+                icon={<Handshake className="text-athlex-accent" size={28} />}
+                title="Community Feedback"
+                description="Have a voice in shaping ATHLEX through direct feedback and feature suggestions."
+              />
+              <FeatureCard
+                icon={<Lock className="text-athlex-accent" size={28} />}
+                title="Insider Benefits"
+                description="Access exclusive perks and benefits only available to ATHLEX Edge members."
+              />
+            </div>
+          </TabsContent>
 
           <TabsContent value="athletes" className="animate-fade-in">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -131,48 +173,6 @@ const FeaturesSection = () => {
                 icon="✉️"
                 title="Direct Contact Requests"
                 description="Reach out to athletes (with permission) when ready."
-              />
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="edge" className="animate-fade-in">
-            <div className="mb-8 text-center max-w-3xl mx-auto">
-              <p className="text-white/80 text-lg mb-6">
-                ATHLEX Edge is the official newsletter and early-access community for the ATHLEX platform. 
-                It serves as the inner circle for athletes, coaches, scouts, and performance leaders who want to grow with ATHLEX from the ground up.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              <FeatureCard
-                icon={<Smartphone className="text-athlex-accent" size={28} />}
-                title="Early Access"
-                description="Receive product updates and new features before they're released to the public."
-              />
-              <FeatureCard
-                icon={<Award className="text-athlex-accent" size={28} />}
-                title="Premium Content"
-                description="High-value insights on performance, recovery, mindset, and athlete growth strategies."
-              />
-              <FeatureCard
-                icon={<Users className="text-athlex-accent" size={28} />}
-                title="Beta Testing"
-                description="Exclusive access to beta testing and feature previews of the ATHLEX platform."
-              />
-              <FeatureCard
-                icon={<Video className="text-athlex-accent" size={28} />}
-                title="Global Opportunities"
-                description="Discover scholarships, showcases, trials, and more opportunities in global sports."
-              />
-              <FeatureCard
-                icon={<Handshake className="text-athlex-accent" size={28} />}
-                title="Community Feedback"
-                description="Have a voice in shaping ATHLEX through direct feedback and feature suggestions."
-              />
-              <FeatureCard
-                icon={<Lock className="text-athlex-accent" size={28} />}
-                title="Insider Benefits"
-                description="Access exclusive perks and benefits only available to ATHLEX Edge members."
               />
             </div>
           </TabsContent>
