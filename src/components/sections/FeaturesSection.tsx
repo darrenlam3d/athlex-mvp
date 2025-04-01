@@ -169,6 +169,11 @@ const FeaturesSection = () => {
                 description="View clean, structured data across key metrics."
               />
               <FeatureCard
+                icon="📈"
+                title="Performance Insights"
+                description="Access ML-driven analytics and AI-powered trend analysis to identify patterns in athlete development and performance progression."
+              />
+              <FeatureCard
                 icon="👍"
                 title="Endorsement Tools"
                 description="Support athletes with credibility and feedback."
@@ -182,11 +187,6 @@ const FeaturesSection = () => {
                 icon="✉️"
                 title="Direct Contact Requests"
                 description="Reach out to athletes (with permission) when ready."
-              />
-              <FeatureCard
-                icon="📈"
-                title="Performance Insights"
-                description="Analyze trends and progress with advanced data visualization tools."
               />
             </div>
           </TabsContent>
