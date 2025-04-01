@@ -183,6 +183,11 @@ const FeaturesSection = () => {
                 title="Direct Contact Requests"
                 description="Reach out to athletes (with permission) when ready."
               />
+              <FeatureCard
+                icon="📈"
+                title="Performance Insights"
+                description="Analyze trends and progress with advanced data visualization tools."
+              />
             </div>
           </TabsContent>
         </Tabs>
