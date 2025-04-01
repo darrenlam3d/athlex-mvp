@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Smartphone, Award, Users, Video, Handshake, Lock } from 'lucide-react';
 
 const FeaturesSection = () => {
   const [activeTab, setActiveTab] = useState("athletes");
@@ -135,36 +136,43 @@ const FeaturesSection = () => {
           </TabsContent>
           
           <TabsContent value="edge" className="animate-fade-in">
+            <div className="mb-8 text-center max-w-3xl mx-auto">
+              <p className="text-white/80 text-lg mb-6">
+                ATHLEX Edge is the official newsletter and early-access community for the ATHLEX platform. 
+                It serves as the inner circle for athletes, coaches, scouts, and performance leaders who want to grow with ATHLEX from the ground up.
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               <FeatureCard
-                icon="📱"
-                title="Premium Platform Access"
-                description="Unlock exclusive features and priority support."
+                icon={<Smartphone className="text-athlex-accent" size={28} />}
+                title="Early Access"
+                description="Receive product updates and new features before they're released to the public."
               />
               <FeatureCard
-                icon="👨‍🏫"
-                title="One-on-One Coaching"
-                description="Connect with certified coaches for personalized guidance."
+                icon={<Award className="text-athlex-accent" size={28} />}
+                title="Premium Content"
+                description="High-value insights on performance, recovery, mindset, and athlete growth strategies."
               />
               <FeatureCard
-                icon="📊"
-                title="Advanced Analytics"
-                description="Deeper insights and predictive performance modeling."
+                icon={<Users className="text-athlex-accent" size={28} />}
+                title="Beta Testing"
+                description="Exclusive access to beta testing and feature previews of the ATHLEX platform."
               />
               <FeatureCard
-                icon="🎬"
-                title="Video Analysis"
-                description="Professional breakdown of your game footage with actionable feedback."
+                icon={<Video className="text-athlex-accent" size={28} />}
+                title="Global Opportunities"
+                description="Discover scholarships, showcases, trials, and more opportunities in global sports."
               />
               <FeatureCard
-                icon="🤝"
-                title="Industry Connections"
-                description="Network with scouts, teams, and sports industry professionals."
+                icon={<Handshake className="text-athlex-accent" size={28} />}
+                title="Community Feedback"
+                description="Have a voice in shaping ATHLEX through direct feedback and feature suggestions."
               />
               <FeatureCard
-                icon="🔒"
-                title="Enhanced Visibility"
-                description="Priority placement in talent searches and scouting reports."
+                icon={<Lock className="text-athlex-accent" size={28} />}
+                title="Insider Benefits"
+                description="Access exclusive perks and benefits only available to ATHLEX Edge members."
               />
             </div>
           </TabsContent>
@@ -174,7 +182,7 @@ const FeaturesSection = () => {
   );
 };
 
-const FeatureCard = ({ icon, title, description }: { icon: string, title: string, description: string }) => {
+const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => {
   return (
     <div className="bg-athlex-gray-800/40 border border-athlex-gray-700 p-8 rounded-lg hover:border-athlex-accent transition-all duration-300">
       <div className="text-4xl mb-5">{icon}</div>
