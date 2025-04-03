@@ -51,6 +51,7 @@ const Index = () => {
     // Update Open Graph meta tags
     let ogTitle = document.querySelector('meta[property="og:title"]');
     let ogDescription = document.querySelector('meta[property="og:description"]');
+    let ogImage = document.querySelector('meta[property="og:image"]');
     
     if (ogTitle) {
       ogTitle.setAttribute('content', 'ATHLEX – By Athletes, For Athletes.');
@@ -58,6 +59,16 @@ const Index = () => {
     
     if (ogDescription) {
       ogDescription.setAttribute('content', 'Empowering athletes to grow, connect, and get discovered—globally.');
+    }
+    
+    if (ogImage) {
+      ogImage.setAttribute('content', '/lovable-uploads/3d17cc64-d4eb-4c0d-8e6a-b2151b2e69e8.png');
+    }
+    
+    // Update Twitter meta tags
+    let twitterImage = document.querySelector('meta[name="twitter:image"]');
+    if (twitterImage) {
+      twitterImage.setAttribute('content', '/lovable-uploads/3d17cc64-d4eb-4c0d-8e6a-b2151b2e69e8.png');
     }
   }, []);
 
