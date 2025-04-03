@@ -40,7 +40,7 @@ const Index = () => {
 
   // Update title and meta description for SEO
   useEffect(() => {
-    document.title = "ATHLEX – Built by Athletes, For Athletes";
+    document.title = "ATHLEX – By Athletes, For Athletes.";
     
     // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -53,7 +53,7 @@ const Index = () => {
     let ogDescription = document.querySelector('meta[property="og:description"]');
     
     if (ogTitle) {
-      ogTitle.setAttribute('content', 'ATHLEX – Built by Athletes, For Athletes');
+      ogTitle.setAttribute('content', 'ATHLEX – By Athletes, For Athletes.');
     }
     
     if (ogDescription) {

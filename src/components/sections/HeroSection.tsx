@@ -53,7 +53,7 @@ const HeroSection = () => {
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in text-shadow-black">
             <span className="block mt-2 text-2xl md:text-3xl lg:text-4xl text-white/90">
-              Built by Athletes, For Athletes
+              By Athletes, For Athletes.
             </span>
           </h1>
           
