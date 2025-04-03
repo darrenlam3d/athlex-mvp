@@ -51,15 +51,14 @@ const HeroSection = () => {
       
       <div className="container relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-6">
             <img 
-              src="/lovable-uploads/b84ddeca-bec0-41af-8ad4-07c922bd1508.png" 
+              src="/lovable-uploads/8f087e79-abca-4837-ac54-e0f2ef1c9421.png" 
               alt="ATHLEX Logo" 
-              className="h-20 w-auto"
+              className="h-32 w-auto"
             />
           </div>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in text-shadow-black">
-            <span className="block">ATHLEX</span>
             <span className="block mt-2 text-2xl md:text-3xl lg:text-4xl text-white/90">
               Built by Athletes, For Athletes
             </span>
