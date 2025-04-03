@@ -10,6 +10,7 @@ import { TrendingUp, Home, Activity, Users, Search, MessageSquare, Settings, Use
 
 import ProfileSummary from '@/components/dashboard/ProfileSummary';
 import AboutSection from '@/components/dashboard/AboutSection';
+import ActivitySummary from '@/components/dashboard/ActivitySummary';
 import PerformanceOverview from '@/components/dashboard/PerformanceOverview';
 import GoalTracking from '@/components/dashboard/GoalTracking';
 import TrainingRecommendations from '@/components/dashboard/TrainingRecommendations';
@@ -40,13 +41,18 @@ const Dashboard = () => {
                 </div>
               </div>
               
-              {/* Middle row */}
+              {/* Activity Summary - 3rd section */}
+              <div className="mb-6">
+                <ActivitySummary />
+              </div>
+              
+              {/* Performance & Goals row */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                 <PerformanceOverview />
                 <GoalTracking />
               </div>
               
-              {/* Bottom row */}
+              {/* Training & Achievements row */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                 <TrainingRecommendations />
                 <AchievementsBadges />
