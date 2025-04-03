@@ -37,7 +37,11 @@ const Navbar = () => {
       <div className="container flex justify-between items-center">
         <div className="flex items-center">
           <a href="#" className="flex items-center">
-            <span className="text-xl md:text-2xl font-bold text-white hover:text-shadow-black transition-all duration-300">ATHLEX</span>
+            <img 
+              src="/lovable-uploads/8f087e79-abca-4837-ac54-e0f2ef1c9421.png" 
+              alt="ATHLEX Logo" 
+              className="h-10 md:h-12 w-auto"
+            />
           </a>
         </div>
         
