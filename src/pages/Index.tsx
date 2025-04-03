@@ -62,13 +62,13 @@ const Index = () => {
     }
     
     if (ogImage) {
-      ogImage.setAttribute('content', '/lovable-uploads/3d17cc64-d4eb-4c0d-8e6a-b2151b2e69e8.png');
+      ogImage.setAttribute('content', '/lovable-uploads/8d7d7a50-e5c4-4d27-913b-d17047071085.png');
     }
     
     // Update Twitter meta tags
     let twitterImage = document.querySelector('meta[name="twitter:image"]');
     if (twitterImage) {
-      twitterImage.setAttribute('content', '/lovable-uploads/3d17cc64-d4eb-4c0d-8e6a-b2151b2e69e8.png');
+      twitterImage.setAttribute('content', '/lovable-uploads/8d7d7a50-e5c4-4d27-913b-d17047071085.png');
     }
   }, []);
 
