@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/AdminDashboard";
 import Legal from "./pages/Legal";
 import EdgeSignup from "./pages/EdgeSignup";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="/edge-signup" element={<EdgeSignup />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
