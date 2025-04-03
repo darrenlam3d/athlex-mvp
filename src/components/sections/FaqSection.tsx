@@ -7,39 +7,43 @@ const FaqSection = () => {
   const faqs = [
     {
       question: "What is ATHLEX?",
-      answer: "ATHLEX is an athlete-first platform that helps you track performance, build a verified profile, connect with coaches and scouts, and unlock growth opportunities — all in one place."
+      answer: "ATHLEX is a digital performance and discovery platform designed for athletes, coaches, and scouts. It helps athletes track growth, showcase their journey, and connect with real opportunities — all in one trusted space."
     },
     {
       question: "Who is ATHLEX for?",
-      answer: "It's built for athletes of all levels, as well as coaches, scouts, and high-performance teams looking to discover, manage, or support talent more effectively."
+      answer: "ATHLEX is built for competitive athletes at all levels, especially youth, amateur, and semi-pro. It also serves coaches, scouts, federations, and academies looking to identify and develop talent more effectively."
     },
     {
-      question: "Is ATHLEX free?",
-      answer: "Yes. ATHLEX will offer a free tier for all athletes. Premium features and services will be available as optional upgrades."
+      question: "What can athletes do on ATHLEX?",
+      answer: "Build a verified profile with performance data and highlights. Track development over time with smart metrics. Receive tailored training insights. Discover global camps, scholarships, and trial opportunities. Connect with coaches, scouts, and peers."
     },
     {
-      question: "How do I get early access?",
-      answer: "Just sign up for the waitlist. We'll roll out early access in phases and notify you when it's your turn."
+      question: "Is ATHLEX free to use?",
+      answer: "Yes — ATHLEX will launch with a freemium model. Core features are free for athletes, with optional upgrades for deeper insights, visibility, and performance tools."
     },
     {
-      question: "I'm a coach or scout — what can I do on ATHLEX?",
-      answer: "You'll be able to search and filter athletes, build shortlists, view verified performance data, and connect with athletes (with consent)."
+      question: "How does ATHLEX help coaches and scouts?",
+      answer: "ATHLEX offers searchable athlete databases, development trends, shortlisting tools, and verified data — making it easier to scout talent, track growth, and connect with athletes globally."
     },
     {
-      question: "What makes ATHLEX different from other sports platforms?",
-      answer: "Unlike fragmented tools, ATHLEX brings everything together — athlete profiles, analytics, development tools, and discovery — in one unified, intelligent system."
+      question: "What sports are supported?",
+      answer: "ATHLEX currently supports Football, Cricket, Hockey, Tennis, Volleyball, Table Tennis, and Basketball — with more to come."
     },
     {
-      question: "Is my data safe and private?",
-      answer: "Yes. You have full control over your profile visibility. ATHLEX is GDPR-compliant and built with athlete data privacy in mind."
+      question: "Where is ATHLEX launching first?",
+      answer: "ATHLEX is launching in Southeast Asia, with early access available in Singapore, Malaysia, Indonesia, Philippines, and India."
     },
     {
-      question: "When is ATHLEX launching?",
-      answer: "We're currently in development and onboarding early users. Join the waitlist to stay updated and gain early access when available."
+      question: "What is ATHLEX Edge?",
+      answer: "ATHLEX Edge is our weekly newsletter for athletes and coaches. It delivers elite training insights, mental tools, recovery routines, and global opportunities — all curated to give you an edge."
     },
     {
-      question: "Can I share ATHLEX with my team or coach?",
-      answer: "Yes! After signing up, you'll receive a referral link to invite teammates, coaches, or scouts to join the community."
+      question: "How can I get early access?",
+      answer: "Join the waitlist on this page. Early users will receive exclusive access to the platform, features, and the ATHLEX Edge newsletter."
+    },
+    {
+      question: "Still have questions?",
+      answer: "Reach out to us directly or follow us on LinkedIn and Instagram for updates."
     }
   ];
 
