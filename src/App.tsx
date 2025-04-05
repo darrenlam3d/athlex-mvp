@@ -11,6 +11,8 @@ import Legal from "./pages/Legal";
 import EdgeSignup from "./pages/EdgeSignup";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
+import Performance from "./pages/Performance";
+import Training from "./pages/Training";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +29,8 @@ const App = () => (
           <Route path="/edge-signup" element={<EdgeSignup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/performance" element={<Performance />} />
+          <Route path="/training" element={<Training />} />
           <Route path="/dashboard" element={<Navigate to="/profile" replace />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

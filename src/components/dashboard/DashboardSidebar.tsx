@@ -55,8 +55,8 @@ const DashboardSidebar = () => {
           </SidebarMenuItem>
           
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="My Performance">
-              <Link to="#">
+            <SidebarMenuButton asChild isActive={currentPath === '/performance'} tooltip="My Performance">
+              <Link to="/performance">
                 <Activity />
                 <span>My Performance</span>
               </Link>
@@ -64,8 +64,8 @@ const DashboardSidebar = () => {
           </SidebarMenuItem>
           
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Training & Insights">
-              <Link to="#">
+            <SidebarMenuButton asChild isActive={currentPath === '/training'} tooltip="Training & Insights">
+              <Link to="/training">
                 <Video />
                 <span>Training & Insights</span>
               </Link>
