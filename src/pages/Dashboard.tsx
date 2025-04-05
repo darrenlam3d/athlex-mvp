@@ -7,7 +7,6 @@ import AboutSection from '@/components/dashboard/AboutSection';
 import ActivitySummary from '@/components/dashboard/ActivitySummary';
 import PerformanceOverview from '@/components/dashboard/PerformanceOverview';
 import GoalTracking from '@/components/dashboard/GoalTracking';
-import TrainingRecommendations from '@/components/dashboard/TrainingRecommendations';
 import AchievementsBadges from '@/components/dashboard/AchievementsBadges';
 import TalentDiscovery from '@/components/dashboard/TalentDiscovery';
 import CommunityUpdates from '@/components/dashboard/CommunityUpdates';
@@ -44,11 +43,6 @@ const Dashboard = () => {
               {/* Goal Tracking */}
               <div className="mt-5">
                 <GoalTracking />
-              </div>
-              
-              {/* Private Tab for Training */}
-              <div className="mt-5">
-                <TrainingRecommendations />
               </div>
               
               {/* Achievements & Badges */}
