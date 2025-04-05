@@ -1,12 +1,6 @@
 
 import React from 'react';
-import { SidebarProvider, Sidebar, SidebarContent, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { TrendingUp, Home, Activity, Users, Search, MessageSquare, Settings, User, Award, CheckCircle, Video, Calendar, Flag } from 'lucide-react';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 import ProfileSummary from '@/components/dashboard/ProfileSummary';
 import AboutSection from '@/components/dashboard/AboutSection';
@@ -27,40 +21,48 @@ const Dashboard = () => {
           <DashboardSidebar />
           
           {/* Main content */}
-          <div className="flex-1 p-6 overflow-y-auto">
-            <div className="max-w-7xl mx-auto">
-              <h1 className="text-3xl font-bold mb-8">Athlete Dashboard</h1>
+          <div className="flex-1 p-4 md:p-6 overflow-y-auto">
+            <div className="max-w-4xl mx-auto">
+              {/* Top Hero Section */}
+              <ProfileSummary />
               
-              {/* Top row */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                <div className="lg:col-span-1">
-                  <ProfileSummary />
-                </div>
-                <div className="lg:col-span-2">
-                  <AboutSection />
-                </div>
+              {/* About Me */}
+              <div className="mt-5">
+                <AboutSection />
               </div>
               
-              {/* Activity Summary - 3rd section */}
-              <div className="mb-6">
+              {/* Activity Summary */}
+              <div className="mt-5">
                 <ActivitySummary />
               </div>
               
-              {/* Performance & Goals row */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              {/* Performance Overview */}
+              <div className="mt-5">
                 <PerformanceOverview />
+              </div>
+              
+              {/* Goal Tracking */}
+              <div className="mt-5">
                 <GoalTracking />
               </div>
               
-              {/* Training & Achievements row */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              {/* Private Tab for Training */}
+              <div className="mt-5">
                 <TrainingRecommendations />
+              </div>
+              
+              {/* Achievements & Badges */}
+              <div className="mt-5">
                 <AchievementsBadges />
               </div>
               
-              {/* Final row */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Talent Discovery */}
+              <div className="mt-5">
                 <TalentDiscovery />
+              </div>
+              
+              {/* Community & Updates */}
+              <div className="mt-5 mb-5">
                 <CommunityUpdates />
               </div>
             </div>

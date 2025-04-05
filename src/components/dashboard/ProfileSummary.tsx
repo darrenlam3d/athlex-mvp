@@ -2,49 +2,55 @@
 import React from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle } from 'lucide-react';
 
 const ProfileSummary = () => {
   return (
-    <Card className="bg-card text-card-foreground border-gray-700">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-xl font-medium">Profile</CardTitle>
-      </CardHeader>
-      <CardContent className="pt-2">
-        <div className="flex flex-col items-center text-center">
-          <Avatar className="h-24 w-24 mb-4">
-            <AvatarImage src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21" alt="Athlete" />
+    <Card className="bg-card text-card-foreground border-gray-700 overflow-hidden relative">
+      {/* Background banner image */}
+      <div className="h-24 md:h-36 bg-gradient-to-r from-purple-900/60 to-blue-900/60 w-full"></div>
+      
+      <CardContent className="pt-0 relative px-4 pb-5">
+        <div className="flex flex-col md:flex-row md:items-end -mt-10 md:-mt-16 gap-4">
+          {/* Profile Avatar */}
+          <Avatar className="h-20 w-20 md:h-32 md:w-32 border-4 border-card">
+            <AvatarImage src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21" alt="Alex Thompson" />
             <AvatarFallback>AT</AvatarFallback>
           </Avatar>
           
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-xl font-bold">Alex Thompson</h3>
-            <CheckCircle className="h-5 w-5 text-blue-400" />
+          <div className="flex-1 py-2">
+            {/* Name and badge */}
+            <div className="flex flex-wrap items-center gap-2 mb-1">
+              <h1 className="text-2xl md:text-3xl font-bold">Alex Thompson</h1>
+              <CheckCircle className="h-5 w-5 text-blue-400" />
+              <Badge variant="secondary" className="text-xs">Verified Athlete</Badge>
+            </div>
+            
+            {/* Sport & Position */}
+            <p className="text-gray-400 text-sm mb-2">Basketball · Point Guard</p>
+            
+            {/* Stats */}
+            <div className="flex gap-4 mt-2">
+              <div>
+                <span className="text-gray-400 text-xs block">Ranking</span>
+                <span className="font-bold text-lg">#24</span>
+              </div>
+              <div>
+                <span className="text-gray-400 text-xs block">Avg Score</span>
+                <span className="font-bold text-lg">8.7</span>
+              </div>
+            </div>
           </div>
           
-          <div className="flex items-center gap-1 mb-4">
-            <Badge variant="secondary" className="text-xs">Verified Athlete</Badge>
-          </div>
-          
-          <p className="text-gray-400 text-sm mb-4">Basketball · Point Guard</p>
-          
-          <div className="grid grid-cols-2 gap-4 w-full mb-4">
-            <div className="flex flex-col items-center p-2 bg-gray-800 rounded-lg">
-              <span className="text-gray-400 text-xs mb-1">Ranking</span>
-              <span className="font-bold text-lg">#24</span>
-            </div>
-            <div className="flex flex-col items-center p-2 bg-gray-800 rounded-lg">
-              <span className="text-gray-400 text-xs mb-1">Avg Score</span>
-              <span className="font-bold text-lg">8.7</span>
-            </div>
+          {/* Action buttons */}
+          <div className="flex flex-wrap gap-3 mt-2 md:mt-0 w-full md:w-auto justify-start md:self-end">
+            <Button variant="outline" size="sm">Edit Profile</Button>
+            <Button size="sm" className="bg-gradient-to-r from-purple-600 to-blue-600">Upgrade to Pro</Button>
           </div>
         </div>
       </CardContent>
-      <CardFooter>
-        <Button variant="outline" className="w-full">Edit Profile</Button>
-      </CardFooter>
     </Card>
   );
 };

@@ -6,7 +6,7 @@ import { Activity, CalendarDays, Clock, ChartBar, Trophy } from 'lucide-react';
 const ActivitySummary = () => {
   return (
     <Card className="bg-card text-card-foreground border-gray-700">
-      <CardHeader>
+      <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Activity Summary</CardTitle>
       </CardHeader>
       <CardContent>
@@ -40,6 +40,12 @@ const ActivitySummary = () => {
             <span className="text-2xl font-bold">4,720</span>
             <span className="text-xs text-gray-400">Calories Burned</span>
           </div>
+        </div>
+        
+        <div className="mt-4 bg-purple-900/20 border border-purple-900/30 rounded-lg p-3 text-sm text-center">
+          <p className="text-purple-200">
+            <span className="font-medium">Stay consistent to build momentum!</span> You're in the top 20% of active users this week.
+          </p>
         </div>
       </CardContent>
     </Card>
