@@ -31,7 +31,7 @@ const InsightsFeed = () => {
       id: 3,
       type: 'article',
       title: 'Recovery Nutrition for Point Guards',
-      content: 'Your training intensity has increased by 20% this month. Here's how to adjust your nutrition to support recovery and performance.',
+      content: "Your training intensity has increased by 20% this month. Here's how to adjust your nutrition to support recovery and performance.",
       source: 'Sports Nutritionist',
       readTime: '4 min read',
       likes: 32,
