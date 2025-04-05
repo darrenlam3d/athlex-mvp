@@ -1,12 +1,15 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
-import { Home, Activity, Video, Users, Search, MessageSquare, Settings, Plus, LogOut } from 'lucide-react';
+import { Home, User, Activity, Video, Users, Search, MessageSquare, Settings, Plus, LogOut } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 const DashboardSidebar = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -34,10 +37,19 @@ const DashboardSidebar = () => {
         
         <SidebarMenu className="mt-4">
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={true} tooltip="Dashboard">
-              <Link to="/dashboard">
+            <SidebarMenuButton asChild isActive={currentPath === '/home'} tooltip="Home">
+              <Link to="/home">
                 <Home />
-                <span>Dashboard</span>
+                <span>Home</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={currentPath === '/profile'} tooltip="My Profile">
+              <Link to="/profile">
+                <User />
+                <span>My Profile</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

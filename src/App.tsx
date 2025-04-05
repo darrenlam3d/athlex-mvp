@@ -9,7 +9,8 @@ import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/AdminDashboard";
 import Legal from "./pages/Legal";
 import EdgeSignup from "./pages/EdgeSignup";
-import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+import Home from "./pages/Home";
 
 const queryClient = new QueryClient();
 
@@ -24,7 +25,9 @@ const App = () => (
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="/edge-signup" element={<EdgeSignup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/dashboard" element={<Navigate to="/profile" replace />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
