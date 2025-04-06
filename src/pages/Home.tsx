@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
@@ -76,7 +75,7 @@ const Home = () => {
                           <AvatarFallback>AT</AvatarFallback>
                         </Avatar>
                         <h3 className="font-semibold">Alex Thompson</h3>
-                        <p className="text-sm text-gray-400">Basketball · Point Guard</p>
+                        <p className="text-sm text-gray-400">Football · CM</p>
                         
                         <div className="w-full border-t border-gray-700 my-3"></div>
                         
@@ -114,10 +113,10 @@ const Home = () => {
                             #agility
                           </span>
                           <span className="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-xs text-gray-300 cursor-pointer">
-                            #basketball
+                            #football
                           </span>
                           <span className="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded-full text-xs text-gray-300 cursor-pointer">
-                            #pointguard
+                            #midfielder
                           </span>
                         </div>
                       </div>
@@ -243,13 +242,13 @@ const Home = () => {
                       {/* Post Content */}
                       <div className="px-4 pb-3">
                         <p className="text-gray-200 mb-3">
-                          <span className="font-semibold">Training Insight for Point Guards:</span> Improving your ball handling can increase your effective court coverage by up to 15%.
+                          <span className="font-semibold">Training Insight for Central Midfielders:</span> Improving your passing accuracy and vision can increase your effective control of the game by up to 20%.
                         </p>
                         
                         <div className="bg-blue-900/20 border border-blue-800 rounded-lg p-3 mb-3">
-                          <h5 className="font-medium text-blue-300 mb-1">Drill of the Day: Figure-8 Speed Dribbling</h5>
+                          <h5 className="font-medium text-blue-300 mb-1">Drill of the Day: Triangle Passing</h5>
                           <p className="text-sm text-gray-300">
-                            Place two cones 6 feet apart. Dribble around them in a figure-8 pattern, keeping your head up and maintaining control. Start slow, then increase speed gradually. 3 sets of 60 seconds.
+                            Set up with two teammates forming a triangle, 10 yards apart. Practice one-touch passes while moving. Focus on weight of pass and first touch direction. 3 sets of 60 seconds.
                           </p>
                         </div>
                         
@@ -292,7 +291,7 @@ const Home = () => {
                           </Avatar>
                           <div>
                             <h4 className="font-semibold">Coach Taylor</h4>
-                            <p className="text-xs text-gray-400">Basketball Coach · Downtown Eagles</p>
+                            <p className="text-xs text-gray-400">Football Coach · Central City FC</p>
                             <p className="text-xs text-gray-400">Yesterday</p>
                           </div>
                         </div>
@@ -301,7 +300,7 @@ const Home = () => {
                       {/* Post Content */}
                       <div className="px-4 pb-3">
                         <p className="text-gray-200 mb-3">
-                          Proud of our team's progress this month! Special shoutout to @alexthompson for the impressive improvement in three-point shooting consistency. Keep up the great work team!
+                          Proud of our team's progress this month! Special shoutout to @alexthompson for the impressive improvement in passing accuracy and vision. Keep up the great work team!
                         </p>
                       </div>
                       
@@ -345,21 +344,21 @@ const Home = () => {
                           <div className="flex items-start gap-3">
                             <ChevronUp className="h-5 w-5 text-green-500 mt-0.5" />
                             <div>
-                              <h4 className="font-medium text-sm">Ladder Agility Circuit</h4>
+                              <h4 className="font-medium text-sm">Possession Circle</h4>
                               <p className="text-xs text-gray-400">1,230 athletes trying this</p>
                             </div>
                           </div>
                           <div className="flex items-start gap-3">
                             <ChevronUp className="h-5 w-5 text-green-500 mt-0.5" />
                             <div>
-                              <h4 className="font-medium text-sm">Vision Cone Shooting</h4>
+                              <h4 className="font-medium text-sm">Killer Through Balls</h4>
                               <p className="text-xs text-gray-400">842 athletes trying this</p>
                             </div>
                           </div>
                           <div className="flex items-start gap-3">
                             <ChevronUp className="h-5 w-5 text-green-500 mt-0.5" />
                             <div>
-                              <h4 className="font-medium text-sm">Triple Threat Exercises</h4>
+                              <h4 className="font-medium text-sm">Long Range Shooting</h4>
                               <p className="text-xs text-gray-400">615 athletes trying this</p>
                             </div>
                           </div>
@@ -415,7 +414,7 @@ const Home = () => {
                               </Avatar>
                               <div>
                                 <h4 className="font-medium text-sm">Maya Johnson</h4>
-                                <p className="text-xs text-gray-400">Basketball • Point Guard</p>
+                                <p className="text-xs text-gray-400">Football • Winger</p>
                               </div>
                             </div>
                             <Button variant="outline" size="sm" className="h-8">
@@ -431,7 +430,7 @@ const Home = () => {
                               </Avatar>
                               <div>
                                 <h4 className="font-medium text-sm">Tyler Reed</h4>
-                                <p className="text-xs text-gray-400">Basketball • Center</p>
+                                <p className="text-xs text-gray-400">Football • Striker</p>
                               </div>
                             </div>
                             <Button variant="outline" size="sm" className="h-8">

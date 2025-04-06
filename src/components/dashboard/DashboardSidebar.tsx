@@ -30,7 +30,7 @@ const DashboardSidebar = () => {
             </Avatar>
             <div className="overflow-hidden">
               <h3 className="font-semibold truncate">Alex Thompson</h3>
-              <p className="text-xs text-gray-400 truncate">Basketball · Point Guard</p>
+              <p className="text-xs text-gray-400 truncate">Football · CM</p>
             </div>
           </div>
         </div>
