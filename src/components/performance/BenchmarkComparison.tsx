@@ -64,73 +64,71 @@ const BenchmarkComparison = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground min-h-[800px]">
+    <Card className="border-gray-700 bg-card text-card-foreground">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Benchmark Comparison</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
           How you compare to similar players (Central Midfielders, Age 22-25)
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="flex flex-col space-y-6">
-          {/* Legend positioned at the top, clearly separated from the chart */}
-          <div className="flex justify-end mb-2">
-            <div className="flex flex-wrap justify-end gap-4 text-sm bg-gray-800/30 px-4 py-2 rounded-md">
-              <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-[#9b87f5] mr-2"></div>
-                <span>You</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-[#6b7280] mr-2"></div>
-                <span>Avg. Central Midfielder</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-3 h-3 rounded-full bg-[#f59e0b] mr-2"></div>
-                <span>Top 10%</span>
-              </div>
+      <CardContent className="flex flex-col space-y-8">
+        {/* Legend positioned at the top, clearly separated from the chart */}
+        <div className="flex justify-end">
+          <div className="flex flex-wrap justify-end gap-4 text-sm bg-gray-800/30 px-4 py-2 rounded-md">
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-[#9b87f5] mr-2"></div>
+              <span>You</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-[#6b7280] mr-2"></div>
+              <span>Avg. Central Midfielder</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-[#f59e0b] mr-2"></div>
+              <span>Top 10%</span>
             </div>
           </div>
-          
-          {/* Chart container with fixed height and clearly separate from content below */}
-          <div className="h-[500px] w-full bg-gray-800/20 rounded-md p-2">
-            <ChartContainer config={chartConfig}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={benchmarkData}
-                  margin={{
-                    top: 20,
-                    right: 30,
-                    left: 10,
-                    bottom: 20,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="name" stroke="#9ca3af" />
-                  <YAxis stroke="#9ca3af" />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#1f2937', borderColor: '#374151', borderRadius: '0.375rem' }}
-                    itemStyle={{ color: '#f3f4f6' }}
-                    labelStyle={{ color: '#f3f4f6', fontWeight: 'bold' }}
-                  />
-                  {/* Removed Legend from within the chart */}
-                  <Bar dataKey="average" fill="var(--color-average)" />
-                  <Bar dataKey="you" fill="var(--color-you)" />
-                  <Bar dataKey="top10" fill="var(--color-top10)" />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+        </div>
+        
+        {/* Chart container with fixed height - much taller to prevent overlap */}
+        <div className="h-[400px] w-full bg-gray-800/20 rounded-md p-4">
+          <ChartContainer config={chartConfig}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={benchmarkData}
+                margin={{
+                  top: 20,
+                  right: 30,
+                  left: 10,
+                  bottom: 40, // Added more bottom margin
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                <XAxis dataKey="name" stroke="#9ca3af" />
+                <YAxis stroke="#9ca3af" />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: '#1f2937', borderColor: '#374151', borderRadius: '0.375rem' }}
+                  itemStyle={{ color: '#f3f4f6' }}
+                  labelStyle={{ color: '#f3f4f6', fontWeight: 'bold' }}
+                />
+                {/* Removed Legend from within the chart */}
+                <Bar dataKey="average" fill="var(--color-average)" />
+                <Bar dataKey="you" fill="var(--color-you)" />
+                <Bar dataKey="top10" fill="var(--color-top10)" />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </div>
+        
+        {/* Insights section - with significant top margin to ensure it's well below the chart */}
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="bg-gray-800/30 rounded-lg p-5">
+            <h4 className="text-athlex-accent font-medium text-lg">Top Performance</h4>
+            <p className="text-sm mt-2">Your passing accuracy (92%) is in the top 15% of central midfielders in your age group.</p>
           </div>
-          
-          {/* Insights section - clearly separate from the chart with more spacing */}
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-gray-800/30 rounded-lg p-5">
-              <h4 className="text-athlex-accent font-medium text-lg">Top Performance</h4>
-              <p className="text-sm mt-2">Your passing accuracy (92%) is in the top 15% of central midfielders in your age group.</p>
-            </div>
-            <div className="bg-gray-800/30 rounded-lg p-5">
-              <h4 className="text-athlex-accent font-medium text-lg">Area to Improve</h4>
-              <p className="text-sm mt-2">Your ball control (75%) is above average but has the largest gap compared to top performers.</p>
-            </div>
+          <div className="bg-gray-800/30 rounded-lg p-5">
+            <h4 className="text-athlex-accent font-medium text-lg">Area to Improve</h4>
+            <p className="text-sm mt-2">Your ball control (75%) is above average but has the largest gap compared to top performers.</p>
           </div>
         </div>
       </CardContent>
