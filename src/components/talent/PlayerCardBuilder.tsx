@@ -1,14 +1,30 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Upload, Check, ChevronRight, Share2 } from 'lucide-react';
+import { useProfile } from '@/contexts/ProfileContext';
+import { positionOptions, getTacticalRolesForPosition } from '@/utils/footballPositions';
 
 const PlayerCardBuilder = () => {
-  const [selectedPosition, setSelectedPosition] = useState('CM');
+  const { profileData } = useProfile();
+  const [selectedPosition, setSelectedPosition] = useState(profileData.position || 'CM');
+  const [selectedTacticalRole, setSelectedTacticalRole] = useState(profileData.tacticalRole || 'Roaming Playmaker');
+  const [availableTacticalRoles, setAvailableTacticalRoles] = useState<string[]>([]);
+  
+  useEffect(() => {
+    // Update available tactical roles when position changes
+    const roles = getTacticalRolesForPosition(selectedPosition);
+    setAvailableTacticalRoles(roles);
+    
+    // If current role isn't valid for this position, reset it
+    if (roles.length > 0 && !roles.includes(selectedTacticalRole)) {
+      setSelectedTacticalRole(roles[0]);
+    }
+  }, [selectedPosition, selectedTacticalRole]);
   
   const stats = [
     { name: 'Top Speed', value: '31.2 km/h', highlight: true },
@@ -26,15 +42,15 @@ const PlayerCardBuilder = () => {
         <div className="bg-gray-800 rounded-lg p-5 mb-5">
           <div className="text-center">
             <Avatar className="h-20 w-20 mx-auto border-2 border-athlex-accent">
-              <AvatarImage src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21" alt="Alex Thompson" />
-              <AvatarFallback>AT</AvatarFallback>
+              <AvatarImage src={profileData.profileImage} alt={`${profileData.firstName} ${profileData.lastName}`} />
+              <AvatarFallback>{profileData.firstName?.[0]}{profileData.lastName?.[0]}</AvatarFallback>
             </Avatar>
-            <h3 className="font-bold text-xl mt-3">Alex Thompson</h3>
-            <p className="text-sm text-gray-400">22 yrs • 183 cm • 76 kg</p>
+            <h3 className="font-bold text-xl mt-3">{profileData.firstName} {profileData.lastName}</h3>
+            <p className="text-sm text-gray-400">{profileData.age} yrs • {profileData.height} cm • {profileData.weight} kg</p>
             
             <div className="flex justify-center gap-2 mt-3">
               <Badge className="bg-athlex-accent hover:bg-athlex-accent/80">{selectedPosition}</Badge>
-              <Badge variant="outline">Box-to-Box</Badge>
+              <Badge variant="outline">{selectedTacticalRole}</Badge>
               <Badge variant="outline">High Stamina</Badge>
             </div>
           </div>
@@ -93,17 +109,31 @@ const PlayerCardBuilder = () => {
                 <SelectValue placeholder="Select Position" />
               </SelectTrigger>
               <SelectContent className="bg-gray-800 border-gray-700">
-                <SelectItem value="ST">Striker (ST)</SelectItem>
-                <SelectItem value="CF">Center Forward (CF)</SelectItem>
-                <SelectItem value="LW">Left Wing (LW)</SelectItem>
-                <SelectItem value="RW">Right Wing (RW)</SelectItem>
-                <SelectItem value="CAM">Attacking Midfielder (CAM)</SelectItem>
-                <SelectItem value="CM">Central Midfielder (CM)</SelectItem>
-                <SelectItem value="CDM">Defensive Midfielder (CDM)</SelectItem>
-                <SelectItem value="LB">Left Back (LB)</SelectItem>
-                <SelectItem value="CB">Center Back (CB)</SelectItem>
-                <SelectItem value="RB">Right Back (RB)</SelectItem>
-                <SelectItem value="GK">Goalkeeper (GK)</SelectItem>
+                {positionOptions.map(option => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.value} - {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <div className="p-4 bg-gray-800 rounded-lg">
+            <h4 className="font-medium mb-2">Select Tactical Role</h4>
+            <Select 
+              value={selectedTacticalRole} 
+              onValueChange={setSelectedTacticalRole}
+              disabled={availableTacticalRoles.length === 0}
+            >
+              <SelectTrigger className="bg-gray-700 border-gray-600">
+                <SelectValue placeholder="Select Tactical Role" />
+              </SelectTrigger>
+              <SelectContent className="bg-gray-800 border-gray-700">
+                {availableTacticalRoles.map(role => (
+                  <SelectItem key={role} value={role}>
+                    {role}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

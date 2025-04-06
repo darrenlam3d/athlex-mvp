@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ChevronRight, Save, Plus, X } from 'lucide-react';
 import { useProfile } from '@/contexts/ProfileContext';
 import { useToast } from '@/hooks/use-toast';
+import { positionOptions, getTacticalRolesForPosition } from '@/utils/footballPositions';
 
 const FootballProfile = () => {
   const { profileData, updateProfile } = useProfile();
@@ -18,48 +19,42 @@ const FootballProfile = () => {
   const [preferredFoot, setPreferredFoot] = useState(profileData.preferredFoot || 'right');
   const [primaryPosition, setPrimaryPosition] = useState(profileData.position || 'CM');
   const [secondaryPositions, setSecondaryPositions] = useState(['CAM', 'CDM']);
-  const [tacticalRoles, setTacticalRoles] = useState([profileData.tacticalRole || 'Roaming Playmaker', 'Deep-Lying Playmaker']);
+  const [tacticalRoles, setTacticalRoles] = useState<string[]>([]);
   const [jerseyNumber, setJerseyNumber] = useState(profileData.jerseyNumber || '8');
   const [playerStrengths, setPlayerStrengths] = useState(profileData.strengths?.join(', ') || 'Strong passing range, good vision, high work rate, comfortable in possession, tactical discipline, and leadership qualities.');
   const [developmentGoals, setDevelopmentGoals] = useState(profileData.developmentGoals?.join(', ') || 'Improving aerial ability, increasing shooting accuracy from outside the box, and developing better defensive positioning when out of possession.');
+  const [availableTacticalRoles, setAvailableTacticalRoles] = useState<string[]>([]);
+  const [newTacticalRole, setNewTacticalRole] = useState('');
 
-  const positionOptions = [
-    { value: 'GK', label: 'Goalkeeper' },
-    { value: 'RB', label: 'Right Back' },
-    { value: 'CB', label: 'Center Back' },
-    { value: 'LB', label: 'Left Back' },
-    { value: 'RWB', label: 'Right Wing Back' },
-    { value: 'LWB', label: 'Left Wing Back' },
-    { value: 'CDM', label: 'Defensive Midfielder' },
-    { value: 'CM', label: 'Central Midfielder' },
-    { value: 'CAM', label: 'Attacking Midfielder' },
-    { value: 'RM', label: 'Right Midfielder' },
-    { value: 'LM', label: 'Left Midfielder' },
-    { value: 'RW', label: 'Right Winger' },
-    { value: 'LW', label: 'Left Winger' },
-    { value: 'CF', label: 'Center Forward' },
-    { value: 'ST', label: 'Striker' },
-  ];
+  // Load tactical roles based on position
+  useEffect(() => {
+    // Get roles for the selected position
+    const positionRoles = getTacticalRolesForPosition(primaryPosition);
+    setAvailableTacticalRoles(positionRoles);
+    
+    // If current tactical roles don't match the position, reset them
+    const currentRoleValid = tacticalRoles.length > 0 && 
+      positionRoles.some(role => role === tacticalRoles[0]);
+    
+    if (!currentRoleValid && positionRoles.length > 0) {
+      // Set default role as the first available for this position
+      setTacticalRoles([positionRoles[0]]);
+    }
+  }, [primaryPosition]);
   
-  const roleOptions = [
-    "Ball-Winning Midfielder",
-    "Box-to-Box Midfielder",
-    "Deep-Lying Playmaker",
-    "Advanced Playmaker",
-    "Anchor Man",
-    "Regista",
-    "Mezzala",
-    "Carrilero",
-    "Segundo Volante",
-    "Roaming Playmaker",
-  ];
-  
-  const removeSecondaryPosition = (pos: string) => {
-    setSecondaryPositions(secondaryPositions.filter(p => p !== pos));
+  const handleAddTacticalRole = () => {
+    if (newTacticalRole && !tacticalRoles.includes(newTacticalRole) && tacticalRoles.length < 3) {
+      setTacticalRoles([...tacticalRoles, newTacticalRole]);
+      setNewTacticalRole('');
+    }
   };
   
   const removeTacticalRole = (role: string) => {
     setTacticalRoles(tacticalRoles.filter(r => r !== role));
+  };
+  
+  const removeSecondaryPosition = (pos: string) => {
+    setSecondaryPositions(secondaryPositions.filter(p => p !== pos));
   };
 
   const handleSaveProfile = () => {
@@ -184,7 +179,11 @@ const FootballProfile = () => {
               <span className="text-xs text-gray-400">{secondaryPositions.length}/3 selected</span>
             </div>
             
-            <Select>
+            <Select onValueChange={(value) => {
+              if (!secondaryPositions.includes(value) && secondaryPositions.length < 3) {
+                setSecondaryPositions([...secondaryPositions, value]);
+              }
+            }}>
               <SelectTrigger className="bg-gray-800 border-gray-700">
                 <SelectValue placeholder="Add position" />
               </SelectTrigger>
@@ -222,16 +221,20 @@ const FootballProfile = () => {
           
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <Label>Tactical Roles</Label>
+              <Label>Tactical Roles for {primaryPosition}</Label>
               <span className="text-xs text-gray-400">{tacticalRoles.length}/3 selected</span>
             </div>
             
-            <Select>
+            <Select 
+              value={newTacticalRole} 
+              onValueChange={setNewTacticalRole}
+              disabled={tacticalRoles.length >= 3 || availableTacticalRoles.length === 0}
+            >
               <SelectTrigger className="bg-gray-800 border-gray-700">
                 <SelectValue placeholder="Add tactical role" />
               </SelectTrigger>
               <SelectContent className="bg-gray-800 border-gray-700">
-                {roleOptions
+                {availableTacticalRoles
                   .filter(role => !tacticalRoles.includes(role))
                   .map(role => (
                     <SelectItem key={role} value={role}>
@@ -240,6 +243,16 @@ const FootballProfile = () => {
                   ))}
               </SelectContent>
             </Select>
+            
+            <div className="flex justify-end">
+              <Button 
+                size="sm" 
+                onClick={handleAddTacticalRole}
+                disabled={!newTacticalRole || tacticalRoles.length >= 3}
+              >
+                Add Role
+              </Button>
+            </div>
             
             <div className="flex flex-wrap gap-2 pt-2">
               {tacticalRoles.map(role => (
@@ -253,8 +266,17 @@ const FootballProfile = () => {
                   </button>
                 </Badge>
               ))}
-              {tacticalRoles.length < 3 && (
-                <Badge variant="outline" className="bg-gray-800/50 hover:bg-gray-800 cursor-pointer">
+              {tacticalRoles.length < 3 && tacticalRoles.length < availableTacticalRoles.length && (
+                <Badge 
+                  variant="outline" 
+                  className="bg-gray-800/50 hover:bg-gray-800 cursor-pointer"
+                  onClick={() => {
+                    const availableRole = availableTacticalRoles.find(role => !tacticalRoles.includes(role));
+                    if (availableRole) {
+                      setNewTacticalRole(availableRole);
+                    }
+                  }}
+                >
                   <Plus className="h-3 w-3 mr-1" />
                   Add Role
                 </Badge>
