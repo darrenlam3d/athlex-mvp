@@ -64,7 +64,7 @@ const BenchmarkComparison = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground min-h-[650px]">
+    <Card className="border-gray-700 bg-card text-card-foreground min-h-[700px]">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Benchmark Comparison</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
@@ -73,8 +73,26 @@ const BenchmarkComparison = () => {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col space-y-6">
-          {/* Chart container with fixed height and legend position adjusted */}
-          <div className="h-[380px] w-full relative">
+          {/* Legend positioned at the top-right, outside the chart area */}
+          <div className="flex justify-end">
+            <div className="flex space-x-4 text-sm">
+              <div className="flex items-center">
+                <div className="w-3 h-3 rounded-full bg-[#9b87f5] mr-2"></div>
+                <span>You</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-3 h-3 rounded-full bg-[#6b7280] mr-2"></div>
+                <span>Avg. Central Midfielder</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-3 h-3 rounded-full bg-[#f59e0b] mr-2"></div>
+                <span>Top 10%</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Chart container with fixed height */}
+          <div className="h-[400px] w-full">
             <ChartContainer config={chartConfig}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
@@ -94,17 +112,7 @@ const BenchmarkComparison = () => {
                     itemStyle={{ color: '#f3f4f6' }}
                     labelStyle={{ color: '#f3f4f6', fontWeight: 'bold' }}
                   />
-                  <Legend 
-                    verticalAlign="top" 
-                    align="right"
-                    iconType="circle"
-                    iconSize={8}
-                    wrapperStyle={{ 
-                      paddingBottom: "20px",
-                      paddingRight: "10px",
-                      top: "-5px"
-                    }}
-                  />
+                  {/* Removed Legend from within the chart */}
                   <Bar dataKey="average" fill="var(--color-average)" />
                   <Bar dataKey="you" fill="var(--color-you)" />
                   <Bar dataKey="top10" fill="var(--color-top10)" />
@@ -113,8 +121,8 @@ const BenchmarkComparison = () => {
             </ChartContainer>
           </div>
           
-          {/* Insights section - now clearly below the chart with proper spacing */}
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Insights section - properly positioned below the chart */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-gray-800/30 rounded-lg p-4">
               <h4 className="text-athlex-accent font-medium">Top Performance</h4>
               <p className="text-sm mt-1">Your passing accuracy (92%) is in the top 15% of central midfielders in your age group.</p>

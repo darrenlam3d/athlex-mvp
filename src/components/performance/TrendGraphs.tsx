@@ -55,7 +55,7 @@ const TrendGraphs = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground min-h-[650px]">
+    <Card className="border-gray-700 bg-card text-card-foreground min-h-[700px]">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Performance Trends</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
@@ -72,8 +72,8 @@ const TrendGraphs = () => {
           
           <TabsContent value="weekly" className="pt-4">
             <div className="flex flex-col space-y-6">
-              {/* Chart container with fixed height */}
-              <div className="h-[380px] w-full">
+              {/* Chart container with fixed height - separate from insights */}
+              <div className="h-[400px] w-full">
                 <ChartContainer config={chartConfig}>
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
@@ -113,8 +113,8 @@ const TrendGraphs = () => {
                 </ChartContainer>
               </div>
               
-              {/* Insights box - now clearly below the chart with proper spacing */}
-              <div className="bg-gray-800/30 p-4 rounded-lg mt-6">
+              {/* Insights box - clearly positioned below the chart with proper spacing */}
+              <div className="bg-gray-800/30 p-4 rounded-lg mt-8">
                 <h4 className="font-medium text-athlex-accent">Weekly Insights</h4>
                 <p className="text-sm mt-1">Your passing accuracy has improved significantly this week (+8%). Keep up the consistent technical training!</p>
               </div>
@@ -123,8 +123,8 @@ const TrendGraphs = () => {
           
           <TabsContent value="monthly" className="pt-4">
             <div className="flex flex-col space-y-6">
-              {/* Chart container with fixed height */}
-              <div className="h-[380px] w-full">
+              {/* Chart container with fixed height - separate from insights */}
+              <div className="h-[400px] w-full">
                 <ChartContainer config={chartConfig}>
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
@@ -164,8 +164,8 @@ const TrendGraphs = () => {
                 </ChartContainer>
               </div>
               
-              {/* Insights box - now clearly below the chart with proper spacing */}
-              <div className="bg-gray-800/30 p-4 rounded-lg mt-6">
+              {/* Insights box - clearly positioned below the chart with proper spacing */}
+              <div className="bg-gray-800/30 p-4 rounded-lg mt-8">
                 <h4 className="font-medium text-athlex-accent">Monthly Insights</h4>
                 <p className="text-sm mt-1">Your overall performance has shown steady improvement over the past 3 months. Distance covered, speed, and passing accuracy are all trending upward.</p>
               </div>

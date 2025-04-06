@@ -20,40 +20,40 @@ const Performance = () => {
           {/* Main content */}
           <div className="flex-1 p-4 md:p-6 overflow-y-auto">
             <div className="max-w-6xl mx-auto">
-              <h1 className="text-2xl md:text-3xl font-bold mb-6">My Performance</h1>
+              <h1 className="text-2xl md:text-3xl font-bold mb-8">My Performance</h1>
               
               {/* Performance Timeline */}
-              <div className="mb-10">
+              <div className="mb-12">
                 <PerformanceTimeline />
               </div>
               
               {/* Stat Breakdown */}
-              <div className="mb-10">
+              <div className="mb-12">
                 <StatBreakdown />
               </div>
               
               {/* Trend Graphs - With more vertical space */}
-              <div className="mb-12">
+              <div className="mb-16">
                 <TrendGraphs />
               </div>
               
               {/* Benchmark Comparison - With more vertical space */}
-              <div className="mb-12">
+              <div className="mb-16">
                 <BenchmarkComparison />
               </div>
               
               {/* Goal Progress Snapshot */}
-              <div className="mb-10">
+              <div className="mb-12">
                 <GoalProgressSnapshot />
               </div>
               
               {/* Personal Bests & Highlights */}
-              <div className="mb-10">
+              <div className="mb-12">
                 <PersonalBests />
               </div>
               
               {/* Download Report */}
-              <div className="mb-10">
+              <div className="mb-12">
                 <DownloadReport />
               </div>
             </div>
