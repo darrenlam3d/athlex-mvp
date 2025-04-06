@@ -72,13 +72,13 @@ const TrendGraphs = () => {
           
           <TabsContent value="weekly" className="pt-6">
             <div className="flex flex-col">
-              {/* Chart container with fixed height and appropriate bottom margin */}
-              <div className="h-[450px] w-full bg-gray-800/20 rounded-md p-4 mb-8">
+              {/* Chart container with reduced height and proper spacing */}
+              <div className="h-[350px] w-full bg-gray-800/20 rounded-md p-4 mb-4">
                 <ChartContainer config={chartConfig}>
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={weeklyData}
-                      margin={{ top: 20, right: 20, left: 10, bottom: 20 }} 
+                      margin={{ top: 15, right: 15, left: 10, bottom: 15 }} 
                     >
                       <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                       <XAxis dataKey="day" stroke="#9ca3af" />
@@ -113,8 +113,8 @@ const TrendGraphs = () => {
                 </ChartContainer>
               </div>
               
-              {/* Insights box positioned with a reasonable margin below the chart */}
-              <div className="mt-6 bg-gray-800/30 p-5 rounded-lg">
+              {/* Insights box with appropriate spacing */}
+              <div className="mt-2 bg-gray-800/30 p-5 rounded-lg">
                 <h4 className="font-medium text-athlex-accent text-lg">Weekly Insights</h4>
                 <p className="text-sm mt-2">Your passing accuracy has improved significantly this week (+8%). Keep up the consistent technical training!</p>
               </div>
@@ -123,13 +123,13 @@ const TrendGraphs = () => {
           
           <TabsContent value="monthly" className="pt-6">
             <div className="flex flex-col">
-              {/* Chart container with fixed height and appropriate bottom margin */}
-              <div className="h-[450px] w-full bg-gray-800/20 rounded-md p-4 mb-8">
+              {/* Chart container with reduced height and proper spacing */}
+              <div className="h-[350px] w-full bg-gray-800/20 rounded-md p-4 mb-4">
                 <ChartContainer config={chartConfig}>
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={monthlyData}
-                      margin={{ top: 20, right: 20, left: 10, bottom: 20 }} 
+                      margin={{ top: 15, right: 15, left: 10, bottom: 15 }} 
                     >
                       <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                       <XAxis dataKey="month" stroke="#9ca3af" />
@@ -164,8 +164,8 @@ const TrendGraphs = () => {
                 </ChartContainer>
               </div>
               
-              {/* Insights box positioned with a reasonable margin below the chart */}
-              <div className="mt-6 bg-gray-800/30 p-5 rounded-lg">
+              {/* Insights box with appropriate spacing */}
+              <div className="mt-2 bg-gray-800/30 p-5 rounded-lg">
                 <h4 className="font-medium text-athlex-accent text-lg">Monthly Insights</h4>
                 <p className="text-sm mt-2">Your overall performance has shown steady improvement over the past 3 months. Distance covered, speed, and passing accuracy are all trending upward.</p>
               </div>

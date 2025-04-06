@@ -90,17 +90,17 @@ const BenchmarkComparison = () => {
           </div>
         </div>
         
-        {/* Chart container with fixed height and clear bottom margin */}
-        <div className="h-[450px] w-full bg-gray-800/20 rounded-md p-4 mb-8">
+        {/* Chart container with reduced height and proper spacing */}
+        <div className="h-[350px] w-full bg-gray-800/20 rounded-md p-4 mb-4">
           <ChartContainer config={chartConfig}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={benchmarkData}
                 margin={{
-                  top: 20,
-                  right: 30,
+                  top: 15,
+                  right: 15,
                   left: 10,
-                  bottom: 20,
+                  bottom: 15,
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -119,8 +119,8 @@ const BenchmarkComparison = () => {
           </ChartContainer>
         </div>
         
-        {/* Insights section - with a reasonable margin */}
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Insights section with appropriate spacing */}
+        <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-gray-800/30 rounded-lg p-5">
             <h4 className="text-athlex-accent font-medium text-lg">Top Performance</h4>
             <p className="text-sm mt-2">Your passing accuracy (92%) is in the top 15% of central midfielders in your age group.</p>
