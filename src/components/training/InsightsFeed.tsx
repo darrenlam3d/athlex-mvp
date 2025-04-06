@@ -8,8 +8,8 @@ const InsightsFeed = () => {
     {
       id: 1,
       type: 'tip',
-      title: 'Improving Your Off-Hand Dribbling',
-      content: 'Based on your recent performance metrics, focusing on strengthening your left-hand dribbling could improve your overall ball control by up to 15%. Try the "Figure 8" drill with emphasis on your weaker hand.',
+      title: 'Improving Your Weak Foot Control',
+      content: 'Based on your recent performance metrics, focusing on strengthening your left-foot passing could improve your overall ball control by up to 15%. Try the "Mirror Drill" with emphasis on your weaker foot.',
       source: 'AI Coach',
       likes: 24,
       comments: 3,
@@ -18,8 +18,8 @@ const InsightsFeed = () => {
     {
       id: 2,
       type: 'video',
-      title: 'Quick-Release Shooting Technique',
-      content: 'This drill focuses on reducing your shot preparation time, which our analysis shows could create 2-3 more scoring opportunities per game.',
+      title: 'First-Time Passing Technique',
+      content: 'This drill focuses on improving your one-touch passing, which our analysis shows could create 2-3 more attacking opportunities per game.',
       source: 'Coach Williams',
       thumbnail: 'https://images.unsplash.com/photo-1574623452334-1e0ac2b3ccb4',
       duration: '3:42',
@@ -30,8 +30,8 @@ const InsightsFeed = () => {
     {
       id: 3,
       type: 'article',
-      title: 'Recovery Nutrition for Point Guards',
-      content: "Your training intensity has increased by 20% this month. Here's how to adjust your nutrition to support recovery and performance.",
+      title: 'Recovery Nutrition for Central Midfielders',
+      content: "Your training intensity has increased by 20% this month. Here is how to adjust your nutrition to support recovery and performance.",
       source: 'Sports Nutritionist',
       readTime: '4 min read',
       likes: 32,

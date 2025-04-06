@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button';
 const TrainingCalendar = () => {
   // Sample training data for the month
   const trainingSessions = [
-    { date: '2025-04-01', type: 'Shooting', completed: true },
-    { date: '2025-04-03', type: 'Ball Handling', completed: true },
-    { date: '2025-04-05', type: 'Conditioning', completed: true },
-    { date: '2025-04-08', type: 'Team Practice', completed: false },
-    { date: '2025-04-10', type: 'Shooting', completed: false },
-    { date: '2025-04-12', type: 'Game', completed: false },
+    { date: '2025-04-01', type: 'Technical', completed: true },
+    { date: '2025-04-03', type: 'Sprint Work', completed: true },
+    { date: '2025-04-05', type: 'Tactical', completed: true },
+    { date: '2025-04-08', type: 'Team Training', completed: false },
+    { date: '2025-04-10', type: 'Ball Control', completed: false },
+    { date: '2025-04-12', type: 'Match', completed: false },
     { date: '2025-04-15', type: 'Recovery', completed: false },
   ];
 

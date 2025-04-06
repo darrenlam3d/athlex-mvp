@@ -6,11 +6,11 @@ import { Video } from 'lucide-react';
 
 const StatBreakdown = () => {
   const stats = [
-    { name: 'Speed', value: 86, unit: 'mph' },
-    { name: 'Agility', value: 92, unit: '' },
-    { name: 'Endurance', value: 78, unit: '' },
-    { name: 'Shooting', value: 89, unit: '%' },
-    { name: 'Ball Control', value: 84, unit: '' }
+    { name: 'Distance', value: 8.6, unit: 'km' },
+    { name: 'Top Speed', value: 32, unit: 'km/h' },
+    { name: 'Sprint Count', value: 14, unit: '' },
+    { name: 'Pass Completion', value: 85, unit: '%' },
+    { name: 'Ball Recoveries', value: 6, unit: '' }
   ];
 
   return (
@@ -40,7 +40,7 @@ const StatBreakdown = () => {
                   <div className="w-full bg-gray-700 rounded-full h-1.5 mt-2">
                     <div 
                       className="bg-athlex-accent h-1.5 rounded-full" 
-                      style={{ width: `${stat.value}%` }}
+                      style={{ width: `${stat.unit === '%' ? stat.value : (stat.value * 10)}%` }}
                     ></div>
                   </div>
                 </div>
@@ -59,7 +59,7 @@ const StatBreakdown = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-gray-800/30 rounded-lg p-4">
                   <div className="text-sm text-gray-400">Session Type</div>
-                  <div className="mt-1 font-medium">Shooting Drills</div>
+                  <div className="mt-1 font-medium">Sprint Drills</div>
                 </div>
                 <div className="bg-gray-800/30 rounded-lg p-4">
                   <div className="text-sm text-gray-400">Duration</div>
@@ -77,7 +77,7 @@ const StatBreakdown = () => {
               <div className="bg-gray-800/30 rounded-lg p-4">
                 <div className="text-sm text-gray-400">Notes</div>
                 <div className="mt-1 text-sm">
-                  Focus on 3-point shooting from various positions. Worked on quick release and form consistency. Improved accuracy by 5% compared to last session.
+                  Focus on high-intensity sprints from various starting positions. Worked on acceleration and first-step explosiveness. Improved top speed by 1.2 km/h compared to last session.
                 </div>
               </div>
             </div>

@@ -7,52 +7,52 @@ const PersonalBests = () => {
   const personalBests = [
     {
       id: 1,
-      category: 'Shooting',
-      metric: '3-point accuracy',
-      value: '42%',
+      category: 'Speed',
+      metric: 'Top Speed',
+      value: '33.2 km/h',
       date: 'Apr 1, 2025',
       icon: <Award className="h-5 w-5 text-yellow-500" />,
-      improvement: '+8% from previous best'
+      improvement: '+1.8 km/h from previous best'
     },
     {
       id: 2,
       category: 'Physical',
-      metric: 'Vertical Jump',
-      value: '30 inches',
+      metric: 'Distance Covered',
+      value: '12.3 km',
       date: 'Mar 25, 2025',
       icon: <Award className="h-5 w-5 text-yellow-500" />,
-      improvement: '+2 inches from previous best'
+      improvement: '+0.5 km from previous best'
     },
     {
       id: 3,
       category: 'Game',
-      metric: 'Points Scored',
-      value: '28 pts',
+      metric: 'Pass Completion',
+      value: '92%',
       date: 'Mar 18, 2025',
       icon: <Award className="h-5 w-5 text-yellow-500" />,
-      improvement: '+5 points from previous best'
+      improvement: '+7% from previous best'
     }
   ];
 
   const badges = [
     {
       id: 1,
-      name: 'Sharpshooter',
-      description: 'Achieved 40%+ 3-point accuracy',
+      name: 'Midfield Maestro',
+      description: 'Achieved 90%+ pass completion rate',
       date: 'Apr 1, 2025',
       icon: '🎯'
     },
     {
       id: 2,
-      name: 'Consistency King',
-      description: 'Trained 5+ days per week for a month',
+      name: 'High-Intensity Engine',
+      description: 'Maintained 8+ km distance for 5 consecutive matches',
       date: 'Mar 31, 2025',
-      icon: '📊'
+      icon: '⚡'
     },
     {
       id: 3,
       name: 'Team Player',
-      description: '10+ assists in a single game',
+      description: '5+ assists in a single month',
       date: 'Mar 18, 2025',
       icon: '🤝'
     }

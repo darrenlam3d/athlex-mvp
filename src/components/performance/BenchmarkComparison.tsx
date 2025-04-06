@@ -13,25 +13,25 @@ const BenchmarkComparison = () => {
       top10: 92,
     },
     {
-      name: 'Agility',
+      name: 'Endurance',
       you: 80,
       average: 72,
       top10: 90,
     },
     {
-      name: 'Endurance',
+      name: 'Ball Control',
       you: 75,
       average: 68,
       top10: 88,
     },
     {
-      name: 'Shooting',
+      name: 'Passing',
       you: 92,
       average: 75,
       top10: 95,
     },
     {
-      name: 'Ball Control',
+      name: 'Positioning',
       you: 88,
       average: 73,
       top10: 94,
@@ -48,7 +48,7 @@ const BenchmarkComparison = () => {
       }
     },
     average: {
-      label: "Avg. Point Guard",
+      label: "Avg. Central Midfielder",
       theme: {
         light: "#6b7280",
         dark: "#6b7280"
@@ -68,7 +68,7 @@ const BenchmarkComparison = () => {
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Benchmark Comparison</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
-          How you compare to similar players (Point Guards, Age 22-25)
+          How you compare to similar players (Central Midfielders, Age 22-25)
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -103,11 +103,11 @@ const BenchmarkComparison = () => {
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-gray-800/30 rounded-lg p-4">
             <h4 className="text-athlex-accent font-medium">Top Performance</h4>
-            <p className="text-sm mt-1">Your shooting accuracy (92%) is in the top 15% of point guards in your age group.</p>
+            <p className="text-sm mt-1">Your passing accuracy (92%) is in the top 15% of central midfielders in your age group.</p>
           </div>
           <div className="bg-gray-800/30 rounded-lg p-4">
             <h4 className="text-athlex-accent font-medium">Area to Improve</h4>
-            <p className="text-sm mt-1">Your endurance (75%) is above average but has the largest gap compared to top performers.</p>
+            <p className="text-sm mt-1">Your ball control (75%) is above average but has the largest gap compared to top performers.</p>
           </div>
         </div>
       </CardContent>

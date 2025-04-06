@@ -12,41 +12,41 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tool
 const TrendGraphs = () => {
   // Weekly performance data
   const weeklyData = [
-    { day: 'Mon', shooting: 78, speed: 82, agility: 75 },
-    { day: 'Tue', shooting: 80, speed: 83, agility: 79 },
-    { day: 'Wed', shooting: 84, speed: 81, agility: 80 },
-    { day: 'Thu', shooting: 82, speed: 85, agility: 83 },
-    { day: 'Fri', shooting: 86, speed: 87, agility: 82 },
-    { day: 'Sat', shooting: 90, speed: 86, agility: 84 },
-    { day: 'Sun', shooting: 88, speed: 89, agility: 86 }
+    { day: 'Mon', distance: 7.8, speed: 31.2, passing: 82 },
+    { day: 'Tue', distance: 8.2, speed: 31.5, passing: 84 },
+    { day: 'Wed', distance: 8.4, speed: 32.0, passing: 86 },
+    { day: 'Thu', distance: 8.6, speed: 32.3, passing: 85 },
+    { day: 'Fri', distance: 9.0, speed: 32.8, passing: 87 },
+    { day: 'Sat', distance: 9.2, speed: 33.0, passing: 89 },
+    { day: 'Sun', distance: 9.1, speed: 32.9, passing: 90 }
   ];
 
   // Monthly performance data
   const monthlyData = [
-    { month: 'Jan', shooting: 70, speed: 75, agility: 68 },
-    { month: 'Feb', shooting: 74, speed: 78, agility: 72 },
-    { month: 'Mar', shooting: 79, speed: 81, agility: 76 },
-    { month: 'Apr', shooting: 85, speed: 84, agility: 80 },
+    { month: 'Jan', distance: 7.0, speed: 30.2, passing: 78 },
+    { month: 'Feb', distance: 7.8, speed: 31.0, passing: 82 },
+    { month: 'Mar', distance: 8.5, speed: 32.1, passing: 86 },
+    { month: 'Apr', distance: 9.0, speed: 32.9, passing: 90 },
   ];
 
   // Chart configuration for styling
   const chartConfig = {
-    shooting: {
-      label: "Shooting",
+    distance: {
+      label: "Distance (km)",
       theme: {
         light: "#9b87f5",
         dark: "#9b87f5"
       }
     },
     speed: {
-      label: "Speed",
+      label: "Top Speed (km/h)",
       theme: {
         light: "#6ee7b7",
         dark: "#6ee7b7"
       }
     },
-    agility: {
-      label: "Agility",
+    passing: {
+      label: "Passing (%)",
       theme: {
         light: "#93c5fd",
         dark: "#93c5fd"
@@ -84,10 +84,10 @@ const TrendGraphs = () => {
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <Line 
                       type="monotone" 
-                      dataKey="shooting" 
-                      stroke="var(--color-shooting)" 
+                      dataKey="distance" 
+                      stroke="var(--color-distance)" 
                       strokeWidth={2}
-                      dot={{ fill: "var(--color-shooting)", r: 4 }}
+                      dot={{ fill: "var(--color-distance)", r: 4 }}
                       activeDot={{ r: 6 }}
                     />
                     <Line 
@@ -100,10 +100,10 @@ const TrendGraphs = () => {
                     />
                     <Line 
                       type="monotone" 
-                      dataKey="agility" 
-                      stroke="var(--color-agility)" 
+                      dataKey="passing" 
+                      stroke="var(--color-passing)" 
                       strokeWidth={2}
-                      dot={{ fill: "var(--color-agility)", r: 4 }}
+                      dot={{ fill: "var(--color-passing)", r: 4 }}
                       activeDot={{ r: 6 }}
                     />
                   </LineChart>
@@ -112,7 +112,7 @@ const TrendGraphs = () => {
             </div>
             <div className="mt-4 bg-gray-800/30 p-3 rounded-lg">
               <h4 className="font-medium text-athlex-accent">Weekly Insights</h4>
-              <p className="text-sm mt-1">Your shooting accuracy has improved significantly this week (+10%). Keep up the consistent practice!</p>
+              <p className="text-sm mt-1">Your passing accuracy has improved significantly this week (+8%). Keep up the consistent technical training!</p>
             </div>
           </TabsContent>
           
@@ -130,10 +130,10 @@ const TrendGraphs = () => {
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <Line 
                       type="monotone" 
-                      dataKey="shooting" 
-                      stroke="var(--color-shooting)" 
+                      dataKey="distance" 
+                      stroke="var(--color-distance)" 
                       strokeWidth={2}
-                      dot={{ fill: "var(--color-shooting)", r: 4 }}
+                      dot={{ fill: "var(--color-distance)", r: 4 }}
                       activeDot={{ r: 6 }}
                     />
                     <Line 
@@ -146,10 +146,10 @@ const TrendGraphs = () => {
                     />
                     <Line 
                       type="monotone" 
-                      dataKey="agility" 
-                      stroke="var(--color-agility)" 
+                      dataKey="passing" 
+                      stroke="var(--color-passing)" 
                       strokeWidth={2}
-                      dot={{ fill: "var(--color-agility)", r: 4 }}
+                      dot={{ fill: "var(--color-passing)", r: 4 }}
                       activeDot={{ r: 6 }}
                     />
                   </LineChart>
@@ -158,7 +158,7 @@ const TrendGraphs = () => {
             </div>
             <div className="mt-4 bg-gray-800/30 p-3 rounded-lg">
               <h4 className="font-medium text-athlex-accent">Monthly Insights</h4>
-              <p className="text-sm mt-1">Your overall performance has shown steady improvement over the past 3 months. All metrics are trending upward.</p>
+              <p className="text-sm mt-1">Your overall performance has shown steady improvement over the past 3 months. Distance covered, speed, and passing accuracy are all trending upward.</p>
             </div>
           </TabsContent>
           

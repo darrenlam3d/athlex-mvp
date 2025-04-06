@@ -8,37 +8,37 @@ const SkillBuilder = () => {
   const programs = [
     {
       id: 1,
-      title: 'Elite Point Guard Development',
-      description: 'Master the essentials of playmaking, vision, and court leadership',
+      title: 'Elite Box-to-Box Midfielder Development',
+      description: 'Master the essentials of all-round midfield play, stamina, and tactical awareness',
       progress: 65,
       totalStages: 5,
       completedStages: 3,
       currentStage: {
-        title: 'Advanced Ball Handling',
-        description: 'Develop elite dribbling skills under pressure',
+        title: 'Advanced Ball Control',
+        description: 'Develop elite close control under pressure',
         drills: [
-          { id: 1, name: 'Crossover Combinations', completed: true },
-          { id: 2, name: 'Behind-the-Back Mastery', completed: true },
-          { id: 3, name: 'Hesitation Dribble Series', completed: false },
-          { id: 4, name: 'Full-Court Pressure Handling', completed: false }
+          { id: 1, name: 'First Touch Optimization', completed: true },
+          { id: 2, name: 'Tight Space Control', completed: true },
+          { id: 3, name: 'Progressive Carry Training', completed: false },
+          { id: 4, name: 'Pressure Resistance Drills', completed: false }
         ]
       }
     },
     {
       id: 2,
-      title: 'Shooting Specialist',
-      description: 'Develop consistent and reliable shooting form from anywhere on the court',
+      title: 'Explosive Winger Development',
+      description: 'Develop pace, crossing accuracy and 1v1 dribbling skills',
       progress: 30,
       totalStages: 4,
       completedStages: 1,
       currentStage: {
-        title: 'Catch & Shoot Fundamentals',
-        description: 'Perfect your catch and shoot technique',
+        title: 'Take-On Fundamentals',
+        description: 'Perfect your 1v1 skills against defenders',
         drills: [
-          { id: 1, name: 'Footwork Positioning', completed: true },
-          { id: 2, name: 'Quick Release Training', completed: false },
-          { id: 3, name: 'Off-Screen Shooting', completed: false },
-          { id: 4, name: 'Game-Speed Repetitions', completed: false }
+          { id: 1, name: 'Step-Over Technique', completed: true },
+          { id: 2, name: 'Pace Change Training', completed: false },
+          { id: 3, name: 'Cut Inside Movement', completed: false },
+          { id: 4, name: 'Sprint-Dribble Balance', completed: false }
         ]
       }
     }

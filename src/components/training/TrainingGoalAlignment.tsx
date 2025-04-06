@@ -7,27 +7,27 @@ const TrainingGoalAlignment = () => {
   const goalAlignments = [
     {
       id: 1,
-      goal: 'Improve 3-point shooting accuracy to 45%',
+      goal: 'Improve pass completion to 90%',
       status: 'good',
-      training: '6 shooting sessions in last 14 days',
-      analysis: 'Your training frequency supports this goal. Recent shooting accuracy is trending upward (+3%).',
+      training: '6 passing sessions in last 14 days',
+      analysis: 'Your training frequency supports this goal. Recent passing accuracy is trending upward (+3%).',
       suggestion: null
     },
     {
       id: 2,
-      goal: 'Increase vertical jump to 32 inches',
+      goal: 'Increase top speed to 33 km/h',
       status: 'poor',
-      training: '1 leg strength training in last 14 days',
-      analysis: 'Insufficient leg strength training to support your vertical jump goal.',
-      suggestion: 'Add 2 plyometric sessions per week to accelerate progress.'
+      training: '1 sprint training in last 14 days',
+      analysis: 'Insufficient speed training to support your top speed goal.',
+      suggestion: 'Add 2 sprint sessions per week to accelerate progress.'
     },
     {
       id: 3,
-      goal: 'Improve defensive footwork',
+      goal: 'Improve defensive positioning',
       status: 'moderate',
-      training: '3 agility sessions in last 14 days',
+      training: '3 tactical sessions in last 14 days',
       analysis: 'Your training frequency is adequate but could be more specialized.',
-      suggestion: 'Try adding defensive slide drills to your agility work.'
+      suggestion: 'Try adding defensive shadow drills to your tactical work.'
     }
   ];
 
@@ -112,7 +112,7 @@ const TrainingGoalAlignment = () => {
               Overall Goal Alignment
             </h3>
             <p className="text-sm mt-2">
-              Your training is well-aligned with 1 of 3 goals. Consider adjusting your training schedule to better support your vertical jump goal, which currently has insufficient training activity.
+              Your training is well-aligned with 1 of 3 goals. Consider adjusting your training schedule to better support your top speed goal, which currently has insufficient training activity.
             </p>
           </div>
         </div>

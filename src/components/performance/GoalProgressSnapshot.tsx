@@ -7,25 +7,25 @@ const GoalProgressSnapshot = () => {
   const goals = [
     {
       id: 1,
-      title: 'Improve 3-point shooting accuracy',
-      target: '45%',
-      current: '38%',
+      title: 'Improve passing accuracy',
+      target: '90%',
+      current: '85%',
       progress: 84,
       dueDate: 'May 1, 2025',
       status: 'on-track'
     },
     {
       id: 2,
-      title: 'Increase vertical jump',
-      target: '32 inches',
-      current: '29 inches',
+      title: 'Increase top speed',
+      target: '33 km/h',
+      current: '32 km/h',
       progress: 70,
       dueDate: 'June 15, 2025',
       status: 'on-track'
     },
     {
       id: 3,
-      title: 'Improve defensive footwork',
+      title: 'Improve defensive positioning',
       target: 'Advanced',
       current: 'Intermediate',
       progress: 60,

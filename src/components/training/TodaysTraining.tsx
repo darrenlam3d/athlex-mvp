@@ -27,15 +27,15 @@ const TodaysTraining = () => {
               <Dumbbell className="h-5 w-5 text-athlex-accent" />
             </div>
             <div>
-              <h3 className="font-medium">Explosive Ball Handling Circuit</h3>
-              <p className="text-sm text-gray-400">Focus: Speed, control, and decision-making</p>
+              <h3 className="font-medium">Explosive Wing Play Circuit</h3>
+              <p className="text-sm text-gray-400">Focus: Speed, ball control, and decision-making</p>
             </div>
           </div>
           
           <div className="relative aspect-video rounded-lg overflow-hidden group">
             <img 
               src="https://images.unsplash.com/photo-1546519638-68e109498ffc" 
-              alt="Basketball training drill" 
+              alt="Football training drill" 
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
@@ -50,19 +50,19 @@ const TodaysTraining = () => {
             <ul className="space-y-2">
               <li className="flex gap-2">
                 <span className="h-2 w-2 bg-athlex-accent rounded-full mt-2"></span>
-                <span className="text-sm flex-1">5 minutes: Warm-up with dynamic stretching</span>
+                <span className="text-sm flex-1">5 minutes: Dynamic warm-up with ball</span>
               </li>
               <li className="flex gap-2">
                 <span className="h-2 w-2 bg-athlex-accent rounded-full mt-2"></span>
-                <span className="text-sm flex-1">10 minutes: Figure-8 dribbling around cones</span>
+                <span className="text-sm flex-1">10 minutes: Cone dribbling with pace change</span>
               </li>
               <li className="flex gap-2">
                 <span className="h-2 w-2 bg-athlex-accent rounded-full mt-2"></span>
-                <span className="text-sm flex-1">15 minutes: Full-court speed dribbling with pressure</span>
+                <span className="text-sm flex-1">15 minutes: 1v1 take-on drills with crosses</span>
               </li>
               <li className="flex gap-2">
                 <span className="h-2 w-2 bg-athlex-accent rounded-full mt-2"></span>
-                <span className="text-sm flex-1">10 minutes: Decision-making drills with defenders</span>
+                <span className="text-sm flex-1">10 minutes: High-speed combination play</span>
               </li>
               <li className="flex gap-2">
                 <span className="h-2 w-2 bg-athlex-accent rounded-full mt-2"></span>
@@ -74,7 +74,7 @@ const TodaysTraining = () => {
           <div className="bg-gray-800/30 p-4 rounded-lg">
             <h4 className="font-medium mb-2">Why This Matters</h4>
             <p className="text-sm text-gray-300">
-              Based on your recent game performances, improved ball-handling under pressure will boost your assists and reduce turnovers. This directly supports your goal of becoming a more effective point guard.
+              Based on your recent match performances, improved pace with the ball and crossing accuracy will boost your effectiveness in wide areas. This directly supports your goal of becoming a more dynamic winger.
             </p>
           </div>
         </div>

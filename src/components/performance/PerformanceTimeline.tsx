@@ -9,26 +9,26 @@ const PerformanceTimeline = () => {
     {
       id: 1,
       date: '2025-04-03',
-      type: 'Basketball Training',
-      activity: 'Shooting Drills',
+      type: 'Football Training',
+      activity: 'Sprint Drills',
       duration: '90 mins',
-      highlights: 'Improved 3-point accuracy by 5%'
+      highlights: 'Achieved 32.4 km/h top speed, new personal best'
     },
     {
       id: 2,
       date: '2025-04-01',
-      type: 'Game',
-      activity: 'City League Match',
-      duration: '45 mins',
-      highlights: '12 points, 5 assists, 3 rebounds'
+      type: 'Match',
+      activity: 'U23 Academy Match',
+      duration: '70 mins',
+      highlights: '6.8 km covered, 1 assist, 85% pass completion'
     },
     {
       id: 3,
       date: '2025-03-29',
-      type: 'Basketball Training',
-      activity: 'Ball Handling',
+      type: 'Football Training',
+      activity: 'Technical Ball Control',
       duration: '60 mins',
-      highlights: 'Mastered advanced crossover technique'
+      highlights: 'Mastered advanced close control techniques'
     }
   ];
 

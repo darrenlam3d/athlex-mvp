@@ -57,7 +57,7 @@ const RecoveryReadiness = () => {
                 style={{ width: `${readinessScore}%` }}
               ></div>
             </div>
-            <div className="text-xs text-gray-400 mt-2">Based on sleep, recovery, and recent training load</div>
+            <div className="text-xs text-gray-400 mt-2">Based on sleep, recovery, and recent match load</div>
           </div>
           
           <div className="bg-gray-800/30 rounded-lg p-4">
@@ -91,7 +91,7 @@ const RecoveryReadiness = () => {
                 style={{ width: `${muscleReadiness}%` }}
               ></div>
             </div>
-            <div className="text-xs text-gray-400 mt-2">Minor soreness in quads and hamstrings</div>
+            <div className="text-xs text-gray-400 mt-2">Minor fatigue in calves and hamstrings</div>
           </div>
           
           <div className="bg-gray-800/30 rounded-lg p-4">
@@ -106,7 +106,7 @@ const RecoveryReadiness = () => {
               2 bpm above your 7-day average
             </div>
             <div className="text-xs text-yellow-400 mt-1">
-              Slightly elevated, which may indicate incomplete recovery
+              Slightly elevated, which may indicate incomplete recovery from your last match
             </div>
           </div>
         </div>
@@ -116,15 +116,15 @@ const RecoveryReadiness = () => {
           <ul className="space-y-2">
             <li className="flex gap-2">
               <span className="h-2 w-2 bg-athlex-accent rounded-full mt-2"></span>
-              <span className="text-sm flex-1">Focus on light to moderate intensity training today</span>
+              <span className="text-sm flex-1">Focus on light technical training today, avoid high-intensity sprints</span>
             </li>
             <li className="flex gap-2">
               <span className="h-2 w-2 bg-athlex-accent rounded-full mt-2"></span>
-              <span className="text-sm flex-1">Hydrate more than usual (aim for additional 16oz)</span>
+              <span className="text-sm flex-1">Hydrate more than usual (aim for additional 1L)</span>
             </li>
             <li className="flex gap-2">
               <span className="h-2 w-2 bg-athlex-accent rounded-full mt-2"></span>
-              <span className="text-sm flex-1">Consider foam rolling for quads and hamstrings</span>
+              <span className="text-sm flex-1">Consider foam rolling for calves and hamstrings</span>
             </li>
             <li className="flex gap-2">
               <span className="h-2 w-2 bg-athlex-accent rounded-full mt-2"></span>
