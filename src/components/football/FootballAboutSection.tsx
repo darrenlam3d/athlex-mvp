@@ -2,8 +2,11 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { User, CalendarDays, Ruler, Weight } from 'lucide-react';
+import { useProfile } from '@/contexts/ProfileContext';
 
 const FootballAboutSection = () => {
+  const { profileData } = useProfile();
+
   return (
     <Card className="bg-card text-card-foreground border-gray-700">
       <CardHeader className="pb-3">
@@ -11,7 +14,7 @@ const FootballAboutSection = () => {
       </CardHeader>
       <CardContent>
         <p className="text-gray-300 mb-4">
-          Central midfielder with strong technical abilities and vision. Looking to develop into an elite playmaker with improved physical attributes. Passionate about tactical development and game intelligence.
+          {profileData.bio}
         </p>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
@@ -19,7 +22,7 @@ const FootballAboutSection = () => {
             <CalendarDays className="h-5 w-5 text-gray-400" />
             <div>
               <span className="text-xs text-gray-400 block">Age</span>
-              <span className="font-medium">23</span>
+              <span className="font-medium">{profileData.age}</span>
             </div>
           </div>
           
@@ -27,7 +30,7 @@ const FootballAboutSection = () => {
             <Ruler className="h-5 w-5 text-gray-400" />
             <div>
               <span className="text-xs text-gray-400 block">Height</span>
-              <span className="font-medium">180 cm</span>
+              <span className="font-medium">{profileData.height} cm</span>
             </div>
           </div>
           
@@ -35,7 +38,7 @@ const FootballAboutSection = () => {
             <Weight className="h-5 w-5 text-gray-400" />
             <div>
               <span className="text-xs text-gray-400 block">Weight</span>
-              <span className="font-medium">74 kg</span>
+              <span className="font-medium">{profileData.weight} kg</span>
             </div>
           </div>
           
@@ -43,13 +46,32 @@ const FootballAboutSection = () => {
             <User className="h-5 w-5 text-gray-400" />
             <div>
               <span className="text-xs text-gray-400 block">Position</span>
-              <span className="font-medium">CM (Central Midfielder)</span>
+              <span className="font-medium">{profileData.position} ({positionLabelMap[profileData.position]})</span>
             </div>
           </div>
         </div>
       </CardContent>
     </Card>
   );
+};
+
+// Position label mapping
+const positionLabelMap: Record<string, string> = {
+  'GK': 'Goalkeeper',
+  'RB': 'Right Back',
+  'CB': 'Center Back',
+  'LB': 'Left Back',
+  'RWB': 'Right Wing Back',
+  'LWB': 'Left Wing Back',
+  'CDM': 'Defensive Midfielder',
+  'CM': 'Central Midfielder',
+  'CAM': 'Attacking Midfielder',
+  'RM': 'Right Midfielder',
+  'LM': 'Left Midfielder',
+  'RW': 'Right Winger',
+  'LW': 'Left Winger',
+  'CF': 'Center Forward',
+  'ST': 'Striker',
 };
 
 export default FootballAboutSection;

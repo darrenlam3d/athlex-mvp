@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -8,8 +8,52 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Check, Camera, Save } from 'lucide-react';
+import { useProfile } from '@/contexts/ProfileContext';
+import { useToast } from '@/hooks/use-toast';
 
 const BasicInfo = () => {
+  const { profileData, updateProfile } = useProfile();
+  const { toast } = useToast();
+  
+  const [formData, setFormData] = useState({
+    firstName: profileData.firstName,
+    lastName: profileData.lastName,
+    email: 'alex.thompson@example.com',
+    birthdate: '2001-05-15',
+    height: profileData.height?.toString() || '',
+    weight: profileData.weight?.toString() || '',
+    bio: profileData.bio || '',
+    location: 'London, United Kingdom',
+    phone: '+44 20 1234 5678',
+    nationality: 'British',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = () => {
+    // Update profile context
+    updateProfile({
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      height: parseInt(formData.height),
+      weight: parseInt(formData.weight),
+      bio: formData.bio,
+    });
+
+    // Show success toast
+    toast({
+      title: "Profile Updated",
+      description: "Your profile information has been saved successfully.",
+    });
+  };
+
+  const getInitials = () => {
+    return `${formData.firstName.charAt(0)}${formData.lastName.charAt(0)}`;
+  };
+
   return (
     <div className="space-y-6">
       <Card className="border-gray-700 bg-card">
@@ -18,8 +62,8 @@ const BasicInfo = () => {
             <div className="text-center">
               <div className="relative group">
                 <Avatar className="h-24 w-24 border-2 border-athlex-accent">
-                  <AvatarImage src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21" alt="Alex Thompson" />
-                  <AvatarFallback>AT</AvatarFallback>
+                  <AvatarImage src={profileData.profileImage} alt={`${formData.firstName} ${formData.lastName}`} />
+                  <AvatarFallback>{getInitials()}</AvatarFallback>
                 </Avatar>
                 <button className="absolute bottom-0 right-0 bg-athlex-accent rounded-full p-1.5 border-2 border-gray-800">
                   <Camera className="h-4 w-4" />
@@ -42,17 +86,33 @@ const BasicInfo = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" defaultValue="Alex" className="bg-gray-800 border-gray-700" />
+                  <Input 
+                    id="firstName" 
+                    value={formData.firstName} 
+                    onChange={handleChange}
+                    className="bg-gray-800 border-gray-700" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" defaultValue="Thompson" className="bg-gray-800 border-gray-700" />
+                  <Input 
+                    id="lastName" 
+                    value={formData.lastName} 
+                    onChange={handleChange}
+                    className="bg-gray-800 border-gray-700" 
+                  />
                 </div>
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" defaultValue="alex.thompson@example.com" className="bg-gray-800 border-gray-700" />
+                <Input 
+                  id="email" 
+                  type="email" 
+                  value={formData.email} 
+                  onChange={handleChange}
+                  className="bg-gray-800 border-gray-700" 
+                />
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -61,17 +121,30 @@ const BasicInfo = () => {
                   <Input 
                     id="birthdate" 
                     type="date" 
-                    defaultValue="2001-05-15" 
+                    value={formData.birthdate} 
+                    onChange={handleChange}
                     className="bg-gray-800 border-gray-700" 
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="height">Height (cm)</Label>
-                  <Input id="height" type="number" defaultValue="183" className="bg-gray-800 border-gray-700" />
+                  <Input 
+                    id="height" 
+                    type="number" 
+                    value={formData.height} 
+                    onChange={handleChange}
+                    className="bg-gray-800 border-gray-700" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="weight">Weight (kg)</Label>
-                  <Input id="weight" type="number" defaultValue="76" className="bg-gray-800 border-gray-700" />
+                  <Input 
+                    id="weight" 
+                    type="number" 
+                    value={formData.weight} 
+                    onChange={handleChange}
+                    className="bg-gray-800 border-gray-700" 
+                  />
                 </div>
               </div>
             </div>
@@ -86,30 +159,47 @@ const BasicInfo = () => {
             <Textarea 
               id="bio" 
               rows={4}
+              value={formData.bio} 
+              onChange={handleChange}
               placeholder="Write a short bio..." 
-              defaultValue="Central midfielder with 8 years of experience. Strong in possession with good vision and passing range. Looking to improve defensive positioning and aerial ability."
               className="bg-gray-800 border-gray-700 resize-none"
             />
           </div>
           
           <div className="space-y-2">
             <Label htmlFor="location">Location</Label>
-            <Input id="location" defaultValue="London, United Kingdom" className="bg-gray-800 border-gray-700" />
+            <Input 
+              id="location" 
+              value={formData.location} 
+              onChange={handleChange}
+              className="bg-gray-800 border-gray-700" 
+            />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="phone">Phone Number</Label>
-              <Input id="phone" type="tel" defaultValue="+44 20 1234 5678" className="bg-gray-800 border-gray-700" />
+              <Input 
+                id="phone" 
+                type="tel" 
+                value={formData.phone} 
+                onChange={handleChange}
+                className="bg-gray-800 border-gray-700" 
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="nationality">Nationality</Label>
-              <Input id="nationality" defaultValue="British" className="bg-gray-800 border-gray-700" />
+              <Input 
+                id="nationality" 
+                value={formData.nationality} 
+                onChange={handleChange}
+                className="bg-gray-800 border-gray-700" 
+              />
             </div>
           </div>
           
           <div className="pt-4 flex justify-end">
-            <Button>
+            <Button onClick={handleSubmit}>
               <Save className="mr-2 h-4 w-4" />
               Save Changes
             </Button>

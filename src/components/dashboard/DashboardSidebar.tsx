@@ -5,10 +5,16 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarMenu, SidebarMenuItem, S
 import { Button } from '@/components/ui/button';
 import { Home, User, Activity, Video, Users, Search, MessageSquare, Settings, Plus, LogOut } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { useProfile } from '@/contexts/ProfileContext';
 
 const DashboardSidebar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const { profileData } = useProfile();
+
+  const getInitials = () => {
+    return `${profileData.firstName.charAt(0)}${profileData.lastName.charAt(0)}`;
+  };
 
   return (
     <Sidebar>
@@ -25,12 +31,12 @@ const DashboardSidebar = () => {
           
           <div className="flex items-center gap-3 mb-2">
             <Avatar className="h-10 w-10">
-              <AvatarImage src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21" alt="Alex Thompson" />
-              <AvatarFallback>AT</AvatarFallback>
+              <AvatarImage src={profileData.profileImage} alt={`${profileData.firstName} ${profileData.lastName}`} />
+              <AvatarFallback>{getInitials()}</AvatarFallback>
             </Avatar>
             <div className="overflow-hidden">
-              <h3 className="font-semibold truncate">Alex Thompson</h3>
-              <p className="text-xs text-gray-400 truncate">Football · CM</p>
+              <h3 className="font-semibold truncate">{`${profileData.firstName} ${profileData.lastName}`}</h3>
+              <p className="text-xs text-gray-400 truncate">{`${profileData.sport} · ${profileData.position}`}</p>
             </div>
           </div>
         </div>

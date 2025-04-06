@@ -8,13 +8,21 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ChevronRight, Save, Plus, X } from 'lucide-react';
+import { useProfile } from '@/contexts/ProfileContext';
+import { useToast } from '@/hooks/use-toast';
 
 const FootballProfile = () => {
-  const [preferredFoot, setPreferredFoot] = useState('right');
-  const [primaryPosition, setPrimaryPosition] = useState('CM');
+  const { profileData, updateProfile } = useProfile();
+  const { toast } = useToast();
+
+  const [preferredFoot, setPreferredFoot] = useState(profileData.preferredFoot || 'right');
+  const [primaryPosition, setPrimaryPosition] = useState(profileData.position || 'CM');
   const [secondaryPositions, setSecondaryPositions] = useState(['CAM', 'CDM']);
-  const [tacticalRoles, setTacticalRoles] = useState(['Box-to-Box Midfielder', 'Deep-Lying Playmaker']);
-  
+  const [tacticalRoles, setTacticalRoles] = useState([profileData.tacticalRole || 'Roaming Playmaker', 'Deep-Lying Playmaker']);
+  const [jerseyNumber, setJerseyNumber] = useState(profileData.jerseyNumber || '8');
+  const [playerStrengths, setPlayerStrengths] = useState(profileData.strengths?.join(', ') || 'Strong passing range, good vision, high work rate, comfortable in possession, tactical discipline, and leadership qualities.');
+  const [developmentGoals, setDevelopmentGoals] = useState(profileData.developmentGoals?.join(', ') || 'Improving aerial ability, increasing shooting accuracy from outside the box, and developing better defensive positioning when out of possession.');
+
   const positionOptions = [
     { value: 'GK', label: 'Goalkeeper' },
     { value: 'RB', label: 'Right Back' },
@@ -52,6 +60,28 @@ const FootballProfile = () => {
   
   const removeTacticalRole = (role: string) => {
     setTacticalRoles(tacticalRoles.filter(r => r !== role));
+  };
+
+  const handleSaveProfile = () => {
+    // Parse strengths and development goals from comma-separated strings
+    const strengthsArray = playerStrengths.split(',').map(s => s.trim()).filter(Boolean);
+    const goalsArray = developmentGoals.split(',').map(g => g.trim()).filter(Boolean);
+
+    // Update profile context
+    updateProfile({
+      preferredFoot,
+      position: primaryPosition,
+      jerseyNumber,
+      tacticalRole: tacticalRoles[0], // Primary tactical role
+      strengths: strengthsArray,
+      developmentGoals: goalsArray,
+    });
+
+    // Show success toast
+    toast({
+      title: "Football Profile Updated",
+      description: "Your football profile has been saved successfully.",
+    });
   };
 
   return (
@@ -93,7 +123,8 @@ const FootballProfile = () => {
                 type="number" 
                 min="1" 
                 max="99" 
-                defaultValue="8" 
+                value={jerseyNumber}
+                onChange={(e) => setJerseyNumber(e.target.value)}
                 className="bg-gray-800 border-gray-700" 
               />
             </div>
@@ -236,8 +267,9 @@ const FootballProfile = () => {
             <Textarea 
               id="playerStrengths" 
               rows={3}
+              value={playerStrengths}
+              onChange={(e) => setPlayerStrengths(e.target.value)}
               placeholder="Describe your key strengths as a player..." 
-              defaultValue="Strong passing range, good vision, high work rate, comfortable in possession, tactical discipline, and leadership qualities."
               className="bg-gray-800 border-gray-700 resize-none"
             />
           </div>
@@ -247,14 +279,15 @@ const FootballProfile = () => {
             <Textarea 
               id="developmentGoals" 
               rows={3}
+              value={developmentGoals}
+              onChange={(e) => setDevelopmentGoals(e.target.value)}
               placeholder="What areas are you focusing on improving?" 
-              defaultValue="Improving aerial ability, increasing shooting accuracy from outside the box, and developing better defensive positioning when out of possession."
               className="bg-gray-800 border-gray-700 resize-none"
             />
           </div>
           
           <div className="pt-4 flex justify-end">
-            <Button>
+            <Button onClick={handleSaveProfile}>
               <Save className="mr-2 h-4 w-4" />
               Save Profile
             </Button>
