@@ -71,7 +71,7 @@ const BenchmarkComparison = () => {
           How you compare to similar players (Central Midfielders, Age 22-25)
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col space-y-16">
+      <CardContent className="flex flex-col space-y-4">
         {/* Legend positioned at the top, clearly separated from the chart */}
         <div className="flex justify-end">
           <div className="flex flex-wrap justify-end gap-4 text-sm bg-gray-800/30 px-4 py-2 rounded-md">
@@ -90,8 +90,8 @@ const BenchmarkComparison = () => {
           </div>
         </div>
         
-        {/* Chart container with much taller height and separate container */}
-        <div className="h-[500px] w-full bg-gray-800/20 rounded-md p-4 mb-28">
+        {/* Chart container with fixed height and very clear bottom margin */}
+        <div className="h-[400px] w-full bg-gray-800/20 rounded-md p-4 mb-40">
           <ChartContainer config={chartConfig}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -100,7 +100,7 @@ const BenchmarkComparison = () => {
                   top: 20,
                   right: 30,
                   left: 10,
-                  bottom: 60, // Substantially increased bottom margin
+                  bottom: 100, // Substantially increased bottom margin
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -120,8 +120,8 @@ const BenchmarkComparison = () => {
           </ChartContainer>
         </div>
         
-        {/* Insights section - with extreme top margin to ensure it's well below the chart */}
-        <div className="mt-36 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Insights section - with clear top margin to ensure it's well below the chart */}
+        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-gray-800/30 rounded-lg p-5">
             <h4 className="text-athlex-accent font-medium text-lg">Top Performance</h4>
             <p className="text-sm mt-2">Your passing accuracy (92%) is in the top 15% of central midfielders in your age group.</p>
