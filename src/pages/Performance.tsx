@@ -19,7 +19,7 @@ const Performance = () => {
           
           {/* Main content */}
           <div className="flex-1 p-4 md:p-6 overflow-y-auto">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-6xl mx-auto">
               <h1 className="text-2xl md:text-3xl font-bold mb-6">My Performance</h1>
               
               {/* Performance Timeline */}
@@ -32,28 +32,28 @@ const Performance = () => {
                 <StatBreakdown />
               </div>
               
-              {/* Trend Graphs */}
-              <div className="mt-5">
+              {/* Trend Graphs - Increased space */}
+              <div className="mt-8">
                 <TrendGraphs />
               </div>
               
-              {/* Benchmark Comparison */}
-              <div className="mt-5">
+              {/* Benchmark Comparison - Increased space */}
+              <div className="mt-8">
                 <BenchmarkComparison />
               </div>
               
               {/* Goal Progress Snapshot */}
-              <div className="mt-5">
+              <div className="mt-8">
                 <GoalProgressSnapshot />
               </div>
               
               {/* Personal Bests & Highlights */}
-              <div className="mt-5">
+              <div className="mt-8">
                 <PersonalBests />
               </div>
               
               {/* Download Report */}
-              <div className="mt-5 mb-5">
+              <div className="mt-8 mb-8">
                 <DownloadReport />
               </div>
             </div>

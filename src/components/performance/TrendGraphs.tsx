@@ -55,7 +55,7 @@ const TrendGraphs = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground">
+    <Card className="border-gray-700 bg-card text-card-foreground min-h-[550px]">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Performance Trends</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
@@ -71,7 +71,7 @@ const TrendGraphs = () => {
           </TabsList>
           
           <TabsContent value="weekly" className="pt-4">
-            <div className="h-[300px] w-full mb-4">
+            <div className="h-[350px] w-full mb-6">
               <ChartContainer config={chartConfig}>
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
@@ -117,7 +117,7 @@ const TrendGraphs = () => {
           </TabsContent>
           
           <TabsContent value="monthly" className="pt-4">
-            <div className="h-[300px] w-full mb-4">
+            <div className="h-[350px] w-full mb-6">
               <ChartContainer config={chartConfig}>
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart

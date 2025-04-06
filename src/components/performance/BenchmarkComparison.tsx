@@ -64,7 +64,7 @@ const BenchmarkComparison = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground">
+    <Card className="border-gray-700 bg-card text-card-foreground min-h-[550px]">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Benchmark Comparison</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
@@ -72,7 +72,7 @@ const BenchmarkComparison = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px] w-full mb-4">
+        <div className="h-[350px] w-full mb-6">
           <ChartContainer config={chartConfig}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -81,7 +81,7 @@ const BenchmarkComparison = () => {
                   top: 20,
                   right: 30,
                   left: 0,
-                  bottom: 30,
+                  bottom: 50,
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -94,8 +94,8 @@ const BenchmarkComparison = () => {
                 />
                 <Legend 
                   verticalAlign="bottom" 
-                  height={40}
-                  wrapperStyle={{ paddingTop: "10px" }}
+                  height={45}
+                  wrapperStyle={{ paddingTop: "15px" }}
                 />
                 <Bar dataKey="average" fill="var(--color-average)" />
                 <Bar dataKey="you" fill="var(--color-you)" />
