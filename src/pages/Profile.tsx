@@ -2,15 +2,15 @@
 import React from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
-import FootballProfileSummary from '@/components/football/FootballProfileSummary';
-import FootballAboutSection from '@/components/football/FootballAboutSection';
+import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
+import ProfileSummary from '@/components/dashboard/ProfileSummary';
+import AboutSection from '@/components/dashboard/AboutSection';
 import FootballActivitySummary from '@/components/football/FootballActivitySummary';
 import FootballPerformance from '@/components/football/FootballPerformance';
 import FootballGoalTracking from '@/components/football/FootballGoalTracking';
 import FootballAchievements from '@/components/football/FootballAchievements';
 import TacticalDevelopment from '@/components/football/TacticalDevelopment';
 import TrainingHistory from '@/components/football/TrainingHistory';
-import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 
 const Profile = () => {
   return (
@@ -22,15 +22,15 @@ const Profile = () => {
           {/* Main content */}
           <div className="flex-1 p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto">
-              {/* Football Profile Summary */}
-              <FootballProfileSummary />
+              {/* Profile Summary */}
+              <ProfileSummary />
               
-              {/* About Me & Football Profile */}
+              {/* About Me */}
               <div className="mt-5">
-                <FootballAboutSection />
+                <AboutSection />
               </div>
               
-              {/* Performance Summary Panel (Football-Specific) */}
+              {/* Performance Summary Panel */}
               <div className="mt-5">
                 <FootballPerformance />
               </div>
