@@ -2,14 +2,14 @@
 import React from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
-import ProfileSummary from '@/components/dashboard/ProfileSummary';
-import AboutSection from '@/components/dashboard/AboutSection';
-import ActivitySummary from '@/components/dashboard/ActivitySummary';
-import PerformanceOverview from '@/components/dashboard/PerformanceOverview';
-import GoalTracking from '@/components/dashboard/GoalTracking';
-import AchievementsBadges from '@/components/dashboard/AchievementsBadges';
-import TalentDiscovery from '@/components/dashboard/TalentDiscovery';
-import CommunityUpdates from '@/components/dashboard/CommunityUpdates';
+import FootballProfileSummary from '@/components/football/FootballProfileSummary';
+import FootballAboutSection from '@/components/football/FootballAboutSection';
+import FootballActivitySummary from '@/components/football/FootballActivitySummary';
+import FootballPerformance from '@/components/football/FootballPerformance';
+import FootballGoalTracking from '@/components/football/FootballGoalTracking';
+import FootballAchievements from '@/components/football/FootballAchievements';
+import TacticalDevelopment from '@/components/football/TacticalDevelopment';
+import TrainingHistory from '@/components/football/TrainingHistory';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 
 const Profile = () => {
@@ -22,42 +22,42 @@ const Profile = () => {
           {/* Main content */}
           <div className="flex-1 p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto">
-              {/* Top Hero Section */}
-              <ProfileSummary />
+              {/* Football Profile Summary */}
+              <FootballProfileSummary />
               
-              {/* About Me */}
+              {/* About Me & Football Profile */}
               <div className="mt-5">
-                <AboutSection />
+                <FootballAboutSection />
+              </div>
+              
+              {/* Performance Summary Panel (Football-Specific) */}
+              <div className="mt-5">
+                <FootballPerformance />
               </div>
               
               {/* Activity Summary */}
               <div className="mt-5">
-                <ActivitySummary />
+                <FootballActivitySummary />
               </div>
               
-              {/* Performance Overview */}
+              {/* Training Goals & Progress Tracker */}
               <div className="mt-5">
-                <PerformanceOverview />
+                <FootballGoalTracking />
               </div>
               
-              {/* Goal Tracking */}
+              {/* Tactical Role Development Path */}
               <div className="mt-5">
-                <GoalTracking />
+                <TacticalDevelopment />
+              </div>
+              
+              {/* Personal Bests & Training History */}
+              <div className="mt-5">
+                <TrainingHistory />
               </div>
               
               {/* Achievements & Badges */}
-              <div className="mt-5">
-                <AchievementsBadges />
-              </div>
-              
-              {/* Talent Discovery */}
-              <div className="mt-5">
-                <TalentDiscovery />
-              </div>
-              
-              {/* Community & Updates */}
               <div className="mt-5 mb-5">
-                <CommunityUpdates />
+                <FootballAchievements />
               </div>
             </div>
           </div>
