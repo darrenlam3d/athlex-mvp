@@ -90,8 +90,8 @@ const BenchmarkComparison = () => {
           </div>
         </div>
         
-        {/* Chart container with fixed height and very clear bottom margin */}
-        <div className="h-[400px] w-full bg-gray-800/20 rounded-md p-4 mb-40">
+        {/* Chart container with fixed height and clear bottom margin */}
+        <div className="h-[450px] w-full bg-gray-800/20 rounded-md p-4 mb-8">
           <ChartContainer config={chartConfig}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -100,7 +100,7 @@ const BenchmarkComparison = () => {
                   top: 20,
                   right: 30,
                   left: 10,
-                  bottom: 100, // Substantially increased bottom margin
+                  bottom: 20,
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -111,7 +111,6 @@ const BenchmarkComparison = () => {
                   itemStyle={{ color: '#f3f4f6' }}
                   labelStyle={{ color: '#f3f4f6', fontWeight: 'bold' }}
                 />
-                {/* Removed Legend from within the chart */}
                 <Bar dataKey="average" fill="var(--color-average)" />
                 <Bar dataKey="you" fill="var(--color-you)" />
                 <Bar dataKey="top10" fill="var(--color-top10)" />
@@ -120,8 +119,8 @@ const BenchmarkComparison = () => {
           </ChartContainer>
         </div>
         
-        {/* Insights section - with clear top margin to ensure it's well below the chart */}
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Insights section - with a reasonable margin */}
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-gray-800/30 rounded-lg p-5">
             <h4 className="text-athlex-accent font-medium text-lg">Top Performance</h4>
             <p className="text-sm mt-2">Your passing accuracy (92%) is in the top 15% of central midfielders in your age group.</p>
