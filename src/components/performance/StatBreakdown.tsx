@@ -40,7 +40,9 @@ const StatBreakdown = () => {
                   <div className="w-full bg-gray-700 rounded-full h-1.5 mt-2">
                     <div 
                       className="bg-athlex-accent h-1.5 rounded-full" 
-                      style={{ width: `${stat.unit === '%' ? stat.value : (stat.value * 10)}%` }}
+                      style={{ 
+                        width: `${stat.unit === '%' ? stat.value : Math.min(stat.value * 5, 100)}%` 
+                      }}
                     ></div>
                   </div>
                 </div>

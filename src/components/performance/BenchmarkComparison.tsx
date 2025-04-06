@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { ChartContainer } from '@/components/ui/chart';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const BenchmarkComparison = () => {
   const benchmarkData = [
@@ -72,7 +72,7 @@ const BenchmarkComparison = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px] w-full">
+        <div className="h-[300px] w-full mb-4">
           <ChartContainer config={chartConfig}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -81,7 +81,7 @@ const BenchmarkComparison = () => {
                   top: 20,
                   right: 30,
                   left: 0,
-                  bottom: 5,
+                  bottom: 30,
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -92,7 +92,11 @@ const BenchmarkComparison = () => {
                   itemStyle={{ color: '#f3f4f6' }}
                   labelStyle={{ color: '#f3f4f6', fontWeight: 'bold' }}
                 />
-                <Legend />
+                <Legend 
+                  verticalAlign="bottom" 
+                  height={40}
+                  wrapperStyle={{ paddingTop: "10px" }}
+                />
                 <Bar dataKey="average" fill="var(--color-average)" />
                 <Bar dataKey="you" fill="var(--color-you)" />
                 <Bar dataKey="top10" fill="var(--color-top10)" />

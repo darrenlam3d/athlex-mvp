@@ -71,7 +71,7 @@ const TrendGraphs = () => {
           </TabsList>
           
           <TabsContent value="weekly" className="pt-4">
-            <div className="h-[300px] w-full">
+            <div className="h-[300px] w-full mb-4">
               <ChartContainer config={chartConfig}>
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
@@ -110,14 +110,14 @@ const TrendGraphs = () => {
                 </ResponsiveContainer>
               </ChartContainer>
             </div>
-            <div className="mt-4 bg-gray-800/30 p-3 rounded-lg">
+            <div className="bg-gray-800/30 p-3 rounded-lg">
               <h4 className="font-medium text-athlex-accent">Weekly Insights</h4>
               <p className="text-sm mt-1">Your passing accuracy has improved significantly this week (+8%). Keep up the consistent technical training!</p>
             </div>
           </TabsContent>
           
           <TabsContent value="monthly" className="pt-4">
-            <div className="h-[300px] w-full">
+            <div className="h-[300px] w-full mb-4">
               <ChartContainer config={chartConfig}>
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
@@ -156,7 +156,7 @@ const TrendGraphs = () => {
                 </ResponsiveContainer>
               </ChartContainer>
             </div>
-            <div className="mt-4 bg-gray-800/30 p-3 rounded-lg">
+            <div className="bg-gray-800/30 p-3 rounded-lg">
               <h4 className="font-medium text-athlex-accent">Monthly Insights</h4>
               <p className="text-sm mt-1">Your overall performance has shown steady improvement over the past 3 months. Distance covered, speed, and passing accuracy are all trending upward.</p>
             </div>
