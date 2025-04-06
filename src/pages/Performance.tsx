@@ -32,12 +32,12 @@ const Performance = () => {
                 <StatBreakdown />
               </div>
               
-              {/* Trend Graphs - With more vertical space */}
+              {/* Trend Graphs - With more spacing between sections */}
               <div className="mb-16">
                 <TrendGraphs />
               </div>
               
-              {/* Benchmark Comparison - With more vertical space */}
+              {/* Benchmark Comparison - With more spacing between sections */}
               <div className="mb-16">
                 <BenchmarkComparison />
               </div>

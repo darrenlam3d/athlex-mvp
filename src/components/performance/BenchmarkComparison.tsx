@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { ChartContainer } from '@/components/ui/chart';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const BenchmarkComparison = () => {
   const benchmarkData = [
@@ -64,7 +64,7 @@ const BenchmarkComparison = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground min-h-[700px]">
+    <Card className="border-gray-700 bg-card text-card-foreground min-h-[750px]">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Benchmark Comparison</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
@@ -91,8 +91,8 @@ const BenchmarkComparison = () => {
             </div>
           </div>
           
-          {/* Chart container with fixed height */}
-          <div className="h-[400px] w-full">
+          {/* Chart container with fixed height and clearly separate from content below */}
+          <div className="h-[450px] w-full">
             <ChartContainer config={chartConfig}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
@@ -121,7 +121,7 @@ const BenchmarkComparison = () => {
             </ChartContainer>
           </div>
           
-          {/* Insights section - properly positioned below the chart */}
+          {/* Insights section - clearly separate from the chart with more spacing */}
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-gray-800/30 rounded-lg p-4">
               <h4 className="text-athlex-accent font-medium">Top Performance</h4>
