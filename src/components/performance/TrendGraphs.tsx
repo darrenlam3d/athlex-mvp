@@ -55,7 +55,7 @@ const TrendGraphs = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground min-h-[600px]">
+    <Card className="border-gray-700 bg-card text-card-foreground min-h-[650px]">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Performance Trends</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
@@ -71,94 +71,104 @@ const TrendGraphs = () => {
           </TabsList>
           
           <TabsContent value="weekly" className="pt-4">
-            <div className="h-[380px] w-full">
-              <ChartContainer config={chartConfig}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                    data={weeklyData}
-                    margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="day" stroke="#9ca3af" />
-                    <YAxis stroke="#9ca3af" />
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                    <Line 
-                      type="monotone" 
-                      dataKey="distance" 
-                      stroke="var(--color-distance)" 
-                      strokeWidth={2}
-                      dot={{ fill: "var(--color-distance)", r: 4 }}
-                      activeDot={{ r: 6 }}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="speed" 
-                      stroke="var(--color-speed)" 
-                      strokeWidth={2}
-                      dot={{ fill: "var(--color-speed)", r: 4 }}
-                      activeDot={{ r: 6 }}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="passing" 
-                      stroke="var(--color-passing)" 
-                      strokeWidth={2}
-                      dot={{ fill: "var(--color-passing)", r: 4 }}
-                      activeDot={{ r: 6 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </ChartContainer>
-            </div>
-            <div className="mt-6 bg-gray-800/30 p-4 rounded-lg">
-              <h4 className="font-medium text-athlex-accent">Weekly Insights</h4>
-              <p className="text-sm mt-1">Your passing accuracy has improved significantly this week (+8%). Keep up the consistent technical training!</p>
+            <div className="flex flex-col space-y-6">
+              {/* Chart container with fixed height */}
+              <div className="h-[380px] w-full">
+                <ChartContainer config={chartConfig}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      data={weeklyData}
+                      margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                      <XAxis dataKey="day" stroke="#9ca3af" />
+                      <YAxis stroke="#9ca3af" />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Line 
+                        type="monotone" 
+                        dataKey="distance" 
+                        stroke="var(--color-distance)" 
+                        strokeWidth={2}
+                        dot={{ fill: "var(--color-distance)", r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="speed" 
+                        stroke="var(--color-speed)" 
+                        strokeWidth={2}
+                        dot={{ fill: "var(--color-speed)", r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="passing" 
+                        stroke="var(--color-passing)" 
+                        strokeWidth={2}
+                        dot={{ fill: "var(--color-passing)", r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </div>
+              
+              {/* Insights box - now clearly below the chart with proper spacing */}
+              <div className="bg-gray-800/30 p-4 rounded-lg mt-6">
+                <h4 className="font-medium text-athlex-accent">Weekly Insights</h4>
+                <p className="text-sm mt-1">Your passing accuracy has improved significantly this week (+8%). Keep up the consistent technical training!</p>
+              </div>
             </div>
           </TabsContent>
           
           <TabsContent value="monthly" className="pt-4">
-            <div className="h-[380px] w-full">
-              <ChartContainer config={chartConfig}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                    data={monthlyData}
-                    margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="month" stroke="#9ca3af" />
-                    <YAxis stroke="#9ca3af" />
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                    <Line 
-                      type="monotone" 
-                      dataKey="distance" 
-                      stroke="var(--color-distance)" 
-                      strokeWidth={2}
-                      dot={{ fill: "var(--color-distance)", r: 4 }}
-                      activeDot={{ r: 6 }}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="speed" 
-                      stroke="var(--color-speed)" 
-                      strokeWidth={2}
-                      dot={{ fill: "var(--color-speed)", r: 4 }}
-                      activeDot={{ r: 6 }}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="passing" 
-                      stroke="var(--color-passing)" 
-                      strokeWidth={2}
-                      dot={{ fill: "var(--color-passing)", r: 4 }}
-                      activeDot={{ r: 6 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </ChartContainer>
-            </div>
-            <div className="mt-6 bg-gray-800/30 p-4 rounded-lg">
-              <h4 className="font-medium text-athlex-accent">Monthly Insights</h4>
-              <p className="text-sm mt-1">Your overall performance has shown steady improvement over the past 3 months. Distance covered, speed, and passing accuracy are all trending upward.</p>
+            <div className="flex flex-col space-y-6">
+              {/* Chart container with fixed height */}
+              <div className="h-[380px] w-full">
+                <ChartContainer config={chartConfig}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      data={monthlyData}
+                      margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                      <XAxis dataKey="month" stroke="#9ca3af" />
+                      <YAxis stroke="#9ca3af" />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Line 
+                        type="monotone" 
+                        dataKey="distance" 
+                        stroke="var(--color-distance)" 
+                        strokeWidth={2}
+                        dot={{ fill: "var(--color-distance)", r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="speed" 
+                        stroke="var(--color-speed)" 
+                        strokeWidth={2}
+                        dot={{ fill: "var(--color-speed)", r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="passing" 
+                        stroke="var(--color-passing)" 
+                        strokeWidth={2}
+                        dot={{ fill: "var(--color-passing)", r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </div>
+              
+              {/* Insights box - now clearly below the chart with proper spacing */}
+              <div className="bg-gray-800/30 p-4 rounded-lg mt-6">
+                <h4 className="font-medium text-athlex-accent">Monthly Insights</h4>
+                <p className="text-sm mt-1">Your overall performance has shown steady improvement over the past 3 months. Distance covered, speed, and passing accuracy are all trending upward.</p>
+              </div>
             </div>
           </TabsContent>
           
