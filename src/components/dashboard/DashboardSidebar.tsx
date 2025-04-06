@@ -73,8 +73,8 @@ const DashboardSidebar = () => {
           </SidebarMenuItem>
           
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Community & Challenges">
-              <Link to="#">
+            <SidebarMenuButton asChild isActive={currentPath === '/community'} tooltip="Community & Challenges">
+              <Link to="/community">
                 <Users />
                 <span>Community & Challenges</span>
               </Link>
@@ -82,8 +82,8 @@ const DashboardSidebar = () => {
           </SidebarMenuItem>
           
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Talent Discovery">
-              <Link to="#">
+            <SidebarMenuButton asChild isActive={currentPath === '/talent-discovery'} tooltip="Talent Discovery">
+              <Link to="/talent-discovery">
                 <Search />
                 <span>Talent Discovery</span>
               </Link>
@@ -91,8 +91,8 @@ const DashboardSidebar = () => {
           </SidebarMenuItem>
           
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Messages & Endorsements">
-              <Link to="#">
+            <SidebarMenuButton asChild isActive={currentPath === '/messages'} tooltip="Messages & Endorsements">
+              <Link to="/messages">
                 <MessageSquare />
                 <span>Messages & Endorsements</span>
               </Link>
@@ -100,8 +100,8 @@ const DashboardSidebar = () => {
           </SidebarMenuItem>
           
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Settings & Profile">
-              <Link to="#">
+            <SidebarMenuButton asChild isActive={currentPath === '/settings'} tooltip="Settings & Profile">
+              <Link to="/settings">
                 <Settings />
                 <span>Settings & Profile</span>
               </Link>
