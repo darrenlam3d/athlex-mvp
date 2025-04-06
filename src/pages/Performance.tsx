@@ -32,28 +32,28 @@ const Performance = () => {
                 <StatBreakdown />
               </div>
               
-              {/* Trend Graphs - Increased space */}
-              <div className="mt-8">
+              {/* Trend Graphs - Increased space and margin */}
+              <div className="mt-10">
                 <TrendGraphs />
               </div>
               
-              {/* Benchmark Comparison - Increased space */}
-              <div className="mt-8">
+              {/* Benchmark Comparison - Increased space and margin */}
+              <div className="mt-10">
                 <BenchmarkComparison />
               </div>
               
               {/* Goal Progress Snapshot */}
-              <div className="mt-8">
+              <div className="mt-10">
                 <GoalProgressSnapshot />
               </div>
               
               {/* Personal Bests & Highlights */}
-              <div className="mt-8">
+              <div className="mt-10">
                 <PersonalBests />
               </div>
               
               {/* Download Report */}
-              <div className="mt-8 mb-8">
+              <div className="mt-10 mb-10">
                 <DownloadReport />
               </div>
             </div>

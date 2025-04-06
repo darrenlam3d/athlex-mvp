@@ -64,7 +64,7 @@ const BenchmarkComparison = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground min-h-[550px]">
+    <Card className="border-gray-700 bg-card text-card-foreground min-h-[600px]">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Benchmark Comparison</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
@@ -72,7 +72,7 @@ const BenchmarkComparison = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[350px] w-full mb-6">
+        <div className="h-[380px] w-full">
           <ChartContainer config={chartConfig}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -81,7 +81,7 @@ const BenchmarkComparison = () => {
                   top: 20,
                   right: 30,
                   left: 0,
-                  bottom: 50,
+                  bottom: 5,
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -93,9 +93,14 @@ const BenchmarkComparison = () => {
                   labelStyle={{ color: '#f3f4f6', fontWeight: 'bold' }}
                 />
                 <Legend 
-                  verticalAlign="bottom" 
-                  height={45}
-                  wrapperStyle={{ paddingTop: "15px" }}
+                  verticalAlign="top" 
+                  align="right"
+                  iconType="circle"
+                  iconSize={8}
+                  wrapperStyle={{ 
+                    paddingBottom: "20px",
+                    paddingRight: "10px" 
+                  }}
                 />
                 <Bar dataKey="average" fill="var(--color-average)" />
                 <Bar dataKey="you" fill="var(--color-you)" />
@@ -104,7 +109,7 @@ const BenchmarkComparison = () => {
             </ResponsiveContainer>
           </ChartContainer>
         </div>
-        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="bg-gray-800/30 rounded-lg p-4">
             <h4 className="text-athlex-accent font-medium">Top Performance</h4>
             <p className="text-sm mt-1">Your passing accuracy (92%) is in the top 15% of central midfielders in your age group.</p>

@@ -55,7 +55,7 @@ const TrendGraphs = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground min-h-[550px]">
+    <Card className="border-gray-700 bg-card text-card-foreground min-h-[600px]">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Performance Trends</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
@@ -71,7 +71,7 @@ const TrendGraphs = () => {
           </TabsList>
           
           <TabsContent value="weekly" className="pt-4">
-            <div className="h-[350px] w-full mb-6">
+            <div className="h-[380px] w-full">
               <ChartContainer config={chartConfig}>
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
@@ -110,14 +110,14 @@ const TrendGraphs = () => {
                 </ResponsiveContainer>
               </ChartContainer>
             </div>
-            <div className="bg-gray-800/30 p-3 rounded-lg">
+            <div className="mt-6 bg-gray-800/30 p-4 rounded-lg">
               <h4 className="font-medium text-athlex-accent">Weekly Insights</h4>
               <p className="text-sm mt-1">Your passing accuracy has improved significantly this week (+8%). Keep up the consistent technical training!</p>
             </div>
           </TabsContent>
           
           <TabsContent value="monthly" className="pt-4">
-            <div className="h-[350px] w-full mb-6">
+            <div className="h-[380px] w-full">
               <ChartContainer config={chartConfig}>
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
@@ -156,7 +156,7 @@ const TrendGraphs = () => {
                 </ResponsiveContainer>
               </ChartContainer>
             </div>
-            <div className="bg-gray-800/30 p-3 rounded-lg">
+            <div className="mt-6 bg-gray-800/30 p-4 rounded-lg">
               <h4 className="font-medium text-athlex-accent">Monthly Insights</h4>
               <p className="text-sm mt-1">Your overall performance has shown steady improvement over the past 3 months. Distance covered, speed, and passing accuracy are all trending upward.</p>
             </div>
