@@ -55,7 +55,7 @@ const TrendGraphs = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground min-h-[750px]">
+    <Card className="border-gray-700 bg-card text-card-foreground min-h-[800px]">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Performance Trends</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
@@ -73,12 +73,12 @@ const TrendGraphs = () => {
           <TabsContent value="weekly" className="pt-6">
             <div className="flex flex-col space-y-8">
               {/* Chart container with fixed height - clearly separate from insights */}
-              <div className="h-[450px] w-full">
+              <div className="h-[500px] w-full bg-gray-800/20 rounded-md p-2">
                 <ChartContainer config={chartConfig}>
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={weeklyData}
-                      margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
+                      margin={{ top: 20, right: 20, left: 10, bottom: 20 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                       <XAxis dataKey="day" stroke="#9ca3af" />
@@ -114,9 +114,9 @@ const TrendGraphs = () => {
               </div>
               
               {/* Insights box - clearly positioned below the chart with proper spacing */}
-              <div className="bg-gray-800/30 p-4 rounded-lg">
-                <h4 className="font-medium text-athlex-accent">Weekly Insights</h4>
-                <p className="text-sm mt-1">Your passing accuracy has improved significantly this week (+8%). Keep up the consistent technical training!</p>
+              <div className="bg-gray-800/30 p-5 rounded-lg mt-4">
+                <h4 className="font-medium text-athlex-accent text-lg">Weekly Insights</h4>
+                <p className="text-sm mt-2">Your passing accuracy has improved significantly this week (+8%). Keep up the consistent technical training!</p>
               </div>
             </div>
           </TabsContent>
@@ -124,12 +124,12 @@ const TrendGraphs = () => {
           <TabsContent value="monthly" className="pt-6">
             <div className="flex flex-col space-y-8">
               {/* Chart container with fixed height - clearly separate from insights */}
-              <div className="h-[450px] w-full">
+              <div className="h-[500px] w-full bg-gray-800/20 rounded-md p-2">
                 <ChartContainer config={chartConfig}>
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={monthlyData}
-                      margin={{ top: 10, right: 10, left: 0, bottom: 10 }}
+                      margin={{ top: 20, right: 20, left: 10, bottom: 20 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                       <XAxis dataKey="month" stroke="#9ca3af" />
@@ -165,15 +165,15 @@ const TrendGraphs = () => {
               </div>
               
               {/* Insights box - clearly positioned below the chart with proper spacing */}
-              <div className="bg-gray-800/30 p-4 rounded-lg">
-                <h4 className="font-medium text-athlex-accent">Monthly Insights</h4>
-                <p className="text-sm mt-1">Your overall performance has shown steady improvement over the past 3 months. Distance covered, speed, and passing accuracy are all trending upward.</p>
+              <div className="bg-gray-800/30 p-5 rounded-lg mt-4">
+                <h4 className="font-medium text-athlex-accent text-lg">Monthly Insights</h4>
+                <p className="text-sm mt-2">Your overall performance has shown steady improvement over the past 3 months. Distance covered, speed, and passing accuracy are all trending upward.</p>
               </div>
             </div>
           </TabsContent>
           
           <TabsContent value="seasonal" className="pt-6">
-            <div className="text-center py-12 text-gray-400">
+            <div className="text-center py-20 text-gray-400">
               Seasonal data will be available once you have at least 6 months of tracking.
             </div>
           </TabsContent>

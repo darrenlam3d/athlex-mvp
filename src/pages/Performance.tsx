@@ -23,12 +23,12 @@ const Performance = () => {
               <h1 className="text-2xl md:text-3xl font-bold mb-8">My Performance</h1>
               
               {/* Performance Timeline */}
-              <div className="mb-12">
+              <div className="mb-14">
                 <PerformanceTimeline />
               </div>
               
               {/* Stat Breakdown */}
-              <div className="mb-12">
+              <div className="mb-14">
                 <StatBreakdown />
               </div>
               
@@ -43,17 +43,17 @@ const Performance = () => {
               </div>
               
               {/* Goal Progress Snapshot */}
-              <div className="mb-12">
+              <div className="mb-14">
                 <GoalProgressSnapshot />
               </div>
               
               {/* Personal Bests & Highlights */}
-              <div className="mb-12">
+              <div className="mb-14">
                 <PersonalBests />
               </div>
               
               {/* Download Report */}
-              <div className="mb-12">
+              <div className="mb-14">
                 <DownloadReport />
               </div>
             </div>

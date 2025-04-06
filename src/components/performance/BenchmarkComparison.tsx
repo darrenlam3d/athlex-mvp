@@ -64,7 +64,7 @@ const BenchmarkComparison = () => {
   };
 
   return (
-    <Card className="border-gray-700 bg-card text-card-foreground min-h-[750px]">
+    <Card className="border-gray-700 bg-card text-card-foreground min-h-[800px]">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-medium">Benchmark Comparison</CardTitle>
         <CardDescription className="text-gray-400 mt-1">
@@ -73,9 +73,9 @@ const BenchmarkComparison = () => {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col space-y-6">
-          {/* Legend positioned at the top-right, outside the chart area */}
-          <div className="flex justify-end">
-            <div className="flex space-x-4 text-sm">
+          {/* Legend positioned at the top, clearly separated from the chart */}
+          <div className="flex justify-end mb-2">
+            <div className="flex flex-wrap justify-end gap-4 text-sm bg-gray-800/30 px-4 py-2 rounded-md">
               <div className="flex items-center">
                 <div className="w-3 h-3 rounded-full bg-[#9b87f5] mr-2"></div>
                 <span>You</span>
@@ -92,7 +92,7 @@ const BenchmarkComparison = () => {
           </div>
           
           {/* Chart container with fixed height and clearly separate from content below */}
-          <div className="h-[450px] w-full">
+          <div className="h-[500px] w-full bg-gray-800/20 rounded-md p-2">
             <ChartContainer config={chartConfig}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
@@ -100,8 +100,8 @@ const BenchmarkComparison = () => {
                   margin={{
                     top: 20,
                     right: 30,
-                    left: 0,
-                    bottom: 5,
+                    left: 10,
+                    bottom: 20,
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -122,14 +122,14 @@ const BenchmarkComparison = () => {
           </div>
           
           {/* Insights section - clearly separate from the chart with more spacing */}
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-gray-800/30 rounded-lg p-4">
-              <h4 className="text-athlex-accent font-medium">Top Performance</h4>
-              <p className="text-sm mt-1">Your passing accuracy (92%) is in the top 15% of central midfielders in your age group.</p>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="bg-gray-800/30 rounded-lg p-5">
+              <h4 className="text-athlex-accent font-medium text-lg">Top Performance</h4>
+              <p className="text-sm mt-2">Your passing accuracy (92%) is in the top 15% of central midfielders in your age group.</p>
             </div>
-            <div className="bg-gray-800/30 rounded-lg p-4">
-              <h4 className="text-athlex-accent font-medium">Area to Improve</h4>
-              <p className="text-sm mt-1">Your ball control (75%) is above average but has the largest gap compared to top performers.</p>
+            <div className="bg-gray-800/30 rounded-lg p-5">
+              <h4 className="text-athlex-accent font-medium text-lg">Area to Improve</h4>
+              <p className="text-sm mt-2">Your ball control (75%) is above average but has the largest gap compared to top performers.</p>
             </div>
           </div>
         </div>
