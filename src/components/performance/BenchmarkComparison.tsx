@@ -93,6 +93,7 @@ const BenchmarkComparison = () => {
         {/* Chart container with reduced height and proper spacing */}
         <div className="h-[350px] w-full bg-gray-800/20 rounded-md p-4 mb-4">
           <ChartContainer config={chartConfig}>
+            <div className="w-full max-w-[1000px] h-[350px] max-h-[400px] bg-gray-800/20 rounded-md p-4 mb-4 mx-auto overflow-hidden">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={benchmarkData}
@@ -116,6 +117,7 @@ const BenchmarkComparison = () => {
                 <Bar dataKey="top10" fill="var(--color-top10)" />
               </BarChart>
             </ResponsiveContainer>
+              </div>
           </ChartContainer>
         </div>
         
