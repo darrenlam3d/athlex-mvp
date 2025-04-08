@@ -23,7 +23,7 @@ const DashboardSidebar = () => {
         <div className="py-4 px-4 border-b border-gray-700/50">
           <Link to="/" className="block mb-4">
             <img 
-              src="/lovable-uploads/8f087e79-abca-4837-ac54-e0f2ef1c9421.png" 
+              src="/lovable-uploads/ad70cd9e-5e44-4990-af27-c3d2ced6ca96.png" 
               alt="ATHLEX Logo" 
               className="h-8" 
             />
