@@ -20,6 +20,8 @@ import TalentDiscovery from "./pages/TalentDiscovery";
 import Messages from "./pages/Messages";
 import Settings from "./pages/Settings";
 import ScoutDashboard from "./pages/ScoutDashboard";
+import Dashboard from "./pages/Dashboard";
+import AthleteProfileView from "./pages/AthleteProfileView";
 
 const queryClient = new QueryClient();
 
@@ -45,7 +47,8 @@ const App = () => (
               <Route path="/messages" element={<Messages />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/scout-dashboard" element={<ScoutDashboard />} />
-              <Route path="/dashboard" element={<Navigate to="/profile" replace />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/athlete-profile" element={<AthleteProfileView />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

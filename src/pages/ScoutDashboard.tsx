@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -162,8 +163,10 @@ const ScoutDashboard = () => {
                           <TableCell>{athlete.lastActivity}</TableCell>
                           <TableCell className="text-right">
                             <div className="flex justify-end gap-2">
-                              <Button variant="ghost" size="icon">
-                                <Eye className="h-4 w-4" />
+                              <Button variant="ghost" size="icon" asChild>
+                                <Link to="/athlete-profile">
+                                  <Eye className="h-4 w-4" />
+                                </Link>
                               </Button>
                               <Button variant="ghost" size="icon">
                                 <Star className="h-4 w-4" />
@@ -196,8 +199,10 @@ const ScoutDashboard = () => {
                               <p className="text-sm text-gray-400">{update.update}</p>
                               <p className="text-xs text-gray-500 mt-1">{update.time}</p>
                             </div>
-                            <Button variant="ghost" size="icon" className="shrink-0">
-                              <ArrowUpRight className="h-4 w-4" />
+                            <Button variant="ghost" size="icon" asChild>
+                              <Link to="/athlete-profile">
+                                <ArrowUpRight className="h-4 w-4" />
+                              </Link>
                             </Button>
                           </div>
                         ))}
@@ -213,25 +218,29 @@ const ScoutDashboard = () => {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        <div className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 cursor-pointer">
-                          <Avatar className="h-10 w-10">
-                            <AvatarFallback>MK</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-medium">Michael Kim</p>
-                            <p className="text-xs text-gray-400">Midfielder • Age 18</p>
+                        <Link to="/athlete-profile" className="block">
+                          <div className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 cursor-pointer">
+                            <Avatar className="h-10 w-10">
+                              <AvatarFallback>MK</AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <p className="font-medium">Michael Kim</p>
+                              <p className="text-xs text-gray-400">Midfielder • Age 18</p>
+                            </div>
                           </div>
-                        </div>
+                        </Link>
                         
-                        <div className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 cursor-pointer">
-                          <Avatar className="h-10 w-10">
-                            <AvatarFallback>AT</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-medium">Anna Thompson</p>
-                            <p className="text-xs text-gray-400">Forward • Age 20</p>
+                        <Link to="/athlete-profile" className="block">
+                          <div className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 cursor-pointer">
+                            <Avatar className="h-10 w-10">
+                              <AvatarFallback>AT</AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <p className="font-medium">Anna Thompson</p>
+                              <p className="text-xs text-gray-400">Forward • Age 20</p>
+                            </div>
                           </div>
-                        </div>
+                        </Link>
                         
                         <Button variant="outline" size="sm" className="w-full mt-2">
                           View More Recommendations
