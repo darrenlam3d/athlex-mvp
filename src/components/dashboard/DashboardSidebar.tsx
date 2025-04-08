@@ -25,7 +25,7 @@ const DashboardSidebar = () => {
             <img 
               src="/lovable-uploads/4fa9ab4b-66d6-42dc-979f-661fee5226e5.png" 
               alt="ATHLEX Logo" 
-              className="h-8" 
+              className="h-7" 
             />
           </Link>
           

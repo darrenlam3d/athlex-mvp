@@ -40,7 +40,7 @@ const Navbar = () => {
             <img 
               src="/lovable-uploads/4fa9ab4b-66d6-42dc-979f-661fee5226e5.png" 
               alt="ATHLEX Logo" 
-              className="h-10 md:h-12 w-auto"
+              className="h-8 md:h-9 w-auto" 
             />
           </a>
         </div>
