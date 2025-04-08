@@ -27,7 +27,7 @@ const FaqSection = () => {
     },
     {
       question: "What sports are supported?",
-      answer: "ATHLEX currently supports Football, Cricket, Hockey, Tennis, Volleyball, Table Tennis, and Basketball — with more to come."
+      answer: "ATHLEX is starting with Football and general athletic metrics first. We will onboard Cricket, Hockey, Tennis, Volleyball, Table Tennis, Basketball, and other sports in the future."
     },
     {
       question: "Where is ATHLEX launching first?",
