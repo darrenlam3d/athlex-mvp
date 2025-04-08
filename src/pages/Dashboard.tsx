@@ -1,9 +1,14 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { useUserRole } from '@/contexts/UserRoleContext';
 
 const Dashboard = () => {
-  return <Navigate to="/profile" replace />;
+  const { userRole } = useUserRole();
+  
+  return userRole === 'athlete' 
+    ? <Navigate to="/profile" replace /> 
+    : <Navigate to="/scout-dashboard" replace />;
 };
 
 export default Dashboard;
