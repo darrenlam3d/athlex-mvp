@@ -193,7 +193,7 @@ const MvpTrainingMetrics = () => {
               </div>
               <div className="text-xs">
                 <span className="text-red-400 inline-block mr-2">●</span>
-                <span className="text-gray-400">Injury Risk (>1.5)</span>
+                <span className="text-gray-400">Injury Risk (&gt;1.5)</span>
               </div>
             </div>
           </CardContent>
