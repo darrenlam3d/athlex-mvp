@@ -11,9 +11,14 @@ import MvpTrainingRecommendation from './MvpTrainingRecommendation';
 import MvpMatchSummary from './MvpMatchSummary';
 import MvpPerformanceComparison from './MvpPerformanceComparison';
 import MvpTrainingSchedule from './MvpTrainingSchedule';
+import MvpPhysicalPerformance from './MvpPhysicalPerformance';
+import MvpReadinessRecovery from './MvpReadinessRecovery';
+import MvpTrainingMetrics from './MvpTrainingMetrics';
+import MvpEngagementBenchmarking from './MvpEngagementBenchmarking';
+import MvpWearableConnection from './MvpWearableConnection';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { BarChart, Activity, Award } from 'lucide-react';
+import { BarChart, Activity, Award, Dumbbell, Heart, ListChecks, Users } from 'lucide-react';
 
 const MvpAthleteView = () => {
   const { profileData } = useProfile();
@@ -189,6 +194,55 @@ const MvpAthleteView = () => {
           <MvpTrainingSchedule />
         </TabsContent>
       </Tabs>
+      
+      {/* Wearable Physical & Training Metrics Section */}
+      <div className="pt-6 mt-8 border-t border-gray-800">
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-bold gradient-text mb-2">Physical & Training Metrics</h2>
+            <p className="text-gray-400">
+              Comprehensive performance tracking with data from wearables and manual input
+            </p>
+          </div>
+          
+          {/* Wearable Connection Component */}
+          <MvpWearableConnection />
+          
+          {/* Physical & Training Metrics Tabs */}
+          <Tabs defaultValue="physical-performance" className="w-full">
+            <TabsList className="grid w-full grid-cols-4 bg-gray-800/60">
+              <TabsTrigger value="physical-performance" className="flex items-center gap-1.5">
+                <Dumbbell className="h-4 w-4" /> Physical
+              </TabsTrigger>
+              <TabsTrigger value="readiness-recovery" className="flex items-center gap-1.5">
+                <Heart className="h-4 w-4" /> Recovery
+              </TabsTrigger>
+              <TabsTrigger value="training-metrics" className="flex items-center gap-1.5">
+                <ListChecks className="h-4 w-4" /> Training
+              </TabsTrigger>
+              <TabsTrigger value="benchmarking" className="flex items-center gap-1.5">
+                <Users className="h-4 w-4" /> Benchmarking
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="physical-performance" className="mt-4 animate-fade-in">
+              <MvpPhysicalPerformance />
+            </TabsContent>
+            
+            <TabsContent value="readiness-recovery" className="mt-4 animate-fade-in">
+              <MvpReadinessRecovery />
+            </TabsContent>
+            
+            <TabsContent value="training-metrics" className="mt-4 animate-fade-in">
+              <MvpTrainingMetrics />
+            </TabsContent>
+            
+            <TabsContent value="benchmarking" className="mt-4 animate-fade-in">
+              <MvpEngagementBenchmarking />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
     </div>
   );
 };
