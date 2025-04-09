@@ -24,6 +24,7 @@ import CoachDashboard from "./pages/CoachDashboard";
 import Dashboard from "./pages/Dashboard";
 import AthleteProfileView from "./pages/AthleteProfileView";
 import Login from "./pages/Login";
+import ScoutingReports from "./pages/ScoutingReports";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App = () => (
               <Route path="/coach-dashboard" element={<CoachDashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/athlete-profile" element={<AthleteProfileView />} />
+              <Route path="/scouting-reports" element={<ScoutingReports />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

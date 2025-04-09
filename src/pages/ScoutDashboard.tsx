@@ -715,9 +715,11 @@ const ScoutDashboard = () => {
                     <CardHeader>
                       <div className="flex items-center justify-between">
                         <CardTitle>Scouting Reports</CardTitle>
-                        <Button size="sm">
-                          <FileText className="mr-2 h-4 w-4" />
-                          Create New Report
+                        <Button size="sm" asChild>
+                          <Link to="/scouting-reports">
+                            <FileText className="mr-2 h-4 w-4" />
+                            View All Reports
+                          </Link>
                         </Button>
                       </div>
                     </CardHeader>
@@ -742,7 +744,9 @@ const ScoutDashboard = () => {
                             </div>
                           </div>
                           <div className="flex gap-2">
-                            <Button variant="outline" size="sm">View</Button>
+                            <Button variant="outline" size="sm" asChild>
+                              <Link to="/scouting-reports">View</Link>
+                            </Button>
                             <Button variant="ghost" size="sm">
                               <Share2 className="h-4 w-4" />
                             </Button>
@@ -768,7 +772,9 @@ const ScoutDashboard = () => {
                             </div>
                           </div>
                           <div className="flex gap-2">
-                            <Button variant="outline" size="sm">View</Button>
+                            <Button variant="outline" size="sm" asChild>
+                              <Link to="/scouting-reports">View</Link>
+                            </Button>
                             <Button variant="ghost" size="sm">
                               <Share2 className="h-4 w-4" />
                             </Button>
@@ -791,12 +797,20 @@ const ScoutDashboard = () => {
                             </div>
                           </div>
                           <div className="flex gap-2">
-                            <Button variant="outline" size="sm">View</Button>
+                            <Button variant="outline" size="sm" asChild>
+                              <Link to="/scouting-reports">View</Link>
+                            </Button>
                             <Button variant="ghost" size="sm">
                               <FileText className="h-4 w-4" />
                             </Button>
                           </div>
                         </div>
+                        
+                        <Button variant="outline" size="sm" className="w-full" asChild>
+                          <Link to="/scouting-reports">
+                            View All Scouting Reports
+                          </Link>
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
