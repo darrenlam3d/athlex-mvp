@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, ResponsiveContainer } from 'recharts';
 
+// Mock data for the performance comparison
 const comparisonData = [
   { subject: 'Pace', player: 85, teamAvg: 72, positionAvg: 77, fullMark: 100 },
   { subject: 'Shooting', player: 65, teamAvg: 68, positionAvg: 70, fullMark: 100 },
