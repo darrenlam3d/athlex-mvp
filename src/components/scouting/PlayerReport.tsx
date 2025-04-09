@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -526,7 +527,7 @@ const PlayerReport = () => {
                       type="category" 
                       stroke={theme === 'light' ? '#6b7280' : '#9ca3af'} 
                     />
-                    <Tooltip formatter={(value) => [`${value > 0 ? '+' : ''}${value}%`, 'Comparison']} />
+                    <Tooltip formatter={(value) => [`${Number(value) > 0 ? '+' : ''}${value}%`, 'Comparison']} />
                     <Bar dataKey="value" />
                   </BarChart>
                 </ResponsiveContainer>
@@ -564,7 +565,7 @@ const PlayerReport = () => {
                       type="category" 
                       stroke={theme === 'light' ? '#6b7280' : '#9ca3af'} 
                     />
-                    <Tooltip formatter={(value) => [`${value > 0 ? '+' : ''}${value}%`, 'Comparison']} />
+                    <Tooltip formatter={(value) => [`${Number(value) > 0 ? '+' : ''}${value}%`, 'Comparison']} />
                     <Bar dataKey="value" />
                   </BarChart>
                 </ResponsiveContainer>
@@ -655,4 +656,24 @@ const PlayerReport = () => {
                 <p className="mt-2">
                   James Rodríguez represents an exceptional talent with immediate impact potential and significant long-term value. His technical abilities alone make him a standout player, while his leadership qualities and tactical intelligence add further value. Physical development areas are clearly identifiable and addressable through targeted conditioning.
                 </p>
-                <p className
+                <p className="mt-2">
+                  Expected to provide immediate quality in chance creation and set-piece delivery, with potential to develop into a franchise player over the next 2-3 seasons. Acquisition is strongly recommended, with a suggested valuation in the €12-15M range.
+                </p>
+                <div className="mt-4 flex items-center">
+                  <span className="font-medium mr-2">Overall Rating:</span>
+                  <span className="flex">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star key={star} className="h-5 w-5 fill-current text-yellow-500" />
+                    ))}
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default PlayerReport;
