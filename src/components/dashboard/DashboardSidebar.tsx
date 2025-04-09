@@ -212,8 +212,8 @@ const DashboardSidebar = () => {
               </SidebarMenuItem>
               
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={false} tooltip="Scouting Reports">
-                  <Link to="#">
+                <SidebarMenuButton asChild isActive={currentPath === '/scouting-reports'} tooltip="Scouting Reports">
+                  <Link to="/scouting-reports">
                     <FileText />
                     <span>Scouting Reports</span>
                   </Link>
