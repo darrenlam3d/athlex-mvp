@@ -4,6 +4,7 @@ import { useProfile } from '@/contexts/ProfileContext';
 import MvpRoleSelector from '@/components/mvp/MvpRoleSelector';
 import MvpAthleteView from '@/components/mvp/MvpAthleteView';
 import MvpScoutView from '@/components/mvp/MvpScoutView';
+import ScrollToTopButton from '@/components/ui/ScrollToTopButton';
 
 const MVP = () => {
   // State to track the selected role
@@ -37,6 +38,9 @@ const MVP = () => {
           )}
         </main>
       </div>
+      
+      {/* Add scroll to top button for better UX */}
+      <ScrollToTopButton />
     </div>
   );
 };

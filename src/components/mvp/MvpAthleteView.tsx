@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/button';
 import { useProfile } from '@/contexts/ProfileContext';
 import MvpPerformanceChart from './MvpPerformanceChart';
 import MvpTrainingRecommendation from './MvpTrainingRecommendation';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { BarChart, Activity, Award } from 'lucide-react';
 
 const MvpAthleteView = () => {
   const { profileData } = useProfile();
@@ -38,12 +41,15 @@ const MvpAthleteView = () => {
       {/* Basic Profile */}
       <Card className="bg-gray-900/60 border-gray-800">
         <CardHeader className="pb-2">
-          <CardTitle>Athlete Profile</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Award className="h-5 w-5 text-athlex-accent" />
+            Athlete Profile
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-shrink-0">
-              <Avatar className="h-24 w-24">
+              <Avatar className="h-24 w-24 border-2 border-athlex-accent shadow-[0_0_15px_rgba(155,135,245,0.3)]">
                 <AvatarImage src={profileData.profileImage} alt={`${profileData.firstName} ${profileData.lastName}`} />
                 <AvatarFallback>{getInitials()}</AvatarFallback>
               </Avatar>
@@ -51,7 +57,7 @@ const MvpAthleteView = () => {
             
             <div className="flex-1 space-y-4">
               <div>
-                <h2 className="text-xl font-semibold">{`${profileData.firstName} ${profileData.lastName}`}</h2>
+                <h2 className="text-xl font-semibold gradient-text">{`${profileData.firstName} ${profileData.lastName}`}</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-3">
                   <div>
                     <p className="text-sm text-gray-400">Age</p>
@@ -76,83 +82,110 @@ const MvpAthleteView = () => {
         </CardContent>
       </Card>
       
-      {/* Stats Entry */}
-      <Card className="bg-gray-900/60 border-gray-800">
-        <CardHeader className="pb-2">
-          <CardTitle>Performance Metrics Entry</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <Label htmlFor="sprintDistance">Sprint Distance (m)</Label>
-              <Input 
-                id="sprintDistance" 
-                name="sprintDistance" 
-                value={stats.sprintDistance} 
-                onChange={handleStatsChange} 
-                className="mt-1" 
-              />
-            </div>
-            <div>
-              <Label htmlFor="passCompletionRate">Pass Completion (%)</Label>
-              <Input 
-                id="passCompletionRate" 
-                name="passCompletionRate" 
-                value={stats.passCompletionRate} 
-                onChange={handleStatsChange} 
-                className="mt-1" 
-              />
-            </div>
-            <div>
-              <Label htmlFor="tackleSuccess">Tackle Success (%)</Label>
-              <Input 
-                id="tackleSuccess" 
-                name="tackleSuccess" 
-                value={stats.tackleSuccess} 
-                onChange={handleStatsChange} 
-                className="mt-1" 
-              />
-            </div>
-            <div>
-              <Label htmlFor="aerialDuelsWon">Aerial Duels Won</Label>
-              <Input 
-                id="aerialDuelsWon" 
-                name="aerialDuelsWon" 
-                value={stats.aerialDuelsWon} 
-                onChange={handleStatsChange} 
-                className="mt-1" 
-              />
-            </div>
-            <div>
-              <Label htmlFor="shotsOnTarget">Shots on Target</Label>
-              <Input 
-                id="shotsOnTarget" 
-                name="shotsOnTarget" 
-                value={stats.shotsOnTarget} 
-                onChange={handleStatsChange} 
-                className="mt-1" 
-              />
-            </div>
-            <div>
-              <Label htmlFor="distanceCovered">Distance Covered (km)</Label>
-              <Input 
-                id="distanceCovered" 
-                name="distanceCovered" 
-                value={stats.distanceCovered} 
-                onChange={handleStatsChange} 
-                className="mt-1" 
-              />
-            </div>
-          </div>
-          <Button className="mt-4">Update Performance Data</Button>
-        </CardContent>
-      </Card>
-      
-      {/* Performance Chart */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <MvpPerformanceChart />
-        <MvpTrainingRecommendation />
-      </div>
+      {/* Tabs for different views */}
+      <Tabs defaultValue="metrics" className="w-full">
+        <TabsList className="grid w-full grid-cols-3 bg-gray-800/60">
+          <TabsTrigger value="metrics" className="flex items-center gap-1.5">
+            <Activity className="h-4 w-4" /> Metrics
+          </TabsTrigger>
+          <TabsTrigger value="performance" className="flex items-center gap-1.5">
+            <BarChart className="h-4 w-4" /> Performance
+          </TabsTrigger>
+          <TabsTrigger value="training" className="flex items-center gap-1.5">
+            <Award className="h-4 w-4" /> Training
+          </TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="metrics" className="mt-4 space-y-6 animate-fade-in">
+          {/* Stats Entry */}
+          <Card className="bg-gray-900/60 border-gray-800">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle>Performance Metrics Entry</CardTitle>
+                <Badge className="bg-athlex-accent/80">Last Match</Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <Label htmlFor="sprintDistance">Sprint Distance (m)</Label>
+                  <Input 
+                    id="sprintDistance" 
+                    name="sprintDistance" 
+                    value={stats.sprintDistance} 
+                    onChange={handleStatsChange} 
+                    className="mt-1" 
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="passCompletionRate">Pass Completion (%)</Label>
+                  <Input 
+                    id="passCompletionRate" 
+                    name="passCompletionRate" 
+                    value={stats.passCompletionRate} 
+                    onChange={handleStatsChange} 
+                    className="mt-1" 
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="tackleSuccess">Tackle Success (%)</Label>
+                  <Input 
+                    id="tackleSuccess" 
+                    name="tackleSuccess" 
+                    value={stats.tackleSuccess} 
+                    onChange={handleStatsChange} 
+                    className="mt-1" 
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="aerialDuelsWon">Aerial Duels Won</Label>
+                  <Input 
+                    id="aerialDuelsWon" 
+                    name="aerialDuelsWon" 
+                    value={stats.aerialDuelsWon} 
+                    onChange={handleStatsChange} 
+                    className="mt-1" 
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="shotsOnTarget">Shots on Target</Label>
+                  <Input 
+                    id="shotsOnTarget" 
+                    name="shotsOnTarget" 
+                    value={stats.shotsOnTarget} 
+                    onChange={handleStatsChange} 
+                    className="mt-1" 
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="distanceCovered">Distance Covered (km)</Label>
+                  <Input 
+                    id="distanceCovered" 
+                    name="distanceCovered" 
+                    value={stats.distanceCovered} 
+                    onChange={handleStatsChange} 
+                    className="mt-1" 
+                  />
+                </div>
+              </div>
+              <Button className="mt-4 bg-athlex-accent hover:bg-athlex-accent/90">Update Performance Data</Button>
+            </CardContent>
+          </Card>
+          
+          {/* Recent Match Summary Card */}
+          <MvpMatchSummary />
+        </TabsContent>
+        
+        <TabsContent value="performance" className="mt-4 space-y-6 animate-fade-in">
+          <MvpPerformanceChart />
+          <MvpPerformanceComparison />
+        </TabsContent>
+        
+        <TabsContent value="training" className="mt-4 space-y-6 animate-fade-in">
+          <MvpTrainingRecommendation />
+          <MvpTrainingSchedule />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

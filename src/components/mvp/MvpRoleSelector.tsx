@@ -12,7 +12,7 @@ interface MvpRoleSelectorProps {
 const MvpRoleSelector = ({ activeRole, onRoleChange }: MvpRoleSelectorProps) => {
   return (
     <Card className="p-6 bg-gray-900/60 border-gray-800">
-      <h2 className="text-lg font-medium mb-4 text-center">Select Your View</h2>
+      <h2 className="text-lg font-medium mb-4 text-center gradient-text">Select Your Role</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div 
@@ -36,7 +36,7 @@ const MvpRoleSelector = ({ activeRole, onRoleChange }: MvpRoleSelectorProps) => 
             
             <Button 
               variant={activeRole === 'athlete' ? 'default' : 'outline'} 
-              className="mt-4" 
+              className={`mt-4 ${activeRole === 'athlete' ? 'bg-athlex-accent hover:bg-athlex-accent/90' : ''}`}
               onClick={() => onRoleChange('athlete')}
             >
               Select Athlete View
@@ -65,7 +65,7 @@ const MvpRoleSelector = ({ activeRole, onRoleChange }: MvpRoleSelectorProps) => 
             
             <Button 
               variant={activeRole === 'scout' ? 'default' : 'outline'} 
-              className="mt-4" 
+              className={`mt-4 ${activeRole === 'scout' ? 'bg-athlex-accent hover:bg-athlex-accent/90' : ''}`}
               onClick={() => onRoleChange('scout')}
             >
               Select Scout View
