@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import MvpAthleteList from './MvpAthleteList';
 import MvpAthleteDetail from './MvpAthleteDetail';
+import MvpScoutFilters from './MvpScoutFilters';
 import { Search, Filter, RefreshCw } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
