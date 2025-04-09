@@ -25,6 +25,7 @@ import Dashboard from "./pages/Dashboard";
 import AthleteProfileView from "./pages/AthleteProfileView";
 import Login from "./pages/Login";
 import ScoutingReports from "./pages/ScoutingReports";
+import MVP from "./pages/MVP";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/athlete-profile" element={<AthleteProfileView />} />
               <Route path="/scouting-reports" element={<ScoutingReports />} />
+              <Route path="/mvp" element={<MVP />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
