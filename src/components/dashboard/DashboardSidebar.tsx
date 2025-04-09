@@ -3,7 +3,23 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
-import { Home, User, Activity, Video, Users, Search, MessageSquare, Settings, Plus, LogOut, UserRound, UsersRound } from 'lucide-react';
+import { 
+  Home, 
+  User, 
+  Activity, 
+  Video, 
+  Users, 
+  Search, 
+  MessageSquare, 
+  Settings, 
+  Plus, 
+  LogOut, 
+  UserRound, 
+  UsersRound,
+  HeartPulse,
+  FileText,
+  Calendar
+} from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { useProfile } from '@/contexts/ProfileContext';
 import { useUserRole } from '@/contexts/UserRoleContext';
@@ -14,21 +30,37 @@ const DashboardSidebar = () => {
   const navigate = useNavigate();
   const currentPath = location.pathname;
   const { profileData } = useProfile();
-  const { userRole, toggleUserRole } = useUserRole();
+  const { userRole, setUserRole } = useUserRole();
 
   const getInitials = () => {
     return `${profileData.firstName.charAt(0)}${profileData.lastName.charAt(0)}`;
   };
 
-  const handleRoleToggle = () => {
-    toggleUserRole();
+  const handleRoleToggle = (newRole: 'athlete' | 'scout' | 'coach') => {
+    setUserRole(newRole);
     
     // Navigate to the appropriate dashboard based on role
-    if (userRole === 'athlete') {
-      navigate('/scout-dashboard');
-    } else {
+    if (newRole === 'athlete') {
       navigate('/profile');
+    } else if (newRole === 'scout') {
+      navigate('/scout-dashboard');
+    } else if (newRole === 'coach') {
+      navigate('/coach-dashboard');
     }
+  };
+
+  const getIconForCurrentRole = () => {
+    if (userRole === 'athlete') return <UserRound size={16} className="text-green-400" />;
+    if (userRole === 'scout') return <UsersRound size={16} className="text-blue-400" />;
+    if (userRole === 'coach') return <HeartPulse size={16} className="text-orange-400" />;
+    return <UserRound size={16} className="text-green-400" />;
+  };
+
+  const getCurrentRoleName = () => {
+    if (userRole === 'athlete') return 'Athlete View';
+    if (userRole === 'scout') return 'Scout View';
+    if (userRole === 'coach') return 'Coach View';
+    return 'Athlete View';
   };
 
   return (
@@ -55,27 +87,45 @@ const DashboardSidebar = () => {
             </div>
           </div>
           
-          {/* User Role Toggle */}
-          <div className="flex items-center justify-between mt-3 p-2 bg-gray-800/50 rounded-md">
-            <div className="flex items-center gap-2">
-              {userRole === 'athlete' ? (
-                <UserRound size={16} className="text-green-400" />
-              ) : (
-                <UsersRound size={16} className="text-blue-400" />
-              )}
-              <span className="text-sm">
-                {userRole === 'athlete' ? 'Athlete View' : 'Scout/Coach View'}
-              </span>
+          {/* User Role Selector */}
+          <div className="mt-3 p-2 bg-gray-800/50 rounded-md">
+            <div className="flex items-center gap-2 mb-2">
+              {getIconForCurrentRole()}
+              <span className="text-sm">{getCurrentRoleName()}</span>
             </div>
-            <Switch 
-              checked={userRole === 'scout'}
-              onCheckedChange={handleRoleToggle}
-            />
+            
+            <div className="grid grid-cols-3 gap-1">
+              <Button 
+                variant={userRole === 'athlete' ? 'default' : 'outline'} 
+                size="sm" 
+                className="text-xs py-1 h-auto"
+                onClick={() => handleRoleToggle('athlete')}
+              >
+                Athlete
+              </Button>
+              <Button 
+                variant={userRole === 'scout' ? 'default' : 'outline'} 
+                size="sm" 
+                className="text-xs py-1 h-auto"
+                onClick={() => handleRoleToggle('scout')}
+              >
+                Scout
+              </Button>
+              <Button 
+                variant={userRole === 'coach' ? 'default' : 'outline'} 
+                size="sm" 
+                className="text-xs py-1 h-auto"
+                onClick={() => handleRoleToggle('coach')}
+              >
+                Coach
+              </Button>
+            </div>
           </div>
         </div>
         
         <SidebarMenu className="mt-4">
           {userRole === 'athlete' ? (
+            // Athlete View Menu
             <>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={currentPath === '/home'} tooltip="Home">
@@ -140,10 +190,11 @@ const DashboardSidebar = () => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </>
-          ) : (
+          ) : userRole === 'scout' ? (
+            // Scout View Menu
             <>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={currentPath === '/scout-dashboard'} tooltip="Scout Dashboard">
+                <SidebarMenuButton asChild isActive={currentPath === '/scout-dashboard'} tooltip="Dashboard">
                   <Link to="/scout-dashboard">
                     <Home />
                     <span>Dashboard</span>
@@ -161,10 +212,85 @@ const DashboardSidebar = () => {
               </SidebarMenuItem>
               
               <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={false} tooltip="Scouting Reports">
+                  <Link to="#">
+                    <FileText />
+                    <span>Scouting Reports</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={false} tooltip="Saved Athletes">
+                  <Link to="#">
+                    <Users />
+                    <span>Saved Athletes</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={currentPath === '/messages'} tooltip="Messages">
                   <Link to="/messages">
                     <MessageSquare />
                     <span>Messages</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </>
+          ) : (
+            // Coach View Menu
+            <>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={currentPath === '/coach-dashboard'} tooltip="Dashboard">
+                  <Link to="/coach-dashboard">
+                    <Home />
+                    <span>Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={false} tooltip="My Athletes">
+                  <Link to="#">
+                    <Users />
+                    <span>My Athletes</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={false} tooltip="Training Sessions">
+                  <Link to="#">
+                    <Calendar />
+                    <span>Training Sessions</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={false} tooltip="Performance Analytics">
+                  <Link to="#">
+                    <Activity />
+                    <span>Performance Analytics</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={false} tooltip="Injury Management">
+                  <Link to="#">
+                    <HeartPulse />
+                    <span>Fitness & Recovery</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={currentPath === '/messages'} tooltip="Messaging">
+                  <Link to="/messages">
+                    <MessageSquare />
+                    <span>Messaging</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -184,6 +310,7 @@ const DashboardSidebar = () => {
       
       <SidebarFooter className="border-t border-gray-700/50 px-4 py-4 mt-auto space-y-3">
         {userRole === 'athlete' ? (
+          // Athlete Footer Actions
           <>
             <Button className="w-full" size="sm">
               <Plus className="mr-2 h-4 w-4" />
@@ -193,14 +320,26 @@ const DashboardSidebar = () => {
               Share Profile
             </Button>
           </>
-        ) : (
+        ) : userRole === 'scout' ? (
+          // Scout Footer Actions
           <>
             <Button className="w-full" size="sm">
               <Plus className="mr-2 h-4 w-4" />
               Add Athlete
             </Button>
             <Button className="w-full" variant="outline" size="sm">
-              Create Report
+              Generate Report
+            </Button>
+          </>
+        ) : (
+          // Coach Footer Actions
+          <>
+            <Button className="w-full" size="sm">
+              <Plus className="mr-2 h-4 w-4" />
+              Schedule Session
+            </Button>
+            <Button className="w-full" variant="outline" size="sm">
+              Send Team Message
             </Button>
           </>
         )}

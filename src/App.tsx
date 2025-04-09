@@ -20,8 +20,10 @@ import TalentDiscovery from "./pages/TalentDiscovery";
 import Messages from "./pages/Messages";
 import Settings from "./pages/Settings";
 import ScoutDashboard from "./pages/ScoutDashboard";
+import CoachDashboard from "./pages/CoachDashboard";
 import Dashboard from "./pages/Dashboard";
 import AthleteProfileView from "./pages/AthleteProfileView";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/legal" element={<Legal />} />
               <Route path="/edge-signup" element={<EdgeSignup />} />
@@ -47,6 +50,7 @@ const App = () => (
               <Route path="/messages" element={<Messages />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/scout-dashboard" element={<ScoutDashboard />} />
+              <Route path="/coach-dashboard" element={<CoachDashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/athlete-profile" element={<AthleteProfileView />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
