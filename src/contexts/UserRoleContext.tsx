@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 type UserRole = 'athlete' | 'scout' | 'coach';
 
@@ -11,7 +11,17 @@ interface UserRoleContextType {
 const UserRoleContext = createContext<UserRoleContextType | undefined>(undefined);
 
 export const UserRoleProvider = ({ children }: { children: ReactNode }) => {
-  const [userRole, setUserRole] = useState<UserRole>('athlete');
+  // Check if we have a stored role in localStorage
+  const [userRole, setUserRole] = useState<UserRole>(() => {
+    const storedRole = localStorage.getItem('userRole');
+    return (storedRole as UserRole) || 'athlete';
+  });
+
+  // When role changes, save to localStorage
+  useEffect(() => {
+    localStorage.setItem('userRole', userRole);
+    console.log('User role updated to:', userRole);
+  }, [userRole]);
 
   return (
     <UserRoleContext.Provider value={{ userRole, setUserRole }}>

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
@@ -24,10 +24,16 @@ const AthleteDetailPage: React.FC = () => {
   const { userRole } = useUserRole();
   const navigate = useNavigate();
   
+  // Log the current user role for debugging
+  useEffect(() => {
+    console.log("Current user role on athlete detail page:", userRole);
+  }, [userRole]);
+  
   // Allow both scouts and coaches to view athlete profiles
   const hasAccess = userRole === 'scout' || userRole === 'coach';
   
   if (!hasAccess) {
+    console.log("Access denied: user role is", userRole);
     toast.error("You don't have permission to view athlete profiles");
     return <Navigate to="/athlete-dashboard" />;
   }

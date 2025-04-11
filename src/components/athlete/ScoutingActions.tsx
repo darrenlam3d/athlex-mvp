@@ -28,8 +28,8 @@ const ScoutingActions: React.FC<ScoutingActionsProps> = ({ athleteId }) => {
   };
 
   const handleViewProfile = () => {
-    // Navigate to the athlete detail page
-    navigate(`/athlete/${athleteId}`);
+    // We're already on this page, so just log and do nothing
+    console.log('Already on profile page for athlete ID:', athleteId);
   };
 
   return (
