@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/components/ui/use-toast';
 import { isSupabaseConfigured } from '@/lib/supabase';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ChatPanel from '@/components/community/ChatPanel';
 import { Athlete, AthleteWithConnectionStatus } from '@/components/scouting/AthleteCard';
@@ -21,10 +22,12 @@ import {
 } from '@/utils/athleteUtils';
 import ScoutLayout from '@/layouts/ScoutLayout';
 import { useUserRole } from '@/contexts/UserRoleContext';
+import { useEffect } from 'react';
 
 const ScoutDashboard = () => {
   const { toast: uiToast } = useToast();
-  const { userRole } = useUserRole();
+  const { userRole, setUserRole } = useUserRole();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSport, setSelectedSport] = useState('all');
   const [selectedPosition, setSelectedPosition] = useState('all');
@@ -32,10 +35,12 @@ const ScoutDashboard = () => {
   const [selectedGender, setSelectedGender] = useState('all');
   const [isChatOpen, setIsChatOpen] = useState(false);
   
-  // If user is not a scout, redirect to the appropriate dashboard
-  if (userRole && userRole !== 'scout') {
-    return <Navigate to={`/${userRole}-dashboard`} replace />;
-  }
+  // Force user role to be scout for this page
+  useEffect(() => {
+    if (userRole !== 'scout') {
+      setUserRole('scout');
+    }
+  }, [userRole, setUserRole]);
   
   // Updated the state type to AthleteWithConnectionStatus which requires connection_status
   const [selectedAthlete, setSelectedAthlete] = useState<AthleteWithConnectionStatus | null>(null);
