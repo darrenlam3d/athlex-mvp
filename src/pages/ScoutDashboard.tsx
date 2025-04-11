@@ -270,7 +270,12 @@ const ScoutDashboard = () => {
   const handleOpenChat = (athleteId: string) => {
     const athlete = shortlistedAthletes?.find(a => a.id === athleteId) || null;
     if (athlete) {
-      setSelectedAthlete(athlete);
+      // Set a default connection_status for the athlete when opening chat
+      const athleteWithConnectionStatus = {
+        ...athlete,
+        connection_status: 'connected' as const
+      };
+      setSelectedAthlete(athleteWithConnectionStatus);
       setIsChatOpen(true);
     }
   };

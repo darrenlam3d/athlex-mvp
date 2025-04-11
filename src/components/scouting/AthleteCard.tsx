@@ -16,6 +16,7 @@ export interface Athlete {
   recent_speed_kmh?: number;
   performance_score?: number;
   profile_photo?: string;
+  connection_status?: 'not_connected' | 'pending' | 'connected'; // Add this property
 }
 
 interface AthleteCardProps {
