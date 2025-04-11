@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { ChartIcon, CheckCircle2 } from 'lucide-react';
+import { BarChart2, CheckCircle2 } from 'lucide-react';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 
@@ -37,7 +37,7 @@ const GoalHistorySection = () => {
     <Card className="border-gray-700 bg-athlex-gray-900">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center text-xl font-medium">
-          <ChartIcon className="h-5 w-5 mr-2 text-athlex-accent" />
+          <BarChart2 className="h-5 w-5 mr-2 text-athlex-accent" />
           Goal History
         </CardTitle>
         <CardDescription className="text-gray-400">
