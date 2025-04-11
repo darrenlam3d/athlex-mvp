@@ -110,14 +110,14 @@ const mockAthleteData = {
   ]
 };
 
-const AthleteDetailPage = () => {
+const AthleteDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { userRole } = useUserRole();
   
   // Redirect non-scouts away from this page
   if (userRole !== 'scout') {
-    return navigate('/athlete-dashboard');
+    return <Navigate to="/athlete-dashboard" />;
   }
 
   // Query for athlete data

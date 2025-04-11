@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { useQuery } from '@tanstack/react-query';
@@ -47,6 +47,7 @@ const formFields = [
 
 const PerformanceGoals = () => {
   const { userRole } = useUserRole();
+  const [showNewGoalForm, setShowNewGoalForm] = useState(false);
   
   // Redirect scouts to their dashboard
   if (userRole === 'scout') {
@@ -151,16 +152,17 @@ const PerformanceGoals = () => {
   // Handle refetch
   const handleGoalAdded = () => {
     refetch();
+    setShowNewGoalForm(false);
   };
   
   const handleCreateGoal = () => {
     // Function to handle "Create Goal" button click
-    console.log("Create new goal clicked");
+    setShowNewGoalForm(true);
   };
   
   const handleCancelGoalCreation = () => {
     // Function to handle cancel button click
-    console.log("Goal creation cancelled");
+    setShowNewGoalForm(false);
   };
 
   return (
@@ -181,13 +183,15 @@ const PerformanceGoals = () => {
               />
               
               {/* New Goal Form - Fixed props */}
-              <div className="mt-8">
-                <NewGoalForm 
-                  formFields={formFields}
-                  onSuccess={handleGoalAdded}
-                  onCancel={handleCancelGoalCreation}
-                />
-              </div>
+              {showNewGoalForm && (
+                <div className="mt-8">
+                  <NewGoalForm 
+                    formFields={formFields}
+                    onSuccess={handleGoalAdded}
+                    onCancel={handleCancelGoalCreation}
+                  />
+                </div>
+              )}
               
               {/* Goal History - Fixed props */}
               <div className="mt-12">
