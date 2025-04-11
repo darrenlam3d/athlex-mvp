@@ -6,7 +6,6 @@ type UserRole = 'athlete' | 'scout' | 'coach';
 interface UserRoleContextType {
   userRole: UserRole;
   setUserRole: (role: UserRole) => void;
-  toggleUserRole: () => void;
 }
 
 const UserRoleContext = createContext<UserRoleContextType | undefined>(undefined);
@@ -14,16 +13,8 @@ const UserRoleContext = createContext<UserRoleContextType | undefined>(undefined
 export const UserRoleProvider = ({ children }: { children: ReactNode }) => {
   const [userRole, setUserRole] = useState<UserRole>('athlete');
 
-  const toggleUserRole = () => {
-    setUserRole(prevRole => {
-      if (prevRole === 'athlete') return 'scout';
-      if (prevRole === 'scout') return 'coach';
-      return 'athlete';
-    });
-  };
-
   return (
-    <UserRoleContext.Provider value={{ userRole, setUserRole, toggleUserRole }}>
+    <UserRoleContext.Provider value={{ userRole, setUserRole }}>
       {children}
     </UserRoleContext.Provider>
   );

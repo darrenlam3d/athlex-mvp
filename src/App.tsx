@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { isSupabaseConfigured } from "@/lib/supabase";
+import { ProfileProvider } from "@/contexts/ProfileContext";
+import { UserRoleProvider } from "@/contexts/UserRoleContext";
 import Index from "./pages/Index";
 import AthleteDashboard from "./pages/AthleteDashboard";
 import Dashboard from "./pages/Dashboard";
@@ -41,29 +43,33 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner position="top-center" />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/athlete-dashboard" element={<AthleteDashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/training" element={<Training />} />
-            <Route path="/training-log" element={<TrainingLog />} />
-            
-            {/* Add routes for the remaining navigation items */}
-            <Route path="/performance" element={<PerformancePage />} />
-            <Route path="/performance-goals" element={<GoalsPage />} />
-            <Route path="/nutrition" element={<NutritionPage />} />
-            <Route path="/community" element={<CommunityPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            
-            {/* Default route */}
-            <Route path="*" element={<Navigate to="/athlete-dashboard" replace />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <ProfileProvider>
+        <UserRoleProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner position="top-center" />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/athlete-dashboard" element={<AthleteDashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/training" element={<Training />} />
+                <Route path="/training-log" element={<TrainingLog />} />
+                
+                {/* Add routes for the remaining navigation items */}
+                <Route path="/performance" element={<PerformancePage />} />
+                <Route path="/performance-goals" element={<GoalsPage />} />
+                <Route path="/nutrition" element={<NutritionPage />} />
+                <Route path="/community" element={<CommunityPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                
+                {/* Default route */}
+                <Route path="*" element={<Navigate to="/athlete-dashboard" replace />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </UserRoleProvider>
+      </ProfileProvider>
     </QueryClientProvider>
   );
 };
