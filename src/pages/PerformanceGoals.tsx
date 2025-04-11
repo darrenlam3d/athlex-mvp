@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
@@ -8,34 +9,41 @@ import NewGoalForm from '@/components/goals/NewGoalForm';
 import GoalHistorySection from '@/components/goals/GoalHistorySection';
 import { useUserRole } from '@/contexts/UserRoleContext';
 import { Navigate } from 'react-router-dom';
-import { RefetchOptions, QueryObserverResult } from '@tanstack/react-query';
 
-// Define prop types to match the components
+// Define types to match the components
 interface Goal {
   id: string;
+  goal_id: string;
   title: string;
   description: string;
   current_value: number;
   target_value: number;
   unit: string;
   start_date: string;
-  target_date: string;
+  end_date: string;
   category: string;
   status: string;
+  metric: string;
+  progress_percent: number;
 }
 
-// Add these interfaces to match component props
-interface ActiveGoalsListProps {
-  goals: Goal[];
-}
-
-interface GoalHistorySectionProps {
-  goals: Goal[];
-}
-
-interface NewGoalFormProps {
-  onGoalAdded: () => void;
-}
+// Ensure these match the component interfaces
+const formFields = [
+  {
+    label: "Performance Metric",
+    type: "select",
+    options: [
+      "Sprint Speed",
+      "Vertical Jump",
+      "Agility Test",
+      "Distance Run",
+      "Passing Accuracy",
+      "Shot Power",
+      "1RM Squat",
+      "Reaction Time"
+    ]
+  }
+];
 
 const PerformanceGoals = () => {
   const { userRole } = useUserRole();
@@ -58,41 +66,50 @@ const PerformanceGoals = () => {
           activeGoals: [
             {
               id: 'goal1',
+              goal_id: 'goal1',
               title: 'Improve sprint speed',
               description: 'Increase top sprint speed by 5%',
               current_value: 28,
               target_value: 32,
               unit: 'km/h',
               start_date: '2025-03-15',
-              target_date: '2025-05-15',
+              end_date: '2025-05-15',
               category: 'speed',
-              status: 'active'
+              status: 'In Progress',
+              metric: 'Sprint Speed',
+              progress_percent: 70
             },
             {
               id: 'goal2',
+              goal_id: 'goal2',
               title: 'Increase vertical jump',
               description: 'Reach 30 inch vertical jump',
               current_value: 26,
               target_value: 30,
               unit: 'inches',
               start_date: '2025-03-01',
-              target_date: '2025-06-01',
+              end_date: '2025-06-01',
               category: 'strength',
-              status: 'active'
+              status: 'Not Started',
+              metric: 'Vertical Jump',
+              progress_percent: 40
             }
           ],
           goalHistory: [
             {
               id: 'goal3',
+              goal_id: 'goal3',
               title: 'Improve passing accuracy',
               description: 'Increase passing accuracy to 85%',
               current_value: 85,
               target_value: 85,
               unit: '%',
               start_date: '2025-01-15',
-              target_date: '2025-03-15',
+              end_date: '2025-03-15',
               category: 'technique',
-              status: 'completed'
+              status: 'Completed',
+              metric: 'Passing Accuracy',
+              progress_percent: 100
             }
           ]
         };
@@ -131,9 +148,19 @@ const PerformanceGoals = () => {
     }
   });
 
-  // Handle refetch with type safety
+  // Handle refetch
   const handleGoalAdded = () => {
     refetch();
+  };
+  
+  const handleCreateGoal = () => {
+    // Function to handle "Create Goal" button click
+    console.log("Create new goal clicked");
+  };
+  
+  const handleCancelGoalCreation = () => {
+    // Function to handle cancel button click
+    console.log("Goal creation cancelled");
   };
 
   return (
@@ -147,17 +174,22 @@ const PerformanceGoals = () => {
             <div className="max-w-4xl mx-auto">
               <h1 className="text-2xl md:text-3xl font-bold mb-6">Performance Goals</h1>
               
-              {/* Active Goals - Pass only the props that the component expects */}
+              {/* Active Goals - Fixed props */}
               <ActiveGoalsList 
                 goals={goalsData?.activeGoals || []}
+                onCreateGoal={handleCreateGoal}
               />
               
-              {/* New Goal Form - Fix the onGoalAdded prop */}
+              {/* New Goal Form - Fixed props */}
               <div className="mt-8">
-                <NewGoalForm onGoalAdded={handleGoalAdded} />
+                <NewGoalForm 
+                  formFields={formFields}
+                  onSuccess={handleGoalAdded}
+                  onCancel={handleCancelGoalCreation}
+                />
               </div>
               
-              {/* Goal History - Pass only the props that the component expects */}
+              {/* Goal History - Fixed props */}
               <div className="mt-12">
                 <GoalHistorySection 
                   goals={goalsData?.goalHistory || []}

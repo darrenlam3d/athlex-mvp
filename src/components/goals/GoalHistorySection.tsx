@@ -5,34 +5,20 @@ import { BarChart2, CheckCircle2 } from 'lucide-react';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 
-const mockHistoryGoals = [
-  {
-    id: 1,
-    metric: "Sprint Speed",
-    target: "24 km/h",
-    achieved: "24.5 km/h",
-    completed_date: "2025-03-15",
-    status: "Completed"
-  },
-  {
-    id: 2,
-    metric: "Vertical Jump",
-    target: "65 cm",
-    achieved: "67 cm",
-    completed_date: "2025-02-28",
-    status: "Completed"
-  },
-  {
-    id: 3,
-    metric: "5km Run",
-    target: "22 minutes",
-    achieved: "23.5 minutes",
-    completed_date: "2025-02-10",
-    status: "Expired"
-  }
-];
+interface Goal {
+  id: string;
+  metric: string;
+  target_value: number;
+  current_value: number;
+  end_date: string;
+  status: string;
+}
 
-const GoalHistorySection = () => {
+interface GoalHistorySectionProps {
+  goals: Goal[];
+}
+
+const GoalHistorySection: React.FC<GoalHistorySectionProps> = ({ goals }) => {
   return (
     <Card className="border-gray-700 bg-athlex-gray-900">
       <CardHeader className="pb-3">
@@ -45,7 +31,7 @@ const GoalHistorySection = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {mockHistoryGoals.length === 0 ? (
+        {goals.length === 0 ? (
           <div className="text-center py-8 text-gray-400">
             No completed goals yet. Your goal history will appear here.
           </div>
@@ -61,12 +47,12 @@ const GoalHistorySection = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockHistoryGoals.map((goal) => (
+              {goals.map((goal) => (
                 <TableRow key={goal.id} className="border-gray-700">
                   <TableCell className="font-medium">{goal.metric}</TableCell>
-                  <TableCell>{goal.target}</TableCell>
-                  <TableCell>{goal.achieved}</TableCell>
-                  <TableCell>{goal.completed_date}</TableCell>
+                  <TableCell>{goal.target_value}</TableCell>
+                  <TableCell>{goal.current_value}</TableCell>
+                  <TableCell>{goal.end_date}</TableCell>
                   <TableCell>
                     {goal.status === "Completed" ? (
                       <Badge className="flex items-center bg-green-950 text-green-400 gap-1">
