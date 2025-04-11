@@ -1,17 +1,27 @@
-
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Lightbulb, Loader2, ArrowRight } from 'lucide-react';
+import { mockInsights } from '@/lib/mockData';
 
 const PerformanceInsights = () => {
+  // Check if Supabase is configured
+  const isConfigured = isSupabaseConfigured();
+  
   // Fetch performance insights
   const { data: insights, isLoading } = useQuery({
     queryKey: ['performanceInsights'],
     queryFn: async () => {
+      // If Supabase is not configured, return mock data
+      if (!isConfigured) {
+        console.log('Using mock insight data');
+        return mockInsights;
+      }
+      
+      // Otherwise, fetch from Supabase
       const user = await supabase.auth.getUser();
       
       // Call a Supabase RPC function that calculates insights

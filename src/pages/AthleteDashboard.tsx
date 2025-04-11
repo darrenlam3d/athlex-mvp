@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
-import { useToast } from "@/hooks/use-toast"; // <-- Fixed import
+import { useToast } from "@/hooks/use-toast"; 
 import AthleteSidebar from '@/components/dashboard/AthleteSidebar';
 import PerformanceChart from '@/components/dashboard/PerformanceChart';
 import TodaysTraining from '@/components/dashboard/TodaysTraining';
@@ -11,6 +11,7 @@ import PerformanceInsights from '@/components/dashboard/PerformanceInsights';
 import GoalProgressPreview from '@/components/dashboard/GoalProgressPreview';
 import QuickNavigation from '@/components/dashboard/QuickNavigation';
 import { Loader2, AlertTriangle } from 'lucide-react';
+import { mockAthlete } from '@/lib/mockData';
 
 const AthleteDashboard = () => {
   const { toast } = useToast();
@@ -23,7 +24,8 @@ const AthleteDashboard = () => {
     queryKey: ['userRole'],
     queryFn: async () => {
       if (!isConfigured) {
-        throw new Error('Supabase is not configured');
+        console.log('Using mock user role: athlete');
+        return 'athlete';
       }
       
       const { data: userResponse } = await supabase.auth.getUser();
@@ -37,7 +39,7 @@ const AthleteDashboard = () => {
       if (error) throw error;
       return userData.role;
     },
-    enabled: isConfigured, // Only run query if Supabase is configured
+    enabled: true, // Always run the query since we now handle non-configured Supabase
   });
 
   useEffect(() => {
@@ -50,25 +52,13 @@ const AthleteDashboard = () => {
     }
   }, [roleError, toast]);
 
-  // If Supabase is not configured, show configuration error
+  // If Supabase is not configured, show demo mode notice
   if (!isConfigured) {
-    return (
-      <div className="h-screen flex flex-col items-center justify-center bg-athlex-background text-white p-6">
-        <AlertTriangle className="h-12 w-12 text-yellow-500 mb-4" />
-        <h1 className="text-2xl font-bold mb-4">Configuration Error</h1>
-        <p className="text-center max-w-md mb-6">
-          Supabase environment variables are missing. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your environment.
-        </p>
-        <div className="p-4 bg-athlex-gray-800 rounded-md text-sm font-mono max-w-md overflow-auto">
-          <p><strong>VITE_SUPABASE_URL</strong>: Your Supabase project URL</p>
-          <p><strong>VITE_SUPABASE_ANON_KEY</strong>: Your Supabase anon/public key</p>
-        </div>
-      </div>
-    );
+    console.log('Running Athlete Dashboard in demo mode with mock data');
   }
 
   // If role is loading, show loading state
-  if (roleLoading) {
+  if (roleLoading && isConfigured) {
     return (
       <div className="h-screen flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-athlex-accent" />
@@ -77,8 +67,8 @@ const AthleteDashboard = () => {
     );
   }
 
-  // If user is not an athlete, redirect to appropriate dashboard
-  if (userRole && userRole !== 'athlete') {
+  // If user is not an athlete and Supabase is configured, redirect to appropriate dashboard
+  if (userRole && userRole !== 'athlete' && isConfigured) {
     return <Navigate to={`/${userRole}-dashboard`} replace />;
   }
 
@@ -87,7 +77,16 @@ const AthleteDashboard = () => {
       <AthleteSidebar />
       <main className="flex-1 p-6">
         <div className="container mx-auto">
-          <h1 className="text-3xl font-bold gradient-text mb-8">Athlete Dashboard</h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold gradient-text">Athlete Dashboard</h1>
+            
+            {!isConfigured && (
+              <div className="flex items-center px-4 py-2 bg-yellow-900/30 border border-yellow-600/30 rounded-md text-yellow-200 text-sm">
+                <AlertTriangle className="h-4 w-4 mr-2" />
+                <span>Demo Mode: Using mock data</span>
+              </div>
+            )}
+          </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <PerformanceChart />

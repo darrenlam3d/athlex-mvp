@@ -1,18 +1,28 @@
-
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Target, Loader2, ArrowUpRight } from 'lucide-react';
+import { mockGoals } from '@/lib/mockData';
 
 const GoalProgressPreview = () => {
+  // Check if Supabase is configured
+  const isConfigured = isSupabaseConfigured();
+  
   // Fetch active goals
   const { data: goals, isLoading } = useQuery({
     queryKey: ['performanceGoals'],
     queryFn: async () => {
+      // If Supabase is not configured, return mock data
+      if (!isConfigured) {
+        console.log('Using mock goals data');
+        return mockGoals;
+      }
+      
+      // Otherwise, fetch from Supabase
       const user = await supabase.auth.getUser();
       
       const { data, error } = await supabase

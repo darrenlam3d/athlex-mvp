@@ -1,11 +1,11 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Loader2, TrendingUp } from 'lucide-react';
+import { mockPerformanceData } from '@/lib/mockData';
 
 const PerformanceChart = () => {
   const [timeRange, setTimeRange] = useState('7D');
@@ -33,10 +33,26 @@ const PerformanceChart = () => {
     return { start, end };
   };
   
-  // Fetch performance data from Supabase
+  // Check if Supabase is configured
+  const isConfigured = isSupabaseConfigured();
+  
+  // Fetch performance data from Supabase or use mock data
   const { data, isLoading, error } = useQuery({
     queryKey: ['performanceData', timeRange, metric],
     queryFn: async () => {
+      // If Supabase is not configured, return mock data
+      if (!isConfigured) {
+        console.log('Using mock performance data');
+        
+        // Format mock data for the chart
+        return mockPerformanceData.map(log => ({
+          name: new Date(log.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+          [metric]: log[metric],
+          date: log.date,
+        }));
+      }
+      
+      // Otherwise, fetch from Supabase
       const { start, end } = getDateRange();
       const user = await supabase.auth.getUser();
       

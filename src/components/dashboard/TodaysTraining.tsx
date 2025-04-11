@@ -1,11 +1,11 @@
-
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, CalendarClock, ClipboardList } from 'lucide-react';
+import { mockTodaysTraining } from '@/lib/mockData';
 
 const TodaysTraining = () => {
   // Get today's date in ISO format
@@ -13,10 +13,20 @@ const TodaysTraining = () => {
   today.setHours(0, 0, 0, 0);
   const todayStr = today.toISOString().split('T')[0];
   
+  // Check if Supabase is configured
+  const isConfigured = isSupabaseConfigured();
+  
   // Fetch today's training session
   const { data: session, isLoading } = useQuery({
     queryKey: ['todaysTraining'],
     queryFn: async () => {
+      // If Supabase is not configured, return mock data
+      if (!isConfigured) {
+        console.log('Using mock training session data');
+        return mockTodaysTraining;
+      }
+      
+      // Otherwise, fetch from Supabase
       const user = await supabase.auth.getUser();
       
       const { data, error } = await supabase
