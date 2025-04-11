@@ -48,6 +48,22 @@ const ScoutSidebar = () => {
     }
   };
 
+  // Determine if a nav item is active based on the path and hash
+  const isActive = (itemPath) => {
+    // If we're on the exact path without checking hash
+    if (itemPath === location.pathname && !itemPath.includes('#')) {
+      return true;
+    }
+    
+    // If we need to check the hash
+    if (itemPath.includes('#')) {
+      const [path, hash] = itemPath.split('#');
+      return location.pathname === path && (location.hash === `#${hash}` || (!location.hash && hash === 'shortlist'));
+    }
+    
+    return false;
+  };
+
   return (
     <aside className="w-64 bg-athlex-gray-900 text-white h-screen sticky top-0 border-r border-athlex-gray-800 flex flex-col">
       <div className="p-4 border-b border-athlex-gray-800 flex justify-center items-center">
@@ -67,8 +83,7 @@ const ScoutSidebar = () => {
               <Link 
                 to={item.path}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
-                  location.pathname === item.path || 
-                  (location.pathname === '/scout-dashboard' && item.path.startsWith('/scout-dashboard#'))
+                  isActive(item.path)
                     ? 'bg-athlex-gray-800 text-athlex-accent' 
                     : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white'
                 }`}
