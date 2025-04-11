@@ -35,11 +35,11 @@ const GoalProgressPreview = () => {
     return Math.round((current / target) * 100);
   };
   
-  // Format the remaining time
+  // Format the remaining time - fixed type issue with Date objects
   const formatRemainingTime = (targetDate) => {
     const now = new Date();
     const target = new Date(targetDate);
-    const diffTime = Math.abs(target - now);
+    const diffTime = Math.abs(target.getTime() - now.getTime()); // Use getTime() to get numeric value
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
     if (diffDays === 1) return '1 day left';

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/hooks/use-toast"; // <-- Fixed import
 import AthleteSidebar from '@/components/dashboard/AthleteSidebar';
 import PerformanceChart from '@/components/dashboard/PerformanceChart';
 import TodaysTraining from '@/components/dashboard/TodaysTraining';
@@ -14,16 +14,17 @@ import { Loader2 } from 'lucide-react';
 
 const AthleteDashboard = () => {
   const { toast } = useToast();
-  const user = supabase.auth.getUser();
 
-  // Fetch user role from Supabase
+  // Fix the user data fetch to properly await the Promise
   const { data: userRole, isLoading: roleLoading, error: roleError } = useQuery({
     queryKey: ['userRole'],
     queryFn: async () => {
+      const { data: userResponse } = await supabase.auth.getUser();
+      
       const { data: userData, error } = await supabase
         .from('users')
         .select('role')
-        .eq('id', user.data?.user?.id)
+        .eq('id', userResponse.user?.id)
         .single();
       
       if (error) throw error;

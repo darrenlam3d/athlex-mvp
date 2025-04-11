@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/hooks/use-toast"; // <-- Fixed import
 import { toast as sonnerToast } from 'sonner';
 
 const AthleteSidebar = () => {
