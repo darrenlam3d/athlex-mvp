@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -99,7 +98,7 @@ const MvpTrainingMetrics = () => {
                           <p className="text-blue-300">Cardio: {payload[1]?.value} hrs</p>
                           <p className="text-green-300">Technical: {payload[2]?.value} hrs</p>
                           <p className="font-medium mt-1">
-                            Total: {(payload[0]?.value + payload[1]?.value + payload[2]?.value)} hrs
+                            Total: {Number(payload[0]?.value || 0) + Number(payload[1]?.value || 0) + Number(payload[2]?.value || 0)} hrs
                           </p>
                         </div>
                       ) : null

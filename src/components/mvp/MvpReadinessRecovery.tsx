@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, BedDouble, Activity, BarChart3 } from 'lucide-react';
@@ -188,7 +187,7 @@ const MvpReadinessRecovery = () => {
                           <p className="text-purple-300">REM: {payload[2]?.value} hrs</p>
                           <p className="text-blue-300">Light: {payload[1]?.value} hrs</p>
                           <p className="font-medium mt-1">
-                            Total: {(payload[0]?.value + payload[1]?.value + payload[2]?.value).toFixed(1)} hrs
+                            Total: {(Number(payload[0]?.value || 0) + Number(payload[1]?.value || 0) + Number(payload[2]?.value || 0)).toFixed(1)} hrs
                           </p>
                         </div>
                       ) : null
