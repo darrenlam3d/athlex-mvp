@@ -24,7 +24,15 @@ import AthleteDetailPage from "./pages/AthleteDetailPage";
 import NotFound from "./pages/NotFound";
 
 // Create basic placeholder pages for the missing routes
-const SettingsPage = () => <Navigate to="/athlete-dashboard" replace />;
+const SettingsPage = () => <Navigate to="/dashboard" replace />;
+const CoachDashboardPage = () => (
+  <div className="min-h-screen bg-athlex-background text-white flex items-center justify-center">
+    <div className="text-center">
+      <h2 className="text-2xl font-bold mb-2">Coach Dashboard</h2>
+      <p className="text-gray-400 mb-6">This page is under development.</p>
+    </div>
+  </div>
+);
 
 const queryClient = new QueryClient();
 
@@ -52,19 +60,26 @@ const App = () => {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
+                
+                {/* Athlete Routes */}
                 <Route path="/athlete-dashboard" element={<AthleteDashboard />} />
-                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/training" element={<Training />} />
                 <Route path="/training-log" element={<TrainingLog />} />
                 <Route path="/performance" element={<Performance />} />
                 <Route path="/performance-goals" element={<PerformanceGoals />} />
                 <Route path="/nutrition" element={<Nutrition />} />
-                <Route path="/community" element={<Community />} />
-                <Route path="/messages" element={<Messages />} />
+                
+                {/* Scout Routes */}
                 <Route path="/scout-dashboard" element={<ScoutDashboard />} />
                 <Route path="/athlete/:id" element={<AthleteDetailPage />} />
                 
-                {/* Add route for settings */}
+                {/* Coach Routes */}
+                <Route path="/coach-dashboard" element={<CoachDashboardPage />} />
+                
+                {/* Shared Routes */}
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/community" element={<Community />} />
+                <Route path="/messages" element={<Messages />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 
                 {/* Default route - 404 not found */}

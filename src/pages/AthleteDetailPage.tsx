@@ -1,8 +1,6 @@
 
 import React, { useEffect } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { useQuery } from '@tanstack/react-query';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { toast } from 'sonner';
@@ -10,6 +8,8 @@ import { useUserRole } from '@/contexts/UserRoleContext';
 import { getAthleteById } from '@/utils/athleteDetailUtils';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ScoutLayout from '@/layouts/ScoutLayout';
+import CoachLayout from '@/layouts/CoachLayout';
 
 // Import all the components we created
 import AthleteHeader from '@/components/athlete/AthleteHeader';
@@ -82,56 +82,60 @@ const AthleteDetailPage: React.FC = () => {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-athlex-background text-white">
-      <SidebarProvider>
-        <div className="flex w-full min-h-screen">
-          <DashboardSidebar />
+  // Render content with the appropriate layout based on user role
+  const renderContent = () => {
+    const content = (
+      <>
+        <div className="max-w-7xl mx-auto">
+          <Button 
+            variant="ghost" 
+            className="mb-4" 
+            onClick={handleBack}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
           
-          <div className="flex-1 p-4 md:p-6 overflow-y-auto">
-            <div className="max-w-7xl mx-auto">
-              <Button 
-                variant="ghost" 
-                className="mb-4" 
-                onClick={handleBack}
-              >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back
-              </Button>
-              
-              {/* Athlete Header */}
-              <AthleteHeader 
-                athlete={athlete} 
-                onAddToShortlist={handleAddToShortlist} 
-              />
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Left Column - Athlete Passport Summary and Recent Training */}
-                <div className="md:col-span-1 space-y-6">
-                  <AthletePassport athlete={athlete} />
-                  <RecentTraining sessions={athlete?.training_sessions || []} />
-                  <div className="md:hidden">
-                    <ScoutingActions athleteId={id || ''} />
-                  </div>
-                </div>
-                
-                {/* Right Column - Performance Data and Goals */}
-                <div className="md:col-span-2 space-y-6">
-                  <PerformanceMetrics performanceData={athlete?.performance_metrics} />
-                  <GoalOverview goals={athlete?.goals || []} />
-                </div>
-
-                {/* Scouting Actions - Desktop Only */}
-                <div className="hidden md:block md:col-span-1">
-                  <ScoutingActions athleteId={id || ''} />
-                </div>
+          {/* Athlete Header */}
+          <AthleteHeader 
+            athlete={athlete} 
+            onAddToShortlist={handleAddToShortlist} 
+          />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Left Column - Athlete Passport Summary and Recent Training */}
+            <div className="md:col-span-1 space-y-6">
+              <AthletePassport athlete={athlete} />
+              <RecentTraining sessions={athlete?.training_sessions || []} />
+              <div className="md:hidden">
+                <ScoutingActions athleteId={id || ''} />
               </div>
+            </div>
+            
+            {/* Right Column - Performance Data and Goals */}
+            <div className="md:col-span-2 space-y-6">
+              <PerformanceMetrics performanceData={athlete?.performance_metrics} />
+              <GoalOverview goals={athlete?.goals || []} />
+            </div>
+
+            {/* Scouting Actions - Desktop Only */}
+            <div className="hidden md:block md:col-span-1">
+              <ScoutingActions athleteId={id || ''} />
             </div>
           </div>
         </div>
-      </SidebarProvider>
-    </div>
-  );
+      </>
+    );
+
+    if (userRole === 'coach') {
+      return <CoachLayout>{content}</CoachLayout>;
+    }
+    
+    // Default to Scout layout
+    return <ScoutLayout>{content}</ScoutLayout>;
+  };
+
+  return renderContent();
 };
 
 export default AthleteDetailPage;

@@ -1,13 +1,11 @@
-
 import React, { useState } from 'react';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/components/ui/use-toast';
-import ChatPanel from '@/components/community/ChatPanel';
-import { supabase } from '@/lib/supabase';
 import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
+import { useToast } from '@/components/ui/use-toast';
 import { isSupabaseConfigured } from '@/lib/supabase';
+import { Navigate } from 'react-router-dom';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ChatPanel from '@/components/community/ChatPanel';
 import { Athlete, AthleteWithConnectionStatus } from '@/components/scouting/AthleteCard';
 import ShortlistedAthletesSection from '@/components/scouting/ShortlistedAthletesSection';
 import RecommendedAthletesSection from '@/components/scouting/RecommendedAthletesSection';
@@ -21,15 +19,23 @@ import {
   removeFromShortlist,
   sendMessage
 } from '@/utils/athleteUtils';
+import ScoutLayout from '@/layouts/ScoutLayout';
+import { useUserRole } from '@/contexts/UserRoleContext';
 
 const ScoutDashboard = () => {
   const { toast: uiToast } = useToast();
+  const { userRole } = useUserRole();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSport, setSelectedSport] = useState('all');
   const [selectedPosition, setSelectedPosition] = useState('all');
   const [selectedAgeRange, setSelectedAgeRange] = useState('all');
   const [selectedGender, setSelectedGender] = useState('all');
   const [isChatOpen, setIsChatOpen] = useState(false);
+  
+  // If user is not a scout, redirect to the appropriate dashboard
+  if (userRole && userRole !== 'scout') {
+    return <Navigate to={`/${userRole}-dashboard`} replace />;
+  }
   
   // Updated the state type to AthleteWithConnectionStatus which requires connection_status
   const [selectedAthlete, setSelectedAthlete] = useState<AthleteWithConnectionStatus | null>(null);
@@ -194,74 +200,65 @@ const ScoutDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-athlex-background text-white">
-      <SidebarProvider>
-        <div className="flex w-full min-h-screen">
-          <DashboardSidebar />
+    <ScoutLayout>
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold">Welcome, {currentUser.name}</h1>
           
-          {/* Main content */}
-          <div className="flex-1 p-4 md:p-6 overflow-y-auto">
-            <div className="max-w-6xl mx-auto">
-              <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold">Welcome, {currentUser.name}</h1>
-                
-                <div className="mt-2 md:mt-0 flex items-center gap-2">
-                  <span className="text-sm text-athlex-gray-400">
-                    {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                  </span>
-                </div>
-              </div>
-              
-              {/* Tabs for different sections */}
-              <Tabs defaultValue="shortlisted" className="mb-6">
-                <TabsList className="bg-athlex-gray-800 w-full md:w-auto mb-4">
-                  <TabsTrigger value="shortlisted" className="flex-1">Shortlisted Athletes</TabsTrigger>
-                  <TabsTrigger value="recommended" className="flex-1">Recommended</TabsTrigger>
-                  <TabsTrigger value="all" className="flex-1">All Athletes</TabsTrigger>
-                </TabsList>
-                
-                {/* Shortlisted Athletes Tab */}
-                <TabsContent value="shortlisted" className="space-y-6">
-                  <ShortlistedAthletesSection
-                    athletes={shortlistedAthletes}
-                    isLoading={isLoadingShortlisted}
-                    onRemoveFromShortlist={handleRemoveFromShortlist}
-                    onOpenChat={handleOpenChat}
-                  />
-                </TabsContent>
-                
-                {/* Recommended Athletes Tab */}
-                <TabsContent value="recommended" className="space-y-6">
-                  <RecommendedAthletesSection
-                    athletes={recommendedAthletes}
-                    isLoading={isLoadingRecommended}
-                    onAddToShortlist={handleAddToShortlist}
-                  />
-                </TabsContent>
-                
-                {/* All Athletes Tab */}
-                <TabsContent value="all" className="space-y-6">
-                  <AllAthletesSection
-                    athletes={allAthletes || []}
-                    isLoading={isLoadingAll}
-                    searchTerm={searchTerm}
-                    onSearchChange={setSearchTerm}
-                    selectedSport={selectedSport}
-                    onSportChange={setSelectedSport}
-                    selectedPosition={selectedPosition}
-                    onPositionChange={setSelectedPosition}
-                    selectedAgeRange={selectedAgeRange}
-                    onAgeRangeChange={setSelectedAgeRange}
-                    selectedGender={selectedGender}
-                    onGenderChange={setSelectedGender}
-                    onAddToShortlist={handleAddToShortlist}
-                  />
-                </TabsContent>
-              </Tabs>
-            </div>
+          <div className="mt-2 md:mt-0 flex items-center gap-2">
+            <span className="text-sm text-athlex-gray-400">
+              {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            </span>
           </div>
         </div>
-      </SidebarProvider>
+        
+        {/* Tabs for different sections */}
+        <Tabs defaultValue="shortlisted" className="mb-6">
+          <TabsList className="bg-athlex-gray-800 w-full md:w-auto mb-4">
+            <TabsTrigger value="shortlisted" className="flex-1">Shortlisted Athletes</TabsTrigger>
+            <TabsTrigger value="recommended" className="flex-1">Recommended</TabsTrigger>
+            <TabsTrigger value="all" className="flex-1">All Athletes</TabsTrigger>
+          </TabsList>
+          
+          {/* Shortlisted Athletes Tab */}
+          <TabsContent value="shortlisted" className="space-y-6">
+            <ShortlistedAthletesSection
+              athletes={shortlistedAthletes}
+              isLoading={isLoadingShortlisted}
+              onRemoveFromShortlist={handleRemoveFromShortlist}
+              onOpenChat={handleOpenChat}
+            />
+          </TabsContent>
+          
+          {/* Recommended Athletes Tab */}
+          <TabsContent value="recommended" className="space-y-6">
+            <RecommendedAthletesSection
+              athletes={recommendedAthletes}
+              isLoading={isLoadingRecommended}
+              onAddToShortlist={handleAddToShortlist}
+            />
+          </TabsContent>
+          
+          {/* All Athletes Tab */}
+          <TabsContent value="all" className="space-y-6">
+            <AllAthletesSection
+              athletes={allAthletes || []}
+              isLoading={isLoadingAll}
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              selectedSport={selectedSport}
+              onSportChange={setSelectedSport}
+              selectedPosition={selectedPosition}
+              onPositionChange={setSelectedPosition}
+              selectedAgeRange={selectedAgeRange}
+              onAgeRangeChange={setSelectedAgeRange}
+              selectedGender={selectedGender}
+              onGenderChange={setSelectedGender}
+              onAddToShortlist={handleAddToShortlist}
+            />
+          </TabsContent>
+        </Tabs>
+      </div>
       
       {/* Chat Panel */}
       <ChatPanel
@@ -272,7 +269,7 @@ const ScoutDashboard = () => {
         messages={messagesMock}
         onSendMessage={handleSendMessage}
       />
-    </div>
+    </ScoutLayout>
   );
 };
 
