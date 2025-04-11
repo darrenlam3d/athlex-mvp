@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -20,8 +21,8 @@ const ScoutSidebar = () => {
   
   const navItems = [
     { icon: LayoutDashboard, text: 'Dashboard', path: '/scout-dashboard' },
-    { icon: Star, text: 'Shortlisted', path: '/shortlisted' },
-    { icon: Search, text: 'Talent Discovery', path: '/talent-discovery' },
+    { icon: Star, text: 'Shortlisted', path: '/scout-dashboard#shortlist' },
+    { icon: Search, text: 'Talent Discovery', path: '/scout-dashboard#all' },
     { icon: FileText, text: 'Scouting Reports', path: '/scouting-reports' },
     { icon: Users, text: 'Community', path: '/community' },
     { icon: Settings, text: 'Settings', path: '/settings' },
@@ -66,7 +67,8 @@ const ScoutSidebar = () => {
               <Link 
                 to={item.path}
                 className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
-                  location.pathname === item.path 
+                  location.pathname === item.path || 
+                  (location.pathname === '/scout-dashboard' && item.path.startsWith('/scout-dashboard#'))
                     ? 'bg-athlex-gray-800 text-athlex-accent' 
                     : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white'
                 }`}
