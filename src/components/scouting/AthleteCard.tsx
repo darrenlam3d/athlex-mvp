@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,7 +15,12 @@ export interface Athlete {
   recent_speed_kmh?: number;
   performance_score?: number;
   profile_photo?: string;
-  connection_status?: 'not_connected' | 'pending' | 'connected'; // Add this property
+  connection_status?: 'not_connected' | 'pending' | 'connected';
+}
+
+// Type for use in ChatPanel to ensure connection_status is always present
+export interface AthleteWithConnectionStatus extends Athlete {
+  connection_status: 'not_connected' | 'pending' | 'connected';
 }
 
 interface AthleteCardProps {

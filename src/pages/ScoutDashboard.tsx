@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/use-toast';
 import { toast } from 'sonner';
-import AthleteCard, { Athlete } from '@/components/scouting/AthleteCard';
+import AthleteCard, { Athlete, AthleteWithConnectionStatus } from '@/components/scouting/AthleteCard';
 import ScoutingFilters from '@/components/scouting/ScoutingFilters';
 import ChatPanel from '@/components/community/ChatPanel';
 import { supabase } from '@/lib/supabase';
@@ -104,7 +104,9 @@ const ScoutDashboard = () => {
   const [selectedAgeRange, setSelectedAgeRange] = useState('all');
   const [selectedGender, setSelectedGender] = useState('all');
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [selectedAthlete, setSelectedAthlete] = useState<Athlete | null>(null);
+  
+  // Updated the state type to AthleteWithConnectionStatus which requires connection_status
+  const [selectedAthlete, setSelectedAthlete] = useState<AthleteWithConnectionStatus | null>(null);
   
   // Current user mock (would come from Supabase auth in a real app)
   const currentUser = {
@@ -269,10 +271,10 @@ const ScoutDashboard = () => {
   const handleOpenChat = (athleteId: string) => {
     const athlete = shortlistedAthletes?.find(a => a.id === athleteId) || null;
     if (athlete) {
-      // Make sure connection_status is set as a required property when opening chat
-      const athleteWithConnectionStatus = {
+      // Create a new object with required connection_status
+      const athleteWithConnectionStatus: AthleteWithConnectionStatus = {
         ...athlete,
-        connection_status: 'connected' as 'not_connected' | 'pending' | 'connected'
+        connection_status: 'connected' 
       };
       setSelectedAthlete(athleteWithConnectionStatus);
       setIsChatOpen(true);
