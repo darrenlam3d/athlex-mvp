@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
@@ -73,13 +74,17 @@ const PerformanceGoals = () => {
       // Otherwise, fetch from Supabase
       const { data: user } = await supabase.auth.getUser();
       
+      if (!user.user) {
+        throw new Error('User not authenticated');
+      }
+      
       const { data, error } = await supabase
         .from('performance_goals')
         .select('*')
-        .eq('user_id', user.user?.id);
+        .eq('user_id', user.user.id);
       
       if (error) throw error;
-      return data;
+      return data || [];
     },
   });
 
@@ -118,7 +123,7 @@ const PerformanceGoals = () => {
                   <CardHeader>
                     <CardTitle className="text-red-400">Error Loading Goals</CardTitle>
                     <CardDescription className="text-red-300">
-                      {error.message || "There was an error loading your performance goals."}
+                      {error instanceof Error ? error.message : "There was an error loading your performance goals."}
                     </CardDescription>
                   </CardHeader>
                 </Card>

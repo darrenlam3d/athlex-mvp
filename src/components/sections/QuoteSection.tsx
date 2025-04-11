@@ -80,6 +80,10 @@ const QuoteSection = () => {
 
   // Function to render quote text with highlighted phrase
   const renderQuoteWithHighlight = (quote: Quote) => {
+    if (!quote || !quote.text || !quote.highlight) {
+      return quote?.text || "";
+    }
+    
     // Split the quote text by the highlight phrase
     const parts = quote.text.split(quote.highlight);
     
