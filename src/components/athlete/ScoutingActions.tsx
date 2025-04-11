@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { FileText, Share, Download } from 'lucide-react';
+import { FileText, Share, Download, User } from 'lucide-react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,12 +28,14 @@ const ScoutingActions: React.FC<ScoutingActionsProps> = ({ athleteId }) => {
   };
 
   const handleViewProfile = () => {
+    // Navigate to the athlete detail page
     navigate(`/athlete/${athleteId}`);
   };
 
   return (
     <div className="space-y-3">
       <Button variant="default" className="w-full" onClick={handleViewProfile}>
+        <User className="mr-2 h-4 w-4" />
         View Full Profile
       </Button>
       <Button variant="outline" className="w-full" onClick={handleCreateScoutingNote}>

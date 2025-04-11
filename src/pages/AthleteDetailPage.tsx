@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { useQuery } from '@tanstack/react-query';
@@ -8,6 +8,8 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { useUserRole } from '@/contexts/UserRoleContext';
 import { getAthleteById } from '@/utils/athleteDetailUtils';
+import { ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // Import all the components we created
 import AthleteHeader from '@/components/athlete/AthleteHeader';
@@ -20,9 +22,13 @@ import ScoutingActions from '@/components/athlete/ScoutingActions';
 const AthleteDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { userRole } = useUserRole();
+  const navigate = useNavigate();
   
-  // Redirect non-scouts away from this page
-  if (userRole !== 'scout') {
+  // Allow both scouts and coaches to view athlete profiles
+  const hasAccess = userRole === 'scout' || userRole === 'coach';
+  
+  if (!hasAccess) {
+    toast.error("You don't have permission to view athlete profiles");
     return <Navigate to="/athlete-dashboard" />;
   }
 
@@ -43,6 +49,10 @@ const AthleteDetailPage: React.FC = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate(-1); // Go back to previous page
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-athlex-background text-white flex items-center justify-center">
@@ -56,7 +66,11 @@ const AthleteDetailPage: React.FC = () => {
       <div className="min-h-screen bg-athlex-background text-white flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Athlete Not Found</h2>
-          <p className="text-gray-400">The athlete you're looking for might not exist or you don't have permission to view it.</p>
+          <p className="text-gray-400 mb-6">The athlete you're looking for might not exist or you don't have permission to view it.</p>
+          <Button onClick={handleBack} variant="outline">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Go Back
+          </Button>
         </div>
       </div>
     );
@@ -70,6 +84,15 @@ const AthleteDetailPage: React.FC = () => {
           
           <div className="flex-1 p-4 md:p-6 overflow-y-auto">
             <div className="max-w-7xl mx-auto">
+              <Button 
+                variant="ghost" 
+                className="mb-4" 
+                onClick={handleBack}
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back
+              </Button>
+              
               {/* Athlete Header */}
               <AthleteHeader 
                 athlete={athlete} 
