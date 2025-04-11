@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Smartphone, Award, Users, Video, Handshake, Lock } from 'lucide-react';
@@ -44,7 +43,7 @@ const FeaturesSection = () => {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text inline-block">Platform Features</h2>
           <p className="text-white/70 text-lg mb-4 font-bold">
-            ATHLEX: Empowering athletes at every level with{" "}
+            Empowering athletes at every level with{" "}
             <span className="text-athlex-accent">technology</span> that drives{" "}
             <span className="text-athlex-accent">growth</span>, elevates{" "}
             <span className="text-athlex-accent">performance</span>, and unlocks{" "}
