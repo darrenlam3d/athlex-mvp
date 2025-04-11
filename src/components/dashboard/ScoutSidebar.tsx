@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Users, 
@@ -18,12 +18,13 @@ import { toast as sonnerToast } from 'sonner';
 
 const ScoutSidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { toast } = useToast();
   
   const navItems = [
     { icon: LayoutDashboard, text: 'Dashboard', path: '/scout-dashboard' },
-    { icon: Star, text: 'Shortlisted', path: '/scout-dashboard#shortlist' },
-    { icon: Search, text: 'Talent Discovery', path: '/scout-dashboard#all' },
+    { icon: Star, text: 'Shortlisted', path: '/scout-dashboard', hash: 'shortlist' },
+    { icon: Search, text: 'Talent Discovery', path: '/scout-dashboard', hash: 'all' },
     { icon: FilePen, text: 'Scout Notes', path: '/scout-notes' },
     { icon: FileText, text: 'Scouting Reports', path: '/scouting-reports' },
     { icon: Users, text: 'Community', path: '/community' },
@@ -51,24 +52,23 @@ const ScoutSidebar = () => {
   };
 
   // Updated isActive function to correctly determine the active state
-  const isActive = (itemPath) => {
-    // For the main dashboard path (without hash)
-    if (itemPath === '/scout-dashboard' && location.pathname === '/scout-dashboard' && !location.hash) {
-      return true;
+  const isActive = (itemPath, itemHash) => {
+    if (itemHash) {
+      // For items with hash
+      return location.pathname === itemPath && location.hash === `#${itemHash}`;
+    } else {
+      // For items without hash
+      return location.pathname === itemPath && !location.hash;
     }
-    
-    // For paths with hash fragments
-    if (itemPath.includes('#')) {
-      const [path, hash] = itemPath.split('#');
-      return location.pathname === path && location.hash === `#${hash}`;
+  };
+
+  // Handle navigation with hash fragments
+  const handleNavigation = (path, hash) => {
+    if (hash) {
+      navigate(`${path}#${hash}`);
+    } else {
+      navigate(path);
     }
-    
-    // For all other paths (without hash)
-    if (!itemPath.includes('#')) {
-      return location.pathname === itemPath;
-    }
-    
-    return false;
   };
 
   return (
@@ -86,18 +86,18 @@ const ScoutSidebar = () => {
       <nav className="flex-1 py-6 px-4 overflow-y-auto">
         <ul className="space-y-1">
           {navItems.map((item) => (
-            <li key={item.path}>
-              <Link 
-                to={item.path}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
-                  isActive(item.path)
+            <li key={item.text}>
+              <button
+                onClick={() => handleNavigation(item.path, item.hash)}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors w-full text-left ${
+                  isActive(item.path, item.hash)
                     ? 'bg-athlex-gray-800 text-athlex-accent' 
                     : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white'
                 }`}
               >
                 <item.icon size={18} />
                 <span>{item.text}</span>
-              </Link>
+              </button>
             </li>
           ))}
         </ul>

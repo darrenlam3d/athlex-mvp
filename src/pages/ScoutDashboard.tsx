@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/components/ui/use-toast';
 import { isSupabaseConfigured } from '@/lib/supabase';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ChatPanel from '@/components/community/ChatPanel';
 import { Athlete, AthleteWithConnectionStatus } from '@/components/scouting/AthleteCard';
@@ -26,12 +27,14 @@ const ScoutDashboard = () => {
   const { toast: uiToast } = useToast();
   const { userRole, setUserRole } = useUserRole();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSport, setSelectedSport] = useState('all');
   const [selectedPosition, setSelectedPosition] = useState('all');
   const [selectedAgeRange, setSelectedAgeRange] = useState('all');
   const [selectedGender, setSelectedGender] = useState('all');
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('shortlisted'); // Default tab
   
   // Force user role to be scout for this page
   useEffect(() => {
@@ -39,6 +42,21 @@ const ScoutDashboard = () => {
       setUserRole('scout');
     }
   }, [userRole, setUserRole]);
+  
+  // Handle URL hash changes
+  useEffect(() => {
+    const hash = location.hash.replace('#', '');
+    if (hash === 'shortlist' || hash === 'recommended' || hash === 'all') {
+      setActiveTab(hash === 'shortlist' ? 'shortlisted' : hash);
+    }
+  }, [location.hash]);
+  
+  // Handle tab changes
+  const handleTabChange = (value) => {
+    setActiveTab(value);
+    const hash = value === 'shortlisted' ? 'shortlist' : value;
+    navigate(`/scout-dashboard#${hash}`, { replace: true });
+  };
   
   // Updated the state type to AthleteWithConnectionStatus which requires connection_status
   const [selectedAthlete, setSelectedAthlete] = useState<AthleteWithConnectionStatus | null>(null);
@@ -216,7 +234,7 @@ const ScoutDashboard = () => {
         </div>
         
         {/* Tabs for different sections */}
-        <Tabs defaultValue="shortlisted" className="mb-6">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="mb-6">
           <TabsList className="bg-athlex-gray-800 w-full md:w-auto mb-4">
             <TabsTrigger value="shortlisted" className="flex-1">Shortlisted Athletes</TabsTrigger>
             <TabsTrigger value="recommended" className="flex-1">Recommended</TabsTrigger>
