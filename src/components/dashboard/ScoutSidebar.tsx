@@ -8,8 +8,7 @@ import {
   FileText,
   FilePen,
   Settings, 
-  LogOut,
-  FileEdit
+  LogOut
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
@@ -27,7 +26,6 @@ const ScoutSidebar = () => {
     { icon: Search, text: 'Talent Discovery', path: '/scout-dashboard', hash: 'all' },
     { icon: FilePen, text: 'Scout Notes', path: '/scout-notes' },
     { icon: FileText, text: 'Scouting Reports', path: '/scout-reports' },
-    { icon: FileEdit, text: 'Add Athlete Note', path: '/scout-notes/add' },
     { icon: Users, text: 'Community', path: '/community' },
     { icon: Settings, text: 'Settings', path: '/settings' },
   ];

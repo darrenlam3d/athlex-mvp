@@ -1,9 +1,10 @@
+
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Eye, MessageSquare, Star, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Eye, MessageSquare, Star, X, FileEdit } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export interface Athlete {
@@ -38,6 +39,8 @@ const AthleteCard: React.FC<AthleteCardProps> = ({
   onRemoveFromShortlist,
   onOpenChat
 }) => {
+  const navigate = useNavigate();
+  
   const getInitials = (name: string) => {
     return name
       .split(' ')
@@ -64,6 +67,10 @@ const AthleteCard: React.FC<AthleteCardProps> = ({
     if (onOpenChat) {
       onOpenChat(athlete.id);
     }
+  };
+  
+  const handleAddNote = () => {
+    navigate(`/scout-notes/add?athleteId=${athlete.id}&athleteName=${encodeURIComponent(athlete.name)}`);
   };
 
   return (
@@ -102,7 +109,7 @@ const AthleteCard: React.FC<AthleteCardProps> = ({
           )}
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button 
             variant="outline" 
             size="sm" 
@@ -125,6 +132,16 @@ const AthleteCard: React.FC<AthleteCardProps> = ({
               >
                 <MessageSquare className="mr-1 h-4 w-4" />
                 Message
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="flex-1 text-white border-athlex-gray-700"
+                onClick={handleAddNote}
+              >
+                <FileEdit className="mr-1 h-4 w-4" />
+                Add Note
               </Button>
               
               <Button 
