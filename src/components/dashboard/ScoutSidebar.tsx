@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -48,17 +47,22 @@ const ScoutSidebar = () => {
     }
   };
 
-  // Determine if a nav item is active based on the path and hash
+  // Updated isActive function to correctly determine the active state
   const isActive = (itemPath) => {
-    // If we're on the exact path without checking hash
-    if (itemPath === location.pathname && !itemPath.includes('#')) {
+    // For the main dashboard path (without hash)
+    if (itemPath === '/scout-dashboard' && location.pathname === '/scout-dashboard' && !location.hash) {
       return true;
     }
     
-    // If we need to check the hash
+    // For paths with hash fragments
     if (itemPath.includes('#')) {
       const [path, hash] = itemPath.split('#');
-      return location.pathname === path && (location.hash === `#${hash}` || (!location.hash && hash === 'shortlist'));
+      return location.pathname === path && location.hash === `#${hash}`;
+    }
+    
+    // For all other paths (without hash)
+    if (!itemPath.includes('#')) {
+      return location.pathname === itemPath;
     }
     
     return false;
