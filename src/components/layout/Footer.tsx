@@ -1,9 +1,9 @@
+
 import React from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Linkedin, Instagram, Mail } from "lucide-react";
 import { toast } from 'sonner';
-import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -59,19 +59,19 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/legal?tab=privacy" className="text-white/60 hover:text-athlex-accent">
+                <a href="#" className="text-white/60 hover:text-athlex-accent">
                   Privacy Policy
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/legal?tab=terms" className="text-white/60 hover:text-athlex-accent">
+                <a href="#" className="text-white/60 hover:text-athlex-accent">
                   Terms of Service
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/legal?tab=cookies" className="text-white/60 hover:text-athlex-accent">
+                <a href="#" className="text-white/60 hover:text-athlex-accent">
                   Cookie Policy
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -103,9 +103,9 @@ const Footer = () => {
             &copy; {currentYear} ATHLEX. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0">
-            <Link to="/legal" className="text-white/60 hover:text-athlex-accent text-sm">
+            <a href="#" className="text-white/60 hover:text-athlex-accent text-sm">
               Legal Policies
-            </Link>
+            </a>
             <span className="mx-2 text-white/30">|</span>
             <a href="mailto:athlex.gaia@gmail.com" className="text-white/60 hover:text-athlex-accent text-sm">
               Contact Us
