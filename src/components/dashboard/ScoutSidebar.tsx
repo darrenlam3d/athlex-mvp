@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -6,6 +7,7 @@ import {
   Search,
   Star,
   FileText,
+  FilePen,
   Settings, 
   LogOut 
 } from 'lucide-react';
@@ -22,6 +24,7 @@ const ScoutSidebar = () => {
     { icon: LayoutDashboard, text: 'Dashboard', path: '/scout-dashboard' },
     { icon: Star, text: 'Shortlisted', path: '/scout-dashboard#shortlist' },
     { icon: Search, text: 'Talent Discovery', path: '/scout-dashboard#all' },
+    { icon: FilePen, text: 'Scout Notes', path: '/scout-notes' },
     { icon: FileText, text: 'Scouting Reports', path: '/scouting-reports' },
     { icon: Users, text: 'Community', path: '/community' },
     { icon: Settings, text: 'Settings', path: '/settings' },
