@@ -32,21 +32,32 @@ const ActiveGoalsList: React.FC<ActiveGoalsListProps> = ({ goals, onCreateGoal }
   };
 
   const getStatusBadge = (status: string, endDate: string) => {
-    const isExpired = isAfter(new Date(), parseISO(endDate));
-    
-    if (isExpired && status !== 'Completed') {
-      return <Badge variant="destructive">Expired</Badge>;
+    // Safely parse the date string, return early if it's undefined or invalid
+    if (!endDate) {
+      return <Badge variant="secondary">Unknown</Badge>;
     }
     
-    switch (status) {
-      case 'Completed':
-        return <Badge className="bg-green-600">Completed</Badge>;
-      case 'In Progress':
-        return <Badge className="bg-blue-600">In Progress</Badge>;
-      case 'Not Started':
-        return <Badge variant="outline">Not Started</Badge>;
-      default:
-        return <Badge variant="secondary">{status}</Badge>;
+    try {
+      const endDateObj = parseISO(endDate);
+      const isExpired = isAfter(new Date(), endDateObj);
+      
+      if (isExpired && status !== 'Completed') {
+        return <Badge variant="destructive">Expired</Badge>;
+      }
+      
+      switch (status) {
+        case 'Completed':
+          return <Badge className="bg-green-600">Completed</Badge>;
+        case 'In Progress':
+          return <Badge className="bg-blue-600">In Progress</Badge>;
+        case 'Not Started':
+          return <Badge variant="outline">Not Started</Badge>;
+        default:
+          return <Badge variant="secondary">{status}</Badge>;
+      }
+    } catch (error) {
+      console.error("Error parsing date:", endDate, error);
+      return <Badge variant="secondary">Invalid Date</Badge>;
     }
   };
 
@@ -54,6 +65,19 @@ const ActiveGoalsList: React.FC<ActiveGoalsListProps> = ({ goals, onCreateGoal }
     return metric.toLowerCase().includes('time') || 
            metric.toLowerCase().includes('seconds') ||
            metric.toLowerCase().includes('minutes');
+  };
+  
+  // Helper function to safely format dates
+  const safelyFormatDate = (dateStr: string, formatStr: string) => {
+    if (!dateStr) return 'Unknown';
+    
+    try {
+      const date = parseISO(dateStr);
+      return format(date, formatStr);
+    } catch (error) {
+      console.error("Error formatting date:", dateStr, error);
+      return 'Invalid Date';
+    }
   };
 
   return (
@@ -102,7 +126,7 @@ const ActiveGoalsList: React.FC<ActiveGoalsListProps> = ({ goals, onCreateGoal }
                       </h3>
                       <div className="flex items-center text-sm text-gray-400 mt-1">
                         <Calendar className="h-3 w-3 mr-1" />
-                        {format(parseISO(goal.start_date), 'MMM d')} - {format(parseISO(goal.end_date), 'MMM d, yyyy')}
+                        {safelyFormatDate(goal.start_date, 'MMM d')} - {safelyFormatDate(goal.end_date, 'MMM d, yyyy')}
                       </div>
                     </div>
                     {getStatusBadge(goal.status, goal.end_date)}

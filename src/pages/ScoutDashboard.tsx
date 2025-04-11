@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
@@ -270,10 +269,10 @@ const ScoutDashboard = () => {
   const handleOpenChat = (athleteId: string) => {
     const athlete = shortlistedAthletes?.find(a => a.id === athleteId) || null;
     if (athlete) {
-      // Set a default connection_status for the athlete when opening chat
+      // Make sure connection_status is set as a required property when opening chat
       const athleteWithConnectionStatus = {
         ...athlete,
-        connection_status: 'connected' as const
+        connection_status: 'connected' as 'not_connected' | 'pending' | 'connected'
       };
       setSelectedAthlete(athleteWithConnectionStatus);
       setIsChatOpen(true);
