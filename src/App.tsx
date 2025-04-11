@@ -9,6 +9,19 @@ import { toast } from "sonner";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import Index from "./pages/Index";
 import AthleteDashboard from "./pages/AthleteDashboard";
+import Dashboard from "./pages/Dashboard";
+import Training from "./pages/Training";
+import TrainingLog from "./pages/TrainingLog";
+
+// Create basic placeholder pages for the missing routes
+import { Navigate } from "react-router-dom";
+
+// Placeholder components for pages that don't exist yet
+const PerformancePage = () => <Navigate to="/athlete-dashboard" replace />;
+const GoalsPage = () => <Navigate to="/athlete-dashboard" replace />;
+const NutritionPage = () => <Navigate to="/athlete-dashboard" replace />;
+const CommunityPage = () => <Navigate to="/athlete-dashboard" replace />;
+const SettingsPage = () => <Navigate to="/athlete-dashboard" replace />;
 
 const queryClient = new QueryClient();
 
@@ -35,7 +48,19 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/athlete-dashboard" element={<AthleteDashboard />} />
-            <Route path="*" element={<Index />} /> {/* Redirect all routes to Index */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/training" element={<Training />} />
+            <Route path="/training-log" element={<TrainingLog />} />
+            
+            {/* Add routes for the remaining navigation items */}
+            <Route path="/performance" element={<PerformancePage />} />
+            <Route path="/performance-goals" element={<GoalsPage />} />
+            <Route path="/nutrition" element={<NutritionPage />} />
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            
+            {/* Default route */}
+            <Route path="*" element={<Navigate to="/athlete-dashboard" replace />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
