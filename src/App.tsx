@@ -10,6 +10,8 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { ProfileProvider } from "@/contexts/ProfileContext";
 import { UserRoleProvider } from "@/contexts/UserRoleContext";
 import Index from "./pages/Index";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
 import AthleteDashboard from "./pages/AthleteDashboard";
 import Dashboard from "./pages/Dashboard";
 import Training from "./pages/Training";
@@ -25,6 +27,7 @@ import NotFound from "./pages/NotFound";
 
 // Create basic placeholder pages for the missing routes
 const SettingsPage = () => <Navigate to="/athlete-dashboard" replace />;
+const CoachDashboardPage = () => <Navigate to="/athlete-dashboard" replace />;
 
 const queryClient = new QueryClient();
 
@@ -52,6 +55,8 @@ const App = () => {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/athlete-dashboard" element={<AthleteDashboard />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/training" element={<Training />} />
@@ -62,6 +67,7 @@ const App = () => {
                 <Route path="/community" element={<Community />} />
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/scout-dashboard" element={<ScoutDashboard />} />
+                <Route path="/coach-dashboard" element={<CoachDashboardPage />} />
                 <Route path="/athlete/:id" element={<AthleteDetailPage />} />
                 
                 {/* Add route for settings */}
