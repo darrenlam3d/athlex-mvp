@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -50,14 +49,13 @@ const ScoutSidebar = () => {
 
   return (
     <aside className="w-64 bg-athlex-gray-900 text-white h-screen sticky top-0 border-r border-athlex-gray-800 flex flex-col">
-      <div className="p-4 border-b border-athlex-gray-800">
-        <Link to="/scout-dashboard" className="flex items-center">
+      <div className="p-4 border-b border-athlex-gray-800 flex justify-center items-center">
+        <Link to="/scout-dashboard" className="flex items-center justify-center">
           <img 
             src="/lovable-uploads/4fa9ab4b-66d6-42dc-979f-661fee5226e5.png" 
             alt="ATHLEX Logo" 
-            className="h-7 w-auto mr-2" 
+            className="h-10 w-auto" 
           />
-          <span className="text-xl font-bold gradient-text">ATHLEX</span>
         </Link>
       </div>
 
