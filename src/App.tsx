@@ -17,12 +17,13 @@ import TrainingLog from "./pages/TrainingLog";
 import Performance from "./pages/Performance";
 import PerformanceGoals from "./pages/PerformanceGoals";
 import Nutrition from "./pages/Nutrition";
+import Community from "./pages/Community";
+import Messages from "./pages/Messages";
 
 // Create basic placeholder pages for the missing routes
 import { Navigate } from "react-router-dom";
 
 // Placeholder components for pages that don't exist yet
-const CommunityPage = () => <Navigate to="/athlete-dashboard" replace />;
 const SettingsPage = () => <Navigate to="/athlete-dashboard" replace />;
 
 const queryClient = new QueryClient();
@@ -58,9 +59,10 @@ const App = () => {
                 <Route path="/performance" element={<Performance />} />
                 <Route path="/performance-goals" element={<PerformanceGoals />} />
                 <Route path="/nutrition" element={<Nutrition />} />
+                <Route path="/community" element={<Community />} />
+                <Route path="/messages" element={<Messages />} />
                 
-                {/* Add routes for the remaining navigation items */}
-                <Route path="/community" element={<CommunityPage />} />
+                {/* Add route for settings */}
                 <Route path="/settings" element={<SettingsPage />} />
                 
                 {/* Default route */}
