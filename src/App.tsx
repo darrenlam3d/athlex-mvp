@@ -14,13 +14,13 @@ import AthleteDashboard from "./pages/AthleteDashboard";
 import Dashboard from "./pages/Dashboard";
 import Training from "./pages/Training";
 import TrainingLog from "./pages/TrainingLog";
+import Performance from "./pages/Performance";
+import PerformanceGoals from "./pages/PerformanceGoals";
 
 // Create basic placeholder pages for the missing routes
 import { Navigate } from "react-router-dom";
 
 // Placeholder components for pages that don't exist yet
-const PerformancePage = () => <Navigate to="/athlete-dashboard" replace />;
-const GoalsPage = () => <Navigate to="/athlete-dashboard" replace />;
 const NutritionPage = () => <Navigate to="/athlete-dashboard" replace />;
 const CommunityPage = () => <Navigate to="/athlete-dashboard" replace />;
 const SettingsPage = () => <Navigate to="/athlete-dashboard" replace />;
@@ -55,10 +55,10 @@ const App = () => {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/training" element={<Training />} />
                 <Route path="/training-log" element={<TrainingLog />} />
+                <Route path="/performance" element={<Performance />} />
+                <Route path="/performance-goals" element={<PerformanceGoals />} />
                 
                 {/* Add routes for the remaining navigation items */}
-                <Route path="/performance" element={<PerformancePage />} />
-                <Route path="/performance-goals" element={<GoalsPage />} />
                 <Route path="/nutrition" element={<NutritionPage />} />
                 <Route path="/community" element={<CommunityPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
