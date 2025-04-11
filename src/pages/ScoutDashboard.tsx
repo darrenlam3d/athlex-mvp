@@ -1,100 +1,26 @@
+
 import React, { useState } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/use-toast';
-import { toast } from 'sonner';
-import AthleteCard, { Athlete, AthleteWithConnectionStatus } from '@/components/scouting/AthleteCard';
-import ScoutingFilters from '@/components/scouting/ScoutingFilters';
 import ChatPanel from '@/components/community/ChatPanel';
 import { supabase } from '@/lib/supabase';
 import { useQuery } from '@tanstack/react-query';
 import { isSupabaseConfigured } from '@/lib/supabase';
-
-// Mock data for shortlisted athletes
-const shortlistedAthletesMock: Athlete[] = [
-  {
-    id: "athlete_004",
-    name: "Arif Rahman",
-    sport: "Football",
-    position: "Striker",
-    club: "Tampines Elite",
-    recent_speed_kmh: 25.4,
-    profile_photo: "https://example.com/uploads/arif.jpg"
-  },
-  {
-    id: "athlete_005",
-    name: "Lena Koh",
-    sport: "Netball",
-    position: "Wing Attack",
-    club: "Civic Blaze",
-    recent_speed_kmh: 23.8,
-    profile_photo: "https://example.com/uploads/lena.jpg"
-  }
-];
-
-// Mock data for recommended athletes
-const recommendedAthletesMock: Athlete[] = [
-  {
-    id: "athlete_006",
-    name: "Javier Chua",
-    sport: "Football",
-    position: "Right Back",
-    club: "Harbour FC",
-    performance_score: 92,
-    profile_photo: "https://example.com/uploads/javier.jpg"
-  },
-  {
-    id: "athlete_007",
-    name: "Meera Das",
-    sport: "Badminton",
-    position: "Singles",
-    club: "Smashers Academy",
-    performance_score: 89,
-    profile_photo: "https://example.com/uploads/meera.jpg"
-  }
-];
-
-// Mock data for all athletes (combination and more)
-const allAthletesMock: Athlete[] = [
-  ...shortlistedAthletesMock,
-  ...recommendedAthletesMock,
-  {
-    id: "athlete_008",
-    name: "Tai Wee Lin",
-    sport: "Swimming",
-    position: "Freestyle",
-    club: "Aquatics Centre",
-    performance_score: 85,
-    profile_photo: null
-  },
-  {
-    id: "athlete_009",
-    name: "Marcus Tan",
-    sport: "Basketball",
-    position: "Point Guard",
-    club: "Downtown Dribblers",
-    performance_score: 88,
-    profile_photo: null
-  }
-];
-
-// Mock messages for the chat panel
-const messagesMock = [
-  {
-    from: "scout_001",
-    to: "athlete_004",
-    timestamp: new Date(Date.now() - 3600000).toISOString(),
-    message: "Hi Arif, I saw your last match. Impressive performance!"
-  },
-  {
-    from: "athlete_004",
-    to: "scout_001",
-    timestamp: new Date(Date.now() - 1800000).toISOString(),
-    message: "Thank you! I've been working on my finishing technique."
-  }
-];
+import { Athlete, AthleteWithConnectionStatus } from '@/components/scouting/AthleteCard';
+import ShortlistedAthletesSection from '@/components/scouting/ShortlistedAthletesSection';
+import RecommendedAthletesSection from '@/components/scouting/RecommendedAthletesSection';
+import AllAthletesSection from '@/components/scouting/AllAthletesSection';
+import { 
+  shortlistedAthletesMock, 
+  recommendedAthletesMock, 
+  allAthletesMock, 
+  messagesMock,
+  addToShortlist,
+  removeFromShortlist,
+  sendMessage
+} from '@/utils/athleteUtils';
 
 const ScoutDashboard = () => {
   const { toast: uiToast } = useToast();
@@ -219,22 +145,8 @@ const ScoutDashboard = () => {
   
   // Handle adding an athlete to shortlist
   const handleAddToShortlist = async (athleteId: string) => {
-    try {
-      if (isSupabaseConfigured()) {
-        const { error } = await supabase
-          .from('shortlists')
-          .insert({
-            scout_id: currentUser.id,
-            athlete_id: athleteId,
-            created_at: new Date().toISOString()
-          });
-          
-        if (error) throw error;
-      }
-      
-      toast.success('Athlete added to shortlist');
-    } catch (error) {
-      console.error('Error adding to shortlist:', error);
+    const success = await addToShortlist(athleteId, currentUser.id);
+    if (!success) {
       uiToast({
         title: 'Error',
         description: 'Could not add athlete to shortlist',
@@ -245,20 +157,8 @@ const ScoutDashboard = () => {
   
   // Handle removing an athlete from shortlist
   const handleRemoveFromShortlist = async (athleteId: string) => {
-    try {
-      if (isSupabaseConfigured()) {
-        const { error } = await supabase
-          .from('shortlists')
-          .delete()
-          .eq('scout_id', currentUser.id)
-          .eq('athlete_id', athleteId);
-          
-        if (error) throw error;
-      }
-      
-      toast.success('Athlete removed from shortlist');
-    } catch (error) {
-      console.error('Error removing from shortlist:', error);
+    const success = await removeFromShortlist(athleteId, currentUser.id);
+    if (!success) {
       uiToast({
         title: 'Error',
         description: 'Could not remove athlete from shortlist',
@@ -283,26 +183,8 @@ const ScoutDashboard = () => {
   
   // Handle sending a message
   const handleSendMessage = async (to: string, message: string) => {
-    try {
-      const newMessage = {
-        from: currentUser.id,
-        to,
-        message,
-        timestamp: new Date().toISOString()
-      };
-      
-      if (isSupabaseConfigured()) {
-        const { error } = await supabase
-          .from('messages')
-          .insert(newMessage);
-          
-        if (error) throw error;
-      }
-      
-      // For the mockup, we'd add it to our local state
-      // A real app would use subscription or refetch
-    } catch (error) {
-      console.error('Error sending message:', error);
+    const success = await sendMessage(currentUser.id, to, message);
+    if (!success) {
       uiToast({
         title: 'Error',
         description: 'Could not send message',
@@ -310,14 +192,6 @@ const ScoutDashboard = () => {
       });
     }
   };
-  
-  // Filter athletes by search term
-  const filteredAthletes = allAthletes?.filter(athlete => 
-    athlete.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (athlete.sport && athlete.sport.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (athlete.position && athlete.position.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (athlete.club && athlete.club.toLowerCase().includes(searchTerm.toLowerCase()))
-  ) || [];
 
   return (
     <div className="min-h-screen bg-athlex-background text-white">
@@ -348,68 +222,28 @@ const ScoutDashboard = () => {
                 
                 {/* Shortlisted Athletes Tab */}
                 <TabsContent value="shortlisted" className="space-y-6">
-                  <Card className="bg-athlex-gray-900 border-athlex-gray-800">
-                    <CardHeader>
-                      <CardTitle>Shortlisted Athletes</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      {isLoadingShortlisted ? (
-                        <div className="text-center py-8">Loading shortlisted athletes...</div>
-                      ) : shortlistedAthletes && shortlistedAthletes.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {shortlistedAthletes.map((athlete) => (
-                            <AthleteCard
-                              key={athlete.id}
-                              athlete={athlete}
-                              type="shortlisted"
-                              onRemoveFromShortlist={handleRemoveFromShortlist}
-                              onOpenChat={handleOpenChat}
-                            />
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-center py-8 text-athlex-gray-400">
-                          <p>You haven't shortlisted any athletes yet.</p>
-                          <p className="mt-2">Browse the "Recommended" or "All Athletes" tabs to find talent.</p>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                  <ShortlistedAthletesSection
+                    athletes={shortlistedAthletes}
+                    isLoading={isLoadingShortlisted}
+                    onRemoveFromShortlist={handleRemoveFromShortlist}
+                    onOpenChat={handleOpenChat}
+                  />
                 </TabsContent>
                 
                 {/* Recommended Athletes Tab */}
                 <TabsContent value="recommended" className="space-y-6">
-                  <Card className="bg-athlex-gray-900 border-athlex-gray-800">
-                    <CardHeader>
-                      <CardTitle>Recommended Athletes</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      {isLoadingRecommended ? (
-                        <div className="text-center py-8">Loading recommended athletes...</div>
-                      ) : recommendedAthletes && recommendedAthletes.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {recommendedAthletes.map((athlete) => (
-                            <AthleteCard
-                              key={athlete.id}
-                              athlete={athlete}
-                              type="recommended"
-                              onAddToShortlist={handleAddToShortlist}
-                            />
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-center py-8 text-athlex-gray-400">
-                          <p>No recommended athletes available at this time.</p>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                  <RecommendedAthletesSection
+                    athletes={recommendedAthletes}
+                    isLoading={isLoadingRecommended}
+                    onAddToShortlist={handleAddToShortlist}
+                  />
                 </TabsContent>
                 
                 {/* All Athletes Tab */}
                 <TabsContent value="all" className="space-y-6">
-                  {/* Filters */}
-                  <ScoutingFilters
+                  <AllAthletesSection
+                    athletes={allAthletes || []}
+                    isLoading={isLoadingAll}
                     searchTerm={searchTerm}
                     onSearchChange={setSearchTerm}
                     selectedSport={selectedSport}
@@ -420,33 +254,8 @@ const ScoutDashboard = () => {
                     onAgeRangeChange={setSelectedAgeRange}
                     selectedGender={selectedGender}
                     onGenderChange={setSelectedGender}
+                    onAddToShortlist={handleAddToShortlist}
                   />
-                  
-                  <Card className="bg-athlex-gray-900 border-athlex-gray-800">
-                    <CardHeader>
-                      <CardTitle>All Athletes</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      {isLoadingAll ? (
-                        <div className="text-center py-8">Loading athletes...</div>
-                      ) : filteredAthletes.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {filteredAthletes.map((athlete) => (
-                            <AthleteCard
-                              key={athlete.id}
-                              athlete={athlete}
-                              type="all"
-                              onAddToShortlist={handleAddToShortlist}
-                            />
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-center py-8 text-athlex-gray-400">
-                          <p>No athletes match your search criteria.</p>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
                 </TabsContent>
               </Tabs>
             </div>
