@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { isSupabaseConfigured } from "@/lib/supabase";
@@ -21,11 +21,9 @@ import Community from "./pages/Community";
 import Messages from "./pages/Messages";
 import ScoutDashboard from "./pages/ScoutDashboard";
 import AthleteDetailPage from "./pages/AthleteDetailPage";
+import NotFound from "./pages/NotFound";
 
 // Create basic placeholder pages for the missing routes
-import { Navigate } from "react-router-dom";
-
-// Placeholder components for pages that don't exist yet
 const SettingsPage = () => <Navigate to="/athlete-dashboard" replace />;
 
 const queryClient = new QueryClient();
@@ -69,8 +67,8 @@ const App = () => {
                 {/* Add route for settings */}
                 <Route path="/settings" element={<SettingsPage />} />
                 
-                {/* Default route */}
-                <Route path="*" element={<Navigate to="/athlete-dashboard" replace />} />
+                {/* Default route - 404 not found */}
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
           </TooltipProvider>

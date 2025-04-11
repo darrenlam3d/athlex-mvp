@@ -27,21 +27,37 @@ const AthleteDetailPage: React.FC = () => {
   }
 
   // Query for athlete data
-  const { data: athlete, isLoading } = useQuery({
+  const { data: athlete, isLoading, isError } = useQuery({
     queryKey: ['athlete', id],
     queryFn: async () => {
-      return await getAthleteById(id || '', isSupabaseConfigured(), supabase);
+      if (!id) {
+        throw new Error('Athlete ID is required');
+      }
+      return await getAthleteById(id, isSupabaseConfigured(), supabase);
     }
   });
 
   const handleAddToShortlist = () => {
-    toast.success(`${athlete?.name} added to shortlist`);
+    if (athlete) {
+      toast.success(`${athlete.name} added to shortlist`);
+    }
   };
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-athlex-background text-white flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-athlex-accent"></div>
+      </div>
+    );
+  }
+
+  if (isError || !athlete) {
+    return (
+      <div className="min-h-screen bg-athlex-background text-white flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2">Athlete Not Found</h2>
+          <p className="text-gray-400">The athlete you're looking for might not exist or you don't have permission to view it.</p>
+        </div>
       </div>
     );
   }
@@ -62,15 +78,23 @@ const AthleteDetailPage: React.FC = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Left Column - Athlete Passport Summary and Recent Training */}
-                <div className="md:col-span-1">
+                <div className="md:col-span-1 space-y-6">
                   <AthletePassport athlete={athlete} />
-                  <RecentTraining sessions={athlete?.training_sessions} />
+                  <RecentTraining sessions={athlete?.training_sessions || []} />
+                  <div className="md:hidden">
+                    <ScoutingActions athleteId={id || ''} />
+                  </div>
                 </div>
                 
                 {/* Right Column - Performance Data and Goals */}
-                <div className="md:col-span-2">
+                <div className="md:col-span-2 space-y-6">
                   <PerformanceMetrics performanceData={athlete?.performance_metrics} />
-                  <GoalOverview goals={athlete?.goals} />
+                  <GoalOverview goals={athlete?.goals || []} />
+                </div>
+
+                {/* Scouting Actions - Desktop Only */}
+                <div className="hidden md:block md:col-span-1">
+                  <ScoutingActions athleteId={id || ''} />
                 </div>
               </div>
             </div>
