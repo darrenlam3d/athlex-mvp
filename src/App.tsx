@@ -20,6 +20,7 @@ import Nutrition from "./pages/Nutrition";
 import Community from "./pages/Community";
 import Messages from "./pages/Messages";
 import ScoutDashboard from "./pages/ScoutDashboard";
+import AthleteDetailPage from "./pages/AthleteDetailPage";
 
 // Create basic placeholder pages for the missing routes
 import { Navigate } from "react-router-dom";
@@ -63,6 +64,7 @@ const App = () => {
                 <Route path="/community" element={<Community />} />
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/scout-dashboard" element={<ScoutDashboard />} />
+                <Route path="/athlete/:id" element={<AthleteDetailPage />} />
                 
                 {/* Add route for settings */}
                 <Route path="/settings" element={<SettingsPage />} />

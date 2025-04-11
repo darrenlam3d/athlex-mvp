@@ -8,6 +8,34 @@ import NewGoalForm from '@/components/goals/NewGoalForm';
 import GoalHistorySection from '@/components/goals/GoalHistorySection';
 import { useUserRole } from '@/contexts/UserRoleContext';
 import { Navigate } from 'react-router-dom';
+import { RefetchOptions, QueryObserverResult } from '@tanstack/react-query';
+
+// Define prop types to match the components
+interface Goal {
+  id: string;
+  title: string;
+  description: string;
+  current_value: number;
+  target_value: number;
+  unit: string;
+  start_date: string;
+  target_date: string;
+  category: string;
+  status: string;
+}
+
+// Add these interfaces to match component props
+interface ActiveGoalsListProps {
+  goals: Goal[];
+}
+
+interface GoalHistorySectionProps {
+  goals: Goal[];
+}
+
+interface NewGoalFormProps {
+  onGoalAdded: () => void;
+}
 
 const PerformanceGoals = () => {
   const { userRole } = useUserRole();
@@ -103,6 +131,11 @@ const PerformanceGoals = () => {
     }
   });
 
+  // Handle refetch with type safety
+  const handleGoalAdded = () => {
+    refetch();
+  };
+
   return (
     <div className="min-h-screen bg-athlex-background text-white">
       <SidebarProvider>
@@ -114,23 +147,20 @@ const PerformanceGoals = () => {
             <div className="max-w-4xl mx-auto">
               <h1 className="text-2xl md:text-3xl font-bold mb-6">Performance Goals</h1>
               
-              {/* Active Goals */}
+              {/* Active Goals - Pass only the props that the component expects */}
               <ActiveGoalsList 
                 goals={goalsData?.activeGoals || []}
-                isLoading={isLoading}
-                error={error}
               />
               
-              {/* New Goal Form */}
+              {/* New Goal Form - Fix the onGoalAdded prop */}
               <div className="mt-8">
-                <NewGoalForm onGoalAdded={refetch} />
+                <NewGoalForm onGoalAdded={handleGoalAdded} />
               </div>
               
-              {/* Goal History */}
+              {/* Goal History - Pass only the props that the component expects */}
               <div className="mt-12">
                 <GoalHistorySection 
                   goals={goalsData?.goalHistory || []}
-                  isLoading={isLoading}
                 />
               </div>
             </div>
