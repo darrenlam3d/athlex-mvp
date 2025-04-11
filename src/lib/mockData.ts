@@ -69,3 +69,66 @@ export const mockGoals = [
     status: "active"
   }
 ];
+
+// Training logs for the Training Log page
+export const mockTrainingLogs = [
+  {
+    id: "log_001",
+    date: "2025-04-05",
+    type: "Sport-Specific",
+    activity: "Small-sided game",
+    duration_minutes: 60,
+    distance_km: 5.8,
+    intensity_level: "High"
+  },
+  {
+    id: "log_002",
+    date: "2025-04-07",
+    type: "Physical",
+    activity: "Interval Running",
+    duration_minutes: 40,
+    distance_km: 6.2,
+    intensity_level: "Medium"
+  },
+  {
+    id: "log_003",
+    date: "2025-04-10",
+    type: "Physical",
+    activity: "Plyometric Drills",
+    duration_minutes: 35,
+    distance_km: 2.5,
+    intensity_level: "High"
+  }
+];
+
+// Form fields for new training log
+export const mockTrainingLogFormFields = {
+  fields: [
+    { label: "Date", type: "date" },
+    { label: "Training Type", type: "select", options: ["Physical", "Sport-Specific"] },
+    { label: "Activity", type: "text" },
+    { label: "Duration (minutes)", type: "number" },
+    { label: "Distance (km)", type: "number" },
+    { label: "Intensity Level", type: "select", options: ["Low", "Medium", "High"] }
+  ]
+};
+
+// Calendar view for training schedule
+export const mockTrainingSchedule = [
+  {
+    date: "2025-04-05",
+    session_title: "Small-sided game",
+    type: "Sport-Specific"
+  },
+  {
+    date: "2025-04-10",
+    session_title: "Plyometric Drills",
+    type: "Physical"
+  },
+  {
+    date: "2025-04-12",
+    session_title: "Speed & Agility Drills",
+    type: "Physical",
+    assigned_by: "Coach Amanda"
+  }
+];

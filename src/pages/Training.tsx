@@ -9,6 +9,9 @@ import RecoveryReadiness from '@/components/training/RecoveryReadiness';
 import InsightsFeed from '@/components/training/InsightsFeed';
 import AiCoach from '@/components/training/AiCoach';
 import TrainingGoalAlignment from '@/components/training/TrainingGoalAlignment';
+import { Button } from '@/components/ui/button';
+import { ClipboardList } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Training = () => {
   return (
@@ -20,7 +23,15 @@ const Training = () => {
           {/* Main content */}
           <div className="flex-1 p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto">
-              <h1 className="text-2xl md:text-3xl font-bold mb-6">Training & Insights</h1>
+              <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl md:text-3xl font-bold mb-6">Training & Insights</h1>
+                <Link to="/training-log">
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <ClipboardList className="h-4 w-4" />
+                    <span>Training Log</span>
+                  </Button>
+                </Link>
+              </div>
               
               {/* Today's Training Recommendation */}
               <div className="mt-5">
