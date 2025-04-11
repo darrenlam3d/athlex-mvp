@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { useQuery } from '@tanstack/react-query';
@@ -10,6 +11,8 @@ import NutritionChatbot from '@/components/nutrition/NutritionChatbot';
 import NutritionSummary from '@/components/nutrition/NutritionSummary';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
+import { useUserRole } from '@/contexts/UserRoleContext';
+import { Navigate } from 'react-router-dom';
 
 // Mock data for meal logs
 const mockMealLogs = [
@@ -75,6 +78,12 @@ const mockChatbotInteractions = [
 
 const Nutrition = () => {
   const [isAddingMeal, setIsAddingMeal] = useState(false);
+  const { userRole } = useUserRole();
+  
+  // Redirect scouts to their dashboard
+  if (userRole === 'scout') {
+    return <Navigate to="/scout-dashboard" replace />;
+  }
   
   // Check if Supabase is configured
   const isConfigured = isSupabaseConfigured();

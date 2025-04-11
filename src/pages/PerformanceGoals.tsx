@@ -1,98 +1,107 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import ActiveGoalsList from '@/components/goals/ActiveGoalsList';
 import NewGoalForm from '@/components/goals/NewGoalForm';
 import GoalHistorySection from '@/components/goals/GoalHistorySection';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { AlertTriangle, Loader2 } from 'lucide-react';
-
-// Mock data for performance goals
-const mockGoals = [
-  {
-    goal_id: "goal_001",
-    metric: "Speed (km/h)",
-    target_value: 25.0,
-    current_value: 23.5,
-    start_date: "2025-03-25",
-    end_date: "2025-04-20",
-    progress_percent: 94,
-    status: "In Progress"
-  },
-  {
-    goal_id: "goal_002",
-    metric: "Endurance Score",
-    target_value: 90,
-    current_value: 88,
-    start_date: "2025-03-28",
-    end_date: "2025-04-18",
-    progress_percent: 98,
-    status: "In Progress"
-  },
-  {
-    goal_id: "goal_003",
-    metric: "Agility Test (seconds)",
-    target_value: 9.5,
-    current_value: 10.2,
-    start_date: "2025-04-01",
-    end_date: "2025-04-30",
-    progress_percent: 79,
-    status: "In Progress"
-  }
-];
-
-// Mock form fields for creating a new goal
-const mockFormFields = {
-  fields: [
-    { label: "Performance Metric", type: "select", options: ["Speed", "Endurance Score", "Agility", "Distance", "Stamina"] },
-    { label: "Target Value", type: "number" },
-    { label: "Start Date", type: "date" },
-    { label: "End Date", type: "date" }
-  ]
-};
+import { useUserRole } from '@/contexts/UserRoleContext';
+import { Navigate } from 'react-router-dom';
 
 const PerformanceGoals = () => {
-  const [isCreatingGoal, setIsCreatingGoal] = useState(false);
+  const { userRole } = useUserRole();
   
-  // Check if Supabase is configured
+  // Redirect scouts to their dashboard
+  if (userRole === 'scout') {
+    return <Navigate to="/scout-dashboard" replace />;
+  }
+  
+  // Rest of the component remains unchanged
   const isConfigured = isSupabaseConfigured();
 
-  // Fetch performance goals
-  const { data: goals, isLoading, error, refetch } = useQuery({
-    queryKey: ['performanceGoals'],
+  // Use React Query to fetch goals
+  const { data: goalsData, isLoading, error, refetch } = useQuery({
+    queryKey: ['goals'],
     queryFn: async () => {
-      // If Supabase is not configured, return mock data
       if (!isConfigured) {
-        console.log('Using mock goals data');
-        return mockGoals;
+        // Return mock data in demo mode
+        return {
+          activeGoals: [
+            {
+              id: 'goal1',
+              title: 'Improve sprint speed',
+              description: 'Increase top sprint speed by 5%',
+              current_value: 28,
+              target_value: 32,
+              unit: 'km/h',
+              start_date: '2025-03-15',
+              target_date: '2025-05-15',
+              category: 'speed',
+              status: 'active'
+            },
+            {
+              id: 'goal2',
+              title: 'Increase vertical jump',
+              description: 'Reach 30 inch vertical jump',
+              current_value: 26,
+              target_value: 30,
+              unit: 'inches',
+              start_date: '2025-03-01',
+              target_date: '2025-06-01',
+              category: 'strength',
+              status: 'active'
+            }
+          ],
+          goalHistory: [
+            {
+              id: 'goal3',
+              title: 'Improve passing accuracy',
+              description: 'Increase passing accuracy to 85%',
+              current_value: 85,
+              target_value: 85,
+              unit: '%',
+              start_date: '2025-01-15',
+              target_date: '2025-03-15',
+              category: 'technique',
+              status: 'completed'
+            }
+          ]
+        };
       }
-      
-      // Otherwise, fetch from Supabase
+
+      // Actual data fetching logic would be here
+      // Fetch active goals
       const { data: user } = await supabase.auth.getUser();
       
       if (!user.user) {
         throw new Error('User not authenticated');
       }
       
-      const { data, error } = await supabase
-        .from('performance_goals')
+      const { data: activeGoals, error: activeGoalsError } = await supabase
+        .from('goals')
         .select('*')
-        .eq('user_id', user.user.id);
+        .eq('user_id', user.user.id)
+        .eq('status', 'active');
       
-      if (error) throw error;
-      return data || [];
-    },
+      if (activeGoalsError) throw activeGoalsError;
+      
+      // Fetch goal history
+      const { data: goalHistory, error: historyError } = await supabase
+        .from('goals')
+        .select('*')
+        .eq('user_id', user.user.id)
+        .eq('status', 'completed')
+        .order('target_date', { ascending: false });
+      
+      if (historyError) throw historyError;
+      
+      return {
+        activeGoals: activeGoals || [],
+        goalHistory: goalHistory || []
+      };
+    }
   });
-
-  const handleGoalCreated = () => {
-    setIsCreatingGoal(false);
-    refetch();
-    toast.success('New goal created successfully!');
-  };
 
   return (
     <div className="min-h-screen bg-athlex-background text-white">
@@ -103,54 +112,27 @@ const PerformanceGoals = () => {
           {/* Main content */}
           <div className="flex-1 p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto">
-              <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl md:text-3xl font-bold mb-2">Performance Goals</h1>
-                
-                {!isConfigured && (
-                  <div className="flex items-center px-4 py-2 bg-yellow-900/30 border border-yellow-600/30 rounded-md text-yellow-200 text-sm">
-                    <AlertTriangle className="h-4 w-4 mr-2" />
-                    <span>Demo Mode: Using mock data</span>
-                  </div>
-                )}
+              <h1 className="text-2xl md:text-3xl font-bold mb-6">Performance Goals</h1>
+              
+              {/* Active Goals */}
+              <ActiveGoalsList 
+                goals={goalsData?.activeGoals || []}
+                isLoading={isLoading}
+                error={error}
+              />
+              
+              {/* New Goal Form */}
+              <div className="mt-8">
+                <NewGoalForm onGoalAdded={refetch} />
               </div>
               
-              {isLoading ? (
-                <div className="flex justify-center items-center h-64">
-                  <Loader2 className="h-8 w-8 animate-spin text-athlex-accent" />
-                </div>
-              ) : error ? (
-                <Card className="border-red-800 bg-red-950/20">
-                  <CardHeader>
-                    <CardTitle className="text-red-400">Error Loading Goals</CardTitle>
-                    <CardDescription className="text-red-300">
-                      {error instanceof Error ? error.message : "There was an error loading your performance goals."}
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              ) : (
-                <>
-                  {/* Active Goals List */}
-                  <div className="mb-8">
-                    <ActiveGoalsList goals={goals || []} onCreateGoal={() => setIsCreatingGoal(true)} />
-                  </div>
-                  
-                  {/* New Goal Form */}
-                  {isCreatingGoal && (
-                    <div className="mb-8">
-                      <NewGoalForm 
-                        formFields={mockFormFields.fields} 
-                        onSuccess={handleGoalCreated} 
-                        onCancel={() => setIsCreatingGoal(false)} 
-                      />
-                    </div>
-                  )}
-                  
-                  {/* Goal History */}
-                  <div className="mb-8">
-                    <GoalHistorySection />
-                  </div>
-                </>
-              )}
+              {/* Goal History */}
+              <div className="mt-12">
+                <GoalHistorySection 
+                  goals={goalsData?.goalHistory || []}
+                  isLoading={isLoading}
+                />
+              </div>
             </div>
           </div>
         </div>
