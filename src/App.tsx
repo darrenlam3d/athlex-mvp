@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -22,6 +21,7 @@ import Messages from "./pages/Messages";
 import ScoutDashboard from "./pages/ScoutDashboard";
 import AthleteDetailPage from "./pages/AthleteDetailPage";
 import ScoutNotes from "./pages/ScoutNotes";
+import ScoutingReports from "./pages/ScoutingReports";
 import NotFound from "./pages/NotFound";
 
 // Create basic placeholder pages for the missing routes
@@ -97,7 +97,8 @@ const App = () => {
                 {/* Scout Routes */}
                 <Route path="/scout-dashboard" element={<ScoutDashboard />} />
                 <Route path="/athlete/:id" element={<AthleteDetailPage />} />
-                <Route path="/scouting-reports" element={<ScoutNotes />} />
+                <Route path="/scout-reports" element={<ScoutingReports />} />
+                <Route path="/scouting-reports" element={<ScoutingReports />} />
                 <Route path="/scout-notes" element={<ScoutNotes />} />
                 
                 {/* Coach Routes */}

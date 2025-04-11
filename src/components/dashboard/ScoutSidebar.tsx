@@ -26,7 +26,7 @@ const ScoutSidebar = () => {
     { icon: Star, text: 'Shortlisted', path: '/scout-dashboard', hash: 'shortlist' },
     { icon: Search, text: 'Talent Discovery', path: '/scout-dashboard', hash: 'all' },
     { icon: FilePen, text: 'Scout Notes', path: '/scout-notes' },
-    { icon: FileText, text: 'Scouting Reports', path: '/scouting-reports' },
+    { icon: FileText, text: 'Scouting Reports', path: '/scout-reports' },
     { icon: Users, text: 'Community', path: '/community' },
     { icon: Settings, text: 'Settings', path: '/settings' },
   ];
