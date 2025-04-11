@@ -1,10 +1,9 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { ProfileProvider } from "@/contexts/ProfileContext";
@@ -37,18 +36,42 @@ const CoachDashboardPage = () => (
 const queryClient = new QueryClient();
 
 const App = () => {
+  const [showSupabaseWarning, setShowSupabaseWarning] = useState(true);
+  
   useEffect(() => {
     // Check if Supabase is configured and show a warning if it's not
-    if (!isSupabaseConfigured()) {
-      toast.error(
-        "Supabase configuration is missing. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your environment variables.",
+    if (!isSupabaseConfigured() && showSupabaseWarning) {
+      toast.custom(
+        (id) => (
+          <div className="bg-red-950 border border-red-700 rounded-lg px-6 py-4 shadow-lg">
+            <div className="flex items-start gap-4">
+              <div className="flex-1">
+                <p className="text-white font-medium">
+                  Supabase configuration is missing. Please add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your environment variables.
+                </p>
+              </div>
+              <button 
+                onClick={() => {
+                  toast.dismiss(id);
+                  setShowSupabaseWarning(false);
+                }}
+                className="text-white/80 hover:text-white"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        ),
         {
-          duration: 10000,
+          duration: Infinity,
           id: "supabase-config-error",
         }
       );
     }
-  }, []);
+  }, [showSupabaseWarning]);
 
   return (
     <QueryClientProvider client={queryClient}>
