@@ -75,9 +75,12 @@ const AthleteDashboard = () => {
         throw error;
       }
     },
-    onSuccess: (data) => {
-      if (data?.name) {
-        setAthleteName(data.name.split(' ')[0] || "Athlete");
+    // Using meta property for TanStack Query v5
+    meta: {
+      onSuccess: (data) => {
+        if (data?.name) {
+          setAthleteName(data.name.split(' ')[0] || "Athlete");
+        }
       }
     },
     onError: (error) => {
@@ -89,6 +92,13 @@ const AthleteDashboard = () => {
       });
     },
   });
+
+  // Side effect to update athlete name when data is available
+  useEffect(() => {
+    if (athleteData?.name) {
+      setAthleteName(athleteData.name.split(' ')[0] || "Athlete");
+    }
+  }, [athleteData]);
 
   if (profileLoading && isConfigured) {
     return (
