@@ -41,7 +41,7 @@ const Index = () => {
       {/* Admin controls - only visible in development */}
       <div className="fixed bottom-4 right-4 flex gap-2 z-50">
         <Button variant="secondary" size="sm" onClick={handleSetScoutRole}>
-          Set Scout Role
+          Set Scout Role=
         </Button>
         <Button variant="secondary" size="sm" onClick={handleSetCoachRole}>
           Set Coach Role
