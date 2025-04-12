@@ -25,6 +25,11 @@ import AthleteDetailPage from "./pages/AthleteDetailPage";
 import ScoutNotes from "./pages/ScoutNotes";
 import ScoutingReports from "./pages/ScoutingReports";
 import CoachDashboard from "./pages/CoachDashboard";
+import CoachAthletes from "./pages/CoachAthletes";
+import CoachTrainingPlans from "./pages/CoachTrainingPlans";
+import CoachNutritionLog from "./pages/CoachNutritionLog";
+import CoachPerformance from "./pages/CoachPerformance";
+import CoachReports from "./pages/CoachReports";
 import AssignTraining from "./pages/AssignTraining";
 import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
@@ -97,8 +102,12 @@ const App = () => {
                 
                 {/* Coach Routes */}
                 <Route path="/coach-dashboard" element={<CoachDashboard />} />
+                <Route path="/coach-athletes" element={<CoachAthletes />} />
+                <Route path="/coach-training-plans" element={<CoachTrainingPlans />} />
+                <Route path="/nutrition-log" element={<CoachNutritionLog />} />
+                <Route path="/coach-performance" element={<CoachPerformance />} />
+                <Route path="/coach-reports" element={<CoachReports />} />
                 <Route path="/assign-training" element={<AssignTraining />} />
-                <Route path="/nutrition-log" element={<NutritionLog />} />
                 
                 {/* Shared Routes */}
                 <Route path="/dashboard" element={<Dashboard />} />
