@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ClipboardList, Calendar, User, Utensils } from 'lucide-react';
+import { ClipboardList, Utensils, User, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const QuickNavigation = () => {
@@ -13,21 +13,21 @@ const QuickNavigation = () => {
       color: 'bg-purple-600 hover:bg-purple-700',
     },
     {
-      text: 'View Calendar',
-      icon: Calendar,
-      path: '/training-calendar',
-      color: 'bg-blue-600 hover:bg-blue-700',
-    },
-    {
-      text: 'View Profile',
-      icon: User,
-      path: '/profile',
-      color: 'bg-green-600 hover:bg-green-700',
-    },
-    {
       text: 'Log Meal',
       icon: Utensils,
       path: '/nutrition',
+      color: 'bg-blue-600 hover:bg-blue-700',
+    },
+    {
+      text: 'Update Profile',
+      icon: User,
+      path: '/settings',
+      color: 'bg-green-600 hover:bg-green-700',
+    },
+    {
+      text: 'View Community',
+      icon: Users,
+      path: '/community',
       color: 'bg-orange-600 hover:bg-orange-700',
     },
   ];

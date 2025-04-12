@@ -17,11 +17,11 @@ export const mockAthlete = {
 
 // Performance chart data (training logs)
 export const mockPerformanceData = [
-  { date: "2025-04-01", speed: 21.5, endurance: 78, stamina: 72, strength: 65 },
-  { date: "2025-04-03", speed: 22.0, endurance: 81, stamina: 75, strength: 67 },
-  { date: "2025-04-05", speed: 22.7, endurance: 84, stamina: 77, strength: 68 },
-  { date: "2025-04-07", speed: 23.1, endurance: 86, stamina: 79, strength: 70 },
-  { date: "2025-04-10", speed: 23.5, endurance: 88, stamina: 82, strength: 73 }
+  { date: "2025-04-01", speed: 21.5, endurance: 78, distance: 5.2, strength: 65 },
+  { date: "2025-04-03", speed: 22.0, endurance: 81, distance: 5.5, strength: 67 },
+  { date: "2025-04-05", speed: 22.7, endurance: 84, distance: 5.9, strength: 68 },
+  { date: "2025-04-07", speed: 23.1, endurance: 86, distance: 6.3, strength: 70 },
+  { date: "2025-04-10", speed: 23.5, endurance: 88, distance: 6.8, strength: 73 }
 ];
 
 // Today's training session
@@ -32,6 +32,7 @@ export const mockTodaysTraining = {
   duration: 45,
   start_time: new Date().setHours(16, 30, 0, 0),
   date: "2025-04-12",
+  assigned_by: "Coach Thomas",
   status: "scheduled"
 };
 
@@ -42,7 +43,8 @@ export const mockInsights = [
     metric: "speed",
     change_percent: 5,
     period: "week",
-    insight_text: "Your sprint speed improved by 5% over the past week. Great consistency!"
+    insight_text: "Your sprint speed improved by 5% over the past week. Great consistency!",
+    recommendation: "Continue with progressive speed drills to maintain momentum."
   }
 ];
 
@@ -129,6 +131,6 @@ export const mockTrainingSchedule = [
     date: "2025-04-12",
     session_title: "Speed & Agility Drills",
     type: "Physical",
-    assigned_by: "Coach Amanda"
+    assigned_by: "Coach Thomas"
   }
 ];

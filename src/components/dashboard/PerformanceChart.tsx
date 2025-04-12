@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
@@ -58,7 +59,7 @@ const PerformanceChart = () => {
       
       const { data, error } = await supabase
         .from('training_logs')
-        .select('date, speed, endurance, stamina, strength')
+        .select('date, speed, endurance, distance, strength')
         .eq('user_id', user.data?.user?.id)
         .gte('date', start.toISOString())
         .lte('date', end.toISOString())
@@ -93,7 +94,7 @@ const PerformanceChart = () => {
 
   return (
     <Card className="bg-athlex-gray-900 border-athlex-gray-800">
-      <CardHeader className="flex-row items-center justify-between pb-2">
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-xl font-medium text-white">Performance Tracking</CardTitle>
         
         <div className="flex items-center gap-4">
@@ -104,7 +105,7 @@ const PerformanceChart = () => {
             <SelectContent>
               <SelectItem value="speed">Speed</SelectItem>
               <SelectItem value="endurance">Endurance</SelectItem>
-              <SelectItem value="stamina">Stamina</SelectItem>
+              <SelectItem value="distance">Distance</SelectItem>
               <SelectItem value="strength">Strength</SelectItem>
             </SelectContent>
           </Select>

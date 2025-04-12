@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -31,7 +32,7 @@ const TodaysTraining = () => {
       
       const { data, error } = await supabase
         .from('training_sessions')
-        .select('id, title, type, duration, start_time')
+        .select('id, title, type, duration, start_time, assigned_by')
         .eq('user_id', user.data?.user?.id)
         .eq('date', todayStr)
         .order('start_time', { ascending: true })
@@ -64,11 +65,18 @@ const TodaysTraining = () => {
                 <span>{session.type}</span>
                 <span>{session.duration} min</span>
               </div>
+              
               {session.start_time && (
                 <div className="mt-2 p-2 bg-athlex-gray-800 rounded-md text-center">
                   <span className="text-sm">
                     Scheduled for {new Date(session.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                   </span>
+                </div>
+              )}
+              
+              {session.assigned_by && (
+                <div className="mt-2 text-xs text-athlex-accent">
+                  Assigned by: {session.assigned_by}
                 </div>
               )}
             </div>
