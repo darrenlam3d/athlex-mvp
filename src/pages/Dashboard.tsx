@@ -9,7 +9,7 @@ const Dashboard = () => {
   console.log("Dashboard.tsx - Current user role:", userRole);
   
   // Handle the empty string as a valid type case
-  if (!userRole || userRole === '' as const) return <Navigate to="/athlete-dashboard" replace />;
+  if (!userRole || userRole === '') return <Navigate to="/athlete-dashboard" replace />;
   
   if (userRole === 'athlete') return <Navigate to="/athlete-dashboard" replace />;
   if (userRole === 'scout') return <Navigate to="/scout-dashboard" replace />;
