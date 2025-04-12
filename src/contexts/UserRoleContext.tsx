@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-// Updated type to include empty string for initialization states
+// Updated type to explicitly include empty string for initialization states
 type UserRole = 'athlete' | 'scout' | 'coach' | '';
 
 interface UserRoleContextType {

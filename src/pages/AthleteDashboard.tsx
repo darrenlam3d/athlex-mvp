@@ -18,8 +18,8 @@ const AthleteDashboard = () => {
   const { toast } = useToast();
   const { userRole } = useUserRole();
 
-  // Only redirect if the user is explicitly set to a non-athlete role
-  // This prevents incorrect redirects when the role is still loading
+  // Only redirect if user has a specific non-athlete role
+  // This prevents redirects when role is empty or still loading
   if (userRole && userRole !== 'athlete' && userRole !== '') {
     console.log('Redirecting from athlete dashboard - user role:', userRole);
     return <Navigate to={`/${userRole}-dashboard`} replace />;
