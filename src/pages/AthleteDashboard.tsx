@@ -20,7 +20,7 @@ const AthleteDashboard = () => {
 
   // Only redirect if the user is explicitly set to a non-athlete role
   // This prevents incorrect redirects when the role is still loading
-  if (userRole && userRole !== '' && userRole !== 'athlete') {
+  if (userRole && userRole !== 'athlete' && userRole !== '' as const) {
     console.log('Redirecting from athlete dashboard - user role:', userRole);
     return <Navigate to={`/${userRole}-dashboard`} replace />;
   }
