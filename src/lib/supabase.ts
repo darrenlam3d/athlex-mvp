@@ -11,9 +11,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 // Function to check if Supabase is properly configured with real credentials
 export const isSupabaseConfigured = () => {
   return (
-    import.meta.env.VITE_SUPABASE_URL &&
+    !!import.meta.env.VITE_SUPABASE_URL &&
     import.meta.env.VITE_SUPABASE_URL !== 'https://placeholder-url.supabase.co' &&
-    import.meta.env.VITE_SUPABASE_ANON_KEY &&
+    !!import.meta.env.VITE_SUPABASE_ANON_KEY &&
     import.meta.env.VITE_SUPABASE_ANON_KEY !== 'placeholder-key'
   );
 };

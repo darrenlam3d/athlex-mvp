@@ -25,22 +25,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(true);
       console.log("AuthContext - fetchUser - Starting");
       
-      // Check if Supabase is configured
-      const isConfigured = isSupabaseConfigured();
-      console.log("AuthContext - Supabase configured:", isConfigured);
-      
-      if (!isConfigured) {
-        // For demo mode, try to get role from localStorage
-        const storedRole = localStorage.getItem('userRole') as UserRole || '';
-        console.log("AuthContext - Demo mode - stored role:", storedRole);
-        setRole(storedRole);
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-      
-      // If Supabase is configured, get the session
       try {
+        // Check if Supabase is configured
+        const isConfigured = isSupabaseConfigured();
+        console.log("AuthContext - Supabase configured:", isConfigured);
+        
+        if (!isConfigured) {
+          // For demo mode, get role from localStorage
+          const storedRole = localStorage.getItem('userRole') as UserRole || '';
+          console.log("AuthContext - Demo mode - stored role:", storedRole);
+          setRole(storedRole);
+          setUser(null);
+          setLoading(false);
+          return;
+        }
+        
+        // If Supabase is configured, get the session
         const { data: sessionData } = await supabase.auth.getSession();
         console.log("AuthContext - Session data:", sessionData ? "received" : "none");
         const currentUser = sessionData.session?.user || null;
@@ -92,10 +92,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     fetchUser();
 
     // Set up auth state change listener
-    const { data: listener } = supabase.auth.onAuthStateChange(() => {
-      console.log("AuthContext - Auth state changed, refreshing user");
-      fetchUser();
-    });
+    let listener = { subscription: { unsubscribe: () => {} } };
+    
+    if (isSupabaseConfigured()) {
+      const { data } = supabase.auth.onAuthStateChange(() => {
+        console.log("AuthContext - Auth state changed, refreshing user");
+        fetchUser();
+      });
+      listener = data;
+    }
 
     return () => {
       listener.subscription.unsubscribe();
