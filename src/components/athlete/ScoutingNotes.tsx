@@ -1,12 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUserRole } from '@/contexts/UserRoleContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Save, Filter } from 'lucide-react';
+import { FileText, Save, Filter, User, UserCheck, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
 
@@ -23,12 +23,20 @@ interface ScoutNote {
 interface ScoutingNotesProps {
   athleteId: string;
   notes?: ScoutNote[];
+  isConnected?: boolean; // New prop to determine if coach is connected to athlete
 }
 
-const ScoutingNotes: React.FC<ScoutingNotesProps> = ({ athleteId, notes = [] }) => {
+const ScoutingNotes: React.FC<ScoutingNotesProps> = ({ 
+  athleteId, 
+  notes = [],
+  isConnected = true // Default to true for backward compatibility
+}) => {
   const { userRole } = useUserRole();
   const [newNote, setNewNote] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'recent'>('all');
+  
+  // Check if user can add notes (scouts or connected coaches)
+  const canAddNotes = userRole === 'scout' || (userRole === 'coach' && isConnected);
   
   // Create mock data for preview if no real notes provided
   const mockNotes: ScoutNote[] = [
@@ -55,9 +63,6 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({ athleteId, notes = [] }) 
   // Use mock data if no real notes provided
   const displayNotes = notes.length > 0 ? notes : mockNotes;
   
-  // For scouts only: allow adding new notes
-  const isScout = userRole === 'scout';
-  
   const handleAddNote = () => {
     if (newNote.trim()) {
       // In a real implementation, this would call an API to save the note
@@ -80,6 +85,28 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({ athleteId, notes = [] }) 
     return format(date, 'MMM d, yyyy');
   };
 
+  // If coach is not connected, show access required message
+  if (userRole === 'coach' && !isConnected) {
+    return (
+      <Card className="bg-gray-900/60 border-gray-800">
+        <CardHeader>
+          <CardTitle className="text-xl">Scouting Notes</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-10">
+            <Lock className="h-12 w-12 mx-auto text-gray-500 mb-3" />
+            <p className="text-lg font-medium text-gray-300 mb-1">Access Required</p>
+            <p className="text-gray-400">You need to connect with this athlete to view and add scouting notes.</p>
+            <Button variant="outline" className="mt-4">
+              <UserCheck className="mr-2 h-4 w-4" />
+              Request Connection
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="bg-gray-900/60 border-gray-800">
       <CardHeader>
@@ -89,7 +116,7 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({ athleteId, notes = [] }) 
         <Tabs defaultValue="notes" className="w-full">
           <TabsList className="w-full grid grid-cols-2 mb-4">
             <TabsTrigger value="notes">All Notes</TabsTrigger>
-            {isScout && <TabsTrigger value="add">Add Note</TabsTrigger>}
+            {canAddNotes && <TabsTrigger value="add">Add Note</TabsTrigger>}
           </TabsList>
           
           <TabsContent value="notes" className="space-y-4">
@@ -142,7 +169,7 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({ athleteId, notes = [] }) 
             )}
           </TabsContent>
           
-          {isScout && (
+          {canAddNotes && (
             <TabsContent value="add">
               <div className="space-y-4">
                 <Textarea

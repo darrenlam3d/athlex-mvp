@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
@@ -26,6 +26,8 @@ const AthleteDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { userRole } = useUserRole();
   const navigate = useNavigate();
+  const [isShortlisted, setIsShortlisted] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
   
   // Log the current user role for debugging
   useEffect(() => {
@@ -52,9 +54,27 @@ const AthleteDetailPage: React.FC = () => {
     }
   });
 
+  // Check if athlete is in shortlist and connection status (mock for now)
+  useEffect(() => {
+    // In a real app, this would be a database check
+    // For demo purposes, randomly determine if shortlisted
+    setIsShortlisted(Math.random() > 0.5);
+    
+    // For coaches, determine if they have a connection with this athlete
+    // In a real app, this would be from a connections/relationships table
+    if (userRole === 'coach') {
+      // Mock data: 70% chance of being connected for demo
+      setIsConnected(Math.random() > 0.3);
+    } else {
+      // Scouts always have access
+      setIsConnected(true);
+    }
+  }, [id, userRole]);
+
   const handleAddToShortlist = () => {
     if (athlete) {
       toast.success(`${athlete.name} added to shortlist`);
+      setIsShortlisted(true);
     }
   };
 
@@ -89,6 +109,12 @@ const AthleteDetailPage: React.FC = () => {
     );
   }
 
+  // Determine which sections to show based on user role and connection status
+  const showPerformanceMetrics = userRole === 'scout' || (userRole === 'coach' && isConnected);
+  const showGoals = userRole === 'scout' || (userRole === 'coach' && isConnected);
+  const showTrainingSessions = userRole === 'scout' || (userRole === 'coach' && isConnected);
+  const showNutrition = userRole === 'coach' && isConnected;
+
   // Render content with the appropriate layout based on user role
   const renderContent = () => {
     const content = (
@@ -113,7 +139,7 @@ const AthleteDetailPage: React.FC = () => {
             </div>
             
             {/* Add Assign Training button for coaches */}
-            {userRole === 'coach' && (
+            {userRole === 'coach' && isConnected && (
               <div className="md:self-start md:mt-4">
                 <Button 
                   className="w-full md:w-auto bg-athlex-accent hover:bg-athlex-accent/90"
@@ -130,29 +156,49 @@ const AthleteDetailPage: React.FC = () => {
             {/* Left Column - Athlete Passport Summary and Recent Training */}
             <div className="md:col-span-1 space-y-6">
               <AthletePassport athlete={athlete} />
-              <RecentTraining sessions={athlete?.training_sessions || []} />
+              
+              {showTrainingSessions && (
+                <RecentTraining sessions={athlete?.training_sessions || []} />
+              )}
+              
               <div className="md:hidden">
-                <ScoutingActions athleteId={id || ''} />
+                <ScoutingActions 
+                  athleteId={id || ''} 
+                  isShortlisted={isShortlisted} 
+                  isConnected={isConnected} 
+                />
               </div>
             </div>
             
             {/* Right Column - Performance Data and Goals */}
             <div className="md:col-span-2 space-y-6">
-              <PerformanceMetrics performanceData={athlete?.performance_metrics} />
-              <GoalOverview goals={athlete?.goals || []} />
+              {showPerformanceMetrics && (
+                <PerformanceMetrics performanceData={athlete?.performance_metrics} />
+              )}
+              
+              {showGoals && (
+                <GoalOverview goals={athlete?.goals || []} />
+              )}
               
               {/* Add Nutrition Overview for coaches */}
-              {userRole === 'coach' && (
+              {showNutrition && (
                 <NutritionOverview athleteId={id || ''} />
               )}
               
               {/* Scouting Notes section for both scouts and coaches */}
-              <ScoutingNotes athleteId={id || ''} />
+              <ScoutingNotes 
+                athleteId={id || ''} 
+                isConnected={isConnected} 
+              />
             </div>
 
             {/* Scouting Actions - Desktop Only */}
             <div className="hidden md:block md:col-span-1">
-              <ScoutingActions athleteId={id || ''} />
+              <ScoutingActions 
+                athleteId={id || ''} 
+                isShortlisted={isShortlisted}
+                isConnected={isConnected}
+              />
             </div>
           </div>
         </div>
