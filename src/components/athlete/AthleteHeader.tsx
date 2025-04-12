@@ -4,9 +4,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MessageSquare, Star } from 'lucide-react';
+import { MessageSquare, Star, Apple } from 'lucide-react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { useUserRole } from '@/contexts/UserRoleContext';
 
 export interface AthleteHeaderProps {
   athlete: {
@@ -24,6 +25,7 @@ export interface AthleteHeaderProps {
 
 const AthleteHeader: React.FC<AthleteHeaderProps> = ({ athlete, onAddToShortlist }) => {
   const navigate = useNavigate();
+  const { userRole } = useUserRole();
   
   const handleSendMessage = () => {
     if (athlete?.id) {
@@ -32,6 +34,16 @@ const AthleteHeader: React.FC<AthleteHeaderProps> = ({ athlete, onAddToShortlist
       toast.success(`Opening chat with ${athlete.name}`);
     } else {
       toast.error("Unable to open chat. Athlete ID not found.");
+    }
+  };
+
+  const handleViewNutrition = () => {
+    if (athlete?.id) {
+      // Navigate to the nutrition log page and pre-select this athlete
+      navigate(`/nutrition-log?athlete=${athlete.id}`);
+      toast.success(`Loading nutrition logs for ${athlete.name}`);
+    } else {
+      toast.error("Unable to load nutrition data. Athlete ID not found.");
     }
   };
 
@@ -64,10 +76,13 @@ const AthleteHeader: React.FC<AthleteHeaderProps> = ({ athlete, onAddToShortlist
             </div>
             
             <div className="mt-4 flex flex-wrap justify-center sm:justify-start gap-2">
-              <Button size="sm" variant="outline" onClick={onAddToShortlist}>
-                <Star className="mr-2 h-4 w-4" />
-                Add to Shortlist
-              </Button>
+              {userRole === 'scout' && (
+                <Button size="sm" variant="outline" onClick={onAddToShortlist}>
+                  <Star className="mr-2 h-4 w-4" />
+                  Add to Shortlist
+                </Button>
+              )}
+              
               <Button 
                 size="sm" 
                 variant="outline" 
@@ -77,6 +92,18 @@ const AthleteHeader: React.FC<AthleteHeaderProps> = ({ athlete, onAddToShortlist
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Message Athlete
               </Button>
+              
+              {userRole === 'coach' && (
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={handleViewNutrition}
+                  className="flex items-center"
+                >
+                  <Apple className="mr-2 h-4 w-4" />
+                  View Nutrition
+                </Button>
+              )}
             </div>
           </div>
         </div>

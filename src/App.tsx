@@ -17,6 +17,7 @@ import TrainingLog from "./pages/TrainingLog";
 import Performance from "./pages/Performance";
 import PerformanceGoals from "./pages/PerformanceGoals";
 import Nutrition from "./pages/Nutrition";
+import NutritionLog from "./pages/NutritionLog";
 import Community from "./pages/Community";
 import Messages from "./pages/Messages";
 import ScoutDashboard from "./pages/ScoutDashboard";
@@ -99,6 +100,7 @@ const App = () => {
                 {/* Coach Routes */}
                 <Route path="/coach-dashboard" element={<CoachDashboard />} />
                 <Route path="/assign-training" element={<AssignTraining />} />
+                <Route path="/nutrition-log" element={<NutritionLog />} />
                 
                 {/* Shared Routes */}
                 <Route path="/dashboard" element={<Dashboard />} />

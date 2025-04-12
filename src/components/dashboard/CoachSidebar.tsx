@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -7,7 +8,8 @@ import {
   Award,
   FileText,
   Settings, 
-  LogOut 
+  LogOut,
+  Apple 
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
@@ -22,6 +24,7 @@ const CoachSidebar = () => {
     { icon: LayoutDashboard, text: 'Dashboard', path: '/coach-dashboard' },
     { icon: Users, text: 'Athletes', path: '/coach-athletes' },
     { icon: Calendar, text: 'Training Plans', path: '/coach-training-plans' },
+    { icon: Apple, text: 'Nutrition Log', path: '/nutrition-log' },
     { icon: Award, text: 'Performance', path: '/coach-performance' },
     { icon: FileText, text: 'Reports', path: '/coach-reports' },
     { icon: Settings, text: 'Settings', path: '/settings' },
