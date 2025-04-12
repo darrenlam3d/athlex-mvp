@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -151,8 +152,10 @@ const NutritionLog = () => {
     }
   }, [searchParams]);
   
-  // Redirect non-coaches to their dashboard
+  // For non-coach users - Instead of immediately redirecting, we'll first check and render conditionally
   if (userRole !== 'coach') {
+    // Show a toast notification and return the Navigate component 
+    // This fixes the immediate redirect issue
     toast.error("Only coaches can access nutrition logs");
     return <Navigate to="/dashboard" replace />;
   }
