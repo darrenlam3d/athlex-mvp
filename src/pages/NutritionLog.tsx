@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { AlertTriangle, Search, Calendar, Loader2 } from 'lucide-react';
@@ -28,8 +29,41 @@ import CoachLayout from '@/layouts/CoachLayout';
 import NutritionSummary from '@/components/nutrition/NutritionSummary';
 import { Navigate } from 'react-router-dom';
 
+// Define types for our data
+interface Athlete {
+  id: string;
+  name: string;
+  sport: string;
+}
+
+interface MealLog {
+  meal_id: string;
+  date: string;
+  meal_type: string;
+  description: string;
+  photo_url?: string;
+  calories: number;
+  protein_g: number;
+  carbs_g: number;
+  fats_g: number;
+}
+
+interface NutritionSummaryData {
+  calories_7d: number;
+  avg_protein: number;
+  avg_carbs: number;
+  avg_fats: number;
+  daily_totals: {
+    date: string;
+    calories: number;
+    protein: number;
+    carbs: number;
+    fats: number;
+  }[];
+}
+
 // Mock data for athletes in a coach's approved list
-const mockAssignedAthletes = [
+const mockAssignedAthletes: Athlete[] = [
   { id: 'athlete_001', name: 'Lena Koh', sport: 'Football' },
   { id: 'athlete_002', name: 'Marcus Johnson', sport: 'Basketball' },
   { id: 'athlete_003', name: 'Jamal Williams', sport: 'Track & Field' },
@@ -37,7 +71,7 @@ const mockAssignedAthletes = [
 ];
 
 // Mock data for meal logs
-const mockMealLogs = [
+const mockMealLogs: MealLog[] = [
   {
     meal_id: "meal_001",
     date: "2025-04-10",
@@ -85,7 +119,7 @@ const mockMealLogs = [
 ];
 
 // Mock nutritional summary data
-const mockNutritionSummary = {
+const mockNutritionSummary: NutritionSummaryData = {
   calories_7d: 4250,
   avg_protein: 35,
   avg_carbs: 45,
@@ -104,10 +138,19 @@ const mockNutritionSummary = {
 const NutritionLog = () => {
   const { userRole } = useUserRole();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [selectedAthleteId, setSelectedAthleteId] = useState('');
   const [selectedImageUrl, setSelectedImageUrl] = useState('');
   const [selectedMealDesc, setSelectedMealDesc] = useState('');
   const [hasPermission, setHasPermission] = useState(true);
+  
+  // Check URL params for pre-selected athlete
+  useEffect(() => {
+    const athleteId = searchParams.get('athlete');
+    if (athleteId) {
+      setSelectedAthleteId(athleteId);
+    }
+  }, [searchParams]);
   
   // Redirect non-coaches to their dashboard
   if (userRole !== 'coach') {
@@ -326,7 +369,7 @@ const NutritionLog = () => {
                                       <Button 
                                         variant="ghost" 
                                         size="sm"
-                                        onClick={() => openImagePreview(meal.photo_url, meal.description)}
+                                        onClick={() => openImagePreview(meal.photo_url || '', meal.description)}
                                       >
                                         View
                                       </Button>

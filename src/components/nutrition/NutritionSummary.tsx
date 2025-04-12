@@ -14,9 +14,22 @@ interface MealLog {
 
 interface NutritionSummaryProps {
   mealLogs: MealLog[];
+  customSummary?: {
+    calories_7d: number;
+    avg_protein: number;
+    avg_carbs: number;
+    avg_fats: number;
+    daily_totals: {
+      date: string;
+      calories: number;
+      protein: number;
+      carbs: number;
+      fats: number;
+    }[];
+  };
 }
 
-const NutritionSummary: React.FC<NutritionSummaryProps> = ({ mealLogs }) => {
+const NutritionSummary: React.FC<NutritionSummaryProps> = ({ mealLogs, customSummary }) => {
   // Filter meals for today only
   const today = new Date().toISOString().split('T')[0];
   const todayMeals = mealLogs.filter(meal => meal.date === today);
