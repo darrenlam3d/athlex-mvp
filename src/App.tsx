@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,6 +24,7 @@ import AthleteDetailPage from "./pages/AthleteDetailPage";
 import ScoutNotes from "./pages/ScoutNotes";
 import ScoutingReports from "./pages/ScoutingReports";
 import CoachDashboard from "./pages/CoachDashboard";
+import AssignTraining from "./pages/AssignTraining";
 import NotFound from "./pages/NotFound";
 
 // Create basic placeholder pages for the missing routes
@@ -96,6 +98,7 @@ const App = () => {
                 
                 {/* Coach Routes */}
                 <Route path="/coach-dashboard" element={<CoachDashboard />} />
+                <Route path="/assign-training" element={<AssignTraining />} />
                 
                 {/* Shared Routes */}
                 <Route path="/dashboard" element={<Dashboard />} />
