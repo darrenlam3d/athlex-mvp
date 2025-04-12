@@ -27,9 +27,7 @@ import ScoutingReports from "./pages/ScoutingReports";
 import CoachDashboard from "./pages/CoachDashboard";
 import AssignTraining from "./pages/AssignTraining";
 import NotFound from "./pages/NotFound";
-
-// Create basic placeholder pages for the missing routes
-const SettingsPage = () => <Navigate to="/dashboard" replace />;
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -106,7 +104,7 @@ const App = () => {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/community" element={<Community />} />
                 <Route path="/messages" element={<Messages />} />
-                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/settings" element={<Settings />} />
                 
                 {/* Default route - 404 not found */}
                 <Route path="*" element={<NotFound />} />
