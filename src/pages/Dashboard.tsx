@@ -8,6 +8,9 @@ const Dashboard = () => {
   
   console.log("Dashboard.tsx - Current user role:", userRole);
   
+  // Default to athlete dashboard if role is not yet loaded or is empty
+  if (!userRole || userRole === '') return <Navigate to="/athlete-dashboard" replace />;
+  
   if (userRole === 'athlete') return <Navigate to="/athlete-dashboard" replace />;
   if (userRole === 'scout') return <Navigate to="/scout-dashboard" replace />;
   if (userRole === 'coach') return <Navigate to="/coach-dashboard" replace />;
