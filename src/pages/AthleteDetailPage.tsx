@@ -6,7 +6,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { useUserRole } from '@/contexts/UserRoleContext';
 import { getAthleteById } from '@/utils/athleteDetailUtils';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ScoutLayout from '@/layouts/ScoutLayout';
 import CoachLayout from '@/layouts/CoachLayout';
@@ -18,6 +18,9 @@ import RecentTraining from '@/components/athlete/RecentTraining';
 import PerformanceMetrics from '@/components/athlete/PerformanceMetrics';
 import GoalOverview from '@/components/athlete/GoalOverview';
 import ScoutingActions from '@/components/athlete/ScoutingActions';
+// Import our new components
+import NutritionOverview from '@/components/athlete/NutritionOverview';
+import ScoutingNotes from '@/components/athlete/ScoutingNotes';
 
 const AthleteDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -58,6 +61,10 @@ const AthleteDetailPage: React.FC = () => {
   const handleBack = () => {
     navigate(-1); // Go back to previous page
   };
+  
+  const handleAssignTraining = () => {
+    navigate(`/assign-training?athlete_id=${id}`);
+  };
 
   if (isLoading) {
     return (
@@ -96,11 +103,28 @@ const AthleteDetailPage: React.FC = () => {
             Back
           </Button>
           
-          {/* Athlete Header */}
-          <AthleteHeader 
-            athlete={athlete} 
-            onAddToShortlist={handleAddToShortlist} 
-          />
+          {/* Athlete Header with Assign Training button for coaches */}
+          <div className="flex flex-col md:flex-row gap-6 mb-6">
+            <div className="flex-1">
+              <AthleteHeader 
+                athlete={athlete} 
+                onAddToShortlist={handleAddToShortlist} 
+              />
+            </div>
+            
+            {/* Add Assign Training button for coaches */}
+            {userRole === 'coach' && (
+              <div className="md:self-start md:mt-4">
+                <Button 
+                  className="w-full md:w-auto bg-athlex-accent hover:bg-athlex-accent/90"
+                  onClick={handleAssignTraining}
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Assign Training to {athlete.name.split(' ')[0]}
+                </Button>
+              </div>
+            )}
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Left Column - Athlete Passport Summary and Recent Training */}
@@ -116,6 +140,14 @@ const AthleteDetailPage: React.FC = () => {
             <div className="md:col-span-2 space-y-6">
               <PerformanceMetrics performanceData={athlete?.performance_metrics} />
               <GoalOverview goals={athlete?.goals || []} />
+              
+              {/* Add Nutrition Overview for coaches */}
+              {userRole === 'coach' && (
+                <NutritionOverview athleteId={id || ''} />
+              )}
+              
+              {/* Scouting Notes section for both scouts and coaches */}
+              <ScoutingNotes athleteId={id || ''} />
             </div>
 
             {/* Scouting Actions - Desktop Only */}

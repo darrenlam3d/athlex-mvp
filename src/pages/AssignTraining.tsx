@@ -1,194 +1,140 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { format } from 'date-fns';
-import { CalendarIcon, Clock, Users, Info, ArrowLeft } from 'lucide-react';
-import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase';
-import { isSupabaseConfigured } from '@/lib/supabase';
+
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useUserRole } from '@/contexts/UserRoleContext';
 import CoachLayout from '@/layouts/CoachLayout';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { Calendar } from '@/components/ui/calendar';
+import { ArrowLeft, CalendarPlus, Users, Info } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
-// Define the form schema with validation
-const formSchema = z.object({
-  title: z.string().min(3, { message: 'Title must be at least 3 characters' }),
-  date: z.date({ required_error: 'Please select a date' }),
-  startTime: z.string().min(1, { message: 'Please enter a start time' }),
-  duration: z.number().min(5, { message: 'Duration must be at least 5 minutes' }),
-  type: z.string().min(1, { message: 'Please select a session type' }),
-  intensity: z.string().min(1, { message: 'Please select an intensity level' }),
-  notes: z.string().optional(),
-});
-
-// Types for the form values
-type FormValues = z.infer<typeof formSchema>;
-
-// Mock data for assigned athletes (to be replaced with Supabase query)
-const mockAssignedAthletes = [
-  {
-    id: "athlete_001",
-    name: "Arif Rahman",
-    sport: "Football",
-    position: "Striker",
-    club: "Tampines Elite",
-    profile_photo: null
-  },
-  {
-    id: "athlete_002",
-    name: "Lena Koh",
-    sport: "Football",
-    position: "Midfielder",
-    club: "Phoenix Academy",
-    profile_photo: null
-  },
-  {
-    id: "athlete_003",
-    name: "Marcus Ng",
-    sport: "Football",
-    position: "Goalkeeper",
-    club: "Tampines Elite",
-    profile_photo: null
-  },
-  {
-    id: "athlete_004",
-    name: "Sophia Tan",
-    sport: "Football",
-    position: "Left Wing",
-    club: "Phoenix Academy",
-    profile_photo: null
-  }
-];
-
+// Extend the page to handle URL parameters for pre-selecting athletes
 const AssignTraining = () => {
+  const { userRole } = useUserRole();
   const navigate = useNavigate();
-  const [selectedAthletes, setSelectedAthletes] = useState<string[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Initialize form with react-hook-form and zod validation
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: '',
-      date: undefined,
-      startTime: '',
-      duration: 30,
-      type: '',
-      intensity: '',
-      notes: '',
+  const location = useLocation();
+  
+  // Get athlete_id from URL if it exists
+  const queryParams = new URLSearchParams(location.search);
+  const preSelectedAthleteId = queryParams.get('athlete_id');
+  
+  // Mock data - would be replaced with Supabase queries in a real implementation
+  const [assignedAthletes, setAssignedAthletes] = useState([
+    {
+      id: "athlete_001",
+      name: "Arif Rahman",
+      sport: "Football",
+      position: "Striker",
+      club: "Tampines Elite",
+      profile_photo: null,
+      selected: false
     },
-  });
-
-  // Toggle athlete selection
-  const toggleAthleteSelection = (athleteId: string) => {
-    setSelectedAthletes(prev => 
-      prev.includes(athleteId)
-        ? prev.filter(id => id !== athleteId)
-        : [...prev, athleteId]
-    );
-  };
-
-  // Handle "Select All" action
-  const handleSelectAll = () => {
-    if (selectedAthletes.length === mockAssignedAthletes.length) {
-      // If all are already selected, deselect all
-      setSelectedAthletes([]);
-    } else {
-      // Otherwise, select all
-      setSelectedAthletes(mockAssignedAthletes.map(athlete => athlete.id));
+    {
+      id: "athlete_002",
+      name: "Lena Koh",
+      sport: "Football",
+      position: "Midfielder",
+      club: "Phoenix Academy",
+      profile_photo: null,
+      selected: false
+    },
+    {
+      id: "athlete_003",
+      name: "Marcus Ng",
+      sport: "Football",
+      position: "Goalkeeper",
+      club: "Tampines Elite",
+      profile_photo: null,
+      selected: false
     }
-  };
-
-  // Handle form submission
-  const onSubmit = async (data: FormValues) => {
-    // Validate that at least one athlete is selected
-    if (selectedAthletes.length === 0) {
-      toast.error('Please select at least one athlete');
+  ]);
+  
+  // Pre-select athlete if athlete_id is provided in URL
+  useEffect(() => {
+    if (preSelectedAthleteId) {
+      setAssignedAthletes(athletes => 
+        athletes.map(athlete => ({
+          ...athlete,
+          selected: athlete.id === preSelectedAthleteId
+        }))
+      );
+    }
+  }, [preSelectedAthleteId]);
+  
+  // Form setup
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      title: "",
+      date: new Date().toISOString().split('T')[0],
+      startTime: "08:00",
+      duration: 60,
+      type: "Physical",
+      intensity: "Medium",
+      notes: ""
+    }
+  });
+  
+  // Redirect if not a coach
+  if (userRole !== 'coach') {
+    toast.error("Only coaches can assign training sessions");
+    navigate('/dashboard');
+    return null;
+  }
+  
+  const onSubmit = (data: any) => {
+    const selectedAthleteIds = assignedAthletes
+      .filter(athlete => athlete.selected)
+      .map(athlete => athlete.id);
+    
+    if (selectedAthleteIds.length === 0) {
+      toast.error("Please select at least one athlete");
       return;
     }
-
-    setIsSubmitting(true);
-
-    try {
-      // For mock demonstration, we'll just simulate a submission and show a success toast
-      // In a real implementation, this would insert data into Supabase
-      
-      console.log('Submission payload:', {
-        ...data,
-        assigned_athletes: selectedAthletes
-      });
-
-      // Check if Supabase is configured
-      if (isSupabaseConfigured()) {
-        // In a real implementation, you would insert the data into Supabase here
-        // const { error } = await supabase.from('training_sessions').insert({
-        //   title: data.title,
-        //   date: data.date.toISOString().split('T')[0],
-        //   start_time: data.startTime,
-        //   duration: data.duration,
-        //   type: data.type,
-        //   intensity: data.intensity,
-        //   notes: data.notes,
-        //   coach_id: 'current_user_id' // This would be replaced with the actual coach ID
-        // });
-        
-        // if (error) throw error;
-        
-        // Then add entries for each athlete
-        // for (const athleteId of selectedAthletes) {
-        //   const { error: assignmentError } = await supabase.from('training_session_athletes').insert({
-        //     training_session_id: 'new_session_id', // This would be the ID of the newly created session
-        //     athlete_id: athleteId
-        //   });
-        //   if (assignmentError) throw assignmentError;
-        // }
-      }
-
-      // Show success toast
-      toast.success('Training session assigned successfully!');
-      
-      // Redirect back to coach dashboard after a brief delay
-      setTimeout(() => {
-        navigate('/coach-dashboard');
-      }, 1500);
-      
-    } catch (error) {
-      console.error('Error assigning training session:', error);
-      toast.error('Failed to assign training session. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    
+    // Prepare payload (would be sent to Supabase in real implementation)
+    const payload = {
+      ...data,
+      assigned_athletes: selectedAthleteIds
+    };
+    
+    console.log("Submitted training session:", payload);
+    toast.success("Training session assigned successfully");
+    
+    // Navigate back to dashboard after successful submission
+    setTimeout(() => {
+      navigate('/coach-dashboard');
+    }, 1500);
   };
-
-  // Get initials for avatar fallback
+  
+  const toggleAthleteSelection = (athleteId: string) => {
+    setAssignedAthletes(athletes => 
+      athletes.map(athlete => 
+        athlete.id === athleteId 
+          ? { ...athlete, selected: !athlete.selected }
+          : athlete
+      )
+    );
+  };
+  
+  const selectAllAthletes = () => {
+    setAssignedAthletes(athletes => 
+      athletes.map(athlete => ({ ...athlete, selected: true }))
+    );
+  };
+  
+  const deselectAllAthletes = () => {
+    setAssignedAthletes(athletes => 
+      athletes.map(athlete => ({ ...athlete, selected: false }))
+    );
+  };
+  
   const getInitials = (name: string) => {
     return name
       .split(' ')
@@ -196,295 +142,256 @@ const AssignTraining = () => {
       .join('')
       .toUpperCase();
   };
-
+  
+  const getSelectedAthletesCount = () => {
+    return assignedAthletes.filter(athlete => athlete.selected).length;
+  };
+  
+  const handleBack = () => {
+    navigate(-1); // Go back to previous page
+  };
+  
   return (
     <CoachLayout>
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between mb-6">
+          <div>
             <Button 
               variant="ghost" 
-              size="sm" 
-              onClick={() => navigate('/coach-dashboard')}
-              className="p-0 h-auto"
+              className="mb-2" 
+              onClick={handleBack}
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back
             </Button>
             <h1 className="text-2xl font-bold">Assign Training</h1>
+            <p className="text-athlex-gray-400">Create and schedule a new training session</p>
           </div>
-          <p className="text-athlex-gray-400 mt-1">
-            Create a new training session and assign it to your athletes
-          </p>
         </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Training Session Form */}
-          <div className="lg:col-span-2">
+        
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid grid-cols-1 gap-6">
+            {/* Training Session Details */}
             <Card className="bg-athlex-gray-900 border-athlex-gray-800">
-              <CardContent className="pt-6">
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Training Title</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="e.g. Speed & Agility Drill" 
-                              className="bg-athlex-gray-800 border-athlex-gray-700"
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <CalendarPlus className="h-5 w-5 text-athlex-accent" />
+                  Training Session Details
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Training Title */}
+                  <div className="space-y-2 md:col-span-2">
+                    <Label htmlFor="title">Training Title</Label>
+                    <Input
+                      id="title"
+                      placeholder="e.g. Speed & Agility Drill"
+                      className="bg-athlex-gray-800 border-athlex-gray-700"
+                      {...register("title", { required: "Title is required" })}
                     />
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="date"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Date</FormLabel>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <FormControl>
-                                  <Button
-                                    variant="outline"
-                                    className={cn(
-                                      "w-full bg-athlex-gray-800 border-athlex-gray-700 justify-start text-left font-normal",
-                                      !field.value && "text-athlex-gray-400"
-                                    )}
-                                  >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {field.value ? (
-                                      format(field.value, "PPP")
-                                    ) : (
-                                      <span>Select date</span>
-                                    )}
-                                  </Button>
-                                </FormControl>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0 bg-athlex-gray-800 border-athlex-gray-700" align="start">
-                                <Calendar
-                                  mode="single"
-                                  selected={field.value}
-                                  onSelect={field.onChange}
-                                  initialFocus
-                                  className="p-3 pointer-events-auto"
-                                />
-                              </PopoverContent>
-                            </Popover>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="startTime"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Start Time</FormLabel>
-                            <FormControl>
-                              <div className="relative">
-                                <Input 
-                                  type="time" 
-                                  className="bg-athlex-gray-800 border-athlex-gray-700"
-                                  {...field} 
-                                />
-                                <Clock className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-athlex-gray-400 pointer-events-none" />
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <FormField
-                        control={form.control}
-                        name="duration"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Duration (minutes)</FormLabel>
-                            <FormControl>
-                              <Input 
-                                type="number" 
-                                className="bg-athlex-gray-800 border-athlex-gray-700"
-                                {...field}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="type"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Type</FormLabel>
-                            <Select 
-                              onValueChange={field.onChange} 
-                              defaultValue={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="bg-athlex-gray-800 border-athlex-gray-700">
-                                  <SelectValue placeholder="Select type" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent className="bg-athlex-gray-800 border-athlex-gray-700">
-                                <SelectItem value="Physical">Physical</SelectItem>
-                                <SelectItem value="Sport-Specific">Sport-Specific</SelectItem>
-                                <SelectItem value="Recovery">Recovery</SelectItem>
-                                <SelectItem value="Tactical">Tactical</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="intensity"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Intensity</FormLabel>
-                            <Select 
-                              onValueChange={field.onChange} 
-                              defaultValue={field.value}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="bg-athlex-gray-800 border-athlex-gray-700">
-                                  <SelectValue placeholder="Select intensity" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent className="bg-athlex-gray-800 border-athlex-gray-700">
-                                <SelectItem value="Low">Low</SelectItem>
-                                <SelectItem value="Medium">Medium</SelectItem>
-                                <SelectItem value="High">High</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <FormField
-                      control={form.control}
-                      name="notes"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Session Notes (Optional)</FormLabel>
-                          <FormControl>
-                            <Textarea 
-                              placeholder="Add any additional details about this training session..." 
-                              className="bg-athlex-gray-800 border-athlex-gray-700 min-h-32"
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                    {errors.title && (
+                      <p className="text-sm text-red-500">{errors.title.message?.toString()}</p>
+                    )}
+                  </div>
+                  
+                  {/* Date */}
+                  <div className="space-y-2">
+                    <Label htmlFor="date">Date</Label>
+                    <Input
+                      id="date"
+                      type="date"
+                      className="bg-athlex-gray-800 border-athlex-gray-700"
+                      {...register("date", { required: "Date is required" })}
                     />
-
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-athlex-accent hover:bg-athlex-accent/90"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? 'Assigning...' : 'Assign Training Session'}
-                    </Button>
-                  </form>
-                </Form>
+                    {errors.date && (
+                      <p className="text-sm text-red-500">{errors.date.message?.toString()}</p>
+                    )}
+                  </div>
+                  
+                  {/* Start Time */}
+                  <div className="space-y-2">
+                    <Label htmlFor="startTime">Start Time</Label>
+                    <Input
+                      id="startTime"
+                      type="time"
+                      className="bg-athlex-gray-800 border-athlex-gray-700"
+                      {...register("startTime", { required: "Start time is required" })}
+                    />
+                    {errors.startTime && (
+                      <p className="text-sm text-red-500">{errors.startTime.message?.toString()}</p>
+                    )}
+                  </div>
+                  
+                  {/* Duration */}
+                  <div className="space-y-2">
+                    <Label htmlFor="duration">Duration (minutes)</Label>
+                    <Input
+                      id="duration"
+                      type="number"
+                      min="15"
+                      max="180"
+                      step="5"
+                      className="bg-athlex-gray-800 border-athlex-gray-700"
+                      {...register("duration", {
+                        required: "Duration is required",
+                        min: { value: 15, message: "Minimum duration is 15 minutes" },
+                        max: { value: 180, message: "Maximum duration is 180 minutes" }
+                      })}
+                    />
+                    {errors.duration && (
+                      <p className="text-sm text-red-500">{errors.duration.message?.toString()}</p>
+                    )}
+                  </div>
+                  
+                  {/* Type */}
+                  <div className="space-y-2">
+                    <Label htmlFor="type">Type</Label>
+                    <Select defaultValue="Physical" {...register("type")}>
+                      <SelectTrigger className="bg-athlex-gray-800 border-athlex-gray-700">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-athlex-gray-800 border-athlex-gray-700">
+                        <SelectItem value="Physical">Physical</SelectItem>
+                        <SelectItem value="Sport-Specific">Sport-Specific</SelectItem>
+                        <SelectItem value="Recovery">Recovery</SelectItem>
+                        <SelectItem value="Tactical">Tactical</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  {/* Intensity */}
+                  <div className="space-y-2">
+                    <Label htmlFor="intensity">Intensity</Label>
+                    <Select defaultValue="Medium" {...register("intensity")}>
+                      <SelectTrigger className="bg-athlex-gray-800 border-athlex-gray-700">
+                        <SelectValue placeholder="Select intensity" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-athlex-gray-800 border-athlex-gray-700">
+                        <SelectItem value="Low">Low</SelectItem>
+                        <SelectItem value="Medium">Medium</SelectItem>
+                        <SelectItem value="High">High</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  {/* Notes */}
+                  <div className="space-y-2 md:col-span-2">
+                    <Label htmlFor="notes">Session Notes (Optional)</Label>
+                    <Textarea
+                      id="notes"
+                      placeholder="Describe the session objectives and key focus areas..."
+                      className="min-h-[100px] bg-athlex-gray-800 border-athlex-gray-700"
+                      {...register("notes")}
+                    />
+                  </div>
+                </div>
               </CardContent>
             </Card>
-          </div>
-
-          {/* Athlete Selection */}
-          <div>
+            
+            {/* Athlete Selection */}
             <Card className="bg-athlex-gray-900 border-athlex-gray-800">
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center">
-                    <Users className="h-5 w-5 mr-2 text-athlex-accent" />
-                    <h3 className="font-medium">Select Athletes</h3>
-                  </div>
+              <CardHeader className="flex flex-row items-start justify-between">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="h-5 w-5 text-athlex-accent" />
+                    Assign Athletes
+                  </CardTitle>
+                  <p className="text-sm text-athlex-gray-400 mt-1">
+                    Select the athletes who will participate in this session
+                  </p>
+                </div>
+                <div className="flex gap-2">
                   <Button 
+                    type="button" 
                     variant="outline" 
                     size="sm" 
-                    onClick={handleSelectAll}
-                    className="text-xs h-8 border-athlex-gray-700"
+                    onClick={selectAllAthletes}
+                    className="border-athlex-gray-700 text-xs"
                   >
-                    {selectedAthletes.length === mockAssignedAthletes.length ? 'Deselect All' : 'Select All'}
+                    Select All
+                  </Button>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={deselectAllAthletes}
+                    className="border-athlex-gray-700 text-xs"
+                  >
+                    Clear
                   </Button>
                 </div>
-                
-                <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
-                  {mockAssignedAthletes.map((athlete) => (
-                    <div 
-                      key={athlete.id}
-                      className={cn(
-                        "flex items-center p-3 rounded-lg cursor-pointer transition-colors",
-                        selectedAthletes.includes(athlete.id) 
-                          ? "bg-athlex-accent/20 border border-athlex-accent/30" 
-                          : "bg-athlex-gray-800 hover:bg-athlex-gray-800/80"
-                      )}
-                      onClick={() => toggleAthleteSelection(athlete.id)}
-                    >
-                      <Checkbox 
-                        checked={selectedAthletes.includes(athlete.id)}
-                        onCheckedChange={() => toggleAthleteSelection(athlete.id)}
-                        className="mr-4 border-athlex-gray-600 data-[state=checked]:bg-athlex-accent data-[state=checked]:border-athlex-accent"
-                      />
-                      <div className="flex items-center gap-3 flex-1 min-w-0">
-                        <Avatar className="h-10 w-10 border border-athlex-gray-700">
-                          <AvatarImage src={athlete.profile_photo || ''} />
-                          <AvatarFallback className="bg-athlex-accent/20 text-athlex-accent">
-                            {getInitials(athlete.name)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="truncate">
-                          <p className="font-medium truncate">{athlete.name}</p>
-                          <p className="text-sm text-athlex-gray-400 truncate">
-                            {athlete.sport} • {athlete.position} • {athlete.club}
-                          </p>
-                        </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {assignedAthletes.length === 0 ? (
+                    <div className="text-center py-8">
+                      <Info className="h-12 w-12 mx-auto text-athlex-gray-600" />
+                      <p className="mt-2 text-athlex-gray-400">No athletes assigned to you yet</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {assignedAthletes.map((athlete) => (
+                          <div 
+                            key={athlete.id}
+                            className={`flex items-center space-x-3 p-3 rounded-lg border ${
+                              athlete.selected 
+                                ? 'bg-athlex-accent/10 border-athlex-accent/40' 
+                                : 'bg-athlex-gray-800/50 border-athlex-gray-700'
+                            }`}
+                          >
+                            <Checkbox 
+                              id={athlete.id} 
+                              checked={athlete.selected}
+                              onCheckedChange={() => toggleAthleteSelection(athlete.id)}
+                              className="data-[state=checked]:bg-athlex-accent data-[state=checked]:border-athlex-accent"
+                            />
+                            <div className="flex flex-1 items-center space-x-3">
+                              <Avatar className="h-10 w-10">
+                                <AvatarImage src={athlete.profile_photo || ''} />
+                                <AvatarFallback className="bg-athlex-gray-700 text-athlex-accent">
+                                  {getInitials(athlete.name)}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div className="flex-1">
+                                <label 
+                                  htmlFor={athlete.id}
+                                  className="font-medium cursor-pointer"
+                                >
+                                  {athlete.name}
+                                </label>
+                                <p className="text-xs text-athlex-gray-400">
+                                  {athlete.sport} • {athlete.position}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    </div>
-                  ))}
-                  
-                  {mockAssignedAthletes.length === 0 && (
-                    <div className="text-center py-8 text-athlex-gray-400">
-                      <p>No athletes assigned to you yet</p>
-                    </div>
+                      
+                      <div className="mt-4 text-sm text-athlex-gray-400">
+                        Selected {getSelectedAthletesCount()} of {assignedAthletes.length} athletes
+                      </div>
+                    </>
                   )}
                 </div>
-                
-                {selectedAthletes.length > 0 && (
-                  <div className="mt-4 flex justify-between items-center p-3 bg-athlex-gray-800/70 rounded-lg">
-                    <div className="flex items-center">
-                      <Info className="h-4 w-4 mr-2 text-athlex-accent" />
-                      <span className="text-sm">
-                        {selectedAthletes.length} athlete{selectedAthletes.length !== 1 ? 's' : ''} selected
-                      </span>
-                    </div>
-                  </div>
-                )}
               </CardContent>
             </Card>
+            
+            {/* Submit Button */}
+            <div className="flex justify-end">
+              <Button 
+                type="submit" 
+                size="lg"
+                className="bg-athlex-accent hover:bg-athlex-accent/90"
+              >
+                Assign Training Session
+              </Button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </CoachLayout>
   );
