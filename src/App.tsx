@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,18 +22,11 @@ import ScoutDashboard from "./pages/ScoutDashboard";
 import AthleteDetailPage from "./pages/AthleteDetailPage";
 import ScoutNotes from "./pages/ScoutNotes";
 import ScoutingReports from "./pages/ScoutingReports";
+import CoachDashboard from "./pages/CoachDashboard";
 import NotFound from "./pages/NotFound";
 
 // Create basic placeholder pages for the missing routes
 const SettingsPage = () => <Navigate to="/dashboard" replace />;
-const CoachDashboardPage = () => (
-  <div className="min-h-screen bg-athlex-background text-white flex items-center justify-center">
-    <div className="text-center">
-      <h2 className="text-2xl font-bold mb-2">Coach Dashboard</h2>
-      <p className="text-gray-400 mb-6">This page is under development.</p>
-    </div>
-  </div>
-);
 
 const queryClient = new QueryClient();
 
@@ -103,7 +95,7 @@ const App = () => {
                 <Route path="/scout-notes" element={<ScoutNotes />} />
                 
                 {/* Coach Routes */}
-                <Route path="/coach-dashboard" element={<CoachDashboardPage />} />
+                <Route path="/coach-dashboard" element={<CoachDashboard />} />
                 
                 {/* Shared Routes */}
                 <Route path="/dashboard" element={<Dashboard />} />
