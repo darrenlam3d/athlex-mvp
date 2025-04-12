@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -188,11 +187,12 @@ const NutritionLog = () => {
       
       if (error) throw error;
       
-      // Format data to match our structure
-      return data.map(assignment => ({
+      // Format data to match our structure - this is where the error was happening
+      // We need to ensure we're extracting values properly from each assignment item
+      return data.map((assignment: any) => ({
         id: assignment.athlete_id,
-        name: assignment.athletes.name,
-        sport: assignment.athletes.sport
+        name: assignment.athletes?.name || 'Unknown Athlete',
+        sport: assignment.athletes?.sport || 'Unknown Sport'
       }));
     },
   });
