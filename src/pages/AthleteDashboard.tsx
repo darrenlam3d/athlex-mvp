@@ -81,16 +81,16 @@ const AthleteDashboard = () => {
         if (data?.name) {
           setAthleteName(data.name.split(' ')[0] || "Athlete");
         }
+      },
+      onError: (error) => {
+        console.error("AthleteDashboard - Profile fetch error:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load profile data. Using default values.",
+          variant: "destructive",
+        });
       }
-    },
-    onError: (error) => {
-      console.error("AthleteDashboard - Profile fetch error:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load profile data. Using default values.",
-        variant: "destructive",
-      });
-    },
+    }
   });
 
   // Side effect to update athlete name when data is available
