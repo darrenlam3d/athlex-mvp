@@ -13,6 +13,7 @@ import { Loader2, AlertTriangle } from 'lucide-react';
 import { mockAthlete } from '@/lib/mockData';
 import AthleteLayout from '@/layouts/AthleteLayout';
 import { useUserRole } from '@/contexts/UserRoleContext';
+import { isUserRoleLoaded } from '@/utils/roleUtils';
 
 const AthleteDashboard = () => {
   const { toast } = useToast();
@@ -20,7 +21,7 @@ const AthleteDashboard = () => {
 
   // Only redirect if user has a specific non-athlete role
   // This prevents redirects when role is empty or still loading
-  if (userRole && userRole !== 'athlete' && userRole !== '') {
+  if (isUserRoleLoaded(userRole) && userRole !== 'athlete') {
     console.log('Redirecting from athlete dashboard - user role:', userRole);
     return <Navigate to={`/${userRole}-dashboard`} replace />;
   }
