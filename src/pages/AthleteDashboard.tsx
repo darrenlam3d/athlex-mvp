@@ -12,18 +12,28 @@ import QuickNavigation from '@/components/dashboard/QuickNavigation';
 import { Loader2, AlertTriangle } from 'lucide-react';
 import { mockAthlete } from '@/lib/mockData';
 import AthleteLayout from '@/layouts/AthleteLayout';
-import { useUserRole } from '@/contexts/UserRoleContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { isUserRoleLoaded } from '@/utils/roleUtils';
 
 const AthleteDashboard = () => {
   const { toast } = useToast();
-  const { userRole } = useUserRole();
+  const { role, loading: authLoading } = useAuth();
+
+  // Show auth loading state
+  if (authLoading) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-athlex-accent" />
+        <span className="ml-2 text-lg">Loading authentication...</span>
+      </div>
+    );
+  }
 
   // Only redirect if user has a specific non-athlete role
   // This prevents redirects when role is empty or still loading
-  if (isUserRoleLoaded(userRole) && userRole !== 'athlete') {
-    console.log('Redirecting from athlete dashboard - user role:', userRole);
-    return <Navigate to={`/${userRole}-dashboard`} replace />;
+  if (isUserRoleLoaded(role) && role !== 'athlete') {
+    console.log('Redirecting from athlete dashboard - user role:', role);
+    return <Navigate to={`/${role}-dashboard`} replace />;
   }
 
   // Check if Supabase is configured
@@ -82,7 +92,7 @@ const AthleteDashboard = () => {
       <div className="container mx-auto">
         {/* Current user role debug display */}
         <div className="bg-gray-800 p-2 rounded mb-4 text-sm">
-          <p>Current user role: {userRole || 'loading...'}</p>
+          <p>Current user role: {role || 'loading...'}</p>
         </div>
         
         <div className="flex justify-between items-center mb-8">

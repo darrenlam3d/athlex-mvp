@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +8,7 @@ import { toast } from "sonner";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { ProfileProvider } from "@/contexts/ProfileContext";
 import { UserRoleProvider } from "@/contexts/UserRoleContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import AthleteDashboard from "./pages/AthleteDashboard";
 import Dashboard from "./pages/Dashboard";
@@ -77,50 +77,52 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ProfileProvider>
-        <UserRoleProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner position="top-center" />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                
-                {/* Athlete Routes */}
-                <Route path="/athlete-dashboard" element={<AthleteDashboard />} />
-                <Route path="/training" element={<Training />} />
-                <Route path="/training-log" element={<TrainingLog />} />
-                <Route path="/performance" element={<Performance />} />
-                <Route path="/performance-goals" element={<PerformanceGoals />} />
-                <Route path="/nutrition" element={<Nutrition />} />
-                
-                {/* Scout Routes */}
-                <Route path="/scout-dashboard" element={<ScoutDashboard />} />
-                <Route path="/athlete/:id" element={<AthleteDetailPage />} />
-                <Route path="/scout-reports" element={<ScoutingReports />} />
-                <Route path="/scouting-reports" element={<ScoutingReports />} />
-                <Route path="/scout-notes" element={<ScoutNotes />} />
-                
-                {/* Coach Routes */}
-                <Route path="/coach-dashboard" element={<CoachDashboard />} />
-                <Route path="/coach-athletes" element={<CoachAthletes />} />
-                <Route path="/coach-training-plans" element={<CoachTrainingPlans />} />
-                <Route path="/nutrition-log" element={<CoachNutritionLog />} />
-                <Route path="/coach-performance" element={<CoachPerformance />} />
-                <Route path="/coach-reports" element={<CoachReports />} />
-                <Route path="/assign-training" element={<AssignTraining />} />
-                
-                {/* Shared Routes */}
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/community" element={<Community />} />
-                <Route path="/messages" element={<Messages />} />
-                <Route path="/settings" element={<Settings />} />
-                
-                {/* Default route - 404 not found */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </UserRoleProvider>
+        <AuthProvider>
+          <UserRoleProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner position="top-center" />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  
+                  {/* Athlete Routes */}
+                  <Route path="/athlete-dashboard" element={<AthleteDashboard />} />
+                  <Route path="/training" element={<Training />} />
+                  <Route path="/training-log" element={<TrainingLog />} />
+                  <Route path="/performance" element={<Performance />} />
+                  <Route path="/performance-goals" element={<PerformanceGoals />} />
+                  <Route path="/nutrition" element={<Nutrition />} />
+                  
+                  {/* Scout Routes */}
+                  <Route path="/scout-dashboard" element={<ScoutDashboard />} />
+                  <Route path="/athlete/:id" element={<AthleteDetailPage />} />
+                  <Route path="/scout-reports" element={<ScoutingReports />} />
+                  <Route path="/scouting-reports" element={<ScoutingReports />} />
+                  <Route path="/scout-notes" element={<ScoutNotes />} />
+                  
+                  {/* Coach Routes */}
+                  <Route path="/coach-dashboard" element={<CoachDashboard />} />
+                  <Route path="/coach-athletes" element={<CoachAthletes />} />
+                  <Route path="/coach-training-plans" element={<CoachTrainingPlans />} />
+                  <Route path="/nutrition-log" element={<CoachNutritionLog />} />
+                  <Route path="/coach-performance" element={<CoachPerformance />} />
+                  <Route path="/coach-reports" element={<CoachReports />} />
+                  <Route path="/assign-training" element={<AssignTraining />} />
+                  
+                  {/* Shared Routes */}
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/community" element={<Community />} />
+                  <Route path="/messages" element={<Messages />} />
+                  <Route path="/settings" element={<Settings />} />
+                  
+                  {/* Default route - 404 not found */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </TooltipProvider>
+          </UserRoleProvider>
+        </AuthProvider>
       </ProfileProvider>
     </QueryClientProvider>
   );
