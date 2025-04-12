@@ -40,16 +40,14 @@ const Settings = () => {
   
   // Handle account deletion
   const handleDeleteAccount = () => {
-    toast({
-      title: "Are you sure?",
+    toast("Are you sure?", {
       description: "This action cannot be undone. Your account and all data will be permanently deleted.",
       action: (
         <div className="flex gap-2">
           <Button
             variant="destructive"
             onClick={() => {
-              toast({
-                title: "Account Deleted",
+              toast("Account Deleted", {
                 description: "Your account has been successfully deleted",
               });
               navigate('/');
@@ -73,8 +71,7 @@ const Settings = () => {
   
   // Handle data export
   const handleExportData = () => {
-    toast({
-      title: "Preparing Your Data",
+    toast("Preparing Your Data", {
       description: "Your data export is being prepared and will download shortly.",
     });
     
@@ -111,8 +108,7 @@ const Settings = () => {
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
       
-      toast({
-        title: "Data Export Complete",
+      toast("Data Export Complete", {
         description: "Your data has been exported successfully.",
       });
     }, 1500);
