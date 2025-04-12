@@ -23,11 +23,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       setLoading(true);
+      console.log("AuthContext - fetchUser - Starting");
       
       // Check if Supabase is configured
-      if (!isSupabaseConfigured()) {
+      const isConfigured = isSupabaseConfigured();
+      console.log("AuthContext - Supabase configured:", isConfigured);
+      
+      if (!isConfigured) {
         // For demo mode, try to get role from localStorage
         const storedRole = localStorage.getItem('userRole') as UserRole || '';
+        console.log("AuthContext - Demo mode - stored role:", storedRole);
         setRole(storedRole);
         setUser(null);
         setLoading(false);
@@ -35,32 +40,50 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
       
       // If Supabase is configured, get the session
-      const { data: sessionData } = await supabase.auth.getSession();
-      const currentUser = sessionData.session?.user || null;
-      setUser(currentUser);
+      try {
+        const { data: sessionData } = await supabase.auth.getSession();
+        console.log("AuthContext - Session data:", sessionData ? "received" : "none");
+        const currentUser = sessionData.session?.user || null;
+        setUser(currentUser);
 
-      if (currentUser) {
-        // Method 1: From user_metadata
-        const userRole = currentUser.user_metadata?.role as UserRole;
+        if (currentUser) {
+          // Method 1: From user_metadata
+          const userRole = currentUser.user_metadata?.role as UserRole;
+          console.log("AuthContext - User metadata role:", userRole);
 
-        // Method 2 (optional): Fetch from your "users" table if needed
-        if (!userRole) {
-          const { data: profile } = await supabase
-            .from("users")
-            .select("role")
-            .eq("id", currentUser.id)
-            .single();
+          // Method 2 (optional): Fetch from your "users" table if needed
+          if (!userRole) {
+            console.log("AuthContext - No role in metadata, checking users table");
+            try {
+              const { data: profile } = await supabase
+                .from("users")
+                .select("role")
+                .eq("id", currentUser.id)
+                .single();
+              
+              console.log("AuthContext - Users table profile:", profile);
+              setRole((profile?.role as UserRole) || "");
+            } catch (err) {
+              console.error("AuthContext - Error fetching from users table:", err);
+              setRole("");
+            }
+          } else {
+            setRole(userRole);
+          }
           
-          setRole((profile?.role as UserRole) || "");
+          // Store in localStorage for persistence
+          localStorage.setItem('userRole', role);
         } else {
-          setRole(userRole);
+          console.log("AuthContext - No current user, setting empty role");
+          setRole("");
+          localStorage.removeItem('userRole');
         }
-        
-        // Store in localStorage for persistence
-        localStorage.setItem('userRole', role);
-      } else {
-        setRole("");
-        localStorage.removeItem('userRole');
+      } catch (error) {
+        console.error("AuthContext - Error in auth process:", error);
+        // Fallback to demo mode on error
+        const storedRole = localStorage.getItem('userRole') as UserRole || '';
+        setRole(storedRole);
+        setUser(null);
       }
 
       setLoading(false);
@@ -69,7 +92,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     fetchUser();
 
     // Set up auth state change listener
-    const { data: listener } = supabase.auth.onAuthStateChange(() => fetchUser());
+    const { data: listener } = supabase.auth.onAuthStateChange(() => {
+      console.log("AuthContext - Auth state changed, refreshing user");
+      fetchUser();
+    });
 
     return () => {
       listener.subscription.unsubscribe();
@@ -77,7 +103,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   // Debug log
-  console.log("AuthContext - Current user:", user?.email, "Role:", role);
+  console.log("AuthContext - Current user:", user?.email, "Role:", role, "Loading:", loading);
 
   return (
     <AuthContext.Provider value={{ user, role, loading }}>
