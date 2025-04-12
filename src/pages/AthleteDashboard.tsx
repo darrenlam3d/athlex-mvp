@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -19,7 +20,7 @@ const AthleteDashboard = () => {
 
   // Only redirect if user has a specific non-athlete role
   // This prevents redirects when role is empty or still loading
-  if (userRole && userRole !== 'athlete' && userRole !== '' as const) {
+  if (userRole && userRole !== 'athlete' && userRole !== '') {
     console.log('Redirecting from athlete dashboard - user role:', userRole);
     return <Navigate to={`/${userRole}-dashboard`} replace />;
   }
