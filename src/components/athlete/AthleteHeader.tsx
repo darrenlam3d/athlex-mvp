@@ -26,7 +26,13 @@ const AthleteHeader: React.FC<AthleteHeaderProps> = ({ athlete, onAddToShortlist
   const navigate = useNavigate();
   
   const handleSendMessage = () => {
-    navigate(`/messages?athlete=${athlete.id}`);
+    if (athlete?.id) {
+      // Navigate to the messages page with the athlete ID as a parameter
+      navigate(`/messages?athlete=${athlete.id}`);
+      toast.success(`Opening chat with ${athlete.name}`);
+    } else {
+      toast.error("Unable to open chat. Athlete ID not found.");
+    }
   };
 
   const getInitials = (name: string) => {
@@ -62,7 +68,12 @@ const AthleteHeader: React.FC<AthleteHeaderProps> = ({ athlete, onAddToShortlist
                 <Star className="mr-2 h-4 w-4" />
                 Add to Shortlist
               </Button>
-              <Button size="sm" variant="outline" onClick={handleSendMessage}>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                onClick={handleSendMessage}
+                className="flex items-center"
+              >
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Message Athlete
               </Button>
