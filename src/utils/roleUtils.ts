@@ -1,16 +1,12 @@
 
 import { UserRole } from '@/contexts/UserRoleContext';
 
-/**
- * Type guard to check if a user role is loaded (not empty string)
- */
-export const isUserRoleLoaded = (role: UserRole): role is Exclude<UserRole, ""> => {
-  return role !== "";
+// Utility function to check if a user role is valid
+export const isValidRole = (role: UserRole): boolean => {
+  return role === 'athlete' || role === 'scout' || role === 'coach';
 };
 
-/**
- * Type guard to check if a user role is specific (not empty and matches a specific role)
- */
-export const hasSpecificRole = (role: UserRole, specificRole: Exclude<UserRole, "">): boolean => {
-  return isUserRoleLoaded(role) && role === specificRole;
+// Utility function to check if a user role is loaded
+export const isUserRoleLoaded = (role: UserRole): boolean => {
+  return isValidRole(role);
 };

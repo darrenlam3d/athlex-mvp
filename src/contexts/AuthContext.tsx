@@ -58,16 +58,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           if (!userRole) {
             console.log("AuthContext - No role in metadata, checking users table");
             try {
-              const { data: profile } = await supabase
-                .from("users")
-                .select("role")
-                .eq("id", currentUser.id)
-                .single();
+              // Using any type to avoid TypeScript errors with the database schema
+              const { data: profileData, error } = await supabase
+                .from('users')
+                .select('role')
+                .eq('id', currentUser.id)
+                .maybeSingle();
               
-              console.log("AuthContext - Users table profile:", profile);
+              console.log("AuthContext - Users table profile:", profileData);
               
-              if (profile?.role) {
-                setRole(profile.role as UserRole);
+              if (profileData?.role) {
+                setRole(profileData.role as UserRole);
               } else {
                 // Default to 'athlete' if no role is found
                 setRole('athlete');

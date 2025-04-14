@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { supabase, isSupabaseConfigured } from '@/integrations/supabase/client';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/contexts/AuthContext';
 import { isUserRoleLoaded } from '@/utils/roleUtils';
@@ -62,6 +62,7 @@ const AthleteDashboard = () => {
           throw new Error("User not authenticated");
         }
         
+        // Using any type to avoid TypeScript errors with the database schema
         const { data, error } = await supabase
           .from('athletes')
           .select('*')
