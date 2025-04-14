@@ -5,10 +5,9 @@ import { supabase } from '@/integrations/supabase/client';
 
 // Add helper function to check if Supabase is configured
 export const isSupabaseConfigured = (): boolean => {
-  return (
-    process.env.SUPABASE_URL !== undefined &&
-    process.env.SUPABASE_KEY !== undefined
-  );
+  // Instead of checking process.env directly, use the Supabase URL and key from the client
+  // These values are set in src/integrations/supabase/client.ts
+  return supabase && true; // If supabase client is initialized, consider it configured
 };
 
 // Enhanced demo mode flag check
