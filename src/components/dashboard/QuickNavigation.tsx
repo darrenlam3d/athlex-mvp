@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { toast as sonnerToast } from 'sonner';
 
 const QuickNavigation = () => {
-  const { setUserRole } = useUserRole();
+  const { userRole, setUserRole } = useUserRole();
   const { toast } = useToast();
   
   const quickLinks = [
@@ -51,15 +51,35 @@ const QuickNavigation = () => {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-medium">Quick Actions</h2>
         
-        <div className="flex space-x-2">
+        <div className="flex flex-wrap gap-2">
           <Button 
-            variant="outline" 
+            variant={userRole === 'athlete' ? "default" : "outline"} 
             size="sm" 
             onClick={() => handleRoleSwitch('athlete')}
-            className="text-xs border-athlex-gray-700"
+            className={`text-xs ${userRole === 'athlete' ? 'bg-athlex-accent' : 'border-athlex-gray-700'}`}
           >
             <SwitchCamera className="h-3 w-3 mr-1" />
-            Switch to Athlete View
+            Athlete View
+          </Button>
+          
+          <Button 
+            variant={userRole === 'scout' ? "default" : "outline"} 
+            size="sm" 
+            onClick={() => handleRoleSwitch('scout')}
+            className={`text-xs ${userRole === 'scout' ? 'bg-athlex-accent' : 'border-athlex-gray-700'}`}
+          >
+            <SwitchCamera className="h-3 w-3 mr-1" />
+            Scout View
+          </Button>
+          
+          <Button 
+            variant={userRole === 'coach' ? "default" : "outline"} 
+            size="sm" 
+            onClick={() => handleRoleSwitch('coach')}
+            className={`text-xs ${userRole === 'coach' ? 'bg-athlex-accent' : 'border-athlex-gray-700'}`}
+          >
+            <SwitchCamera className="h-3 w-3 mr-1" />
+            Coach View
           </Button>
         </div>
       </div>
