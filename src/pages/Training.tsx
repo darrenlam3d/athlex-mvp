@@ -12,8 +12,39 @@ import TrainingGoalAlignment from '@/components/training/TrainingGoalAlignment';
 import { Button } from '@/components/ui/button';
 import { ClipboardList } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { isDemoMode } from '@/lib/supabase';
+import { mockTrainingLogs, mockTrainingSchedule } from '@/lib/mockData';
 
 const Training = () => {
+  // Fetch training logs
+  const { data: trainingLogs, isLoading: isLoadingLogs } = useQuery({
+    queryKey: ['trainingLogs'],
+    queryFn: async () => {
+      if (!isDemoMode()) {
+        // This would use Supabase in a real implementation
+        console.log('Would fetch training logs from Supabase');
+      }
+      
+      // In demo mode, return mock data
+      return mockTrainingLogs;
+    }
+  });
+  
+  // Fetch training schedule
+  const { data: trainingSchedule, isLoading: isLoadingSchedule } = useQuery({
+    queryKey: ['trainingSchedule'],
+    queryFn: async () => {
+      if (!isDemoMode()) {
+        // This would use Supabase in a real implementation
+        console.log('Would fetch training schedule from Supabase');
+      }
+      
+      // In demo mode, return mock data
+      return mockTrainingSchedule;
+    }
+  });
+
   return (
     <div className="min-h-screen bg-athlex-background text-white">
       <SidebarProvider>
@@ -40,7 +71,11 @@ const Training = () => {
               
               {/* Training Calendar */}
               <div className="mt-5">
-                <TrainingCalendar />
+                <TrainingCalendar 
+                  trainingLogs={trainingLogs || []} 
+                  trainingSchedule={trainingSchedule || []} 
+                  isLoading={isLoadingLogs || isLoadingSchedule} 
+                />
               </div>
               
               {/* Skill Builder Programs */}
