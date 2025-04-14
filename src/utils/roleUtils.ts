@@ -8,6 +8,9 @@ export const isValidRole = (role: UserRole): boolean => {
 
 // Utility function to check if a user role is loaded
 export const isUserRoleLoaded = (role: UserRole): boolean => {
+  // When role is an empty string, it's not loaded yet
+  if (role === '') return false;
+  
   return role !== null && isValidRole(role);
 };
 

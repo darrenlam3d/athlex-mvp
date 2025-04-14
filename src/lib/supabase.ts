@@ -5,15 +5,19 @@ import { supabase } from '@/integrations/supabase/client';
 
 // Add helper function to check if Supabase is configured
 export const isSupabaseConfigured = (): boolean => {
-  // Instead of checking process.env directly, use the Supabase URL and key from the client
-  // These values are set in src/integrations/supabase/client.ts
-  return supabase && true; // If supabase client is initialized, consider it configured
+  // Check if Supabase URL and key are present in the environment variables
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  
+  return !!supabaseUrl && !!supabaseKey;
 };
 
 // Enhanced demo mode flag check
 export const isDemoMode = (): boolean => {
   // If Supabase is not configured, we're in demo mode
-  return !isSupabaseConfigured();
+  // Or user can explicitly enable demo mode by setting VITE_DEMO_MODE=true
+  const explicitDemoMode = import.meta.env.VITE_DEMO_MODE === 'true';
+  return !isSupabaseConfigured() || explicitDemoMode;
 };
 
 // Export wrapped Supabase client with demo mode check

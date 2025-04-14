@@ -1,74 +1,58 @@
 
 import { isSupabaseConfigured } from '@/lib/supabase';
-import { Athlete } from '@/components/scouting/AthleteCard';
+import { mockAthleteProfiles } from '@/lib/mock/athleteData';
+import { mockShortlistedAthletes } from '@/lib/mock/scoutData';
 import { toast } from 'sonner';
 
-// Mock data for shortlisted athletes
-export const shortlistedAthletesMock: Athlete[] = [
-  {
-    id: "athlete_004",
-    name: "Arif Rahman",
-    sport: "Football",
-    position: "Striker",
-    club: "Tampines Elite",
-    recent_speed_kmh: 25.4,
-    profile_photo: "https://example.com/uploads/arif.jpg"
-  },
-  {
-    id: "athlete_005",
-    name: "Lena Koh",
-    sport: "Netball",
-    position: "Wing Attack",
-    club: "Civic Blaze",
-    recent_speed_kmh: 23.8,
-    profile_photo: "https://example.com/uploads/lena.jpg"
-  }
-];
+// Export the mockShortlistedAthletes for backward compatibility
+export const shortlistedAthletesMock = mockShortlistedAthletes.map(item => {
+  const athlete = mockAthleteProfiles.find(a => a.id === item.athlete_id);
+  if (!athlete) return null;
+  
+  return {
+    id: athlete.id,
+    name: `${athlete.first_name} ${athlete.last_name}`,
+    sport: athlete.sport,
+    position: athlete.position,
+    club: athlete.club || '',
+    recent_speed_kmh: 25.4, // Sample data
+    profile_photo: athlete.avatar_url
+  };
+}).filter(Boolean);
 
-// Mock data for recommended athletes
-export const recommendedAthletesMock: Athlete[] = [
-  {
-    id: "athlete_006",
-    name: "Javier Chua",
-    sport: "Football",
-    position: "Right Back",
-    club: "Harbour FC",
-    performance_score: 92,
-    profile_photo: "https://example.com/uploads/javier.jpg"
-  },
-  {
-    id: "athlete_007",
-    name: "Meera Das",
-    sport: "Badminton",
-    position: "Singles",
-    club: "Smashers Academy",
-    performance_score: 89,
-    profile_photo: "https://example.com/uploads/meera.jpg"
-  }
-];
+// Export recommended athletes mock data
+export const recommendedAthletesMock = mockAthleteProfiles
+  .filter(athlete => !shortlistedAthletesMock.some(sa => sa?.id === athlete.id))
+  .slice(0, 2)
+  .map(athlete => ({
+    id: athlete.id,
+    name: `${athlete.first_name} ${athlete.last_name}`,
+    sport: athlete.sport,
+    position: athlete.position,
+    club: athlete.club || '',
+    performance_score: Math.floor(Math.random() * 11) + 80, // Random score between 80-90
+    profile_photo: athlete.avatar_url
+  }));
 
-// Mock data for all athletes (combination and more)
-export const allAthletesMock: Athlete[] = [
+// All athletes (combination and more)
+export const allAthletesMock = [
   ...shortlistedAthletesMock,
   ...recommendedAthletesMock,
-  {
-    id: "athlete_008",
-    name: "Tai Wee Lin",
-    sport: "Swimming",
-    position: "Freestyle",
-    club: "Aquatics Centre",
-    performance_score: 85,
-    profile_photo: null
-  },
-  {
-    id: "athlete_009",
-    name: "Marcus Tan",
-    sport: "Basketball",
-    position: "Point Guard",
-    club: "Downtown Dribblers",
-    performance_score: 88,
-    profile_photo: null
-  }
+  ...mockAthleteProfiles
+    .filter(athlete => 
+      !shortlistedAthletesMock.some(sa => sa?.id === athlete.id) && 
+      !recommendedAthletesMock.some(ra => ra.id === athlete.id)
+    )
+    .slice(0, 2)
+    .map(athlete => ({
+      id: athlete.id,
+      name: `${athlete.first_name} ${athlete.last_name}`,
+      sport: athlete.sport,
+      position: athlete.position,
+      club: athlete.club || '',
+      performance_score: Math.floor(Math.random() * 11) + 80,
+      profile_photo: athlete.avatar_url
+    }))
 ];
 
 // Mock messages for the chat panel

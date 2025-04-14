@@ -15,8 +15,9 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
   const { role, user, loading } = useAuth();
   const location = useLocation();
   
-  // Coming from demo login page should bypass authentication checks
+  // Improved handling of demo login
   const isFromDemoLogin = location.state?.fromDemoLogin === true;
+  const isInDemoMode = isDemoMode() || isFromDemoLogin;
   
   // Show loading state
   if (loading) {
@@ -29,7 +30,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
   }
   
   // In real auth mode (not demo), check if user is authenticated
-  if (!isDemoMode() && !user && !isFromDemoLogin) {
+  if (!isInDemoMode && !user) {
     console.log("RouteGuard - No authenticated user, redirecting to login");
     return <Navigate to="/login" replace />;
   }

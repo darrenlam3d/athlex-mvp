@@ -21,8 +21,10 @@ const LoginDemo = () => {
       duration: 3000,
     });
     
-    // Redirect to the appropriate dashboard
-    navigate(`/${role}-dashboard`);
+    // Redirect to the appropriate dashboard with state indicating this is from demo login
+    navigate(`/${role}-dashboard`, { 
+      state: { fromDemoLogin: true } 
+    });
   };
 
   return (
