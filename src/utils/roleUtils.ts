@@ -1,5 +1,5 @@
 
-import { UserRole } from '@/contexts/UserRoleContext';
+import { UserRole } from '@/contexts/AuthContext';
 
 // Utility function to check if a user role is valid
 export const isValidRole = (role: UserRole): boolean => {

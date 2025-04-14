@@ -1,24 +1,36 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
-import { UserRole } from './UserRoleContext';
+import { toast } from 'sonner';
+
+// Define UserRole directly in AuthContext
+export type UserRole = 'athlete' | 'scout' | 'coach' | '';
 
 interface AuthContextType {
   user: any | null;
   role: UserRole;
   loading: boolean;
+  setUserRole: (role: UserRole) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   role: "",
   loading: true,
+  setUserRole: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<any | null>(null);
   const [role, setRole] = useState<UserRole>("");
   const [loading, setLoading] = useState(true);
+
+  // Function to set the user role and save it to localStorage
+  const setUserRole = (newRole: UserRole) => {
+    setRole(newRole);
+    localStorage.setItem('userRole', newRole);
+    console.log("AuthContext - User role set to:", newRole);
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -112,7 +124,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   console.log("AuthContext - Current user:", user?.email, "Role:", role, "Loading:", loading);
 
   return (
-    <AuthContext.Provider value={{ user, role, loading }}>
+    <AuthContext.Provider value={{ user, role, loading, setUserRole }}>
       {children}
     </AuthContext.Provider>
   );

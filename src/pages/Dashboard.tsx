@@ -20,10 +20,10 @@ const Dashboard = () => {
     );
   }
   
-  // Default to athlete dashboard if no role is defined or loaded
+  // If no role is loaded, redirect to login page
   if (!isUserRoleLoaded(role)) {
-    console.log("Dashboard - No role loaded, defaulting to athlete dashboard");
-    return <Navigate to="/athlete-dashboard" replace />;
+    console.log("Dashboard - No role loaded, redirecting to login");
+    return <Navigate to="/login" replace />;
   }
   
   // Redirect based on role
@@ -32,8 +32,8 @@ const Dashboard = () => {
   if (role === 'coach') return <Navigate to="/coach-dashboard" replace />;
   
   // Default fallback
-  console.log("Dashboard - Unrecognized role, defaulting to athlete dashboard");
-  return <Navigate to="/athlete-dashboard" replace />;
+  console.log("Dashboard - Unrecognized role, redirecting to login");
+  return <Navigate to="/login" replace />;
 };
 
 export default Dashboard;

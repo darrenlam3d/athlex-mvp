@@ -1,10 +1,9 @@
+
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/contexts/AuthContext';
-import { isUserRoleLoaded } from '@/utils/roleUtils';
 import AthleteLayout from '@/layouts/AthleteLayout';
 import PerformanceChart from '@/components/dashboard/PerformanceChart';
 import TodaysTraining from '@/components/dashboard/TodaysTraining';
@@ -16,11 +15,10 @@ import { mockAthlete } from '@/lib/mockData';
 
 const AthleteDashboard = () => {
   const { toast } = useToast();
-  const { role, loading: authLoading, user } = useAuth();
+  const { loading: authLoading } = useAuth();
   const [athleteName, setAthleteName] = useState("Athlete");
 
   console.log("AthleteDashboard - Component rendering");
-  console.log("AthleteDashboard - Auth state:", { role, authLoading, userExists: !!user });
 
   // Show auth loading state
   if (authLoading) {
@@ -31,13 +29,6 @@ const AthleteDashboard = () => {
         <span className="ml-2 text-lg">Loading authentication...</span>
       </div>
     );
-  }
-
-  // Only redirect if user has a specific non-athlete role
-  // This prevents redirects when role is empty or still loading
-  if (isUserRoleLoaded(role) && role !== 'athlete' && role !== '') {
-    console.log('AthleteDashboard - Redirecting - user role:', role);
-    return <Navigate to={`/${role}-dashboard`} replace />;
   }
 
   // Check if Supabase is configured

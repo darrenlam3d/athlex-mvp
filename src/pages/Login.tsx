@@ -1,18 +1,27 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUserRole } from '@/contexts/UserRoleContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { UserRound, UsersRound, HeartPulse } from 'lucide-react';
+import { toast } from 'sonner';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setUserRole } = useUserRole();
+  const { setUserRole } = useAuth();
 
   const handleRoleSelect = (role: 'athlete' | 'scout' | 'coach') => {
     setUserRole(role);
-    navigate('/dashboard');
+    
+    // Show success toast
+    toast.success(`Logged in as ${role}`, {
+      description: `You now have ${role} privileges.`,
+      duration: 3000,
+    });
+    
+    // Redirect to the appropriate dashboard
+    navigate(`/${role}-dashboard`);
   };
 
   return (
