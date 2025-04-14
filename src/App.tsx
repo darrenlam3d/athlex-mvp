@@ -12,6 +12,7 @@ import { UserRoleProvider } from "@/contexts/UserRoleContext";
 import RouteGuard from "@/components/auth/RouteGuard";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
+import LoginDemo from "./pages/LoginDemo";
 import AthleteDashboard from "./pages/AthleteDashboard";
 import Dashboard from "./pages/Dashboard";
 import Training from "./pages/Training";
@@ -88,6 +89,7 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/login-demo" element={<LoginDemo />} />
                   
                   {/* Athlete Routes */}
                   <Route path="/athlete-dashboard" element={

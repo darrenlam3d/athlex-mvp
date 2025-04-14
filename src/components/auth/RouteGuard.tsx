@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { isUserRoleLoaded } from '@/utils/roleUtils';
 import { Loader2 } from 'lucide-react';
@@ -13,6 +13,10 @@ interface RouteGuardProps {
 
 const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
   const { role, user, loading } = useAuth();
+  const location = useLocation();
+  
+  // Coming from demo login page should bypass authentication checks
+  const isFromDemoLogin = location.state?.fromDemoLogin === true;
   
   // Show loading state
   if (loading) {
@@ -25,7 +29,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
   }
   
   // In real auth mode (not demo), check if user is authenticated
-  if (!isDemoMode() && !user) {
+  if (!isDemoMode() && !user && !isFromDemoLogin) {
     console.log("RouteGuard - No authenticated user, redirecting to login");
     return <Navigate to="/login" replace />;
   }

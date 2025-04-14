@@ -327,6 +327,13 @@ const Login = () => {
       <p className="mt-8 text-sm text-gray-500">
         By continuing, you agree to ATHLEX's <a href="/terms" className="text-primary hover:underline">Terms of Service</a> and <a href="/privacy" className="text-primary hover:underline">Privacy Policy</a>.
       </p>
+      
+      {/* Add link to demo login page */}
+      <div className="mt-4">
+        <Button variant="link" onClick={() => navigate('/login-demo')} className="text-primary">
+          Try Demo Mode (No auth required)
+        </Button>
+      </div>
     </div>
   );
 };
