@@ -5,22 +5,23 @@ import { Calendar, Clock, Map, Activity, ClipboardList } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 
-interface TrainingLog {
+export interface TrainingLog {
   id: string;
   date: string;
   type: string;
   activity: string;
   duration_minutes: number;
-  distance_km: number;
+  distance_km: number | null;
   intensity_level: string;
+  notes?: string;
 }
 
-interface TrainingLogListProps {
-  logs: TrainingLog[];
+export interface TrainingLogListProps {
+  trainingLogs: TrainingLog[];
   isLoading: boolean;
 }
 
-const TrainingLogList: React.FC<TrainingLogListProps> = ({ logs, isLoading }) => {
+const TrainingLogList: React.FC<TrainingLogListProps> = ({ trainingLogs, isLoading }) => {
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -46,7 +47,7 @@ const TrainingLogList: React.FC<TrainingLogListProps> = ({ logs, isLoading }) =>
     );
   }
 
-  if (!logs || logs.length === 0) {
+  if (!trainingLogs || trainingLogs.length === 0) {
     return (
       <div className="bg-athlex-gray-900 border border-athlex-gray-800 rounded-lg p-10 text-center">
         <ClipboardList className="h-12 w-12 mx-auto text-gray-500 mb-3" />
@@ -60,7 +61,7 @@ const TrainingLogList: React.FC<TrainingLogListProps> = ({ logs, isLoading }) =>
 
   return (
     <div className="space-y-4">
-      {logs.map((log) => (
+      {trainingLogs.map((log) => (
         <Card key={log.id} className="bg-athlex-gray-900 border-athlex-gray-800 hover:border-athlex-gray-700 transition-colors">
           <CardContent className="p-6">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
@@ -107,7 +108,7 @@ const TrainingLogList: React.FC<TrainingLogListProps> = ({ logs, isLoading }) =>
                   </span>
                 </div>
                 
-                {log.distance_km > 0 && (
+                {log.distance_km && (
                   <div className="flex items-center gap-1.5">
                     <Map className="h-4 w-4 text-gray-400" />
                     <span className="text-sm">

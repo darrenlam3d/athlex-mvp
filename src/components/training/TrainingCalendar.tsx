@@ -3,8 +3,29 @@ import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Calendar, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { TrainingLog } from './TrainingLogList';
 
-const TrainingCalendar = () => {
+export interface TrainingScheduleItem {
+  id: string;
+  date: string;
+  title: string;
+  description: string;
+  duration_minutes: number;
+  coach: string;
+  location: string;
+}
+
+export interface TrainingCalendarProps {
+  trainingLogs: TrainingLog[];
+  trainingSchedule: TrainingScheduleItem[];
+  isLoading: boolean;
+}
+
+const TrainingCalendar: React.FC<TrainingCalendarProps> = ({ 
+  trainingLogs, 
+  trainingSchedule,
+  isLoading 
+}) => {
   // Sample training data for the month
   const trainingSessions = [
     { date: '2025-04-01', type: 'Technical', completed: true },
@@ -64,6 +85,17 @@ const TrainingCalendar = () => {
     
     return days;
   };
+
+  if (isLoading) {
+    return (
+      <Card className="border-gray-700 bg-card text-card-foreground">
+        <CardHeader>
+          <CardTitle className="text-xl font-medium">Training Calendar</CardTitle>
+          <CardDescription>Loading...</CardDescription>
+        </CardHeader>
+      </Card>
+    );
+  }
 
   return (
     <Card className="border-gray-700 bg-card text-card-foreground">

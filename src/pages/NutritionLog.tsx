@@ -4,11 +4,12 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { useQuery } from '@tanstack/react-query';
 import { isDemoMode } from '@/lib/supabase';
-import { Calendar, CalendarCell, CalendarGrid, CalendarHeader, CalendarHeading, CalendarMonth, CalendarMonthName, CalendarNextButton, CalendarPrevButton, CalendarTodayButton, CalendarView, CalendarWeek, CalendarDayName } from '@/components/ui/calendar';
+import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from 'date-fns';
-import { Fire, UtensilsCrossed, Apple, Beef } from 'lucide-react';
+import { CalendarIcon, UtensilsCrossed, Apple, Beef } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // Types
 interface MealLog {
@@ -223,7 +224,7 @@ const NutritionLog = () => {
                       <Card className="bg-athlex-gray-900 border-athlex-gray-800">
                         <CardHeader className="pb-2">
                           <CardTitle className="text-lg flex items-center">
-                            <Fire className="h-5 w-5 mr-2 text-orange-500" />
+                            <CalendarIcon className="h-5 w-5 mr-2 text-orange-500" />
                             Calories
                           </CardTitle>
                         </CardHeader>
@@ -340,33 +341,49 @@ const NutritionLog = () => {
                 </TabsContent>
                 
                 <TabsContent value="monthly" className="space-y-6">
-                  {/* Monthly calendar view */}
+                  {/* Monthly calendar view - Using simplified view since we don't have the extended Calendar components */}
                   <h2 className="text-xl font-medium mb-4">Monthly Nutrition Overview</h2>
                   
-                  <CalendarView>
-                    <CalendarHeader>
-                      <CalendarPrevButton />
-                      <CalendarHeading>
-                        <CalendarMonthName />
-                      </CalendarHeading>
-                      <div className="flex space-x-2">
-                        <CalendarTodayButton />
-                        <CalendarNextButton />
+                  <Card className="bg-athlex-gray-900 border-athlex-gray-800">
+                    <CardHeader>
+                      <div className="flex justify-between items-center">
+                        <Button variant="outline" size="sm">
+                          Previous Month
+                        </Button>
+                        <h3 className="text-lg font-medium">{format(date, 'MMMM yyyy')}</h3>
+                        <Button variant="outline" size="sm">
+                          Next Month
+                        </Button>
                       </div>
-                    </CalendarHeader>
-                    <CalendarGrid>
-                      <CalendarWeek>
-                        <CalendarDayName day="Mon" />
-                        <CalendarDayName day="Tue" />
-                        <CalendarDayName day="Wed" />
-                        <CalendarDayName day="Thu" />
-                        <CalendarDayName day="Fri" />
-                        <CalendarDayName day="Sat" />
-                        <CalendarDayName day="Sun" />
-                      </CalendarWeek>
-                      <CalendarMonth />
-                    </CalendarGrid>
-                  </CalendarView>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-7 gap-2 mb-2">
+                        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+                          <div key={day} className="text-center text-sm text-gray-400">
+                            {day}
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="grid grid-cols-7 gap-2">
+                        {daysInMonth.map((day, i) => {
+                          const dayStr = format(day, 'yyyy-MM-dd');
+                          const hasData = nutritionByDay.find(n => n?.date === dayStr);
+                          
+                          return (
+                            <Button 
+                              key={i} 
+                              variant="ghost" 
+                              className={`h-12 ${hasData ? 'bg-athlex-accent/20' : ''}`}
+                              onClick={() => setDate(day)}
+                            >
+                              {format(day, 'd')}
+                            </Button>
+                          );
+                        })}
+                      </div>
+                    </CardContent>
+                  </Card>
                 </TabsContent>
                 
                 <TabsContent value="summary" className="space-y-6">
