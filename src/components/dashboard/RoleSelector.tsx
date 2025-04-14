@@ -1,83 +1,39 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { UserRound, UsersRound, HeartPulse, ChevronDown } from 'lucide-react';
 import { toast } from 'sonner';
 
 const RoleSelector = () => {
-  const navigate = useNavigate();
   const { role, setUserRole } = useAuth();
   
-  const roleIcons = {
-    athlete: <UserRound className="h-4 w-4" />,
-    scout: <UsersRound className="h-4 w-4" />,
-    coach: <HeartPulse className="h-4 w-4" />
-  };
-  
-  const roleLabels = {
-    athlete: 'Athlete',
-    scout: 'Scout',
-    coach: 'Coach'
-  };
-  
-  const handleRoleSwitch = (newRole: 'athlete' | 'scout' | 'coach') => {
-    if (newRole === role) return;
+  const handleRoleChange = (newRole: string) => {
+    const userRole = newRole as 'athlete' | 'scout' | 'coach';
     
-    setUserRole(newRole);
+    // Set the user role
+    setUserRole(userRole);
     
-    toast.success(`Switched to ${newRole} view`, {
-      description: `You are now viewing the app as a ${newRole}`,
+    // Show a toast notification
+    toast.success(`Switched to ${userRole} role`, {
+      description: `You now have ${userRole} privileges.`,
       duration: 3000,
     });
     
-    // Redirect to the corresponding dashboard
-    navigate(`/${newRole}-dashboard`);
+    // Redirect to the appropriate dashboard
+    window.location.href = `/${userRole}-dashboard`;
   };
   
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button 
-          variant="outline" 
-          className="flex items-center gap-2 bg-athlex-gray-800 border-athlex-gray-700 hover:bg-athlex-gray-700"
-        >
-          {roleIcons[role] || roleIcons.athlete}
-          <span>View as {roleLabels[role] || 'Athlete'}</span>
-          <ChevronDown className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 bg-athlex-gray-800 border-athlex-gray-700">
-        <DropdownMenuItem 
-          className={`flex items-center gap-2 ${role === 'athlete' ? 'bg-athlex-gray-700' : ''}`}
-          onClick={() => handleRoleSwitch('athlete')}
-        >
-          <UserRound className="h-4 w-4" />
-          <span>Athlete View</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem 
-          className={`flex items-center gap-2 ${role === 'scout' ? 'bg-athlex-gray-700' : ''}`}
-          onClick={() => handleRoleSwitch('scout')}
-        >
-          <UsersRound className="h-4 w-4" />
-          <span>Scout View</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem 
-          className={`flex items-center gap-2 ${role === 'coach' ? 'bg-athlex-gray-700' : ''}`}
-          onClick={() => handleRoleSwitch('coach')}
-        >
-          <HeartPulse className="h-4 w-4" />
-          <span>Coach View</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Select value={role || undefined} onValueChange={handleRoleChange}>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Select a role" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="athlete">Athlete</SelectItem>
+        <SelectItem value="scout">Scout</SelectItem>
+        <SelectItem value="coach">Coach</SelectItem>
+      </SelectContent>
+    </Select>
   );
 };
 

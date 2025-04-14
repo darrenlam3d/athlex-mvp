@@ -1,133 +1,135 @@
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
-import { toast } from 'sonner';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { supabase } from '@/lib/supabase';
 
-// Define UserRole directly in AuthContext
-export type UserRole = 'athlete' | 'scout' | 'coach' | '';
+// Define the user role type
+export type UserRole = 'athlete' | 'scout' | 'coach' | null;
 
+// Define the auth context type
 interface AuthContextType {
-  user: any | null;
   role: UserRole;
   loading: boolean;
   setUserRole: (role: UserRole) => void;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  role: "",
-  loading: true,
-  setUserRole: () => {},
-});
+// Create the auth context
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Create the auth provider component
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any | null>(null);
-  const [role, setRole] = useState<UserRole>("");
+  const [role, setRole] = useState<UserRole>(null);
   const [loading, setLoading] = useState(true);
 
-  // Function to set the user role and save it to localStorage
-  const setUserRole = (newRole: UserRole) => {
-    setRole(newRole);
-    localStorage.setItem('userRole', newRole);
-    console.log("AuthContext - User role set to:", newRole);
-  };
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      setLoading(true);
-      console.log("AuthContext - fetchUser - Starting");
-      
+  // Function to fetch the user data
+  const fetchUser = async () => {
+    console.info('AuthContext - fetchUser - Starting');
+    
+    // Check if we have a stored role in localStorage
+    const storedRole = localStorage.getItem('userRole') as UserRole;
+    console.info('AuthContext - Stored role:', storedRole);
+    
+    // Check if we have a valid Supabase configuration
+    const hasSupabaseConfig = typeof supabase !== 'undefined';
+    console.info('AuthContext - Supabase configured:', hasSupabaseConfig);
+    
+    if (hasSupabaseConfig) {
       try {
-        // Get role from localStorage for demo mode or if Supabase is not configured
-        const storedRole = localStorage.getItem('userRole') as UserRole || 'athlete';
-        console.log("AuthContext - Stored role:", storedRole);
+        // Get the current session from Supabase
+        const { data, error } = await supabase.auth.getSession();
         
-        // Check if Supabase is configured
-        const isConfigured = isSupabaseConfigured();
-        console.log("AuthContext - Supabase configured:", isConfigured);
-        
-        if (!isConfigured) {
-          // For demo mode, use the stored role
-          console.log("AuthContext - Demo mode - setting stored role:", storedRole);
-          setRole(storedRole);
-          setUser(null);
-          setLoading(false);
-          return;
-        }
-        
-        // If Supabase is configured, get the session
-        const { data: sessionData } = await supabase.auth.getSession();
-        console.log("AuthContext - Session data:", sessionData ? "received" : "none");
-        const currentUser = sessionData.session?.user || null;
-        setUser(currentUser);
-
-        if (currentUser) {
-          // Method 1: From user_metadata
-          const userRole = currentUser.user_metadata?.role as UserRole;
-          console.log("AuthContext - User metadata role:", userRole);
-
-          // Method 2 (optional): Fetch from your "users" table if needed
-          if (!userRole) {
-            console.log("AuthContext - No role in metadata, checking users table");
-            try {
-              // In demo mode or when Supabase is not configured, this is skipped
-              if (isConfigured) {
-                // DEMO MODE ONLY: Use hardcoded data
-                setRole('athlete');
-              }
-            } catch (err) {
-              console.error("AuthContext - Error fetching from users table:", err);
-              // Default to 'athlete' if there's an error
-              setRole('athlete');
+        if (error) {
+          console.error('AuthContext - Error fetching session:', error.message);
+        } else {
+          console.info('AuthContext - Session data:', data.session ? 'received' : 'null');
+          
+          if (data.session?.user) {
+            // Get the user data from Supabase
+            const { data: userData, error: userError } = await supabase
+              .from('profiles')
+              .select('role')
+              .eq('id', data.session.user.id)
+              .single();
+            
+            if (userError) {
+              console.error('AuthContext - Error fetching user data:', userError.message);
+            } else if (userData) {
+              // Set the role from the user data
+              setRole(userData.role as UserRole);
+              // Also update localStorage for persistence
+              localStorage.setItem('userRole', userData.role);
+              console.info('AuthContext - User role from DB:', userData.role);
             }
           } else {
-            setRole(userRole);
+            // No current user, use the stored role if available
+            if (storedRole) {
+              console.info('AuthContext - No current user, using stored role:', storedRole);
+              setRole(storedRole);
+            }
           }
-        } else {
-          // If no user is authenticated, use the stored role for demo purposes
-          console.log("AuthContext - No current user, using stored role:", storedRole);
-          setRole(storedRole);
         }
-        
-        // Store in localStorage for persistence
-        localStorage.setItem('userRole', role || storedRole);
       } catch (error) {
-        console.error("AuthContext - Error in auth process:", error);
-        // Fallback to demo mode on error
-        const storedRole = localStorage.getItem('userRole') as UserRole || 'athlete';
-        setRole(storedRole);
-        setUser(null);
+        console.error('AuthContext - Unexpected error:', error);
       }
-
-      setLoading(false);
-    };
-
-    fetchUser();
-
-    // Set up auth state change listener
-    let listener = { subscription: { unsubscribe: () => {} } };
+    } else {
+      // No Supabase config, use the stored role if available
+      if (storedRole) {
+        console.info('AuthContext - No Supabase config, using stored role:', storedRole);
+        setRole(storedRole);
+      }
+    }
     
-    if (isSupabaseConfigured()) {
-      const { data } = supabase.auth.onAuthStateChange(() => {
-        console.log("AuthContext - Auth state changed, refreshing user");
+    // Set loading to false
+    setLoading(false);
+    console.info('AuthContext - Current user:', JSON.stringify(role), 'Role:', role, 'Loading:', loading);
+  };
+  
+  // Function to set the user role
+  const setUserRole = (newRole: UserRole) => {
+    setRole(newRole);
+    if (newRole) {
+      localStorage.setItem('userRole', newRole);
+    } else {
+      localStorage.removeItem('userRole');
+    }
+  };
+  
+  // Fetch the user on component mount
+  useEffect(() => {
+    fetchUser();
+    
+    // Set up an auth state change listener
+    if (typeof supabase !== 'undefined') {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+        console.info('AuthContext - Auth state changed, refreshing user');
         fetchUser();
       });
-      listener = data;
+      
+      // Clean up the subscription on unmount
+      return () => {
+        subscription.unsubscribe();
+      };
     }
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
   }, []);
-
-  // Debug log
-  console.log("AuthContext - Current user:", user?.email, "Role:", role, "Loading:", loading);
-
+  
+  // Create the auth context value
+  const contextValue: AuthContextType = {
+    role,
+    loading,
+    setUserRole,
+  };
+  
   return (
-    <AuthContext.Provider value={{ user, role, loading, setUserRole }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+// Create the auth context hook
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
