@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -92,7 +93,7 @@ const GoalProgressPreview = () => {
                   </div>
                   
                   <div className="text-xs text-athlex-accent text-right">
-                    {formatRemainingTime(goal.target_date)}
+                    {formatRemainingTime(goal.end_date)}
                   </div>
                 </div>
               );

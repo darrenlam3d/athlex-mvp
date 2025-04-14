@@ -11,13 +11,14 @@ import { Button } from '@/components/ui/button';
 import { PlusCircle, Calendar as CalendarIcon, List } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { mockTrainingLogs, mockTrainingSchedule } from '@/lib/mockData';
+import { adaptTrainingSessions, adaptAssignedTrainings } from '@/utils/trainingAdapterUtils';
 
 const TrainingLog = () => {
   const [isAddingTraining, setIsAddingTraining] = useState(false);
   const [view, setView] = useState<'list' | 'calendar'>('list');
   
   // Fetch training logs
-  const { data: trainingLogs, isLoading: isLoadingLogs, refetch: refetchLogs } = useQuery({
+  const { data: trainingSessions, isLoading: isLoadingLogs, refetch: refetchLogs } = useQuery({
     queryKey: ['trainingLogs'],
     queryFn: async () => {
       if (!isDemoMode()) {
@@ -31,7 +32,7 @@ const TrainingLog = () => {
   });
   
   // Fetch training schedule
-  const { data: trainingSchedule, isLoading: isLoadingSchedule } = useQuery({
+  const { data: trainingScheduleData, isLoading: isLoadingSchedule } = useQuery({
     queryKey: ['trainingSchedule'],
     queryFn: async () => {
       if (!isDemoMode()) {
@@ -43,6 +44,10 @@ const TrainingLog = () => {
       return mockTrainingSchedule;
     }
   });
+  
+  // Adapt data to the required formats
+  const trainingLogs = trainingSessions ? adaptTrainingSessions(trainingSessions) : [];
+  const trainingSchedule = trainingScheduleData ? adaptAssignedTrainings(trainingScheduleData) : [];
   
   const handleTrainingAdded = () => {
     setIsAddingTraining(false);
@@ -95,13 +100,13 @@ const TrainingLog = () => {
               {/* Training Logs View */}
               {view === 'list' ? (
                 <TrainingLogList 
-                  trainingLogs={trainingLogs || []} 
+                  trainingLogs={trainingLogs} 
                   isLoading={isLoadingLogs} 
                 />
               ) : (
                 <TrainingCalendar 
-                  trainingLogs={trainingLogs || []} 
-                  trainingSchedule={trainingSchedule || []} 
+                  trainingLogs={trainingLogs} 
+                  trainingSchedule={trainingSchedule} 
                   isLoading={isLoadingLogs || isLoadingSchedule} 
                 />
               )}

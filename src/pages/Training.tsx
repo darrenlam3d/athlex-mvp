@@ -15,10 +15,11 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { isDemoMode } from '@/lib/supabase';
 import { mockTrainingLogs, mockTrainingSchedule } from '@/lib/mockData';
+import { adaptTrainingSessions, adaptAssignedTrainings } from '@/utils/trainingAdapterUtils';
 
 const Training = () => {
   // Fetch training logs
-  const { data: trainingLogs, isLoading: isLoadingLogs } = useQuery({
+  const { data: trainingSessions, isLoading: isLoadingLogs } = useQuery({
     queryKey: ['trainingLogs'],
     queryFn: async () => {
       if (!isDemoMode()) {
@@ -32,7 +33,7 @@ const Training = () => {
   });
   
   // Fetch training schedule
-  const { data: trainingSchedule, isLoading: isLoadingSchedule } = useQuery({
+  const { data: trainingScheduleData, isLoading: isLoadingSchedule } = useQuery({
     queryKey: ['trainingSchedule'],
     queryFn: async () => {
       if (!isDemoMode()) {
@@ -44,6 +45,10 @@ const Training = () => {
       return mockTrainingSchedule;
     }
   });
+
+  // Adapt data to the required formats
+  const trainingLogs = trainingSessions ? adaptTrainingSessions(trainingSessions) : [];
+  const trainingSchedule = trainingScheduleData ? adaptAssignedTrainings(trainingScheduleData) : [];
 
   return (
     <div className="min-h-screen bg-athlex-background text-white">
@@ -72,8 +77,8 @@ const Training = () => {
               {/* Training Calendar */}
               <div className="mt-5">
                 <TrainingCalendar 
-                  trainingLogs={trainingLogs || []} 
-                  trainingSchedule={trainingSchedule || []} 
+                  trainingLogs={trainingLogs} 
+                  trainingSchedule={trainingSchedule} 
                   isLoading={isLoadingLogs || isLoadingSchedule} 
                 />
               </div>

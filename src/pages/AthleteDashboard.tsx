@@ -52,8 +52,10 @@ const AthleteDashboard = () => {
     // Using meta property for TanStack Query v5
     meta: {
       onSuccess: (data) => {
-        if (data?.name) {
-          setAthleteName(data.name.split(' ')[0] || "Athlete");
+        if (data) {
+          // Use first_name and last_name instead of name
+          const firstName = data.first_name || data.firstName || "";
+          setAthleteName(firstName || "Athlete");
         }
       },
       onError: (error) => {
@@ -69,8 +71,10 @@ const AthleteDashboard = () => {
 
   // Side effect to update athlete name when data is available
   useEffect(() => {
-    if (athleteData?.name) {
-      setAthleteName(athleteData.name.split(' ')[0] || "Athlete");
+    if (athleteData) {
+      // Use first_name and last_name instead of name
+      const firstName = athleteData.first_name || athleteData.firstName || "";
+      setAthleteName(firstName || "Athlete");
     }
   }, [athleteData]);
 

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { isSupabaseConfigured } from '@/lib/supabase';
@@ -46,9 +47,9 @@ const PerformanceChart = () => {
         
         // Format mock data for the chart
         return mockPerformanceData.map(log => ({
-          name: new Date(log.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-          [metric]: log[metric],
-          date: log.date,
+          name: new Date(log.recorded_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+          [metric]: log[metric] || log.value, // Use either the metric property or the generic value
+          recorded_at: log.recorded_at,
         }));
       }
       
@@ -57,9 +58,9 @@ const PerformanceChart = () => {
       
       // Format mock data for the chart
       return mockPerformanceData.map(log => ({
-        name: new Date(log.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        [metric]: log[metric],
-        date: log.date,
+        name: new Date(log.recorded_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        [metric]: log[metric] || log.value, // Use either the metric property or the generic value
+        recorded_at: log.recorded_at,
       }));
     },
   });
