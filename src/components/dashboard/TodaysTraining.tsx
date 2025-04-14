@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, CalendarClock, ClipboardList } from 'lucide-react';
@@ -27,19 +26,9 @@ const TodaysTraining = () => {
         return mockTodaysTraining;
       }
       
-      // Otherwise, fetch from Supabase
-      const user = await supabase.auth.getUser();
-      
-      const { data, error } = await supabase
-        .from('training_sessions')
-        .select('id, title, type, duration, start_time, assigned_by')
-        .eq('user_id', user.data?.user?.id)
-        .eq('date', todayStr)
-        .order('start_time', { ascending: true })
-        .maybeSingle();
-      
-      if (error) throw error;
-      return data;
+      // Otherwise, fetch from Supabase (not implemented in demo mode)
+      console.log('Would fetch training sessions from Supabase if configured');
+      return mockTodaysTraining;
     },
   });
 

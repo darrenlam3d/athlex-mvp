@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -7,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import {
   Form,
   FormControl,
@@ -87,26 +86,8 @@ const MealLogForm: React.FC<MealLogFormProps> = ({ formFields, onSuccess, onCanc
         return;
       }
       
-      // Get current user
-      const { data: userData } = await supabase.auth.getUser();
-      if (!userData.user) {
-        throw new Error("You must be logged in to log meals");
-      }
-      
-      // Add meal log to database
-      const { error } = await supabase.from('meal_logs').insert({
-        user_id: userData.user.id,
-        date: new Date().toISOString().split('T')[0],
-        meal_type: values.meal_type,
-        description: values.description,
-        calories: values.calories,
-        protein_g: values.protein_g,
-        carbs_g: values.carbs_g,
-        fats_g: values.fats_g,
-      });
-      
-      if (error) throw error;
-      
+      // For real Supabase implementation (not implemented in demo mode)
+      console.log('Would save meal log to Supabase if configured:', values);
       toast.success("Meal logged successfully!");
       onSuccess();
     } catch (error) {

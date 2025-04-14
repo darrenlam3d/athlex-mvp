@@ -195,3 +195,66 @@ export const messagesMock = [
     message: "It shows. I'd like to discuss your future plans if you're interested."
   }
 ];
+
+// Mock training logs
+export const mockTrainingLogs = [
+  {
+    id: "log_001",
+    date: "2025-04-12",
+    type: "Cardio",
+    activity: "Interval Running",
+    duration_minutes: 45,
+    distance_km: 8.2,
+    intensity_level: "High"
+  },
+  {
+    id: "log_002",
+    date: "2025-04-10",
+    type: "Strength",
+    activity: "Weight Training",
+    duration_minutes: 60,
+    distance_km: 0,
+    intensity_level: "Medium"
+  },
+  {
+    id: "log_003",
+    date: "2025-04-08",
+    type: "Sport-Specific",
+    activity: "Technical Drills",
+    duration_minutes: 90,
+    distance_km: 5.5,
+    intensity_level: "Medium"
+  }
+];
+
+// Mock training schedule
+export const mockTrainingSchedule = [
+  {
+    date: "2025-04-15",
+    session_title: "Match Preparation",
+    type: "Team Training",
+    assigned_by: "Coach Smith"
+  },
+  {
+    date: "2025-04-17",
+    session_title: "Recovery Session",
+    type: "Light Training",
+    assigned_by: "Coach Jones"
+  },
+  {
+    date: "2025-04-19",
+    session_title: "Match Day",
+    type: "Competition",
+    assigned_by: "Team Manager"
+  }
+];
+
+// Mock form fields
+export const mockTrainingLogFormFields = {
+  date: new Date().toISOString().split('T')[0],
+  type: "Physical",
+  activity: "Running",
+  duration_minutes: 30,
+  distance_km: 5,
+  intensity_level: "Medium"
+};

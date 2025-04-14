@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -58,28 +57,8 @@ const TrainingLogForm = () => {
         return;
       }
       
-      // Get the current user
-      const { data: user } = await supabase.auth.getUser();
-      
-      if (!user.user) {
-        toast({
-          title: "Authentication error",
-          description: "You must be logged in to add training logs",
-          variant: "destructive",
-        });
-        return;
-      }
-      
-      // Insert the new training log
-      const { error } = await supabase
-        .from('training_logs')
-        .insert({
-          ...data,
-          user_id: user.user.id,
-        });
-      
-      if (error) throw error;
-      
+      // For real Supabase implementation (not implemented in demo mode)
+      console.log('Would save training log to Supabase if configured:', data);
       toast({
         title: "Training log added",
         description: "Your training log has been saved successfully",

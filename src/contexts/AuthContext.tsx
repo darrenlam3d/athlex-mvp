@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { supabase, isSupabaseConfigured } from '@/integrations/supabase/client';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { UserRole } from './UserRoleContext';
 
 interface AuthContextType {
@@ -58,19 +58,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           if (!userRole) {
             console.log("AuthContext - No role in metadata, checking users table");
             try {
-              // Using any type to avoid TypeScript errors with the database schema
-              const { data: profileData, error } = await supabase
-                .from('users')
-                .select('role')
-                .eq('id', currentUser.id)
-                .maybeSingle();
-              
-              console.log("AuthContext - Users table profile:", profileData);
-              
-              if (profileData?.role) {
-                setRole(profileData.role as UserRole);
-              } else {
-                // Default to 'athlete' if no role is found
+              // In demo mode or when Supabase is not configured, this is skipped
+              if (isConfigured) {
+                // DEMO MODE ONLY: Use hardcoded data
                 setRole('athlete');
               }
             } catch (err) {

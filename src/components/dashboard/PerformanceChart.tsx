@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -53,22 +52,11 @@ const PerformanceChart = () => {
         }));
       }
       
-      // Otherwise, fetch from Supabase
-      const { start, end } = getDateRange();
-      const user = await supabase.auth.getUser();
+      // Otherwise, fetch from Supabase (not implemented in demo mode)
+      console.log('Would fetch performance data from Supabase if configured');
       
-      const { data, error } = await supabase
-        .from('training_logs')
-        .select('date, speed, endurance, distance, strength')
-        .eq('user_id', user.data?.user?.id)
-        .gte('date', start.toISOString())
-        .lte('date', end.toISOString())
-        .order('date', { ascending: true });
-      
-      if (error) throw error;
-      
-      // Format data for the chart
-      return data.map(log => ({
+      // Format mock data for the chart
+      return mockPerformanceData.map(log => ({
         name: new Date(log.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         [metric]: log[metric],
         date: log.date,

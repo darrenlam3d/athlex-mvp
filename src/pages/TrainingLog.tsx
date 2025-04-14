@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import {
@@ -14,11 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Select } from '@/components/ui/select';
-import { AlertTriangle, Calendar, ClipboardList, Plus, Clock, Activity } from 'lucide-react';
+import { AlertTriangle, Calendar, ClipboardList, Plus, Activity } from 'lucide-react';
 import TrainingLogList from '@/components/training/TrainingLogList';
 import TrainingLogForm from '@/components/training/TrainingLogForm';
 import { mockTrainingLogs, mockTrainingSchedule } from '@/lib/mockData';
@@ -38,15 +33,9 @@ const TrainingLog = () => {
         return mockTrainingLogs;
       }
       
-      const { data: user } = await supabase.auth.getUser();
-      const { data, error } = await supabase
-        .from('training_logs')
-        .select('*')
-        .eq('user_id', user.user?.id)
-        .order('date', { ascending: false });
-      
-      if (error) throw error;
-      return data;
+      // For real Supabase implementation (not implemented in demo mode)
+      console.log('Would fetch training logs from Supabase if configured');
+      return mockTrainingLogs;
     },
   });
   
@@ -59,15 +48,9 @@ const TrainingLog = () => {
         return mockTrainingSchedule;
       }
       
-      const { data: user } = await supabase.auth.getUser();
-      const { data, error } = await supabase
-        .from('training_sessions')
-        .select('date, title as session_title, type, assigned_by')
-        .eq('user_id', user.user?.id)
-        .order('date', { ascending: true });
-      
-      if (error) throw error;
-      return data;
+      // For real Supabase implementation (not implemented in demo mode)
+      console.log('Would fetch training schedule from Supabase if configured');
+      return mockTrainingSchedule;
     },
   });
 

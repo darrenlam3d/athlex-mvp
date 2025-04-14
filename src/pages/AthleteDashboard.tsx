@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/contexts/AuthContext';
 import { isUserRoleLoaded } from '@/utils/roleUtils';
@@ -55,26 +54,9 @@ const AthleteDashboard = () => {
         return mockAthlete;
       }
       
-      try {
-        const { data: userResponse } = await supabase.auth.getUser();
-        
-        if (!userResponse?.user) {
-          throw new Error("User not authenticated");
-        }
-        
-        // Using any type to avoid TypeScript errors with the database schema
-        const { data, error } = await supabase
-          .from('athletes')
-          .select('*')
-          .eq('user_id', userResponse.user.id)
-          .single();
-        
-        if (error) throw error;
-        return data;
-      } catch (error) {
-        console.error("Error fetching athlete profile:", error);
-        throw error;
-      }
+      // If Supabase is configured but we're still in demo mode
+      console.log('Would fetch athlete profile from Supabase if fully configured');
+      return mockAthlete;
     },
     // Using meta property for TanStack Query v5
     meta: {

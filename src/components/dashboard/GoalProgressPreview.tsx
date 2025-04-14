@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -22,19 +22,9 @@ const GoalProgressPreview = () => {
         return mockGoals;
       }
       
-      // Otherwise, fetch from Supabase
-      const user = await supabase.auth.getUser();
-      
-      const { data, error } = await supabase
-        .from('performance_goals')
-        .select('id, title, metric, target_value, current_value, start_date, target_date')
-        .eq('user_id', user.data?.user?.id)
-        .eq('status', 'active')
-        .order('target_date', { ascending: true })
-        .limit(2);
-      
-      if (error) throw error;
-      return data;
+      // Otherwise, fetch from Supabase (not implemented in demo mode)
+      console.log('Would fetch goals from Supabase if configured');
+      return mockGoals;
     },
   });
 

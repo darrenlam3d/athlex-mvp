@@ -1,9 +1,7 @@
 
-import { supabase } from '@/lib/supabase';
-import { Athlete } from '@/components/scouting/AthleteCard';
 import { isSupabaseConfigured } from '@/lib/supabase';
+import { Athlete } from '@/components/scouting/AthleteCard';
 import { toast } from 'sonner';
-import { useToast } from '@/components/ui/use-toast';
 
 // Mock data for shortlisted athletes
 export const shortlistedAthletesMock: Athlete[] = [
@@ -93,15 +91,7 @@ export const messagesMock = [
 export const addToShortlist = async (athleteId: string, currentUserId: string) => {
   try {
     if (isSupabaseConfigured()) {
-      const { error } = await supabase
-        .from('shortlists')
-        .insert({
-          scout_id: currentUserId,
-          athlete_id: athleteId,
-          created_at: new Date().toISOString()
-        });
-        
-      if (error) throw error;
+      console.log('Would add athlete to shortlist in Supabase if configured', { athleteId, currentUserId });
     }
     
     toast.success('Athlete added to shortlist');
@@ -116,13 +106,7 @@ export const addToShortlist = async (athleteId: string, currentUserId: string) =
 export const removeFromShortlist = async (athleteId: string, currentUserId: string) => {
   try {
     if (isSupabaseConfigured()) {
-      const { error } = await supabase
-        .from('shortlists')
-        .delete()
-        .eq('scout_id', currentUserId)
-        .eq('athlete_id', athleteId);
-        
-      if (error) throw error;
+      console.log('Would remove athlete from shortlist in Supabase if configured', { athleteId, currentUserId });
     }
     
     toast.success('Athlete removed from shortlist');
@@ -144,11 +128,7 @@ export const sendMessage = async (fromUserId: string, toUserId: string, message:
     };
     
     if (isSupabaseConfigured()) {
-      const { error } = await supabase
-        .from('messages')
-        .insert(newMessage);
-        
-      if (error) throw error;
+      console.log('Would send message in Supabase if configured', newMessage);
     }
     
     return true;

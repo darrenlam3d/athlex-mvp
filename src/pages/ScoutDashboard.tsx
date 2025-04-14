@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
-import { useToast } from '@/components/ui/use-toast';
 import { isSupabaseConfigured } from '@/lib/supabase';
+import { useToast } from '@/components/ui/use-toast';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ChatPanel from '@/components/community/ChatPanel';
@@ -76,31 +74,9 @@ const ScoutDashboard = () => {
         return shortlistedAthletesMock;
       }
       
-      try {
-        const { data, error } = await supabase
-          .from('shortlists')
-          .select('athlete_id')
-          .eq('scout_id', currentUser.id);
-          
-        if (error) throw error;
-        
-        // Fetch the actual athlete data
-        const athletePromises = data.map(async (item) => {
-          const { data: athleteData, error: athleteError } = await supabase
-            .from('users')
-            .select('*')
-            .eq('id', item.athlete_id)
-            .single();
-            
-          if (athleteError) throw athleteError;
-          return athleteData;
-        });
-        
-        return await Promise.all(athletePromises);
-      } catch (error) {
-        console.error('Error fetching shortlisted athletes:', error);
-        return shortlistedAthletesMock;
-      }
+      // For real Supabase implementation (not implemented in demo mode)
+      console.log('Would fetch shortlisted athletes from Supabase if configured');
+      return shortlistedAthletesMock;
     }
   });
   
@@ -112,21 +88,9 @@ const ScoutDashboard = () => {
         return recommendedAthletesMock;
       }
       
-      try {
-        // In a real app, this would be a more complex query based on performance metrics
-        const { data, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('role', 'athlete')
-          .order('performance_score', { ascending: false })
-          .limit(5);
-          
-        if (error) throw error;
-        return data;
-      } catch (error) {
-        console.error('Error fetching recommended athletes:', error);
-        return recommendedAthletesMock;
-      }
+      // For real Supabase implementation (not implemented in demo mode)
+      console.log('Would fetch recommended athletes from Supabase if configured');
+      return recommendedAthletesMock;
     }
   });
   
@@ -138,35 +102,9 @@ const ScoutDashboard = () => {
         return allAthletesMock;
       }
       
-      try {
-        let query = supabase
-          .from('users')
-          .select('*')
-          .eq('role', 'athlete');
-          
-        // Apply filters
-        if (selectedSport !== 'all') {
-          query = query.eq('sport', selectedSport);
-        }
-        
-        if (selectedPosition !== 'all') {
-          query = query.eq('position', selectedPosition);
-        }
-        
-        // Age range would require additional logic with birth dates
-        
-        if (selectedGender !== 'all') {
-          query = query.eq('gender', selectedGender);
-        }
-        
-        const { data, error } = await query;
-        
-        if (error) throw error;
-        return data;
-      } catch (error) {
-        console.error('Error fetching all athletes:', error);
-        return allAthletesMock;
-      }
+      // For real Supabase implementation (not implemented in demo mode)
+      console.log('Would fetch all athletes from Supabase if configured');
+      return allAthletesMock;
     }
   });
   

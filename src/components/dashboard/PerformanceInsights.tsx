@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { isSupabaseConfigured } from '@/lib/supabase';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Lightbulb, Loader2, ArrowRight } from 'lucide-react';
@@ -21,29 +21,9 @@ const PerformanceInsights = () => {
         return mockInsights;
       }
       
-      // Otherwise, fetch from Supabase
-      const user = await supabase.auth.getUser();
-      
-      // Call a Supabase RPC function that calculates insights
-      // This could be a PostgreSQL function that compares current vs previous performance
-      const { data, error } = await supabase
-        .rpc('get_athlete_insights', { 
-          user_id: user.data?.user?.id 
-        });
-      
-      if (error) {
-        console.error('Error fetching insights:', error);
-        // Fallback to direct query if RPC fails
-        return [{
-          id: 1,
-          metric: 'speed',
-          change_percent: 5,
-          period: 'week',
-          insight_text: "You've improved your speed by 5% since last week."
-        }];
-      }
-      
-      return data;
+      // Otherwise, fetch from Supabase (not implemented in demo mode)
+      console.log('Would fetch insights from Supabase if configured');
+      return mockInsights;
     },
   });
 

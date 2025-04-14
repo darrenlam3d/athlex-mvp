@@ -31,7 +31,7 @@ const Dashboard = () => {
   if (role === 'scout') return <Navigate to="/scout-dashboard" replace />;
   if (role === 'coach') return <Navigate to="/coach-dashboard" replace />;
   
-  // Default fallback (handles empty string case)
+  // Default fallback
   console.log("Dashboard - Unrecognized role, defaulting to athlete dashboard");
   return <Navigate to="/athlete-dashboard" replace />;
 };
