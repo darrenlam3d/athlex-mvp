@@ -19,8 +19,8 @@ export interface TrainingScheduleItem {
   title: string;
   duration_minutes: number;
   coach: string;
-  location?: string;
-  description: string; // Added the missing description property
+  location: string; // Made location required (removed optional ? mark)
+  description: string;
 }
 
 // Adapter function to convert TrainingSession to TrainingLog
@@ -51,7 +51,7 @@ export const adaptAssignedTrainingToScheduleItem = (training: AssignedTraining):
     description: training.description || "", // Use description from source or empty string
     duration_minutes: 60, // Default value
     coach: "Coach", // Default value
-    location: "Training Ground" // Default value
+    location: "Training Ground" // Always provide a default value since it's required
   };
 };
 
