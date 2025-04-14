@@ -12,21 +12,61 @@ export interface Note {
   date: string;
 }
 
-// Mock notes
-const mockNotes: Note[] = [
+// Extended type for Scout Note with athlete details
+export interface ScoutNote {
+  note_id: string;
+  scout_id: string;
+  scout_name: string;
+  athlete_id: string;
+  athlete_name: string;
+  sport: string;
+  position: string;
+  club: string;
+  note: string;
+  date: string;
+  profile_photo?: string;
+}
+
+// Mock notes with athlete information
+const mockScoutNotes: ScoutNote[] = [
   {
-    id: 'note_001',
+    note_id: 'note_001',
     scout_id: 'scout_001',
+    scout_name: 'Alex Taylor',
     athlete_id: 'athlete_004',
+    athlete_name: 'David Rodriguez',
+    sport: 'Football',
+    position: 'Midfielder',
+    club: 'FC Barcelona Academy',
     note: 'Shows excellent acceleration and ball control. Needs to work on left foot.',
-    date: '2025-03-15'
+    date: '2025-03-15',
+    profile_photo: null
   },
   {
-    id: 'note_002',
+    note_id: 'note_002',
     scout_id: 'scout_001',
+    scout_name: 'Alex Taylor',
     athlete_id: 'athlete_004',
+    athlete_name: 'David Rodriguez',
+    sport: 'Football',
+    position: 'Midfielder',
+    club: 'FC Barcelona Academy',
     note: 'Decision making has improved since last observation. Good positioning.',
-    date: '2025-04-01'
+    date: '2025-04-01',
+    profile_photo: null
+  },
+  {
+    note_id: 'note_003',
+    scout_id: 'scout_001',
+    scout_name: 'Alex Taylor',
+    athlete_id: 'athlete_005',
+    athlete_name: 'Emma Chen',
+    sport: 'Basketball',
+    position: 'Point Guard',
+    club: 'Chicago Elite Academy',
+    note: 'Excellent court vision and passing ability. Creates opportunities for teammates.',
+    date: '2025-03-20',
+    profile_photo: null
   }
 ];
 
@@ -47,7 +87,7 @@ export const useScoutNotes = (athleteId: string, scoutId: string) => {
       }
       
       // Demo mode: Return mock notes filtered by athlete ID
-      const filtered = mockNotes.filter(note => note.athlete_id === athleteId);
+      const filtered = mockScoutNotes.filter(note => note.athlete_id === athleteId);
       setNotes(filtered);
     } catch (error) {
       console.error('Error fetching notes:', error);
@@ -163,4 +203,78 @@ export const useScoutNotes = (athleteId: string, scoutId: string) => {
     updateNote,
     deleteNote
   };
+};
+
+// Fetch all scout notes for a scout
+export const fetchScoutNotes = async (scoutId: string): Promise<ScoutNote[]> => {
+  if (isSupabaseConfigured()) {
+    // This would use Supabase in a real implementation
+    console.log('Would fetch scout notes from Supabase if configured', { scoutId });
+  }
+  
+  // Filter notes by scout ID for demo mode
+  return mockScoutNotes.filter(note => note.scout_id === scoutId);
+};
+
+// Save note function for ScoutNoteCard
+export const saveScoutNote = async (
+  noteData: { note_id: string; note: string },
+  scoutId: string
+): Promise<boolean> => {
+  try {
+    if (isSupabaseConfigured()) {
+      // This would use Supabase in a real implementation
+      console.log('Would update note in Supabase if configured', { noteData, scoutId });
+    }
+    
+    // In demo mode, we'll just return success
+    console.log('Note updated in demo mode:', noteData);
+    return true;
+  } catch (error) {
+    console.error('Error updating note:', error);
+    return false;
+  }
+};
+
+// Delete note function for ScoutNoteCard
+export const deleteScoutNote = async (
+  noteId: string,
+  scoutId: string
+): Promise<boolean> => {
+  try {
+    if (isSupabaseConfigured()) {
+      // This would use Supabase in a real implementation
+      console.log('Would delete note from Supabase if configured', { noteId, scoutId });
+    }
+    
+    // In demo mode, we'll just return success
+    console.log('Note deleted in demo mode:', noteId);
+    return true;
+  } catch (error) {
+    console.error('Error deleting note:', error);
+    return false;
+  }
+};
+
+// Add note function (standalone version)
+export const addScoutNote = async (
+  data: { 
+    scout_id: string; 
+    athlete_id: string; 
+    note: string;
+  }
+): Promise<boolean> => {
+  try {
+    if (isSupabaseConfigured()) {
+      // This would use Supabase in a real implementation
+      console.log('Would add note to Supabase if configured', data);
+    }
+    
+    // In demo mode, we'll just return success
+    console.log('Note added in demo mode:', data);
+    return true;
+  } catch (error) {
+    console.error('Error adding note:', error);
+    return false;
+  }
 };

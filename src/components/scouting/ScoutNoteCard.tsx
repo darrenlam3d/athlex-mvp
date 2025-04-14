@@ -14,7 +14,11 @@ import {
   DialogTitle
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { ScoutNote, saveScoutNote, deleteScoutNote } from '@/utils/scoutNotesUtils';
+import { 
+  ScoutNote, 
+  saveScoutNote, 
+  deleteScoutNote 
+} from '@/utils/scoutNotesUtils';
 
 interface ScoutNoteCardProps {
   note: ScoutNote;
