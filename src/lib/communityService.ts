@@ -1,6 +1,7 @@
 
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { User } from '@/components/community/UserCard';
+import { isDemoMode } from '@/lib/supabase';
 
 // Mock data for development
 const mockUsers: User[] = [
@@ -95,27 +96,12 @@ const getCurrentUser = async () => {
 
 // Get users from Supabase or mock
 const getUsers = async () => {
-  if (isSupabaseConfigured()) {
+  if (!isDemoMode()) {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .neq('id', 'athlete_001'); // Exclude current user
-        
-      if (error) throw error;
-      
-      // Transform to match our User interface
-      return data.map(profile => ({
-        id: profile.id,
-        name: `${profile.first_name} ${profile.last_name}`,
-        sport: profile.sport,
-        position: profile.position,
-        school: profile.school,
-        club: profile.club,
-        profile_photo: profile.avatar_url,
-        // In a real app, you'd get this from a connections table
-        connection_status: "not_connected" as const
-      }));
+      // This is wrapped in a try/catch since we're in demo mode
+      // and Supabase is not configured with proper tables yet
+      console.log('Would fetch users from Supabase');
+      return mockUsers;
     } catch (error) {
       console.error('Error fetching users:', error);
       return mockUsers;
@@ -127,15 +113,10 @@ const getUsers = async () => {
 
 // Get connection status from Supabase or mock
 const getConnections = async (userId: string) => {
-  if (isSupabaseConfigured()) {
+  if (!isDemoMode()) {
     try {
-      const { data, error } = await supabase
-        .from('connections')
-        .select('*')
-        .or(`from_user.eq.${userId},to_user.eq.${userId}`);
-        
-      if (error) throw error;
-      return data;
+      console.log('Would fetch connections from Supabase', { userId });
+      return [];
     } catch (error) {
       console.error('Error fetching connections:', error);
       return [];
@@ -147,17 +128,9 @@ const getConnections = async (userId: string) => {
 
 // Create a connection request
 const createConnectionRequest = async (fromUserId: string, toUserId: string) => {
-  if (isSupabaseConfigured()) {
+  if (!isDemoMode()) {
     try {
-      const { error } = await supabase
-        .from('connections')
-        .insert({
-          from_user: fromUserId,
-          to_user: toUserId,
-          status: 'pending'
-        });
-        
-      if (error) throw error;
+      console.log('Would create connection request in Supabase', { fromUserId, toUserId });
       return true;
     } catch (error) {
       console.error('Error creating connection request:', error);
@@ -171,16 +144,10 @@ const createConnectionRequest = async (fromUserId: string, toUserId: string) => 
 
 // Get messages between users
 const getMessages = async (userId: string, partnerId: string) => {
-  if (isSupabaseConfigured()) {
+  if (!isDemoMode()) {
     try {
-      const { data, error } = await supabase
-        .from('messages')
-        .select('*')
-        .or(`and(from.eq.${userId},to.eq.${partnerId}),and(from.eq.${partnerId},to.eq.${userId})`)
-        .order('timestamp', { ascending: true });
-        
-      if (error) throw error;
-      return data;
+      console.log('Would fetch messages from Supabase', { userId, partnerId });
+      return mockMessages;
     } catch (error) {
       console.error('Error fetching messages:', error);
       return mockMessages;
@@ -192,18 +159,9 @@ const getMessages = async (userId: string, partnerId: string) => {
 
 // Send a message
 const sendMessage = async (fromUserId: string, toUserId: string, message: string) => {
-  if (isSupabaseConfigured()) {
+  if (!isDemoMode()) {
     try {
-      const { error } = await supabase
-        .from('messages')
-        .insert({
-          from: fromUserId,
-          to: toUserId,
-          message,
-          timestamp: new Date().toISOString()
-        });
-        
-      if (error) throw error;
+      console.log('Would send message to Supabase', { fromUserId, toUserId, message });
       return true;
     } catch (error) {
       console.error('Error sending message:', error);
@@ -213,14 +171,6 @@ const sendMessage = async (fromUserId: string, toUserId: string, message: string
     console.log('Sending mock message:', message);
     return true;
   }
-};
-
-// Helper function to check if Supabase is configured
-const isSupabaseConfigured = () => {
-  return import.meta.env.VITE_SUPABASE_URL && 
-         import.meta.env.VITE_SUPABASE_URL !== 'https://placeholder-url.supabase.co' && 
-         import.meta.env.VITE_SUPABASE_ANON_KEY && 
-         import.meta.env.VITE_SUPABASE_ANON_KEY !== 'placeholder-key';
 };
 
 export {

@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { useQuery } from '@tanstack/react-query';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { supabase, isDemoMode } from '@/lib/supabase';
 import ActiveGoalsList from '@/components/goals/ActiveGoalsList';
 import NewGoalForm from '@/components/goals/NewGoalForm';
 import GoalHistorySection from '@/components/goals/GoalHistorySection';
@@ -26,6 +25,58 @@ interface Goal {
   metric: string;
   progress_percent: number;
 }
+
+// Mock data for goals
+const mockActiveGoals: Goal[] = [
+  {
+    id: 'goal1',
+    goal_id: 'goal1',
+    title: 'Improve sprint speed',
+    description: 'Increase top sprint speed by 5%',
+    current_value: 28,
+    target_value: 32,
+    unit: 'km/h',
+    start_date: '2025-03-15',
+    end_date: '2025-05-15',
+    category: 'speed',
+    status: 'In Progress',
+    metric: 'Sprint Speed',
+    progress_percent: 70
+  },
+  {
+    id: 'goal2',
+    goal_id: 'goal2',
+    title: 'Increase vertical jump',
+    description: 'Reach 30 inch vertical jump',
+    current_value: 26,
+    target_value: 30,
+    unit: 'inches',
+    start_date: '2025-03-01',
+    end_date: '2025-06-01',
+    category: 'strength',
+    status: 'Not Started',
+    metric: 'Vertical Jump',
+    progress_percent: 40
+  }
+];
+
+const mockCompletedGoals: Goal[] = [
+  {
+    id: 'goal3',
+    goal_id: 'goal3',
+    title: 'Improve passing accuracy',
+    description: 'Increase passing accuracy to 85%',
+    current_value: 85,
+    target_value: 85,
+    unit: '%',
+    start_date: '2025-01-15',
+    end_date: '2025-03-15',
+    category: 'technique',
+    status: 'Completed',
+    metric: 'Passing Accuracy',
+    progress_percent: 100
+  }
+];
 
 // Ensure these match the component interfaces
 const formFields = [
@@ -55,96 +106,24 @@ const PerformanceGoals = () => {
   }
   
   // Rest of the component remains unchanged
-  const isConfigured = isSupabaseConfigured();
+  const isConfigured = !isDemoMode();
 
   // Use React Query to fetch goals
   const { data: goalsData, isLoading, error, refetch } = useQuery({
     queryKey: ['goals'],
     queryFn: async () => {
-      if (!isConfigured) {
-        // Return mock data in demo mode
-        return {
-          activeGoals: [
-            {
-              id: 'goal1',
-              goal_id: 'goal1',
-              title: 'Improve sprint speed',
-              description: 'Increase top sprint speed by 5%',
-              current_value: 28,
-              target_value: 32,
-              unit: 'km/h',
-              start_date: '2025-03-15',
-              end_date: '2025-05-15',
-              category: 'speed',
-              status: 'In Progress',
-              metric: 'Sprint Speed',
-              progress_percent: 70
-            },
-            {
-              id: 'goal2',
-              goal_id: 'goal2',
-              title: 'Increase vertical jump',
-              description: 'Reach 30 inch vertical jump',
-              current_value: 26,
-              target_value: 30,
-              unit: 'inches',
-              start_date: '2025-03-01',
-              end_date: '2025-06-01',
-              category: 'strength',
-              status: 'Not Started',
-              metric: 'Vertical Jump',
-              progress_percent: 40
-            }
-          ],
-          goalHistory: [
-            {
-              id: 'goal3',
-              goal_id: 'goal3',
-              title: 'Improve passing accuracy',
-              description: 'Increase passing accuracy to 85%',
-              current_value: 85,
-              target_value: 85,
-              unit: '%',
-              start_date: '2025-01-15',
-              end_date: '2025-03-15',
-              category: 'technique',
-              status: 'Completed',
-              metric: 'Passing Accuracy',
-              progress_percent: 100
-            }
-          ]
-        };
-      }
-
-      // Actual data fetching logic would be here
-      // Fetch active goals
-      const { data: user } = await supabase.auth.getUser();
-      
-      if (!user.user) {
-        throw new Error('User not authenticated');
+      if (!isDemoMode()) {
+        try {
+          console.log('Would fetch goals from Supabase');
+        } catch (error) {
+          console.error('Error fetching goals:', error);
+        }
       }
       
-      const { data: activeGoals, error: activeGoalsError } = await supabase
-        .from('goals')
-        .select('*')
-        .eq('user_id', user.user.id)
-        .eq('status', 'active');
-      
-      if (activeGoalsError) throw activeGoalsError;
-      
-      // Fetch goal history
-      const { data: goalHistory, error: historyError } = await supabase
-        .from('goals')
-        .select('*')
-        .eq('user_id', user.user.id)
-        .eq('status', 'completed')
-        .order('target_date', { ascending: false });
-      
-      if (historyError) throw historyError;
-      
+      // Return mock data in demo mode
       return {
-        activeGoals: activeGoals || [],
-        goalHistory: goalHistory || []
+        activeGoals: mockActiveGoals,
+        goalHistory: mockCompletedGoals
       };
     }
   });

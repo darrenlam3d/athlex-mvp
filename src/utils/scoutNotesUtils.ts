@@ -70,6 +70,15 @@ const mockScoutNotes: ScoutNote[] = [
   }
 ];
 
+// Convert ScoutNote to Note format for internal use
+const convertToNote = (scoutNote: ScoutNote): Note => ({
+  id: scoutNote.note_id,
+  scout_id: scoutNote.scout_id,
+  athlete_id: scoutNote.athlete_id,
+  note: scoutNote.note,
+  date: scoutNote.date
+});
+
 // Hook for managing scout notes
 export const useScoutNotes = (athleteId: string, scoutId: string) => {
   const { toast } = useToast();
@@ -87,8 +96,10 @@ export const useScoutNotes = (athleteId: string, scoutId: string) => {
       }
       
       // Demo mode: Return mock notes filtered by athlete ID
-      const filtered = mockScoutNotes.filter(note => note.athlete_id === athleteId);
-      setNotes(filtered);
+      const filteredScoutNotes = mockScoutNotes.filter(note => note.athlete_id === athleteId);
+      // Convert ScoutNote to Note format
+      const filteredNotes = filteredScoutNotes.map(convertToNote);
+      setNotes(filteredNotes);
     } catch (error) {
       console.error('Error fetching notes:', error);
       toast({

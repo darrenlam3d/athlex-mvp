@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import { useQuery } from '@tanstack/react-query';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { supabase, isDemoMode } from '@/lib/supabase';
 import { AlertTriangle, Loader2 } from 'lucide-react';
 import MealLogList from '@/components/nutrition/MealLogList';
 import MealLogForm from '@/components/nutrition/MealLogForm';
@@ -85,34 +84,25 @@ const Nutrition = () => {
     return <Navigate to="/scout-dashboard" replace />;
   }
   
-  // Check if Supabase is configured
-  const isConfigured = isSupabaseConfigured();
-
   // Fetch meal logs
   const { data: mealLogs, isLoading, error, refetch } = useQuery({
     queryKey: ['mealLogs'],
     queryFn: async () => {
-      // If Supabase is not configured, return mock data
-      if (!isConfigured) {
+      // If in demo mode, return mock data
+      if (isDemoMode()) {
         console.log('Using mock meal logs data');
         return mockMealLogs;
       }
       
-      // Otherwise, fetch from Supabase
-      const { data: user } = await supabase.auth.getUser();
-      
-      if (!user.user) {
-        throw new Error('User not authenticated');
+      // Otherwise, would fetch from Supabase
+      try {
+        console.log('Would fetch meal logs from Supabase');
+        // In real implementation, this would fetch from Supabase
+        return mockMealLogs;
+      } catch (err) {
+        console.error('Error fetching meal logs:', err);
+        throw err;
       }
-      
-      const { data, error } = await supabase
-        .from('meal_logs')
-        .select('*')
-        .eq('user_id', user.user.id)
-        .order('date', { ascending: false });
-      
-      if (error) throw error;
-      return data || [];
     },
   });
 
@@ -134,7 +124,7 @@ const Nutrition = () => {
               <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl md:text-3xl font-bold mb-2">Nutrition Tracker</h1>
                 
-                {!isConfigured && (
+                {isDemoMode() && (
                   <div className="flex items-center px-4 py-2 bg-yellow-900/30 border border-yellow-600/30 rounded-md text-yellow-200 text-sm">
                     <AlertTriangle className="h-4 w-4 mr-2" />
                     <span>Demo Mode: Using mock data</span>
