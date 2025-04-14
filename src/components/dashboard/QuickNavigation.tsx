@@ -40,10 +40,15 @@ const QuickNavigation = () => {
 
   const handleRoleSwitch = (role) => {
     setUserRole(role);
+    localStorage.setItem('userRole', role);
+    
     sonnerToast.success(`Role switched to ${role}`, {
       description: `You are now viewing the app as a ${role}`,
       duration: 3000,
     });
+    
+    // Redirect to the corresponding dashboard
+    window.location.href = `/${role}-dashboard`;
   };
 
   return (

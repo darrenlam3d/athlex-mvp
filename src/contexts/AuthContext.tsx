@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/integrations/supabase/client';
 import { UserRole } from './UserRoleContext';
 
 interface AuthContextType {
@@ -26,14 +26,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log("AuthContext - fetchUser - Starting");
       
       try {
+        // Get role from localStorage for demo mode or if Supabase is not configured
+        const storedRole = localStorage.getItem('userRole') as UserRole || 'athlete';
+        console.log("AuthContext - Stored role:", storedRole);
+        
         // Check if Supabase is configured
         const isConfigured = isSupabaseConfigured();
         console.log("AuthContext - Supabase configured:", isConfigured);
         
         if (!isConfigured) {
-          // For demo mode, get role from localStorage
-          const storedRole = localStorage.getItem('userRole') as UserRole || '';
-          console.log("AuthContext - Demo mode - stored role:", storedRole);
+          // For demo mode, use the stored role
+          console.log("AuthContext - Demo mode - setting stored role:", storedRole);
           setRole(storedRole);
           setUser(null);
           setLoading(false);
@@ -62,26 +65,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 .single();
               
               console.log("AuthContext - Users table profile:", profile);
-              setRole((profile?.role as UserRole) || "");
+              
+              if (profile?.role) {
+                setRole(profile.role as UserRole);
+              } else {
+                // Default to 'athlete' if no role is found
+                setRole('athlete');
+              }
             } catch (err) {
               console.error("AuthContext - Error fetching from users table:", err);
-              setRole("");
+              // Default to 'athlete' if there's an error
+              setRole('athlete');
             }
           } else {
             setRole(userRole);
           }
-          
-          // Store in localStorage for persistence
-          localStorage.setItem('userRole', role);
         } else {
-          console.log("AuthContext - No current user, setting empty role");
-          setRole("");
-          localStorage.removeItem('userRole');
+          // If no user is authenticated, use the stored role for demo purposes
+          console.log("AuthContext - No current user, using stored role:", storedRole);
+          setRole(storedRole);
         }
+        
+        // Store in localStorage for persistence
+        localStorage.setItem('userRole', role || storedRole);
       } catch (error) {
         console.error("AuthContext - Error in auth process:", error);
         // Fallback to demo mode on error
-        const storedRole = localStorage.getItem('userRole') as UserRole || '';
+        const storedRole = localStorage.getItem('userRole') as UserRole || 'athlete';
         setRole(storedRole);
         setUser(null);
       }

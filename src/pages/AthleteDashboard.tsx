@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/integrations/supabase/client';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/contexts/AuthContext';
 import { isUserRoleLoaded } from '@/utils/roleUtils';
@@ -36,7 +36,7 @@ const AthleteDashboard = () => {
 
   // Only redirect if user has a specific non-athlete role
   // This prevents redirects when role is empty or still loading
-  if (isUserRoleLoaded(role) && role !== 'athlete') {
+  if (isUserRoleLoaded(role) && role !== 'athlete' && role !== '') {
     console.log('AthleteDashboard - Redirecting - user role:', role);
     return <Navigate to={`/${role}-dashboard`} replace />;
   }
