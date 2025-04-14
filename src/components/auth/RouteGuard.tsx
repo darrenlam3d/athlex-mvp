@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { isUserRoleLoaded } from '@/utils/roleUtils';
 import { Loader2 } from 'lucide-react';
+import { isDemoMode } from '@/lib/supabase';
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ interface RouteGuardProps {
 }
 
 const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
-  const { role, loading } = useAuth();
+  const { role, user, loading } = useAuth();
   
   // Show loading state
   if (loading) {
@@ -23,6 +24,12 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
     );
   }
   
+  // In real auth mode (not demo), check if user is authenticated
+  if (!isDemoMode() && !user) {
+    console.log("RouteGuard - No authenticated user, redirecting to login");
+    return <Navigate to="/login" replace />;
+  }
+  
   // If no specific role is required, just render the children
   if (!requiredRole) {
     return <>{children}</>;
@@ -30,6 +37,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
   
   // If a role is required and the user doesn't have it
   if (isUserRoleLoaded(role) && role !== requiredRole) {
+    console.log(`RouteGuard - User role ${role} doesn't match required role ${requiredRole}, redirecting to login`);
     return <Navigate to="/login" replace />;
   }
   

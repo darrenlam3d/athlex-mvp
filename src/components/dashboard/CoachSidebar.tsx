@@ -11,14 +11,12 @@ import {
   LogOut,
   Apple 
 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
-import { useToast } from "@/hooks/use-toast";
-import { toast as sonnerToast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 
 const CoachSidebar = () => {
   const location = useLocation();
-  const { toast } = useToast();
+  const { signOut } = useAuth();
   
   const navItems = [
     { icon: LayoutDashboard, text: 'Dashboard', path: '/coach-dashboard' },
@@ -31,23 +29,7 @@ const CoachSidebar = () => {
   ];
 
   const handleSignOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      
-      sonnerToast.success('Signed out successfully', {
-        duration: 3000,
-      });
-      
-      // Redirect to login page
-      window.location.href = '/';
-    } catch (error) {
-      toast({
-        title: 'Error signing out',
-        description: error.message,
-        variant: 'destructive',
-      });
-    }
+    await signOut();
   };
 
   return (

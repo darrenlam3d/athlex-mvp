@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
@@ -10,15 +11,13 @@ import {
   Settings, 
   LogOut
 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
-import { useToast } from "@/hooks/use-toast";
-import { toast as sonnerToast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 
 const ScoutSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { signOut } = useAuth();
   
   const navItems = [
     { icon: LayoutDashboard, text: 'Dashboard', path: '/scout-dashboard' },
@@ -31,23 +30,7 @@ const ScoutSidebar = () => {
   ];
 
   const handleSignOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      
-      sonnerToast.success('Signed out successfully', {
-        duration: 3000,
-      });
-      
-      // Redirect to login page
-      window.location.href = '/';
-    } catch (error) {
-      toast({
-        title: 'Error signing out',
-        description: error.message,
-        variant: 'destructive',
-      });
-    }
+    await signOut();
   };
 
   // Updated isActive function to correctly determine the active state
