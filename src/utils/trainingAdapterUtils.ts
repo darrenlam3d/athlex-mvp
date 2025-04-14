@@ -20,6 +20,7 @@ export interface TrainingScheduleItem {
   duration_minutes: number;
   coach: string;
   location?: string;
+  description: string; // Added the missing description property
 }
 
 // Adapter function to convert TrainingSession to TrainingLog
@@ -47,6 +48,7 @@ export const adaptAssignedTrainingToScheduleItem = (training: AssignedTraining):
     id: training.id,
     date: training.scheduled_date,
     title: training.title,
+    description: training.description || "", // Use description from source or empty string
     duration_minutes: 60, // Default value
     coach: "Coach", // Default value
     location: "Training Ground" // Default value

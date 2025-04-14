@@ -54,7 +54,7 @@ const AthleteDashboard = () => {
       onSuccess: (data) => {
         if (data) {
           // Use first_name and last_name instead of name
-          const firstName = data.first_name || data.firstName || "";
+          const firstName = data.first_name || "";
           setAthleteName(firstName || "Athlete");
         }
       },
@@ -73,7 +73,7 @@ const AthleteDashboard = () => {
   useEffect(() => {
     if (athleteData) {
       // Use first_name and last_name instead of name
-      const firstName = athleteData.first_name || athleteData.firstName || "";
+      const firstName = athleteData.first_name || "";
       setAthleteName(firstName || "Athlete");
     }
   }, [athleteData]);
