@@ -9,38 +9,589 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      assigned_training: {
+        Row: {
+          athlete_id: string
+          coach_id: string
+          completion_status:
+            | Database["public"]["Enums"]["completion_status"]
+            | null
+          created_at: string | null
+          description: string | null
+          id: string
+          scheduled_date: string
+          title: string
+          training_plan_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          athlete_id: string
+          coach_id: string
+          completion_status?:
+            | Database["public"]["Enums"]["completion_status"]
+            | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          scheduled_date: string
+          title: string
+          training_plan_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          athlete_id?: string
+          coach_id?: string
+          completion_status?:
+            | Database["public"]["Enums"]["completion_status"]
+            | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          scheduled_date?: string
+          title?: string
+          training_plan_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assigned_training_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assigned_training_coach_id_fkey"
+            columns: ["coach_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assigned_training_training_plan_id_fkey"
+            columns: ["training_plan_id"]
+            isOneToOne: false
+            referencedRelation: "training_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      athlete_stats: {
+        Row: {
+          age: number | null
+          athlete_id: string
+          created_at: string | null
+          deleted_at: string | null
+          experience_years: number | null
+          height: number | null
+          id: string
+          position: string | null
+          sport: string
+          updated_at: string | null
+          weight: number | null
+        }
+        Insert: {
+          age?: number | null
+          athlete_id: string
+          created_at?: string | null
+          deleted_at?: string | null
+          experience_years?: number | null
+          height?: number | null
+          id?: string
+          position?: string | null
+          sport: string
+          updated_at?: string | null
+          weight?: number | null
+        }
+        Update: {
+          age?: number | null
+          athlete_id?: string
+          created_at?: string | null
+          deleted_at?: string | null
+          experience_years?: number | null
+          height?: number | null
+          id?: string
+          position?: string | null
+          sport?: string
+          updated_at?: string | null
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "athlete_stats_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coach_athletes: {
+        Row: {
+          athlete_id: string
+          coach_id: string
+          created_at: string | null
+          id: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          athlete_id: string
+          coach_id: string
+          created_at?: string | null
+          id?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          athlete_id?: string
+          coach_id?: string
+          created_at?: string | null
+          id?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coach_athletes_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coach_athletes_coach_id_fkey"
+            columns: ["coach_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      goals: {
+        Row: {
+          athlete_id: string
+          created_at: string | null
+          current_value: number | null
+          deleted_at: string | null
+          description: string | null
+          end_date: string | null
+          id: string
+          start_date: string
+          status: Database["public"]["Enums"]["goal_status"] | null
+          target_value: number | null
+          title: string
+          unit: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          athlete_id: string
+          created_at?: string | null
+          current_value?: number | null
+          deleted_at?: string | null
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          start_date: string
+          status?: Database["public"]["Enums"]["goal_status"] | null
+          target_value?: number | null
+          title: string
+          unit?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          athlete_id?: string
+          created_at?: string | null
+          current_value?: number | null
+          deleted_at?: string | null
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          start_date?: string
+          status?: Database["public"]["Enums"]["goal_status"] | null
+          target_value?: number | null
+          title?: string
+          unit?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goals_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nutrition_logs: {
+        Row: {
+          athlete_id: string
+          calories: number | null
+          carbs: number | null
+          coach_id: string | null
+          consumed_at: string
+          created_at: string | null
+          description: string
+          fat: number | null
+          id: string
+          meal_type: Database["public"]["Enums"]["meal_type"] | null
+          protein: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          athlete_id: string
+          calories?: number | null
+          carbs?: number | null
+          coach_id?: string | null
+          consumed_at?: string
+          created_at?: string | null
+          description: string
+          fat?: number | null
+          id?: string
+          meal_type?: Database["public"]["Enums"]["meal_type"] | null
+          protein?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          athlete_id?: string
+          calories?: number | null
+          carbs?: number | null
+          coach_id?: string | null
+          consumed_at?: string
+          created_at?: string | null
+          description?: string
+          fat?: number | null
+          id?: string
+          meal_type?: Database["public"]["Enums"]["meal_type"] | null
+          protein?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nutrition_logs_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "nutrition_logs_coach_id_fkey"
+            columns: ["coach_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      performance_metrics: {
+        Row: {
+          athlete_id: string
+          created_at: string | null
+          deleted_at: string | null
+          id: string
+          metric_type: string
+          notes: string | null
+          recorded_at: string
+          unit: string
+          updated_at: string | null
+          value: number
+        }
+        Insert: {
+          athlete_id: string
+          created_at?: string | null
+          deleted_at?: string | null
+          id?: string
+          metric_type: string
+          notes?: string | null
+          recorded_at?: string
+          unit: string
+          updated_at?: string | null
+          value: number
+        }
+        Update: {
+          athlete_id?: string
+          created_at?: string | null
+          deleted_at?: string | null
+          id?: string
+          metric_type?: string
+          notes?: string | null
+          recorded_at?: string
+          unit?: string
+          updated_at?: string | null
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "performance_metrics_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
+          bio: string | null
           created_at: string | null
+          deleted_at: string | null
           email: string | null
           first_name: string | null
           id: string
           last_name: string | null
-          role: string
+          role: Database["public"]["Enums"]["user_role"]
           updated_at: string | null
         }
         Insert: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           email?: string | null
           first_name?: string | null
           id: string
           last_name?: string | null
-          role: string
+          role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string | null
         }
         Update: {
           avatar_url?: string | null
+          bio?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           email?: string | null
           first_name?: string | null
           id?: string
           last_name?: string | null
-          role?: string
+          role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string | null
         }
         Relationships: []
+      }
+      scout_notes: {
+        Row: {
+          athlete_id: string
+          content: string
+          created_at: string | null
+          id: string
+          scout_id: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          athlete_id: string
+          content: string
+          created_at?: string | null
+          id?: string
+          scout_id: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          athlete_id?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          scout_id?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_notes_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scout_notes_scout_id_fkey"
+            columns: ["scout_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scout_shortlist: {
+        Row: {
+          athlete_id: string
+          created_at: string | null
+          id: string
+          notes: string | null
+          rating: number | null
+          scout_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          athlete_id: string
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          scout_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          athlete_id?: string
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          rating?: number | null
+          scout_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scout_shortlist_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scout_shortlist_scout_id_fkey"
+            columns: ["scout_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scouting_reports: {
+        Row: {
+          athlete_id: string
+          content: string
+          created_at: string | null
+          id: string
+          scout_id: string
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          athlete_id: string
+          content: string
+          created_at?: string | null
+          id?: string
+          scout_id: string
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          athlete_id?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          scout_id?: string
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scouting_reports_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "scouting_reports_scout_id_fkey"
+            columns: ["scout_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_plans: {
+        Row: {
+          coach_id: string
+          created_at: string | null
+          description: string | null
+          id: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          coach_id: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          coach_id?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_plans_coach_id_fkey"
+            columns: ["coach_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_sessions: {
+        Row: {
+          athlete_id: string
+          created_at: string | null
+          date: string
+          deleted_at: string | null
+          description: string | null
+          duration: number
+          id: string
+          intensity: Database["public"]["Enums"]["intensity_level"] | null
+          notes: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          athlete_id: string
+          created_at?: string | null
+          date: string
+          deleted_at?: string | null
+          description?: string | null
+          duration: number
+          id?: string
+          intensity?: Database["public"]["Enums"]["intensity_level"] | null
+          notes?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          athlete_id?: string
+          created_at?: string | null
+          date?: string
+          deleted_at?: string | null
+          description?: string | null
+          duration?: number
+          id?: string
+          intensity?: Database["public"]["Enums"]["intensity_level"] | null
+          notes?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_sessions_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -50,7 +601,11 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      completion_status: "not_started" | "in_progress" | "completed" | "missed"
+      goal_status: "not_started" | "in_progress" | "completed" | "failed"
+      intensity_level: "low" | "medium" | "high"
+      meal_type: "breakfast" | "lunch" | "dinner" | "snack"
+      user_role: "athlete" | "scout" | "coach"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -165,6 +720,12 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      completion_status: ["not_started", "in_progress", "completed", "missed"],
+      goal_status: ["not_started", "in_progress", "completed", "failed"],
+      intensity_level: ["low", "medium", "high"],
+      meal_type: ["breakfast", "lunch", "dinner", "snack"],
+      user_role: ["athlete", "scout", "coach"],
+    },
   },
 } as const

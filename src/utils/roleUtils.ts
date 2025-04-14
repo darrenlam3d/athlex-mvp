@@ -8,5 +8,21 @@ export const isValidRole = (role: UserRole): boolean => {
 
 // Utility function to check if a user role is loaded
 export const isUserRoleLoaded = (role: UserRole): boolean => {
-  return isValidRole(role);
+  return role !== null && isValidRole(role);
+};
+
+// Get dashboard path for a specific role
+export const getRoleDashboardPath = (role: UserRole): string => {
+  if (role === 'athlete') return '/athlete-dashboard';
+  if (role === 'scout') return '/scout-dashboard';
+  if (role === 'coach') return '/coach-dashboard';
+  return '/login'; // Default fallback
+};
+
+// Get user-friendly role name
+export const getRoleName = (role: UserRole): string => {
+  if (role === 'athlete') return 'Athlete';
+  if (role === 'scout') return 'Scout';
+  if (role === 'coach') return 'Coach';
+  return 'User';
 };

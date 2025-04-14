@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { isUserRoleLoaded } from '@/utils/roleUtils';
 import { Loader2 } from 'lucide-react';
 import { isDemoMode } from '@/lib/supabase';
+import { toast } from 'sonner';
 
 const Dashboard = () => {
   const { role, user, loading } = useAuth();
@@ -31,19 +32,32 @@ const Dashboard = () => {
     return <Navigate to="/login" replace />;
   }
   
-  // If no role is loaded, redirect to login page
+  // If no role is loaded, we may need to select a role
   if (!isUserRoleLoaded(role)) {
-    console.log("Dashboard - No role loaded, redirecting to login");
+    console.log("Dashboard - No role loaded, redirecting to role selection");
+    toast.info("Please select your role to continue");
     return <Navigate to="/login" replace />;
   }
   
   // Redirect based on role
-  if (role === 'athlete') return <Navigate to="/athlete-dashboard" replace />;
-  if (role === 'scout') return <Navigate to="/scout-dashboard" replace />;
-  if (role === 'coach') return <Navigate to="/coach-dashboard" replace />;
+  if (role === 'athlete') {
+    console.log("Dashboard - Redirecting to athlete dashboard");
+    return <Navigate to="/athlete-dashboard" replace />;
+  }
   
-  // Default fallback
+  if (role === 'scout') {
+    console.log("Dashboard - Redirecting to scout dashboard");
+    return <Navigate to="/scout-dashboard" replace />;
+  }
+  
+  if (role === 'coach') {
+    console.log("Dashboard - Redirecting to coach dashboard");
+    return <Navigate to="/coach-dashboard" replace />;
+  }
+  
+  // Default fallback - this should not happen with proper role handling
   console.log("Dashboard - Unrecognized role, redirecting to login");
+  toast.error("Unknown user role. Please log in again.");
   return <Navigate to="/login" replace />;
 };
 
