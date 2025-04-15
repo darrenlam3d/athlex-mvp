@@ -1,0 +1,105 @@
+
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
+
+export const useWaitlistRegistration = () => {
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [role, setRole] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [gdprConsent, setGdprConsent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const sendNotification = async (registrationData: any) => {
+    try {
+      const response = await fetch('https://dndudgqkoiybenqnavoi.supabase.co/functions/v1/send-notification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          type: 'waitlist',
+          data: registrationData
+        })
+      });
+      
+      if (!response.ok) {
+        console.warn(`Notification failed with status: ${response.status}`);
+        toast.warning('Notification could not be sent, but registration was successful');
+      }
+    } catch (error) {
+      console.warn('Failed to send notification:', error);
+      toast.warning('Notification could not be sent, but registration was successful');
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email) {
+      toast.error("Please enter your email address");
+      return;
+    }
+    
+    if (!role) {
+      toast.error("Please select your role");
+      return;
+    }
+    
+    if (!gdprConsent) {
+      toast.error("Please accept the privacy policy");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      const registrationData = {
+        email,
+        role,
+        feedback: feedback || null,
+        gdpr_consent: gdprConsent,
+        created_at: new Date().toISOString()
+      };
+      
+      const { error } = await supabase
+        .from('waitlist_registrations')
+        .insert([registrationData]);
+
+      if (error) {
+        throw error;
+      }
+      
+      await sendNotification(registrationData);
+      
+      setEmail('');
+      setPhoneNumber('');
+      setRole('');
+      setFeedback('');
+      setGdprConsent(false);
+      
+      toast.success("You're in! We'll be in touch soon.");
+    } catch (error) {
+      console.error('Error during registration process:', error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return {
+    email,
+    setEmail,
+    phoneNumber,
+    setPhoneNumber,
+    role,
+    setRole,
+    feedback,
+    setFeedback,
+    gdprConsent,
+    setGdprConsent,
+    isSubmitting,
+    handleSubmit
+  };
+};
