@@ -11,6 +11,22 @@ import Messages from '@/pages/Messages';
 import Settings from '@/pages/Settings';
 import NotFound from '@/pages/NotFound';
 
+// Create a component for the edge-signup redirect
+const EdgeSignupRedirect = () => {
+  React.useEffect(() => {
+    // Need to wait a bit for the navigation to complete before scrolling
+    setTimeout(() => {
+      const signupElement = document.getElementById('signup');
+      if (signupElement) {
+        signupElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  }, []);
+
+  // Redirect to the homepage with the signup anchor
+  return <Navigate to="/#signup" replace />;
+};
+
 export const publicRoutes = [
   <Route key="index" path="/" element={<Index />} />,
   <Route key="login" path="/login" element={<Login />} />,
@@ -25,20 +41,7 @@ export const publicRoutes = [
   <Route 
     key="edge-signup" 
     path="/edge-signup" 
-    element={
-      <Navigate 
-        to="/#signup" 
-        replace 
-        onClick={() => {
-          setTimeout(() => {
-            document.getElementById('signup')?.scrollIntoView({ 
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }, 100);
-        }}
-      />
-    } 
+    element={<EdgeSignupRedirect />} 
   />,
   <Route key="not-found" path="*" element={<NotFound />} />,
 ];
