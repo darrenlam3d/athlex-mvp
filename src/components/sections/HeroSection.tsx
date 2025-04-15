@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Shield, Award, Target, TrendingUp, Users, Search } from 'lucide-react';
