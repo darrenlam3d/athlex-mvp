@@ -34,7 +34,6 @@ export const useWaitlistRegistration = () => {
     try {
       console.log("Submitting waitlist registration:", { email, phoneNumber, role, feedback, gdprConsent });
       
-      // Insert into database with extended timeout and error logging
       const { data, error: dbError } = await supabase
         .from('waitlist_registrations')
         .insert({
@@ -44,14 +43,14 @@ export const useWaitlistRegistration = () => {
           feedback: feedback || null,
           gdpr_consent: gdprConsent,
         })
-        .select(); // Use select to get more detailed error information
+        .select();
 
       if (dbError) {
         console.error("Detailed Supabase Insert Error:", dbError);
         
-        if (dbError.code === '23505') { // Unique constraint violation
+        if (dbError.code === '23505') {
           toast.error("This email is already registered.");
-        } else if (dbError.code === '22001') { // String data right truncation
+        } else if (dbError.code === '22001') {
           toast.error("One of the fields exceeds its maximum length.");
         } else {
           toast.error(`Registration failed: ${dbError.message || 'Unknown error'}`);
@@ -68,7 +67,8 @@ export const useWaitlistRegistration = () => {
       setFeedback('');
       setGdprConsent(false);
       
-      toast.success("You're in! We'll be in touch soon.");
+      // Remove success toast since notification will be handled by database trigger
+      
     } catch (error: any) {
       console.error('Full registration error:', error);
       toast.error(error.message || "Something went wrong. Please try again.");
