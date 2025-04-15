@@ -25,8 +25,20 @@ export const publicRoutes = [
   <Route 
     key="edge-signup" 
     path="/edge-signup" 
-    element={<Navigate to="/#signup" replace />} 
+    element={
+      <Navigate 
+        to="/#signup" 
+        replace 
+        onClick={() => {
+          setTimeout(() => {
+            document.getElementById('signup')?.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }, 100);
+        }}
+      />
+    } 
   />,
   <Route key="not-found" path="*" element={<NotFound />} />,
 ];
-
