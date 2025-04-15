@@ -168,6 +168,39 @@ export type Database = {
           },
         ]
       }
+      edge_signups: {
+        Row: {
+          created_at: string
+          email: string
+          feedback: string | null
+          gdpr_consent: boolean
+          id: string
+          interests: string[]
+          name: string
+          role: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          feedback?: string | null
+          gdpr_consent?: boolean
+          id?: string
+          interests?: string[]
+          name: string
+          role: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          feedback?: string | null
+          gdpr_consent?: boolean
+          id?: string
+          interests?: string[]
+          name?: string
+          role?: string
+        }
+        Relationships: []
+      }
       goals: {
         Row: {
           athlete_id: string
@@ -593,12 +626,42 @@ export type Database = {
           },
         ]
       }
+      waitlist_registrations: {
+        Row: {
+          created_at: string
+          email: string
+          feedback: string | null
+          gdpr_consent: boolean
+          id: string
+          role: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          feedback?: string | null
+          gdpr_consent?: boolean
+          id?: string
+          role: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          feedback?: string | null
+          gdpr_consent?: boolean
+          id?: string
+          role?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_current_user_role: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       completion_status: "not_started" | "in_progress" | "completed" | "missed"
