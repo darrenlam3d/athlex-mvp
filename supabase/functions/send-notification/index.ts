@@ -16,7 +16,7 @@ serve(async (req) => {
   }
 
   try {
-    console.log("Notification function triggered");
+    console.log("Notification function triggered at", new Date().toISOString());
     
     const { type, data } = await req.json();
     console.log(`Notification type: ${type}`);
@@ -32,6 +32,7 @@ serve(async (req) => {
         <p><strong>Email:</strong> ${data.email}</p>
         <p><strong>Role:</strong> ${data.role}</p>
         <p><strong>Feedback:</strong> ${data.feedback || 'No feedback provided'}</p>
+        <p><strong>GDPR Consent:</strong> ${data.gdpr_consent ? 'Yes' : 'No'}</p>
         <p><em>Submitted at: ${new Date().toISOString()}</em></p>
       `;
       console.log("Processing waitlist registration notification");

@@ -32,7 +32,9 @@ export const useWaitlistRegistration = () => {
     setIsSubmitting(true);
     
     try {
-      // First attempt to insert into database
+      console.log("Submitting waitlist registration:", { email, role, feedback, gdprConsent });
+      
+      // Insert into database
       const registrationData = {
         email,
         role,
@@ -48,9 +50,12 @@ export const useWaitlistRegistration = () => {
         if (dbError.code === '23505') { // Unique violation
           throw new Error("This email is already registered.");
         }
+        console.error("Database error:", dbError);
         throw dbError;
       }
 
+      console.log("Registration successful - database insert complete");
+      
       // After successful database insert, reset form
       setEmail('');
       setPhoneNumber('');
