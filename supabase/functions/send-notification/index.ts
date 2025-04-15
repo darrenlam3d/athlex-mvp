@@ -53,12 +53,15 @@ serve(async (req) => {
 
     try {
       console.log(`Attempting to send email with subject: ${subject}`);
+      console.log(`Sending to: nicholas@athlex.info`);
+      
       const emailResponse = await resend.emails.send({
-        from: 'noreply@athlex.info',
+        from: 'ATHLEX Notifications <noreply@athlex.info>',
         to: 'nicholas@athlex.info',
         subject: subject,
         html: emailContent,
       });
+      
       console.log("Email sent successfully:", emailResponse);
       return new Response(JSON.stringify(emailResponse), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
