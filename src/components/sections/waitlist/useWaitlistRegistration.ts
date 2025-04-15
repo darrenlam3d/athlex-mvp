@@ -82,7 +82,7 @@ export const useWaitlistRegistration = () => {
       toast.success("You're in! We'll be in touch soon.");
     } catch (error) {
       console.error('Error during registration process:', error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error(error.message || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
