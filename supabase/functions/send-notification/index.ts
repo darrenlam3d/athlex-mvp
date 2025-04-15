@@ -51,22 +51,33 @@ serve(async (req) => {
       throw new Error(`Unknown notification type: ${type}`);
     }
 
-    console.log(`Sending email with subject: ${subject}`);
-    const emailResponse = await resend.emails.send({
-      from: 'noreply@athlex.info',
-      to: 'nicholas@athlex.info',
-      subject: subject,
-      html: emailContent,
-    });
-
-    console.log("Email sent successfully:", emailResponse);
-
-    return new Response(JSON.stringify(emailResponse), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 200,
-    });
+    try {
+      console.log(`Attempting to send email with subject: ${subject}`);
+      const emailResponse = await resend.emails.send({
+        from: 'noreply@athlex.info',
+        to: 'nicholas@athlex.info',
+        subject: subject,
+        html: emailContent,
+      });
+      console.log("Email sent successfully:", emailResponse);
+      return new Response(JSON.stringify(emailResponse), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    } catch (emailError) {
+      console.error("Error sending email:", emailError);
+      // Still return a 200 to indicate the data was received
+      return new Response(JSON.stringify({ 
+        status: "notification-received", 
+        emailError: emailError.message,
+        message: "Signup data was received but email delivery failed" 
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
   } catch (error) {
-    console.error("Error sending notification:", error);
+    console.error("Error in notification function:", error);
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,

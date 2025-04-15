@@ -41,7 +41,7 @@ const EdgeSignup = () => {
   const sendNotification = async (signupData) => {
     try {
       const { data } = await supabase.auth.getSession();
-      const accessToken = data.session?.access_token || '';
+      const accessToken = data?.session?.access_token || '';
       
       const response = await fetch('https://dndudgqkoiybenqnavoi.supabase.co/functions/v1/send-notification', {
         method: 'POST',
@@ -56,13 +56,13 @@ const EdgeSignup = () => {
       });
       
       if (!response.ok) {
-        throw new Error(`Notification failed: ${response.statusText}`);
+        console.warn(`Notification failed with status: ${response.status}`);
+      } else {
+        return await response.json();
       }
-      
-      return await response.json();
     } catch (error) {
-      console.error('Failed to send notification:', error);
-      // We'll continue even if notification fails
+      console.warn('Failed to send notification:', error);
+      // Don't throw error, just log it so we don't block the signup process
     }
   };
 
@@ -115,14 +115,15 @@ const EdgeSignup = () => {
         .insert([signupData]);
 
       if (error) {
-        console.error('Supabase error:', error);
         throw error;
       }
       
       console.log('Edge signup saved successfully:', data);
       
-      // Send notification regardless of database trigger
-      await sendNotification(signupData);
+      // Try to send notification but don't block if it fails
+      await sendNotification(signupData).catch(err => {
+        console.warn('Notification sending failed but signup was successful:', err);
+      });
       
       // Reset form
       setEmail('');

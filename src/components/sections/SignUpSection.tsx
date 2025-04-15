@@ -20,7 +20,7 @@ const SignUpSection = () => {
   const sendNotification = async (registrationData) => {
     try {
       const { data } = await supabase.auth.getSession();
-      const accessToken = data.session?.access_token || '';
+      const accessToken = data?.session?.access_token || '';
       
       const response = await fetch('https://dndudgqkoiybenqnavoi.supabase.co/functions/v1/send-notification', {
         method: 'POST',
@@ -35,13 +35,13 @@ const SignUpSection = () => {
       });
       
       if (!response.ok) {
-        throw new Error(`Notification failed: ${response.statusText}`);
+        console.warn(`Notification failed with status: ${response.status}`);
+      } else {
+        return await response.json();
       }
-      
-      return await response.json();
     } catch (error) {
-      console.error('Failed to send notification:', error);
-      // We'll continue even if notification fails
+      console.warn('Failed to send notification:', error);
+      // Don't throw error, just log it so we don't block the signup process
     }
   };
 
@@ -82,14 +82,15 @@ const SignUpSection = () => {
         .insert([registrationData]);
 
       if (error) {
-        console.error('Error saving registration:', error);
         throw error;
       }
       
       console.log('Waitlist registration saved successfully:', data);
       
-      // Send notification regardless of database trigger
-      await sendNotification(registrationData);
+      // Try to send notification but don't block if it fails
+      await sendNotification(registrationData).catch(err => {
+        console.warn('Notification sending failed but registration was successful:', err);
+      });
       
       // Reset form
       setEmail('');
