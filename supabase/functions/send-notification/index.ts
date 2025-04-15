@@ -20,19 +20,19 @@ serve(async (req) => {
     
     const { type, data } = await req.json();
     console.log(`Notification type: ${type}`);
-    console.log(`Notification data:`, data);
+    console.log(`Notification data:`, JSON.stringify(data, null, 2));
     
     let emailContent;
     let subject;
 
     if (type === 'waitlist') {
-      subject = 'New Waitlist Signup';
+      subject = 'New Waitlist Registration';
       emailContent = `
         <h2>New Waitlist Registration</h2>
         <p><strong>Email:</strong> ${data.email}</p>
         <p><strong>Role:</strong> ${data.role}</p>
         <p><strong>Feedback:</strong> ${data.feedback || 'No feedback provided'}</p>
-        <p><em>Submitted at: ${data.created_at}</em></p>
+        <p><em>Submitted at: ${new Date().toISOString()}</em></p>
       `;
       console.log("Processing waitlist registration notification");
     } else if (type === 'edge') {
@@ -42,9 +42,9 @@ serve(async (req) => {
         <p><strong>Name:</strong> ${data.name}</p>
         <p><strong>Email:</strong> ${data.email}</p>
         <p><strong>Role:</strong> ${data.role}</p>
-        <p><strong>Interests:</strong> ${data.interests.join(', ')}</p>
+        <p><strong>Interests:</strong> ${data.interests ? data.interests.join(', ') : 'None'}</p>
         <p><strong>Feedback:</strong> ${data.feedback || 'No feedback provided'}</p>
-        <p><em>Submitted at: ${data.created_at}</em></p>
+        <p><em>Submitted at: ${new Date().toISOString()}</em></p>
       `;
       console.log("Processing edge signup notification");
     } else {
@@ -62,7 +62,7 @@ serve(async (req) => {
         html: emailContent,
       });
       
-      console.log("Email sent successfully:", emailResponse);
+      console.log("Email sent successfully:", JSON.stringify(emailResponse, null, 2));
       return new Response(JSON.stringify(emailResponse), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
