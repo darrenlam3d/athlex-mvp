@@ -11,29 +11,6 @@ export const useWaitlistRegistration = () => {
   const [gdprConsent, setGdprConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const sendNotification = async (registrationData: any) => {
-    try {
-      const response = await fetch('https://dndudgqkoiybenqnavoi.supabase.co/functions/v1/send-notification', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          type: 'waitlist',
-          data: registrationData
-        })
-      });
-      
-      if (!response.ok) {
-        console.warn(`Notification service returned status: ${response.status}`);
-        // Don't show warning toast here, as registration was successful
-      }
-    } catch (error) {
-      console.warn('Notification service error:', error);
-      // Don't show warning toast here, as registration was successful
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -55,26 +32,26 @@ export const useWaitlistRegistration = () => {
     setIsSubmitting(true);
     
     try {
+      // First attempt to insert into database
       const registrationData = {
         email,
         role,
         feedback: feedback || null,
         gdpr_consent: gdprConsent,
-        created_at: new Date().toISOString()
       };
       
-      const { error } = await supabase
+      const { error: dbError } = await supabase
         .from('waitlist_registrations')
         .insert([registrationData]);
 
-      if (error) {
-        throw error;
+      if (dbError) {
+        if (dbError.code === '23505') { // Unique violation
+          throw new Error("This email is already registered.");
+        }
+        throw dbError;
       }
-      
-      // Send notification after successful registration
-      await sendNotification(registrationData);
-      
-      // Reset form
+
+      // After successful database insert, reset form
       setEmail('');
       setPhoneNumber('');
       setRole('');
@@ -82,13 +59,9 @@ export const useWaitlistRegistration = () => {
       setGdprConsent(false);
       
       toast.success("You're in! We'll be in touch soon.");
-    } catch (error) {
+    } catch (error: any) {
       console.error('Registration error:', error);
-      if (error.code === '23505') { // Unique violation
-        toast.error("This email is already registered.");
-      } else {
-        toast.error(error.message || "Something went wrong. Please try again.");
-      }
+      toast.error(error.message || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
