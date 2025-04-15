@@ -40,11 +40,14 @@ const EdgeSignup = () => {
 
   const sendNotification = async (signupData) => {
     try {
+      const { data } = await supabase.auth.getSession();
+      const accessToken = data.session?.access_token || '';
+      
       const response = await fetch('https://dndudgqkoiybenqnavoi.supabase.co/functions/v1/send-notification', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabase.auth.session()?.access_token || ''}`
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({
           type: 'edge',
