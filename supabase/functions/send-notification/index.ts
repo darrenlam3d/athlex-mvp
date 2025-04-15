@@ -30,6 +30,7 @@ serve(async (req) => {
       emailContent = `
         <h2>New Waitlist Registration</h2>
         <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone_number || 'Not provided'}</p>
         <p><strong>Role:</strong> ${data.role}</p>
         <p><strong>Feedback:</strong> ${data.feedback || 'No feedback provided'}</p>
         <p><strong>GDPR Consent:</strong> ${data.gdpr_consent ? 'Yes' : 'No'}</p>

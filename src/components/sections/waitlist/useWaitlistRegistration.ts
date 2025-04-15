@@ -32,12 +32,13 @@ export const useWaitlistRegistration = () => {
     setIsSubmitting(true);
     
     try {
-      console.log("Submitting waitlist registration:", { email, role, feedback, gdprConsent });
+      console.log("Submitting waitlist registration:", { email, phoneNumber, role, feedback, gdprConsent });
       
       // Insert into database
       const registrationData = {
         email,
         role,
+        phone_number: phoneNumber || null,
         feedback: feedback || null,
         gdpr_consent: gdprConsent,
       };
