@@ -34,30 +34,34 @@ export const useWaitlistRegistration = () => {
     try {
       console.log("Submitting waitlist registration:", { email, phoneNumber, role, feedback, gdprConsent });
       
-      // Insert into database
-      const registrationData = {
-        email,
-        role,
-        phone_number: phoneNumber || null,
-        feedback: feedback || null,
-        gdpr_consent: gdprConsent,
-      };
-      
-      const { error: dbError } = await supabase
+      // Insert into database with extended timeout and error logging
+      const { data, error: dbError } = await supabase
         .from('waitlist_registrations')
-        .insert([registrationData]);
+        .insert({
+          email,
+          role,
+          phone_number: phoneNumber || null,
+          feedback: feedback || null,
+          gdpr_consent: gdprConsent,
+        })
+        .select(); // Use select to get more detailed error information
 
       if (dbError) {
-        if (dbError.code === '23505') { // Unique violation
-          throw new Error("This email is already registered.");
+        console.error("Detailed Supabase Insert Error:", dbError);
+        
+        if (dbError.code === '23505') { // Unique constraint violation
+          toast.error("This email is already registered.");
+        } else if (dbError.code === '22001') { // String data right truncation
+          toast.error("One of the fields exceeds its maximum length.");
+        } else {
+          toast.error(`Registration failed: ${dbError.message || 'Unknown error'}`);
         }
-        console.error("Database error:", dbError);
         throw dbError;
       }
 
-      console.log("Registration successful - database insert complete");
+      console.log("Registration successful:", data);
       
-      // After successful database insert, reset form
+      // Reset form after successful submission
       setEmail('');
       setPhoneNumber('');
       setRole('');
@@ -66,7 +70,7 @@ export const useWaitlistRegistration = () => {
       
       toast.success("You're in! We'll be in touch soon.");
     } catch (error: any) {
-      console.error('Registration error:', error);
+      console.error('Full registration error:', error);
       toast.error(error.message || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);

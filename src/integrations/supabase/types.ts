@@ -633,6 +633,7 @@ export type Database = {
           feedback: string | null
           gdpr_consent: boolean
           id: string
+          phone_number: string | null
           role: string
         }
         Insert: {
@@ -641,6 +642,7 @@ export type Database = {
           feedback?: string | null
           gdpr_consent?: boolean
           id?: string
+          phone_number?: string | null
           role: string
         }
         Update: {
@@ -649,6 +651,7 @@ export type Database = {
           feedback?: string | null
           gdpr_consent?: boolean
           id?: string
+          phone_number?: string | null
           role?: string
         }
         Relationships: []
