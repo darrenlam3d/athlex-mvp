@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Button } from "@/components/ui/button";
@@ -9,19 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from 'sonner';
 import { ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import ScrollToTopButton from '@/components/ui/ScrollToTopButton';
-
-// Interface for edge signup data
-interface EdgeSignup {
-  email: string;
-  name: string;
-  role: string;
-  interests: string[];
-  feedback: string;
-  timestamp: string;
-  gdprConsent: boolean;
-}
+import { supabase } from '@/lib/supabase';
 
 const EdgeSignup = () => {
   const [email, setEmail] = useState('');
@@ -48,7 +37,7 @@ const EdgeSignup = () => {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -77,25 +66,23 @@ const EdgeSignup = () => {
       return;
     }
     
-    // Simulate form submission
     setIsSubmitting(true);
     
-    // Create edge signup object
-    const signupData: EdgeSignup = {
-      email,
-      name,
-      role,
-      interests,
-      feedback,
-      timestamp: new Date().toISOString(),
-      gdprConsent
-    };
-    
-    // Save to localStorage (in a real app, you'd send this to a server)
-    saveEdgeSignup(signupData);
-    
-    setTimeout(() => {
-      console.log("Edge signup saved:", signupData);
+    try {
+      const { error } = await supabase
+        .from('edge_signups')
+        .insert([
+          {
+            email,
+            name,
+            role,
+            interests,
+            feedback: feedback || null,
+            gdpr_consent: gdprConsent
+          }
+        ]);
+
+      if (error) throw error;
       
       // Reset form
       setEmail('');
@@ -104,31 +91,13 @@ const EdgeSignup = () => {
       setInterests([]);
       setFeedback('');
       setGdprConsent(false);
-      setIsSubmitting(false);
       
-      // Show success message
       toast.success("You've successfully joined ATHLEX Edge! We'll be in touch soon.");
-    }, 1500);
-  };
-
-  // Function to save signup to localStorage
-  const saveEdgeSignup = (signup: EdgeSignup) => {
-    try {
-      // Get existing signups
-      const existingSignupsJSON = localStorage.getItem('edgeSignups');
-      let signups: EdgeSignup[] = existingSignupsJSON 
-        ? JSON.parse(existingSignupsJSON) 
-        : [];
-      
-      // Add new signup
-      signups.push(signup);
-      
-      // Save back to localStorage
-      localStorage.setItem('edgeSignups', JSON.stringify(signups));
-      
-      console.log(`Edge signup saved successfully. Total signups: ${signups.length}`);
     } catch (error) {
-      console.error('Error saving signup:', error);
+      console.error('Error saving edge signup:', error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

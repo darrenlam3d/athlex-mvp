@@ -6,19 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from 'sonner';
 import { Phone } from 'lucide-react';
-
-// Interface for waitlist registration data
-interface WaitlistRegistration {
-  email: string;
-  phoneNumber?: string;
-  role: string;
-  feedback: string;
-  timestamp: string;
-  gdprConsent: boolean;
-}
-
-// Admin email address
-const ADMIN_EMAIL = "athlex.gaia@gmail.com";
+import { supabase } from '@/lib/supabase';
 
 const SignUpSection = () => {
   const [email, setEmail] = useState('');
@@ -29,7 +17,7 @@ const SignUpSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAdminSettings, setShowAdminSettings] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -48,27 +36,21 @@ const SignUpSection = () => {
       return;
     }
     
-    // Simulate form submission
     setIsSubmitting(true);
     
-    // Create waitlist registration object
-    const registration: WaitlistRegistration = {
-      email,
-      ...(phoneNumber && { phoneNumber }),
-      role,
-      feedback,
-      timestamp: new Date().toISOString(),
-      gdprConsent
-    };
-    
-    // Save to localStorage for now (in a real app, you'd send this to a server)
-    saveWaitlistRegistration(registration);
-    
-    // Always send email to the specified admin address
-    sendEmailNotification(registration);
-    
-    setTimeout(() => {
-      console.log("Registration saved:", registration);
+    try {
+      const { error } = await supabase
+        .from('waitlist_registrations')
+        .insert([
+          {
+            email,
+            role,
+            feedback: feedback || null,
+            gdpr_consent: gdprConsent
+          }
+        ]);
+
+      if (error) throw error;
       
       // Reset form
       setEmail('');
@@ -76,19 +58,22 @@ const SignUpSection = () => {
       setRole('');
       setFeedback('');
       setGdprConsent(false);
-      setIsSubmitting(false);
       
-      // Show success message
       toast.success("You're in! We'll be in touch soon.");
-    }, 1500);
+    } catch (error) {
+      console.error('Error saving registration:', error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Function to save registration to localStorage
-  const saveWaitlistRegistration = (registration: WaitlistRegistration) => {
+  const saveWaitlistRegistration = (registration: any) => {
     try {
       // Get existing registrations
       const existingRegistrationsJSON = localStorage.getItem('waitlistRegistrations');
-      let registrations: WaitlistRegistration[] = existingRegistrationsJSON 
+      let registrations: any[] = existingRegistrationsJSON 
         ? JSON.parse(existingRegistrationsJSON) 
         : [];
       
@@ -105,7 +90,7 @@ const SignUpSection = () => {
   };
 
   // Function to send email notification
-  const sendEmailNotification = (registration: WaitlistRegistration) => {
+  const sendEmailNotification = (registration: any) => {
     // In a production environment, this would be a server API call
     // For now, we'll use mailto for demonstration purposes
     try {
@@ -123,12 +108,12 @@ GDPR Consent: ${registration.gdprConsent ? "Yes" : "No"}
       
       // Create a hidden link to trigger the email
       const mailtoLink = document.createElement('a');
-      mailtoLink.href = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
+      mailtoLink.href = `mailto:athlex.gaia@gmail.com?subject=${subject}&body=${body}`;
       document.body.appendChild(mailtoLink);
       mailtoLink.click();
       document.body.removeChild(mailtoLink);
       
-      console.log("Email notification sent to:", ADMIN_EMAIL);
+      console.log("Email notification sent to:", "athlex.gaia@gmail.com");
     } catch (error) {
       console.error("Error sending email notification:", error);
     }
