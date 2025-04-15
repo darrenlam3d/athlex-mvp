@@ -37,6 +37,8 @@ import CoachReports from "./pages/CoachReports";
 import AssignTraining from "./pages/AssignTraining";
 import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
+import EdgeSignup from "./pages/EdgeSignup";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -92,6 +94,8 @@ const App = () => {
                     <Route path="/" element={<Index />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/login-demo" element={<LoginDemo />} />
+                    <Route path="/edge-signup" element={<EdgeSignup />} />
+                    <Route path="/admin" element={<AdminDashboard />} />
                     
                     {/* Athlete Routes */}
                     <Route path="/athlete-dashboard" element={
