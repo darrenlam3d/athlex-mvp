@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import ScrollToTopButton from '@/components/ui/ScrollToTopButton';
 import { supabase } from '@/lib/supabase';
 
 const EdgeSignup = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
@@ -109,16 +110,16 @@ const EdgeSignup = () => {
         created_at: new Date().toISOString()
       };
       
-      // Insert data into Supabase
+      // Insert data into Supabase - now using waitlist_registrations instead of edge_signups
       const { error, data } = await supabase
-        .from('edge_signups')
+        .from('waitlist_registrations')
         .insert([signupData]);
 
       if (error) {
         throw error;
       }
       
-      console.log('Edge signup saved successfully:', data);
+      console.log('Waitlist registration saved successfully:', data);
       
       // Try to send notification but don't block if it fails
       await sendNotification(signupData).catch(err => {
@@ -134,6 +135,11 @@ const EdgeSignup = () => {
       setGdprConsent(false);
       
       toast.success("You've successfully joined ATHLEX Edge! We'll be in touch soon.");
+      
+      // Navigate to home page after successful signup
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
     } catch (error) {
       console.error('Error during edge signup process:', error);
       toast.error("Something went wrong. Please try again.");
