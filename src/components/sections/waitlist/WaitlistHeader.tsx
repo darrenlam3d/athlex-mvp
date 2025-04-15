@@ -12,7 +12,7 @@ const WaitlistHeader = () => {
         Experience ATHLEX first and help shape the evolution of athletic development.
       </p>
       <p className="text-white/70">
-        Join our community of athletes, coaches, and scouts working together to elevate sports performance globally.
+        Become part of an international community uniting athletes, coaches, and scouts in a shared mission to enhance global athletic achievement.
       </p>
     </div>
   );
