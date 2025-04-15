@@ -17,6 +17,31 @@ const SignUpSection = () => {
   const [gdprConsent, setGdprConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const sendNotification = async (registrationData) => {
+    try {
+      const response = await fetch('https://dndudgqkoiybenqnavoi.supabase.co/functions/v1/send-notification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabase.auth.session()?.access_token || ''}`
+        },
+        body: JSON.stringify({
+          type: 'waitlist',
+          data: registrationData
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Notification failed: ${response.statusText}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Failed to send notification:', error);
+      // We'll continue even if notification fails
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -39,19 +64,29 @@ const SignUpSection = () => {
     setIsSubmitting(true);
     
     try {
+      // Prepare registration data
+      const registrationData = {
+        email,
+        role,
+        feedback: feedback || null,
+        gdpr_consent: gdprConsent,
+        created_at: new Date().toISOString()
+      };
+      
       // Insert data into Supabase
-      const { error } = await supabase
+      const { error, data } = await supabase
         .from('waitlist_registrations')
-        .insert([
-          {
-            email,
-            role,
-            feedback: feedback || null,
-            gdpr_consent: gdprConsent
-          }
-        ]);
+        .insert([registrationData]);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error saving registration:', error);
+        throw error;
+      }
+      
+      console.log('Waitlist registration saved successfully:', data);
+      
+      // Send notification regardless of database trigger
+      await sendNotification(registrationData);
       
       // Reset form
       setEmail('');
@@ -61,9 +96,8 @@ const SignUpSection = () => {
       setGdprConsent(false);
       
       toast.success("You're in! We'll be in touch soon.");
-      console.log("Waitlist registration submitted successfully");
     } catch (error) {
-      console.error('Error saving registration:', error);
+      console.error('Error during registration process:', error);
       toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);

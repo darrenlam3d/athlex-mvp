@@ -38,6 +38,31 @@ const EdgeSignup = () => {
     );
   };
 
+  const sendNotification = async (signupData) => {
+    try {
+      const response = await fetch('https://dndudgqkoiybenqnavoi.supabase.co/functions/v1/send-notification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabase.auth.session()?.access_token || ''}`
+        },
+        body: JSON.stringify({
+          type: 'edge',
+          data: signupData
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Notification failed: ${response.statusText}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Failed to send notification:', error);
+      // We'll continue even if notification fails
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -70,24 +95,31 @@ const EdgeSignup = () => {
     setIsSubmitting(true);
     
     try {
+      // Prepare signup data
+      const signupData = {
+        email,
+        name,
+        role,
+        interests,
+        feedback: feedback || null,
+        gdpr_consent: gdprConsent,
+        created_at: new Date().toISOString()
+      };
+      
       // Insert data into Supabase
-      const { error } = await supabase
+      const { error, data } = await supabase
         .from('edge_signups')
-        .insert([
-          {
-            email,
-            name,
-            role,
-            interests,
-            feedback: feedback || null,
-            gdpr_consent: gdprConsent
-          }
-        ]);
+        .insert([signupData]);
 
       if (error) {
         console.error('Supabase error:', error);
         throw error;
       }
+      
+      console.log('Edge signup saved successfully:', data);
+      
+      // Send notification regardless of database trigger
+      await sendNotification(signupData);
       
       // Reset form
       setEmail('');
@@ -98,9 +130,8 @@ const EdgeSignup = () => {
       setGdprConsent(false);
       
       toast.success("You've successfully joined ATHLEX Edge! We'll be in touch soon.");
-      console.log("Edge signup submitted successfully");
     } catch (error) {
-      console.error('Error saving edge signup:', error);
+      console.error('Error during edge signup process:', error);
       toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
