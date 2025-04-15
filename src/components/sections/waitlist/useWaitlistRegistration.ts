@@ -25,12 +25,12 @@ export const useWaitlistRegistration = () => {
       });
       
       if (!response.ok) {
-        console.warn(`Notification failed with status: ${response.status}`);
-        toast.warning('Notification could not be sent, but registration was successful');
+        console.warn(`Notification service returned status: ${response.status}`);
+        // Don't show warning toast here, as registration was successful
       }
     } catch (error) {
-      console.warn('Failed to send notification:', error);
-      toast.warning('Notification could not be sent, but registration was successful');
+      console.warn('Notification service error:', error);
+      // Don't show warning toast here, as registration was successful
     }
   };
 
@@ -71,8 +71,10 @@ export const useWaitlistRegistration = () => {
         throw error;
       }
       
+      // Send notification after successful registration
       await sendNotification(registrationData);
       
+      // Reset form
       setEmail('');
       setPhoneNumber('');
       setRole('');
@@ -81,8 +83,12 @@ export const useWaitlistRegistration = () => {
       
       toast.success("You're in! We'll be in touch soon.");
     } catch (error) {
-      console.error('Error during registration process:', error);
-      toast.error(error.message || "Something went wrong. Please try again.");
+      console.error('Registration error:', error);
+      if (error.code === '23505') { // Unique violation
+        toast.error("This email is already registered.");
+      } else {
+        toast.error(error.message || "Something went wrong. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
