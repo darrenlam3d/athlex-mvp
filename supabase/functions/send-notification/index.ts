@@ -15,7 +15,12 @@ serve(async (req) => {
   }
 
   try {
+    console.log("Notification function triggered");
+    
     const { type, data } = await req.json();
+    console.log(`Notification type: ${type}`);
+    console.log(`Notification data:`, data);
+    
     let emailContent;
     let subject;
 
@@ -28,6 +33,7 @@ serve(async (req) => {
         <p><strong>Feedback:</strong> ${data.feedback || 'No feedback provided'}</p>
         <p><em>Submitted at: ${data.created_at}</em></p>
       `;
+      console.log("Processing waitlist registration notification");
     } else if (type === 'edge') {
       subject = 'New ATHLEX Edge Signup';
       emailContent = `
@@ -39,14 +45,20 @@ serve(async (req) => {
         <p><strong>Feedback:</strong> ${data.feedback || 'No feedback provided'}</p>
         <p><em>Submitted at: ${data.created_at}</em></p>
       `;
+      console.log("Processing edge signup notification");
+    } else {
+      throw new Error(`Unknown notification type: ${type}`);
     }
 
+    console.log(`Sending email with subject: ${subject}`);
     const emailResponse = await resend.emails.send({
       from: 'noreply@athlex.info',
       to: 'nicholas@athlex.info',
       subject: subject,
       html: emailContent,
     });
+
+    console.log("Email sent successfully:", emailResponse);
 
     return new Response(JSON.stringify(emailResponse), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

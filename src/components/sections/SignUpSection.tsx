@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +16,6 @@ const SignUpSection = () => {
   const [feedback, setFeedback] = useState('');
   const [gdprConsent, setGdprConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showAdminSettings, setShowAdminSettings] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +39,7 @@ const SignUpSection = () => {
     setIsSubmitting(true);
     
     try {
+      // Insert data into Supabase
       const { error } = await supabase
         .from('waitlist_registrations')
         .insert([
@@ -60,68 +61,13 @@ const SignUpSection = () => {
       setGdprConsent(false);
       
       toast.success("You're in! We'll be in touch soon.");
+      console.log("Waitlist registration submitted successfully");
     } catch (error) {
       console.error('Error saving registration:', error);
       toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  // Function to save registration to localStorage
-  const saveWaitlistRegistration = (registration: any) => {
-    try {
-      // Get existing registrations
-      const existingRegistrationsJSON = localStorage.getItem('waitlistRegistrations');
-      let registrations: any[] = existingRegistrationsJSON 
-        ? JSON.parse(existingRegistrationsJSON) 
-        : [];
-      
-      // Add new registration
-      registrations.push(registration);
-      
-      // Save back to localStorage
-      localStorage.setItem('waitlistRegistrations', JSON.stringify(registrations));
-      
-      console.log(`Registration saved successfully. Total registrations: ${registrations.length}`);
-    } catch (error) {
-      console.error('Error saving registration:', error);
-    }
-  };
-
-  // Function to send email notification
-  const sendEmailNotification = (registration: any) => {
-    // In a production environment, this would be a server API call
-    // For now, we'll use mailto for demonstration purposes
-    try {
-      const subject = encodeURIComponent("New ATHLEX Waitlist Registration");
-      const body = encodeURIComponent(`
-New waitlist registration:
-
-Email: ${registration.email}
-${registration.phoneNumber ? `Phone: ${registration.phoneNumber}` : ''}
-Role: ${registration.role}
-Feedback: ${registration.feedback}
-Timestamp: ${registration.timestamp}
-GDPR Consent: ${registration.gdprConsent ? "Yes" : "No"}
-      `);
-      
-      // Create a hidden link to trigger the email
-      const mailtoLink = document.createElement('a');
-      mailtoLink.href = `mailto:athlex.gaia@gmail.com?subject=${subject}&body=${body}`;
-      document.body.appendChild(mailtoLink);
-      mailtoLink.click();
-      document.body.removeChild(mailtoLink);
-      
-      console.log("Email notification sent to:", "athlex.gaia@gmail.com");
-    } catch (error) {
-      console.error("Error sending email notification:", error);
-    }
-  };
-
-  // Toggle admin settings
-  const toggleAdminSettings = () => {
-    setShowAdminSettings(!showAdminSettings);
   };
 
   return (

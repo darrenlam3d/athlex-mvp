@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -69,6 +70,7 @@ const EdgeSignup = () => {
     setIsSubmitting(true);
     
     try {
+      // Insert data into Supabase
       const { error } = await supabase
         .from('edge_signups')
         .insert([
@@ -82,7 +84,10 @@ const EdgeSignup = () => {
           }
         ]);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
       
       // Reset form
       setEmail('');
@@ -93,6 +98,7 @@ const EdgeSignup = () => {
       setGdprConsent(false);
       
       toast.success("You've successfully joined ATHLEX Edge! We'll be in touch soon.");
+      console.log("Edge signup submitted successfully");
     } catch (error) {
       console.error('Error saving edge signup:', error);
       toast.error("Something went wrong. Please try again.");
