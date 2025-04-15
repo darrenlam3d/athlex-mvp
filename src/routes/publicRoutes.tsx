@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 import Index from '@/pages/Index';
 import Login from '@/pages/Login';
 import LoginDemo from '@/pages/LoginDemo';
@@ -20,5 +20,13 @@ export const publicRoutes = [
   <Route key="community" path="/community" element={<Community />} />,
   <Route key="messages" path="/messages" element={<Messages />} />,
   <Route key="settings" path="/settings" element={<Settings />} />,
+  
+  // Redirect edge-signup to index page with signup section scroll
+  <Route 
+    key="edge-signup" 
+    path="/edge-signup" 
+    element={<Navigate to="/#signup" replace />} 
+  />,
   <Route key="not-found" path="*" element={<NotFound />} />,
 ];
+
