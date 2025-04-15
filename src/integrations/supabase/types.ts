@@ -168,39 +168,6 @@ export type Database = {
           },
         ]
       }
-      edge_signups: {
-        Row: {
-          created_at: string
-          email: string
-          feedback: string | null
-          gdpr_consent: boolean
-          id: string
-          interests: string[]
-          name: string
-          role: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          feedback?: string | null
-          gdpr_consent?: boolean
-          id?: string
-          interests?: string[]
-          name: string
-          role: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          feedback?: string | null
-          gdpr_consent?: boolean
-          id?: string
-          interests?: string[]
-          name?: string
-          role?: string
-        }
-        Relationships: []
-      }
       goals: {
         Row: {
           athlete_id: string
@@ -633,6 +600,8 @@ export type Database = {
           feedback: string | null
           gdpr_consent: boolean
           id: string
+          interests: string[] | null
+          name: string | null
           phone_number: string | null
           role: string
         }
@@ -642,6 +611,8 @@ export type Database = {
           feedback?: string | null
           gdpr_consent?: boolean
           id?: string
+          interests?: string[] | null
+          name?: string | null
           phone_number?: string | null
           role: string
         }
@@ -651,6 +622,8 @@ export type Database = {
           feedback?: string | null
           gdpr_consent?: boolean
           id?: string
+          interests?: string[] | null
+          name?: string | null
           phone_number?: string | null
           role?: string
         }

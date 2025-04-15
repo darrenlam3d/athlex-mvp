@@ -12,10 +12,14 @@ const WaitlistForm = () => {
   const {
     email,
     setEmail,
+    name,
+    setName,
     phoneNumber,
     setPhoneNumber,
     role,
     setRole,
+    interests,
+    setInterests,
     feedback,
     setFeedback,
     gdprConsent,
@@ -24,9 +28,32 @@ const WaitlistForm = () => {
     handleSubmit
   } = useWaitlistRegistration();
 
+  const interestOptions = [
+    { id: 'earlyAccess', label: 'Early Access & Beta Testing' },
+    { id: 'contentInsights', label: 'Performance & Training Content' },
+    { id: 'opportunities', label: 'Global Sport Opportunities' },
+    { id: 'networking', label: 'Community & Networking' },
+    { id: 'productFeedback', label: 'Providing Product Feedback' },
+  ];
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="space-y-6">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium mb-2">
+            Full Name <span className="text-red-400">*</span>
+          </label>
+          <Input
+            id="name"
+            type="text"
+            placeholder="Your Name"
+            className="bg-athlex-gray-900 border-athlex-gray-700"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+
         <div>
           <label htmlFor="email" className="block text-sm font-medium mb-2">
             Email Address <span className="text-red-400">*</span>
@@ -69,10 +96,38 @@ const WaitlistForm = () => {
               <SelectItem value="athlete">Athlete</SelectItem>
               <SelectItem value="coach">Coach</SelectItem>
               <SelectItem value="scout">Scout</SelectItem>
+              <SelectItem value="parent">Parent of Athlete</SelectItem>
               <SelectItem value="federation">Federation/Organization</SelectItem>
               <SelectItem value="other">Other</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-3">
+            I'm interested in <span className="text-red-400">*</span>
+          </label>
+          <div className="space-y-3">
+            {interestOptions.map((option) => (
+              <div key={option.id} className="flex items-center">
+                <Checkbox 
+                  id={option.id}
+                  checked={interests.includes(option.id)}
+                  onCheckedChange={() => {
+                    setInterests(current =>
+                      current.includes(option.id)
+                        ? current.filter(i => i !== option.id)
+                        : [...current, option.id]
+                    )
+                  }}
+                  className="mr-2"
+                />
+                <label htmlFor={option.id} className="text-sm text-white/90">
+                  {option.label}
+                </label>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div>

@@ -5,8 +5,10 @@ import { supabase } from '@/lib/supabase';
 
 export const useWaitlistRegistration = () => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [role, setRole] = useState('');
+  const [interests, setInterests] = useState<string[]>([]);
   const [feedback, setFeedback] = useState('');
   const [gdprConsent, setGdprConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,8 +21,18 @@ export const useWaitlistRegistration = () => {
       return;
     }
     
+    if (!name) {
+      toast.error("Please enter your name");
+      return;
+    }
+    
     if (!role) {
       toast.error("Please select your role");
+      return;
+    }
+
+    if (interests.length === 0) {
+      toast.error("Please select at least one interest");
       return;
     }
     
@@ -32,14 +44,16 @@ export const useWaitlistRegistration = () => {
     setIsSubmitting(true);
     
     try {
-      console.log("Submitting waitlist registration:", { email, phoneNumber, role, feedback, gdprConsent });
+      console.log("Submitting waitlist registration:", { email, name, phoneNumber, role, interests, feedback, gdprConsent });
       
       const { data, error: dbError } = await supabase
         .from('waitlist_registrations')
         .insert({
           email,
-          role,
+          name,
           phone_number: phoneNumber || null,
+          role,
+          interests,
           feedback: feedback || null,
           gdpr_consent: gdprConsent,
         })
@@ -62,12 +76,12 @@ export const useWaitlistRegistration = () => {
       
       // Reset form after successful submission
       setEmail('');
+      setName('');
       setPhoneNumber('');
       setRole('');
+      setInterests([]);
       setFeedback('');
       setGdprConsent(false);
-      
-      // Remove success toast since notification will be handled by database trigger
       
     } catch (error: any) {
       console.error('Full registration error:', error);
@@ -80,10 +94,14 @@ export const useWaitlistRegistration = () => {
   return {
     email,
     setEmail,
+    name,
+    setName,
     phoneNumber,
     setPhoneNumber,
     role,
     setRole,
+    interests,
+    setInterests,
     feedback,
     setFeedback,
     gdprConsent,
