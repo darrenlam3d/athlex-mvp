@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,14 +18,10 @@ const SignUpSection = () => {
 
   const sendNotification = async (registrationData) => {
     try {
-      const { data } = await supabase.auth.getSession();
-      const accessToken = data?.session?.access_token || '';
-      
       const response = await fetch('https://dndudgqkoiybenqnavoi.supabase.co/functions/v1/send-notification', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           type: 'waitlist',
@@ -36,12 +31,11 @@ const SignUpSection = () => {
       
       if (!response.ok) {
         console.warn(`Notification failed with status: ${response.status}`);
-      } else {
-        return await response.json();
+        toast.warning('Notification could not be sent, but registration was successful');
       }
     } catch (error) {
       console.warn('Failed to send notification:', error);
-      // Don't throw error, just log it so we don't block the signup process
+      toast.warning('Notification could not be sent, but registration was successful');
     }
   };
 
@@ -77,7 +71,7 @@ const SignUpSection = () => {
       };
       
       // Insert data into Supabase
-      const { error, data } = await supabase
+      const { error } = await supabase
         .from('waitlist_registrations')
         .insert([registrationData]);
 
@@ -85,12 +79,8 @@ const SignUpSection = () => {
         throw error;
       }
       
-      console.log('Waitlist registration saved successfully:', data);
-      
-      // Try to send notification but don't block if it fails
-      await sendNotification(registrationData).catch(err => {
-        console.warn('Notification sending failed but registration was successful:', err);
-      });
+      // Try to send notification
+      await sendNotification(registrationData);
       
       // Reset form
       setEmail('');
@@ -102,7 +92,7 @@ const SignUpSection = () => {
       toast.success("You're in! We'll be in touch soon.");
     } catch (error) {
       console.error('Error during registration process:', error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error(error.message || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
