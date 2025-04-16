@@ -9,10 +9,7 @@ const WaitlistHeader = () => {
         <span className="text-athlex-accent">Elevate the Next Generation.</span>
       </h2>
       <p className="text-white/70 text-lg mb-2">
-        Experience ATHLEX first and help shape the evolution of athletic development.
-      </p>
-      <p className="text-white/70">
-        Become part of an international community uniting athletes, coaches, and scouts in a shared mission to enhance global athletic achievement.
+        Experience ATHLEX—where athletes, coaches, and scouts unite to redefine the future of athletic development and inspire the next generation of global champions.
       </p>
     </div>
   );
