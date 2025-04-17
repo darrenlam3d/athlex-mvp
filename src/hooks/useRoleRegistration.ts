@@ -4,10 +4,10 @@ import { useUniversalRegistration } from './useUniversalRegistration';
 import { useAthleteRegistration } from './useAthleteRegistration';
 import { useCoachRegistration } from './useCoachRegistration';
 import { useScoutRegistration } from './useScoutRegistration';
-import type { Role } from '@/contexts/UserRoleContext';
+import type { UserRole } from '@/contexts/UserRoleContext';
 
 export const useRoleRegistration = () => {
-  const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   
   const { 
     isLoading: universalLoading,
