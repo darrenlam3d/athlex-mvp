@@ -9,7 +9,8 @@ import LoginDemo from '@/pages/LoginDemo';
 import Messages from '@/pages/Messages';
 import NotFound from '@/pages/NotFound';
 import Settings from '@/pages/Settings';
-import RoleRegistration from '@/components/auth/RoleRegistration';
+// Update import for RoleRegistration to Registration
+import Registration from '@/components/auth/Registration';
 
 // Create a component for the edge-signup redirect
 const EdgeSignupRedirect = () => {
@@ -25,11 +26,10 @@ const EdgeSignupRedirect = () => {
   return <Navigate to="/#signup" replace />;
 };
 
-// Create a component for the role-based registration page
 const RoleRegistrationPage = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 to-gray-900 text-white px-4 py-8">
     <div className="w-full max-w-4xl">
-      <RoleRegistration />
+      <Registration /> {/* Updated component name */}
     </div>
   </div>
 );
