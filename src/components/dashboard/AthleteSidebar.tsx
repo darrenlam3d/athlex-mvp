@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -25,7 +24,7 @@ const AthleteSidebar = () => {
     { icon: Target, text: 'Goals', path: '/athlete-performance-goals' },
     { icon: Utensils, text: 'Nutrition', path: '/athlete-nutrition' },
     { icon: Users, text: 'Community', path: '/community' },
-    { icon: Settings, text: 'Settings', path: '/settings' },
+    { icon: Settings, text: 'Settings', path: '/athlete-settings' },
   ];
 
   const handleSignOut = async () => {

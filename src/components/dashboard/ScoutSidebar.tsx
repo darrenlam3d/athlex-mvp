@@ -1,55 +1,31 @@
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
-  Users, 
-  Search,
-  Star,
   FileText,
-  FilePen,
+  Users,
   Settings, 
-  LogOut
+  LogOut,
+  Search,
+  ClipboardList
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 
 const ScoutSidebar = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const { signOut } = useAuth();
   
   const navItems = [
     { icon: LayoutDashboard, text: 'Dashboard', path: '/scout-dashboard' },
-    { icon: Star, text: 'Shortlisted', path: '/scout-dashboard', hash: 'shortlist' },
-    { icon: Search, text: 'Talent Discovery', path: '/scout-dashboard', hash: 'all' },
-    { icon: FilePen, text: 'Scout Notes', path: '/scout-notes' },
     { icon: FileText, text: 'Scouting Reports', path: '/scout-reports' },
+    { icon: ClipboardList, text: 'Scout Notes', path: '/scout-notes' },
     { icon: Users, text: 'Community', path: '/scout-community' },
     { icon: Settings, text: 'Settings', path: '/scout-settings' },
   ];
 
   const handleSignOut = async () => {
     await signOut();
-  };
-
-  // Updated isActive function to correctly determine the active state
-  const isActive = (itemPath, itemHash) => {
-    if (itemHash) {
-      // For items with hash
-      return location.pathname === itemPath && location.hash === `#${itemHash}`;
-    } else {
-      // For items without hash
-      return location.pathname === itemPath && !location.hash;
-    }
-  };
-
-  // Handle navigation with hash fragments
-  const handleNavigation = (path, hash) => {
-    if (hash) {
-      navigate(`${path}#${hash}`);
-    } else {
-      navigate(path);
-    }
   };
 
   return (
@@ -67,18 +43,18 @@ const ScoutSidebar = () => {
       <nav className="flex-1 py-6 px-4 overflow-y-auto">
         <ul className="space-y-1">
           {navItems.map((item) => (
-            <li key={item.text}>
-              <button
-                onClick={() => handleNavigation(item.path, item.hash)}
-                className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors w-full text-left ${
-                  isActive(item.path, item.hash)
+            <li key={item.path}>
+              <Link 
+                to={item.path}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
+                  location.pathname === item.path 
                     ? 'bg-athlex-gray-800 text-athlex-accent' 
                     : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white'
                 }`}
               >
                 <item.icon size={18} />
                 <span>{item.text}</span>
-              </button>
+              </Link>
             </li>
           ))}
         </ul>

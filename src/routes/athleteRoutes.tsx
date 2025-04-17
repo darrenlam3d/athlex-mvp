@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Route } from 'react-router-dom';
 import RouteGuard from '@/components/auth/RouteGuard';
@@ -8,6 +7,7 @@ import TrainingLog from '@/pages/TrainingLog';
 import Performance from '@/pages/Performance';
 import PerformanceGoals from '@/pages/PerformanceGoals';
 import Nutrition from '@/pages/Nutrition';
+import AthleteSettings from '@/pages/AthleteSettings';
 
 export const athleteRoutes = [
   <Route key="athlete-dashboard" path="/athlete-dashboard" element={
@@ -38,6 +38,11 @@ export const athleteRoutes = [
   <Route key="athlete-nutrition" path="/athlete-nutrition" element={
     <RouteGuard requiredRole="athlete">
       <Nutrition />
+    </RouteGuard>
+  } />,
+  <Route key="athlete-settings" path="/athlete-settings" element={
+    <RouteGuard requiredRole="athlete">
+      <AthleteSettings />
     </RouteGuard>
   } />,
 ];

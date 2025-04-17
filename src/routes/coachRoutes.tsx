@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Route } from 'react-router-dom';
 import RouteGuard from '@/components/auth/RouteGuard';
@@ -8,8 +7,8 @@ import CoachTrainingPlans from '@/pages/CoachTrainingPlans';
 import CoachNutritionLog from '@/pages/CoachNutritionLog';
 import CoachPerformance from '@/pages/CoachPerformance';
 import CoachReports from '@/pages/CoachReports';
-import CoachSettings from '@/pages/Settings';
 import AssignTraining from '@/pages/AssignTraining';
+import CoachSettings from '@/pages/CoachSettings';
 
 export const coachRoutes = [
   <Route key="coach-dashboard" path="/coach-dashboard" element={
@@ -42,14 +41,14 @@ export const coachRoutes = [
       <CoachReports />
     </RouteGuard>
   } />,
-  <Route key="coach-settings" path="/coach-settings" element={
-    <RouteGuard requiredRole="coach">
-      <CoachSettings />
-    </RouteGuard>
-  } />,
   <Route key="assign-training" path="/coach-assign-training" element={
     <RouteGuard requiredRole="coach">
       <AssignTraining />
+    </RouteGuard>
+  } />,
+  <Route key="coach-settings" path="/coach-settings" element={
+    <RouteGuard requiredRole="coach">
+      <CoachSettings />
     </RouteGuard>
   } />,
 ];

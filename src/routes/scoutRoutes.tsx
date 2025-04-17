@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Route } from 'react-router-dom';
 import RouteGuard from '@/components/auth/RouteGuard';
@@ -7,6 +6,7 @@ import ScoutingReports from '@/pages/ScoutingReports';
 import ScoutNotes from '@/pages/ScoutNotes';
 import Settings from '@/pages/Settings';
 import Community from '@/pages/Community';
+import ScoutSettings from '@/pages/ScoutSettings';
 
 export const scoutRoutes = [
   <Route key="scout-dashboard" path="/scout-dashboard" element={
@@ -31,7 +31,8 @@ export const scoutRoutes = [
   } />,
   <Route key="scout-settings" path="/scout-settings" element={
     <RouteGuard requiredRole="scout">
-      <Settings />
+      <ScoutSettings />
     </RouteGuard>
   } />,
 ];
+
