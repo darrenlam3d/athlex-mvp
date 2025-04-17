@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { isSupabaseConfigured } from '@/lib/supabase';
@@ -33,8 +34,8 @@ interface MvpAthlete extends AthleteWithConnectionStatus {
   positionAverage: number;
 }
 
-// Add interface for Message
-interface Message {
+// Define our custom Message interface to avoid conflicts
+interface ChatMessage {
   from: string;
   to: string;
   message: string;
@@ -53,8 +54,8 @@ const ScoutDashboard = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('shortlisted');
   
-  // Updated the state type to AthleteWithConnectionStatus which requires connection_status
-  const [selectedAthlete, setSelectedAthlete] = useState<AthleteWithConnectionStatus | null>(null);
+  // Updated state type explicitly to MvpAthlete to fix the type issue
+  const [selectedAthlete, setSelectedAthlete] = useState<MvpAthlete | null>(null);
 
   // Force user role to be scout for this page
   useEffect(() => {
@@ -197,8 +198,8 @@ const ScoutDashboard = () => {
     setSelectedAthlete(mvpAthlete);
   };
 
-  // Transform messages to correct Message type
-  const transformedMessages: Message[] = messagesMock.map(msg => ({
+  // Transform messages to correct Message type for ChatPanel
+  const transformedMessages: ChatMessage[] = messagesMock.map(msg => ({
     from: msg.senderId,
     to: msg.recipientId,
     message: msg.text
@@ -284,7 +285,7 @@ const ScoutDashboard = () => {
         </div>
       </div>
       
-      {isChatOpen && (
+      {isChatOpen && selectedAthlete && (
         <ChatPanel
           isOpen={isChatOpen}
           onClose={() => setIsChatOpen(false)}
