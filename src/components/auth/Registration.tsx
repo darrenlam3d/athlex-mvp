@@ -7,6 +7,10 @@ import CoachRegistrationForm from './CoachRegistrationForm';
 import ScoutRegistrationForm from './ScoutRegistrationForm';
 import RoleRegistrationLayout from './RoleRegistrationLayout';
 import { UniversalFormValues } from './UniversalRegistrationForm';
+import type { UserRole } from '@/contexts/UserRoleContext';
+
+// Define a type that excludes empty string from UserRole
+type NonEmptyUserRole = Exclude<UserRole, ''>; 
 
 const RoleRegistration = () => {
   const [step, setStep] = useState<'account' | 'profile'>('account');
@@ -34,6 +38,15 @@ const RoleRegistration = () => {
     }
   };
 
+  // Cast the selectedRole to NonEmptyUserRole when passing to components
+  // that expect only 'athlete', 'scout', or 'coach'
+  const safeSelectedRole = selectedRole as NonEmptyUserRole;
+  
+  // Handler to ensure we only set valid role values
+  const handleRoleSelect = (role: NonEmptyUserRole) => {
+    setSelectedRole(role);
+  };
+
   return (
     <RoleRegistrationLayout step={step}>
       {step === 'account' ? (
@@ -42,8 +55,8 @@ const RoleRegistration = () => {
             handleUniversalSubmit(data);
             setStep('profile');
           }}
-          selectedRole={selectedRole}
-          onSelectRole={setSelectedRole}
+          selectedRole={safeSelectedRole}
+          onSelectRole={handleRoleSelect}
           isLoading={isLoading}
         />
       ) : (
