@@ -22,10 +22,10 @@ const CoachSidebar = () => {
     { icon: LayoutDashboard, text: 'Dashboard', path: '/coach-dashboard' },
     { icon: Users, text: 'Athletes', path: '/coach-athletes' },
     { icon: Calendar, text: 'Training Plans', path: '/coach-training-plans' },
-    { icon: Apple, text: 'Nutrition Log', path: '/nutrition-log' },
+    { icon: Apple, text: 'Nutrition Log', path: '/coach-nutrition' },
     { icon: Award, text: 'Performance', path: '/coach-performance' },
     { icon: FileText, text: 'Reports', path: '/coach-reports' },
-    { icon: Settings, text: 'Settings', path: '/settings' },
+    { icon: Settings, text: 'Settings', path: '/coach-settings' },
   ];
 
   const handleSignOut = async () => {

@@ -8,6 +8,7 @@ import CoachTrainingPlans from '@/pages/CoachTrainingPlans';
 import CoachNutritionLog from '@/pages/CoachNutritionLog';
 import CoachPerformance from '@/pages/CoachPerformance';
 import CoachReports from '@/pages/CoachReports';
+import CoachSettings from '@/pages/Settings';
 import AssignTraining from '@/pages/AssignTraining';
 
 export const coachRoutes = [
@@ -26,7 +27,7 @@ export const coachRoutes = [
       <CoachTrainingPlans />
     </RouteGuard>
   } />,
-  <Route key="coach-nutrition" path="/nutrition-log" element={
+  <Route key="coach-nutrition" path="/coach-nutrition" element={
     <RouteGuard requiredRole="coach">
       <CoachNutritionLog />
     </RouteGuard>
@@ -41,7 +42,12 @@ export const coachRoutes = [
       <CoachReports />
     </RouteGuard>
   } />,
-  <Route key="assign-training" path="/assign-training" element={
+  <Route key="coach-settings" path="/coach-settings" element={
+    <RouteGuard requiredRole="coach">
+      <CoachSettings />
+    </RouteGuard>
+  } />,
+  <Route key="assign-training" path="/coach-assign-training" element={
     <RouteGuard requiredRole="coach">
       <AssignTraining />
     </RouteGuard>
