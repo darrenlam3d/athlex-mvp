@@ -1,164 +1,236 @@
 
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
+import { Lock, Shield, Eye, EyeOff, Database } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Eye, Lock, Shield, Save, AlertTriangle, Activity, ChartBar, Download } from 'lucide-react';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { useUserRole } from '@/contexts/UserRoleContext';
+
+interface PrivacyFormValues {
+  profileVisibility: string;
+  dataSharing: boolean;
+  anonymousStats: boolean;
+  locationSharing: boolean;
+  marketingConsent: boolean;
+}
 
 const PrivacyControls = () => {
+  const { userRole } = useUserRole();
+  
+  const form = useForm<PrivacyFormValues>({
+    defaultValues: {
+      profileVisibility: 'authenticated',
+      dataSharing: true,
+      anonymousStats: true,
+      locationSharing: userRole === 'athlete' ? false : true,
+      marketingConsent: false,
+    },
+  });
+
+  const onSubmit = (data: PrivacyFormValues) => {
+    console.log('Privacy settings saved:', data);
+    // TODO: Save to Supabase
+  };
+
   return (
-    <div className="space-y-6">
-      <Card className="border-gray-700 bg-card">
-        <CardContent className="pt-6 space-y-6">
-          <h3 className="text-lg font-medium">Profile Visibility</h3>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-green-900/20 p-2 rounded-full">
-                  <Eye className="h-5 w-5 text-green-400" />
-                </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Card className="bg-athlex-gray-900 border-athlex-gray-800">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-xl text-white">
+              <Lock className="h-5 w-5 text-athlex-accent" />
+              Privacy Controls
+            </CardTitle>
+            <CardDescription className="text-athlex-gray-400">
+              Manage your privacy settings and data preferences
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="profileVisibility"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="mb-4">
+                      <FormLabel className="text-white font-medium flex items-center gap-2">
+                        <Eye className="h-4 w-4 text-athlex-accent" />
+                        Profile Visibility
+                      </FormLabel>
+                      <p className="text-sm text-athlex-gray-400 mt-1">
+                        Control who can see your profile information
+                      </p>
+                    </div>
+                    <FormControl>
+                      <RadioGroup
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        className="space-y-3"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="public" id="public" />
+                          </FormControl>
+                          <FormLabel className="text-white font-normal" htmlFor="public">
+                            Public - Anyone can view your profile
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="authenticated" id="authenticated" />
+                          </FormControl>
+                          <FormLabel className="text-white font-normal" htmlFor="authenticated">
+                            Authenticated Users - Only registered users can view your profile
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="connections" id="connections" />
+                          </FormControl>
+                          <FormLabel className="text-white font-normal" htmlFor="connections">
+                            Connections Only - Only your connections can view your profile
+                          </FormLabel>
+                        </FormItem>
+                        {userRole === 'athlete' && (
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="coaches" id="coaches" />
+                            </FormControl>
+                            <FormLabel className="text-white font-normal" htmlFor="coaches">
+                              Coaches & Scouts - Only verified coaches and scouts can view your profile
+                            </FormLabel>
+                          </FormItem>
+                        )}
+                      </RadioGroup>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="space-y-4 pt-4 border-t border-athlex-gray-800">
+              <h3 className="text-white font-medium flex items-center gap-2 mb-3">
+                <Shield className="h-4 w-4 text-athlex-accent" />
+                Data Usage
+              </h3>
+
+              <FormField
+                control={form.control}
+                name="dataSharing"
+                render={({ field }) => (
+                  <FormItem className="flex justify-between items-center">
+                    <div>
+                      <FormLabel className="text-white">Performance Data Sharing</FormLabel>
+                      <p className="text-sm text-athlex-gray-400">
+                        Allow coaches or scouts to access your performance data
+                      </p>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="anonymousStats"
+                render={({ field }) => (
+                  <FormItem className="flex justify-between items-center">
+                    <div>
+                      <FormLabel className="text-white">Anonymous Statistics</FormLabel>
+                      <p className="text-sm text-athlex-gray-400">
+                        Allow your data to be used in anonymized statistical analysis
+                      </p>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="locationSharing"
+                render={({ field }) => (
+                  <FormItem className="flex justify-between items-center">
+                    <div>
+                      <FormLabel className="text-white">Location Sharing</FormLabel>
+                      <p className="text-sm text-athlex-gray-400">
+                        {userRole === 'athlete' 
+                          ? 'Share your training location with coaches and teammates' 
+                          : 'Share your location for regional networking opportunities'}
+                      </p>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="marketingConsent"
+                render={({ field }) => (
+                  <FormItem className="flex justify-between items-center">
+                    <div>
+                      <FormLabel className="text-white">Marketing Communications</FormLabel>
+                      <p className="text-sm text-athlex-gray-400">
+                        Receive updates about new features and opportunities
+                      </p>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="pt-4 border-t border-athlex-gray-800">
+              <div className="flex items-center justify-between">
                 <div>
-                  <Label htmlFor="discovery-mode" className="block font-medium mb-1">Discovery Mode</Label>
-                  <p className="text-xs text-gray-400">
-                    When enabled, your profile can be discovered by scouts and coaches
+                  <h3 className="text-white font-medium flex items-center gap-2 mb-1">
+                    <Database className="h-4 w-4 text-athlex-accent" />
+                    Data Export
+                  </h3>
+                  <p className="text-sm text-athlex-gray-400">
+                    Download a copy of all your data
                   </p>
                 </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Switch id="discovery-mode" defaultChecked />
-                <span className="text-xs text-gray-400">On</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-blue-900/20 p-2 rounded-full">
-                  <Activity className="h-5 w-5 text-blue-400" />
-                </div>
-                <div>
-                  <Label htmlFor="performance-metrics" className="block font-medium mb-1">Performance Metrics</Label>
-                  <p className="text-xs text-gray-400">
-                    Control who can see your detailed performance metrics
-                  </p>
-                </div>
-              </div>
-              <div>
-                <RadioGroup defaultValue="verified">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="public" id="metrics-public" />
-                    <Label htmlFor="metrics-public" className="text-sm">Public</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="verified" id="metrics-verified" />
-                    <Label htmlFor="metrics-verified" className="text-sm">Verified Users</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="private" id="metrics-private" />
-                    <Label htmlFor="metrics-private" className="text-sm">Private</Label>
-                  </div>
-                </RadioGroup>
+                <Button variant="outline" className="border-athlex-gray-700 text-white hover:bg-athlex-gray-800">
+                  Request Data
+                </Button>
               </div>
             </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-purple-900/20 p-2 rounded-full">
-                  <ChartBar className="h-5 w-5 text-purple-400" />
-                </div>
-                <div>
-                  <Label htmlFor="peer-comparison" className="block font-medium mb-1">Peer Comparison</Label>
-                  <p className="text-xs text-gray-400">
-                    Allow your anonymized data to be used in peer comparisons
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Switch id="peer-comparison" defaultChecked />
-                <span className="text-xs text-gray-400">On</span>
-              </div>
+
+            <div className="pt-4 flex justify-end">
+              <Button type="submit" className="bg-athlex-accent hover:bg-athlex-accent-alt">
+                Save Privacy Settings
+              </Button>
             </div>
-          </div>
-        </CardContent>
-      </Card>
-      
-      <Card className="border-gray-700 bg-card">
-        <CardContent className="pt-6 space-y-6">
-          <h3 className="text-lg font-medium">Account Security & Data</h3>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-yellow-900/20 p-2 rounded-full">
-                  <Lock className="h-5 w-5 text-yellow-400" />
-                </div>
-                <div>
-                  <Label className="block font-medium mb-1">Two-Factor Authentication</Label>
-                  <p className="text-xs text-gray-400">
-                    Add an extra layer of security to your account
-                  </p>
-                </div>
-              </div>
-              <Button variant="outline" size="sm">Enable</Button>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-blue-900/20 p-2 rounded-full">
-                  <Shield className="h-5 w-5 text-blue-400" />
-                </div>
-                <div>
-                  <Label className="block font-medium mb-1">Change Password</Label>
-                  <p className="text-xs text-gray-400">
-                    Update your password regularly for better security
-                  </p>
-                </div>
-              </div>
-              <Button variant="outline" size="sm">Update</Button>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-green-900/20 p-2 rounded-full">
-                  <Download className="h-5 w-5 text-green-400" />
-                </div>
-                <div>
-                  <Label className="block font-medium mb-1">Download Your Data</Label>
-                  <p className="text-xs text-gray-400">
-                    Export all your performance data and profile information
-                  </p>
-                </div>
-              </div>
-              <Button variant="outline" size="sm">Export</Button>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-red-900/20 p-2 rounded-full">
-                  <AlertTriangle className="h-5 w-5 text-red-400" />
-                </div>
-                <div>
-                  <Label className="block font-medium mb-1">Delete Account</Label>
-                  <p className="text-xs text-gray-400">
-                    Permanently delete your account and all associated data
-                  </p>
-                </div>
-              </div>
-              <Button variant="destructive" size="sm">Delete</Button>
-            </div>
-          </div>
-          
-          <div className="pt-4 flex justify-end">
-            <Button>
-              <Save className="mr-2 h-4 w-4" />
-              Save Settings
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+          </CardContent>
+        </Card>
+      </form>
+    </Form>
   );
 };
 

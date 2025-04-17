@@ -1,181 +1,97 @@
 
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
-import { Bell, Calendar, Award, Video, Target, Users, MessageSquare, Save } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { useUserRole } from '@/contexts/UserRoleContext';
+import { Bell, MessageSquare, Clipboard, User, Users, Calendar, AlertTriangle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const NotificationPreferences = () => {
+  const { userRole } = useUserRole();
+  
+  // Notification groups specific to different user roles
+  const scoutNotifications = [
+    { id: 'newAthleteMatches', label: 'New Athlete Matches', description: 'Get notified when new athletes match your criteria', icon: User, isOn: true },
+    { id: 'shortlistUpdates', label: 'Shortlist Updates', description: 'Receive updates when athletes in your shortlist have new activity', icon: Clipboard, isOn: true },
+    { id: 'scoutMessages', label: 'Messages', description: 'Receive notifications for new messages', icon: MessageSquare, isOn: true },
+  ];
+  
+  const coachNotifications = [
+    { id: 'logsSubmitted', label: 'Logs Submitted', description: 'Get notified when athletes submit training or nutrition logs', icon: Calendar, isOn: true },
+    { id: 'injuryFlags', label: 'Injury Flags', description: 'Immediate notifications for injury reports', icon: AlertTriangle, isOn: true },
+    { id: 'scoutActivity', label: 'Scout Activity', description: 'When scouts view or shortlist your athletes', icon: Users, isOn: false },
+    { id: 'coachMessages', label: 'Messages', description: 'Receive notifications for new messages', icon: MessageSquare, isOn: true },
+  ];
+  
+  const athleteNotifications = [
+    { id: 'trainingReminders', label: 'Training Reminders', description: 'Get reminders about upcoming training sessions', icon: Calendar, isOn: true },
+    { id: 'coachFeedback', label: 'Coach Feedback', description: 'Notifications when coaches provide feedback', icon: Users, isOn: true },
+    { id: 'scoutInterest', label: 'Scout Interest', description: 'When scouts view or shortlist your profile', icon: Clipboard, isOn: true },
+    { id: 'athleteMessages', label: 'Messages', description: 'Receive notifications for new messages', icon: MessageSquare, isOn: true },
+  ];
+  
+  // Determine which notification set to use based on role
+  const notificationGroups = 
+    userRole === 'scout' ? scoutNotifications :
+    userRole === 'coach' ? coachNotifications :
+    athleteNotifications;
+    
+  const [notifications, setNotifications] = React.useState(notificationGroups);
+
+  const toggleNotification = (id: string) => {
+    setNotifications(
+      notifications.map((notification) =>
+        notification.id === id ? { ...notification, isOn: !notification.isOn } : notification
+      )
+    );
+  };
+
+  const savePreferences = () => {
+    console.log('Saving notification preferences:', notifications);
+    // TODO: Save to Supabase
+  };
+
   return (
-    <div className="space-y-6">
-      <Card className="border-gray-700 bg-card">
-        <CardContent className="pt-6 space-y-6">
-          <h3 className="text-lg font-medium">App & Email Notifications</h3>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-purple-900/20 p-2 rounded-full">
-                  <Video className="h-5 w-5 text-purple-400" />
-                </div>
-                <div>
-                  <Label htmlFor="training-alerts" className="block font-medium mb-1">AI Coach Training Alerts</Label>
-                  <p className="text-xs text-gray-400">
-                    Receive notifications when your AI coach has training suggestions
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Switch id="training-alerts" defaultChecked />
-                <span className="text-xs text-gray-400">On</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-blue-900/20 p-2 rounded-full">
-                  <Calendar className="h-5 w-5 text-blue-400" />
-                </div>
-                <div>
-                  <Label htmlFor="training-reminders" className="block font-medium mb-1">Training Session Reminders</Label>
-                  <p className="text-xs text-gray-400">
-                    Get reminders about upcoming scheduled training sessions
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Switch id="training-reminders" defaultChecked />
-                <span className="text-xs text-gray-400">On</span>
+    <Card className="bg-athlex-gray-900 border-athlex-gray-800">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-xl text-white">
+          <Bell className="h-5 w-5 text-athlex-accent" />
+          Notification Preferences
+        </CardTitle>
+        <CardDescription className="text-athlex-gray-400">
+          Manage which notifications you receive
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {notifications.map((notification) => (
+          <div key={notification.id} className="flex items-center justify-between py-3 border-b border-athlex-gray-800">
+            <div className="flex items-start gap-4">
+              <notification.icon className="h-5 w-5 mt-0.5 text-athlex-accent" />
+              <div>
+                <Label htmlFor={notification.id} className="text-white font-medium">
+                  {notification.label}
+                </Label>
+                <p className="text-sm text-athlex-gray-400">
+                  {notification.description}
+                </p>
               </div>
             </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-green-900/20 p-2 rounded-full">
-                  <Target className="h-5 w-5 text-green-400" />
-                </div>
-                <div>
-                  <Label htmlFor="goal-progress" className="block font-medium mb-1">Goal Progress Updates</Label>
-                  <p className="text-xs text-gray-400">
-                    Receive updates on your progress towards set goals
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Switch id="goal-progress" defaultChecked />
-                <span className="text-xs text-gray-400">On</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-yellow-900/20 p-2 rounded-full">
-                  <Award className="h-5 w-5 text-yellow-400" />
-                </div>
-                <div>
-                  <Label htmlFor="achievement-alerts" className="block font-medium mb-1">Achievement Alerts</Label>
-                  <p className="text-xs text-gray-400">
-                    Get notified when you earn new badges or achievements
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Switch id="achievement-alerts" defaultChecked />
-                <span className="text-xs text-gray-400">On</span>
-              </div>
-            </div>
+            <Switch
+              id={notification.id}
+              checked={notification.isOn}
+              onCheckedChange={() => toggleNotification(notification.id)}
+            />
           </div>
-        </CardContent>
-      </Card>
+        ))}
       
-      <Card className="border-gray-700 bg-card">
-        <CardContent className="pt-6 space-y-6">
-          <h3 className="text-lg font-medium">Social & Discovery Notifications</h3>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-blue-900/20 p-2 rounded-full">
-                  <Users className="h-5 w-5 text-blue-400" />
-                </div>
-                <div>
-                  <Label htmlFor="challenge-invites" className="block font-medium mb-1">Challenge Invites</Label>
-                  <p className="text-xs text-gray-400">
-                    Receive notifications about new challenge invitations
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Switch id="challenge-invites" defaultChecked />
-                <span className="text-xs text-gray-400">On</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-green-900/20 p-2 rounded-full">
-                  <Award className="h-5 w-5 text-green-400" />
-                </div>
-                <div>
-                  <Label htmlFor="endorsement-requests" className="block font-medium mb-1">Endorsement Requests</Label>
-                  <p className="text-xs text-gray-400">
-                    Get notified about endorsement requests and completions
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Switch id="endorsement-requests" defaultChecked />
-                <span className="text-xs text-gray-400">On</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-orange-900/20 p-2 rounded-full">
-                  <Bell className="h-5 w-5 text-orange-400" />
-                </div>
-                <div>
-                  <Label htmlFor="scout-interest" className="block font-medium mb-1">Scout Interest Alerts</Label>
-                  <p className="text-xs text-gray-400">
-                    Receive notifications when scouts view your profile
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Switch id="scout-interest" defaultChecked />
-                <span className="text-xs text-gray-400">On</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="bg-purple-900/20 p-2 rounded-full">
-                  <MessageSquare className="h-5 w-5 text-purple-400" />
-                </div>
-                <div>
-                  <Label htmlFor="message-alerts" className="block font-medium mb-1">Message Notifications</Label>
-                  <p className="text-xs text-gray-400">
-                    Get alerts for new direct messages and mentions
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2 items-center">
-                <Switch id="message-alerts" defaultChecked />
-                <span className="text-xs text-gray-400">On</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="pt-4 flex justify-end">
-            <Button>
-              <Save className="mr-2 h-4 w-4" />
-              Save Preferences
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+        <div className="pt-4 flex justify-end">
+          <Button onClick={savePreferences} className="bg-athlex-accent hover:bg-athlex-accent-alt">
+            Save Preferences
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

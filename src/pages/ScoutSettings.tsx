@@ -8,51 +8,51 @@ import NotificationPreferences from '@/components/settings/NotificationPreferenc
 import PrivacyControls from '@/components/settings/PrivacyControls';
 import ScoutingPreferences from '@/components/settings/ScoutingPreferences';
 import ScoutReportTemplates from '@/components/settings/ScoutReportTemplates';
+import AccountSettings from '@/components/settings/AccountSettings';
+import ScoutLayout from '@/layouts/ScoutLayout';
 
 const ScoutSettings = () => {
   return (
-    <div className="min-h-screen bg-athlex-background text-white">
-      <SidebarProvider>
-        <div className="flex w-full min-h-screen">
-          <ScoutSidebar />
-          <div className="flex-1 p-4 md:p-6 overflow-y-auto">
-            <div className="max-w-6xl mx-auto">
-              <h1 className="text-2xl md:text-3xl font-bold mb-6">Scout Settings</h1>
-              
-              <Tabs defaultValue="basic-info" className="w-full">
-                <TabsList className="grid grid-cols-2 md:grid-cols-5 mb-6 bg-gray-800">
-                  <TabsTrigger value="basic-info">Basic Info</TabsTrigger>
-                  <TabsTrigger value="preferences">Scouting Preferences</TabsTrigger>
-                  <TabsTrigger value="templates">Report Templates</TabsTrigger>
-                  <TabsTrigger value="notifications">Notifications</TabsTrigger>
-                  <TabsTrigger value="privacy">Privacy</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="basic-info">
-                  <BasicInfo />
-                </TabsContent>
-                
-                <TabsContent value="preferences">
-                  <ScoutingPreferences />
-                </TabsContent>
-                
-                <TabsContent value="templates">
-                  <ScoutReportTemplates />
-                </TabsContent>
-                
-                <TabsContent value="notifications">
-                  <NotificationPreferences />
-                </TabsContent>
-                
-                <TabsContent value="privacy">
-                  <PrivacyControls />
-                </TabsContent>
-              </Tabs>
-            </div>
-          </div>
-        </div>
-      </SidebarProvider>
-    </div>
+    <ScoutLayout>
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6">Scout Settings</h1>
+        
+        <Tabs defaultValue="basic-info" className="w-full">
+          <TabsList className="grid grid-cols-2 md:grid-cols-6 mb-6 bg-athlex-gray-800">
+            <TabsTrigger value="basic-info">Profile Info</TabsTrigger>
+            <TabsTrigger value="preferences">Scouting Preferences</TabsTrigger>
+            <TabsTrigger value="templates">Evaluation Settings</TabsTrigger>
+            <TabsTrigger value="notifications">Notifications</TabsTrigger>
+            <TabsTrigger value="privacy">Privacy</TabsTrigger>
+            <TabsTrigger value="account">Account</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="basic-info">
+            <BasicInfo />
+          </TabsContent>
+          
+          <TabsContent value="preferences">
+            <ScoutingPreferences />
+          </TabsContent>
+          
+          <TabsContent value="templates">
+            <ScoutReportTemplates />
+          </TabsContent>
+          
+          <TabsContent value="notifications">
+            <NotificationPreferences />
+          </TabsContent>
+          
+          <TabsContent value="privacy">
+            <PrivacyControls />
+          </TabsContent>
+          
+          <TabsContent value="account">
+            <AccountSettings />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </ScoutLayout>
   );
 };
 
