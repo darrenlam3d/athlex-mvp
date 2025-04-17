@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import MvpAthleteList from './MvpAthleteList';
@@ -19,7 +20,7 @@ export interface MvpAthlete {
   team?: string;
   nationality?: string;
   sport: string;
-  connection_status: 'connected' | 'not_connected';
+  connection_status: 'connected' | 'not_connected' | 'pending';
   stats: {
     xG: number;
     passCompletion: number;
