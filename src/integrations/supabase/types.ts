@@ -168,6 +168,39 @@ export type Database = {
           },
         ]
       }
+      coach_profiles: {
+        Row: {
+          age_groups: string[]
+          coaching_level: Database["public"]["Enums"]["coaching_level"]
+          country: string
+          created_at: string
+          id: string
+          sport: string
+          team_name: string | null
+          updated_at: string
+        }
+        Insert: {
+          age_groups?: string[]
+          coaching_level?: Database["public"]["Enums"]["coaching_level"]
+          country: string
+          created_at?: string
+          id: string
+          sport: string
+          team_name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          age_groups?: string[]
+          coaching_level?: Database["public"]["Enums"]["coaching_level"]
+          country?: string
+          created_at?: string
+          id?: string
+          sport?: string
+          team_name?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       goals: {
         Row: {
           athlete_id: string
@@ -414,6 +447,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      scout_profiles: {
+        Row: {
+          country: string
+          created_at: string
+          id: string
+          organization: string | null
+          preferred_positions: string[]
+          scouting_level: Database["public"]["Enums"]["scouting_level"]
+          scouting_region: string
+          updated_at: string
+        }
+        Insert: {
+          country: string
+          created_at?: string
+          id: string
+          organization?: string | null
+          preferred_positions?: string[]
+          scouting_level?: Database["public"]["Enums"]["scouting_level"]
+          scouting_region: string
+          updated_at?: string
+        }
+        Update: {
+          country?: string
+          created_at?: string
+          id?: string
+          organization?: string | null
+          preferred_positions?: string[]
+          scouting_level?: Database["public"]["Enums"]["scouting_level"]
+          scouting_region?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       scout_shortlist: {
         Row: {
@@ -703,10 +769,12 @@ export type Database = {
       }
     }
     Enums: {
+      coaching_level: "beginner" | "club" | "academy" | "pro"
       completion_status: "not_started" | "in_progress" | "completed" | "missed"
       goal_status: "not_started" | "in_progress" | "completed" | "failed"
       intensity_level: "low" | "medium" | "high"
       meal_type: "breakfast" | "lunch" | "dinner" | "snack"
+      scouting_level: "youth" | "semi_pro" | "pro" | "national"
       user_role: "athlete" | "scout" | "coach"
     }
     CompositeTypes: {
@@ -839,10 +907,12 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      coaching_level: ["beginner", "club", "academy", "pro"],
       completion_status: ["not_started", "in_progress", "completed", "missed"],
       goal_status: ["not_started", "in_progress", "completed", "failed"],
       intensity_level: ["low", "medium", "high"],
       meal_type: ["breakfast", "lunch", "dinner", "snack"],
+      scouting_level: ["youth", "semi_pro", "pro", "national"],
       user_role: ["athlete", "scout", "coach"],
     },
   },
