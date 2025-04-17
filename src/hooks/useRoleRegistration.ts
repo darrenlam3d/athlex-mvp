@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
@@ -8,16 +7,9 @@ import {
   ScoutProfileFormValues,
   AthleteProfileFormValues 
 } from '@/components/auth/types';
+import { UniversalFormValues } from '@/components/auth/UniversalRegistrationForm';
 
 type Role = 'athlete' | 'coach' | 'scout';
-
-// Define universal form values type
-export interface UniversalFormValues {
-  fullName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
 
 export const useRoleRegistration = () => {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);

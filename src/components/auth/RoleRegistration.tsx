@@ -6,6 +6,7 @@ import CoachRegistrationForm from './CoachRegistrationForm';
 import ScoutRegistrationForm from './ScoutRegistrationForm';
 import AthleteRegistrationForm from './AthleteRegistrationForm';
 import UniversalRegistrationForm from './UniversalRegistrationForm';
+import { UniversalFormValues } from './UniversalRegistrationForm';
 
 const RoleRegistration = () => {
   const [step, setStep] = useState<'account' | 'profile'>('account');
@@ -27,7 +28,7 @@ const RoleRegistration = () => {
     return (
       <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto p-4">
         <UniversalRegistrationForm 
-          onSubmit={(data) => {
+          onSubmit={(data: UniversalFormValues) => {
             handleUniversalSubmit(data);
             setStep('profile');
           }}
