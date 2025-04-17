@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import AdminDashboard from '@/pages/AdminDashboard';
@@ -27,8 +28,10 @@ const EdgeSignupRedirect = () => {
 
 // Create a component for the role-based registration page
 const RoleRegistrationPage = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50">
-    <RoleRegistration />
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 to-gray-900 text-white px-4 py-8">
+    <div className="w-full max-w-4xl">
+      <RoleRegistration />
+    </div>
   </div>
 );
 

@@ -23,7 +23,9 @@ export const athleteProfileSchema = z.object({
   country: z.string().min(1, 'Country is required'),
   experienceLevel: z.enum(['beginner', 'amateur', 'semi_pro', 'professional']),
   height: z.number().optional(),
-  weight: z.number().optional()
+  weight: z.number().optional(),
+  dateOfBirth: z.date().optional(),
+  bio: z.string().optional()
 });
 
 export type CoachProfileFormValues = z.infer<typeof coachProfileSchema>;
