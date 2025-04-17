@@ -1,11 +1,13 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import AthleteCard, { Athlete } from '@/components/scouting/AthleteCard';
-import ScoutingFilters from '@/components/scouting/ScoutingFilters';
+import { Card } from '@/components/ui/card';
+import AthleteCard, { AthleteWithConnectionStatus } from './AthleteCard';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Search } from 'lucide-react';
 
 interface AllAthletesSectionProps {
-  athletes: Athlete[];
+  athletes: AthleteWithConnectionStatus[];
   isLoading: boolean;
   searchTerm: string;
   onSearchChange: (value: string) => void;
@@ -18,6 +20,7 @@ interface AllAthletesSectionProps {
   selectedGender: string;
   onGenderChange: (value: string) => void;
   onAddToShortlist: (athleteId: string) => void;
+  onSelectAthlete: (athlete: AthleteWithConnectionStatus) => void;
 }
 
 const AllAthletesSection: React.FC<AllAthletesSectionProps> = ({
@@ -33,57 +36,62 @@ const AllAthletesSection: React.FC<AllAthletesSectionProps> = ({
   onAgeRangeChange,
   selectedGender,
   onGenderChange,
-  onAddToShortlist
+  onAddToShortlist,
+  onSelectAthlete
 }) => {
-  // Filter athletes by search term
-  const filteredAthletes = athletes.filter(athlete => 
-    athlete.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (athlete.sport && athlete.sport.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (athlete.position && athlete.position.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (athlete.club && athlete.club.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
-      <ScoutingFilters
-        searchTerm={searchTerm}
-        onSearchChange={onSearchChange}
-        selectedSport={selectedSport}
-        onSportChange={onSportChange}
-        selectedPosition={selectedPosition}
-        onPositionChange={onPositionChange}
-        selectedAgeRange={selectedAgeRange}
-        onAgeRangeChange={onAgeRangeChange}
-        selectedGender={selectedGender}
-        onGenderChange={onGenderChange}
-      />
-      
-      <Card className="bg-athlex-gray-900 border-athlex-gray-800">
-        <CardHeader>
-          <CardTitle>All Athletes</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="text-center py-8">Loading athletes...</div>
-          ) : filteredAthletes.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredAthletes.map((athlete) => (
-                <AthleteCard
-                  key={athlete.id}
-                  athlete={athlete}
-                  type="all"
-                  onAddToShortlist={onAddToShortlist}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8 text-athlex-gray-400">
-              <p>No athletes match your search criteria.</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </>
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="relative col-span-full md:col-span-2">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+          <Input
+            placeholder="Search athletes..."
+            className="pl-9"
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
+        </div>
+        
+        <Select value={selectedSport} onValueChange={onSportChange}>
+          <SelectTrigger>
+            <SelectValue placeholder="Sport" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Sports</SelectItem>
+            <SelectItem value="football">Football</SelectItem>
+            <SelectItem value="basketball">Basketball</SelectItem>
+            <SelectItem value="tennis">Tennis</SelectItem>
+          </SelectContent>
+        </Select>
+        
+        <Select value={selectedPosition} onValueChange={onPositionChange}>
+          <SelectTrigger>
+            <SelectValue placeholder="Position" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Positions</SelectItem>
+            <SelectItem value="forward">Forward</SelectItem>
+            <SelectItem value="midfielder">Midfielder</SelectItem>
+            <SelectItem value="defender">Defender</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid gap-4">
+        {athletes.map((athlete) => (
+          <AthleteCard
+            key={athlete.id}
+            athlete={athlete}
+            onAddToShortlist={onAddToShortlist}
+            onClick={() => onSelectAthlete(athlete)}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 

@@ -1,49 +1,50 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import AthleteCard, { Athlete, AthleteWithConnectionStatus } from '@/components/scouting/AthleteCard';
+import { Card } from '@/components/ui/card';
+import AthleteCard, { AthleteWithConnectionStatus } from './AthleteCard';
+import { Users } from 'lucide-react';
 
 interface ShortlistedAthletesSectionProps {
-  athletes: Athlete[] | null;
+  athletes?: AthleteWithConnectionStatus[];
   isLoading: boolean;
   onRemoveFromShortlist: (athleteId: string) => void;
   onOpenChat: (athleteId: string) => void;
+  onSelectAthlete: (athlete: AthleteWithConnectionStatus) => void;
 }
 
 const ShortlistedAthletesSection: React.FC<ShortlistedAthletesSectionProps> = ({
-  athletes,
+  athletes = [],
   isLoading,
   onRemoveFromShortlist,
-  onOpenChat
+  onOpenChat,
+  onSelectAthlete
 }) => {
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!athletes.length) {
+    return (
+      <Card className="p-6 text-center">
+        <Users className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+        <h3 className="text-lg font-medium mb-2">No Shortlisted Athletes</h3>
+        <p className="text-gray-400">Athletes you shortlist will appear here</p>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="bg-athlex-gray-900 border-athlex-gray-800">
-      <CardHeader>
-        <CardTitle>Shortlisted Athletes</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {isLoading ? (
-          <div className="text-center py-8">Loading shortlisted athletes...</div>
-        ) : athletes && athletes.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {athletes.map((athlete) => (
-              <AthleteCard
-                key={athlete.id}
-                athlete={athlete}
-                type="shortlisted"
-                onRemoveFromShortlist={onRemoveFromShortlist}
-                onOpenChat={onOpenChat}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-8 text-athlex-gray-400">
-            <p>You haven't shortlisted any athletes yet.</p>
-            <p className="mt-2">Browse the "Recommended" or "All Athletes" tabs to find talent.</p>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+    <div className="grid gap-4">
+      {athletes.map((athlete) => (
+        <AthleteCard
+          key={athlete.id}
+          athlete={athlete}
+          onRemoveFromShortlist={onRemoveFromShortlist}
+          onOpenChat={onOpenChat}
+          onClick={() => onSelectAthlete(athlete)}
+        />
+      ))}
+    </div>
   );
 };
 

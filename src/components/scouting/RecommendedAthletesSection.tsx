@@ -1,45 +1,47 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import AthleteCard, { Athlete } from '@/components/scouting/AthleteCard';
+import { Card } from '@/components/ui/card';
+import AthleteCard, { AthleteWithConnectionStatus } from './AthleteCard';
+import { Users } from 'lucide-react';
 
 interface RecommendedAthletesSectionProps {
-  athletes: Athlete[] | null;
+  athletes?: AthleteWithConnectionStatus[];
   isLoading: boolean;
   onAddToShortlist: (athleteId: string) => void;
+  onSelectAthlete: (athlete: AthleteWithConnectionStatus) => void;
 }
 
 const RecommendedAthletesSection: React.FC<RecommendedAthletesSectionProps> = ({
-  athletes,
+  athletes = [],
   isLoading,
-  onAddToShortlist
+  onAddToShortlist,
+  onSelectAthlete
 }) => {
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!athletes.length) {
+    return (
+      <Card className="p-6 text-center">
+        <Users className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+        <h3 className="text-lg font-medium mb-2">No Recommended Athletes</h3>
+        <p className="text-gray-400">We'll recommend athletes based on your preferences</p>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="bg-athlex-gray-900 border-athlex-gray-800">
-      <CardHeader>
-        <CardTitle>Recommended Athletes</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {isLoading ? (
-          <div className="text-center py-8">Loading recommended athletes...</div>
-        ) : athletes && athletes.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {athletes.map((athlete) => (
-              <AthleteCard
-                key={athlete.id}
-                athlete={athlete}
-                type="recommended"
-                onAddToShortlist={onAddToShortlist}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-8 text-athlex-gray-400">
-            <p>No recommended athletes available at this time.</p>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+    <div className="grid gap-4">
+      {athletes.map((athlete) => (
+        <AthleteCard
+          key={athlete.id}
+          athlete={athlete}
+          onAddToShortlist={onAddToShortlist}
+          onClick={() => onSelectAthlete(athlete)}
+        />
+      ))}
+    </div>
   );
 };
 

@@ -9,6 +9,9 @@ import { Athlete, AthleteWithConnectionStatus } from '@/components/scouting/Athl
 import ShortlistedAthletesSection from '@/components/scouting/ShortlistedAthletesSection';
 import RecommendedAthletesSection from '@/components/scouting/RecommendedAthletesSection';
 import AllAthletesSection from '@/components/scouting/AllAthletesSection';
+import MvpAthleteDetail from '@/components/mvp/MvpAthleteDetail';
+import ScoutLayout from '@/layouts/ScoutLayout';
+import { useUserRole } from '@/contexts/UserRoleContext';
 import { 
   shortlistedAthletesMock, 
   recommendedAthletesMock, 
@@ -18,8 +21,6 @@ import {
   removeFromShortlist,
   sendMessage
 } from '@/utils/athleteUtils';
-import ScoutLayout from '@/layouts/ScoutLayout';
-import { useUserRole } from '@/contexts/UserRoleContext';
 
 const ScoutDashboard = () => {
   const { toast: uiToast } = useToast();
@@ -32,15 +33,18 @@ const ScoutDashboard = () => {
   const [selectedAgeRange, setSelectedAgeRange] = useState('all');
   const [selectedGender, setSelectedGender] = useState('all');
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('shortlisted'); // Default tab
+  const [activeTab, setActiveTab] = useState('shortlisted');
   
+  // Updated the state type to AthleteWithConnectionStatus which requires connection_status
+  const [selectedAthlete, setSelectedAthlete] = useState<AthleteWithConnectionStatus | null>(null);
+
   // Force user role to be scout for this page
   useEffect(() => {
     if (userRole !== 'scout') {
       setUserRole('scout');
     }
   }, [userRole, setUserRole]);
-  
+
   // Handle URL hash changes
   useEffect(() => {
     const hash = location.hash.replace('#', '');
@@ -55,9 +59,6 @@ const ScoutDashboard = () => {
     const hash = value === 'shortlisted' ? 'shortlist' : value;
     navigate(`/scout-dashboard#${hash}`, { replace: true });
   };
-  
-  // Updated the state type to AthleteWithConnectionStatus which requires connection_status
-  const [selectedAthlete, setSelectedAthlete] = useState<AthleteWithConnectionStatus | null>(null);
   
   // Current user mock (would come from Supabase auth in a real app)
   const currentUser = {
@@ -158,65 +159,88 @@ const ScoutDashboard = () => {
     }
   };
 
+  const handleOpenAthleteDetail = (athlete: AthleteWithConnectionStatus) => {
+    setSelectedAthlete(athlete);
+  };
+
   return (
     <ScoutLayout>
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">Welcome, {currentUser.name}</h1>
-          
-          <div className="mt-2 md:mt-0 flex items-center gap-2">
-            <span className="text-sm text-athlex-gray-400">
-              {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-            </span>
+      <div className="max-w-[2000px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Panel - Athletes List */}
+          <div>
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
+              <div>
+                <h1 className="text-2xl font-bold">Welcome, {currentUser.name}</h1>
+                <p className="text-athlex-gray-400">
+                  {new Date().toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </p>
+              </div>
+            </div>
+            
+            <Tabs value={activeTab} onValueChange={handleTabChange} className="mb-6">
+              <TabsList className="bg-athlex-gray-800 w-full md:w-auto mb-4">
+                <TabsTrigger value="shortlisted">Shortlisted Athletes</TabsTrigger>
+                <TabsTrigger value="recommended">Recommended</TabsTrigger>
+                <TabsTrigger value="all">All Athletes</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="shortlisted" className="space-y-6">
+                <ShortlistedAthletesSection
+                  athletes={shortlistedAthletes}
+                  isLoading={isLoadingShortlisted}
+                  onRemoveFromShortlist={handleRemoveFromShortlist}
+                  onOpenChat={handleOpenChat}
+                  onSelectAthlete={handleOpenAthleteDetail}
+                />
+              </TabsContent>
+              
+              <TabsContent value="recommended" className="space-y-6">
+                <RecommendedAthletesSection
+                  athletes={recommendedAthletes}
+                  isLoading={isLoadingRecommended}
+                  onAddToShortlist={handleAddToShortlist}
+                  onSelectAthlete={handleOpenAthleteDetail}
+                />
+              </TabsContent>
+              
+              <TabsContent value="all" className="space-y-6">
+                <AllAthletesSection
+                  athletes={allAthletes || []}
+                  isLoading={isLoadingAll}
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                  selectedSport={selectedSport}
+                  onSportChange={setSelectedSport}
+                  selectedPosition={selectedPosition}
+                  onPositionChange={setSelectedPosition}
+                  selectedAgeRange={selectedAgeRange}
+                  onAgeRangeChange={setSelectedAgeRange}
+                  selectedGender={selectedGender}
+                  onGenderChange={setSelectedGender}
+                  onAddToShortlist={handleAddToShortlist}
+                  onSelectAthlete={handleOpenAthleteDetail}
+                />
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          {/* Right Panel - Athlete Detail */}
+          <div className="lg:border-l lg:border-athlex-gray-800 lg:pl-6">
+            {selectedAthlete ? (
+              <MvpAthleteDetail athlete={selectedAthlete} />
+            ) : (
+              <div className="flex items-center justify-center h-full min-h-[400px] text-gray-400">
+                Select an athlete to view details
+              </div>
+            )}
           </div>
         </div>
-        
-        {/* Tabs for different sections */}
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="mb-6">
-          <TabsList className="bg-athlex-gray-800 w-full md:w-auto mb-4">
-            <TabsTrigger value="shortlisted" className="flex-1">Shortlisted Athletes</TabsTrigger>
-            <TabsTrigger value="recommended" className="flex-1">Recommended</TabsTrigger>
-            <TabsTrigger value="all" className="flex-1">All Athletes</TabsTrigger>
-          </TabsList>
-          
-          {/* Shortlisted Athletes Tab */}
-          <TabsContent value="shortlisted" className="space-y-6">
-            <ShortlistedAthletesSection
-              athletes={shortlistedAthletes}
-              isLoading={isLoadingShortlisted}
-              onRemoveFromShortlist={handleRemoveFromShortlist}
-              onOpenChat={handleOpenChat}
-            />
-          </TabsContent>
-          
-          {/* Recommended Athletes Tab */}
-          <TabsContent value="recommended" className="space-y-6">
-            <RecommendedAthletesSection
-              athletes={recommendedAthletes}
-              isLoading={isLoadingRecommended}
-              onAddToShortlist={handleAddToShortlist}
-            />
-          </TabsContent>
-          
-          {/* All Athletes Tab */}
-          <TabsContent value="all" className="space-y-6">
-            <AllAthletesSection
-              athletes={allAthletes || []}
-              isLoading={isLoadingAll}
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              selectedSport={selectedSport}
-              onSportChange={setSelectedSport}
-              selectedPosition={selectedPosition}
-              onPositionChange={setSelectedPosition}
-              selectedAgeRange={selectedAgeRange}
-              onAgeRangeChange={setSelectedAgeRange}
-              selectedGender={selectedGender}
-              onGenderChange={setSelectedGender}
-              onAddToShortlist={handleAddToShortlist}
-            />
-          </TabsContent>
-        </Tabs>
       </div>
       
       {/* Chat Panel */}
