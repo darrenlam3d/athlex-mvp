@@ -22,6 +22,24 @@ import {
   sendMessage
 } from '@/utils/athleteUtils';
 
+// Add interface for MvpAthlete that extends AthleteWithConnectionStatus
+interface MvpAthlete extends AthleteWithConnectionStatus {
+  age: number;
+  tacticalRole: string;
+  image: string;
+  stats: {
+    [key: string]: number;
+  };
+  positionAverage: number;
+}
+
+// Add interface for Message
+interface Message {
+  from: string;
+  to: string;
+  message: string;
+}
+
 const ScoutDashboard = () => {
   const { toast: uiToast } = useToast();
   const { userRole, setUserRole } = useUserRole();
@@ -159,9 +177,32 @@ const ScoutDashboard = () => {
     }
   };
 
+  // Transform athletes to MvpAthlete type when setting selected athlete
   const handleOpenAthleteDetail = (athlete: AthleteWithConnectionStatus) => {
-    setSelectedAthlete(athlete);
+    const mvpAthlete: MvpAthlete = {
+      ...athlete,
+      age: 23, // Default value
+      tacticalRole: athlete.position || 'Unknown',
+      image: athlete.profile_photo || '',
+      stats: {
+        pace: 85,
+        shooting: 80,
+        passing: 82,
+        dribbling: 78,
+        defending: 75,
+        physical: 83
+      },
+      positionAverage: 80
+    };
+    setSelectedAthlete(mvpAthlete);
   };
+
+  // Transform messages to correct Message type
+  const transformedMessages: Message[] = messagesMock.map(msg => ({
+    from: msg.senderId,
+    to: msg.recipientId,
+    message: msg.text
+  }));
 
   return (
     <ScoutLayout>
@@ -243,15 +284,16 @@ const ScoutDashboard = () => {
         </div>
       </div>
       
-      {/* Chat Panel */}
-      <ChatPanel
-        isOpen={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
-        currentUser={currentUser}
-        chatPartner={selectedAthlete}
-        messages={messagesMock}
-        onSendMessage={handleSendMessage}
-      />
+      {isChatOpen && (
+        <ChatPanel
+          isOpen={isChatOpen}
+          onClose={() => setIsChatOpen(false)}
+          currentUser={currentUser}
+          chatPartner={selectedAthlete}
+          messages={transformedMessages}
+          onSendMessage={handleSendMessage}
+        />
+      )}
     </ScoutLayout>
   );
 };
