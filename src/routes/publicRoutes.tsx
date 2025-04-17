@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import AdminDashboard from '@/pages/AdminDashboard';
@@ -40,7 +39,7 @@ export const publicRoutes = [
   <Route key="index" path="/" element={<Index />} />,
   
   // Add the role registration route
-  <Route key="role-registration" path="/role-registration" element={<RoleRegistrationPage />} />,
+  <Route key="registration" path="/registration" element={<RoleRegistrationPage />} />,
   
   // Alphabetical order for all other routes
   <Route key="admin" path="/admin" element={<AdminDashboard />} />,

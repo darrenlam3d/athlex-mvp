@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
@@ -39,7 +38,7 @@ const SignupForm = () => {
           description: 'Please check your email to verify your account.',
         });
         
-        navigate('/role-registration');
+        navigate('/registration');
       }
     } catch (error: any) {
       console.error('Sign up error:', error.message);
