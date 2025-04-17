@@ -1,5 +1,5 @@
-
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useRoleRegistration } from '@/hooks/useRoleRegistration';
 import UniversalRegistrationForm from './UniversalRegistrationForm';
 import AthleteRegistrationForm from './AthleteRegistrationForm';
@@ -9,10 +9,18 @@ import RoleRegistrationLayout from './RoleRegistrationLayout';
 import { UniversalFormValues } from './UniversalRegistrationForm';
 import type { UserRole } from '@/contexts/UserRoleContext';
 
-// Define a type that excludes empty string from UserRole
-type NonEmptyUserRole = Exclude<UserRole, ''>; 
+type NonEmptyUserRole = Exclude<UserRole, ''>;
+
+interface LocationState {
+  userData?: {
+    email: string;
+    fullName: string;
+  };
+}
 
 const RoleRegistration = () => {
+  const location = useLocation();
+  const { userData } = (location.state as LocationState) || {};
   const [step, setStep] = useState<'account' | 'profile'>('account');
   
   const {
@@ -38,11 +46,8 @@ const RoleRegistration = () => {
     }
   };
 
-  // Cast the selectedRole to NonEmptyUserRole when passing to components
-  // that expect only 'athlete', 'scout', or 'coach'
   const safeSelectedRole = selectedRole as NonEmptyUserRole;
   
-  // Handler to ensure we only set valid role values
   const handleRoleSelect = (role: NonEmptyUserRole) => {
     setSelectedRole(role);
   };
@@ -58,6 +63,7 @@ const RoleRegistration = () => {
           selectedRole={safeSelectedRole}
           onSelectRole={handleRoleSelect}
           isLoading={isLoading}
+          initialData={userData}
         />
       ) : (
         <div className="w-full">

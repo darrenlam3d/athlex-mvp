@@ -34,19 +34,24 @@ interface UniversalRegistrationFormProps {
   selectedRole: 'athlete' | 'coach' | 'scout' | null;
   onSelectRole: (role: 'athlete' | 'coach' | 'scout') => void;
   isLoading?: boolean;
+  initialData?: {
+    email: string;
+    fullName: string;
+  };
 }
 
 const UniversalRegistrationForm = ({ 
   onSubmit, 
   selectedRole,
   onSelectRole, 
-  isLoading = false 
+  isLoading = false,
+  initialData
 }: UniversalRegistrationFormProps) => {
   const form = useForm<UniversalFormValues>({
     resolver: zodResolver(universalFormSchema),
     defaultValues: {
-      fullName: '',
-      email: '',
+      fullName: initialData?.fullName || '',
+      email: initialData?.email || '',
       password: '',
       confirmPassword: ''
     }

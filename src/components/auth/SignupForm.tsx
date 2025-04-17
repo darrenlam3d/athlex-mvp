@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
@@ -35,10 +36,18 @@ const SignupForm = () => {
       
       if (data?.user) {
         toast.success('Sign up successful', {
-          description: 'Please check your email to verify your account.',
+          description: 'Please complete your profile setup.',
         });
         
-        navigate('/registration');
+        // Pass user data to registration page
+        navigate('/registration', {
+          state: {
+            userData: {
+              email,
+              fullName: `${firstName} ${lastName}`,
+            }
+          }
+        });
       }
     } catch (error: any) {
       console.error('Sign up error:', error.message);
