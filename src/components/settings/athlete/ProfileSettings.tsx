@@ -12,6 +12,7 @@ import { Camera, Save, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 const profileSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -28,12 +29,18 @@ type ProfileFormValues = z.infer<typeof profileSchema>;
 
 const ProfileSettings = () => {
   const { user } = useAuth();
+  
+  // Get user metadata from context
+  const userFirstName = user?.user_metadata?.first_name || '';
+  const userLastName = user?.user_metadata?.last_name || '';
+  const userAvatarUrl = user?.user_metadata?.avatar_url || '';
+  
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      displayName: '',
+      firstName: userFirstName,
+      lastName: userLastName,
+      displayName: `${userFirstName} ${userLastName}`.trim(),
       age: '',
       sport: '',
       position: '',
@@ -44,6 +51,7 @@ const ProfileSettings = () => {
 
   const onSubmit = (data: ProfileFormValues) => {
     console.log('Profile data:', data);
+    toast.success('Profile updated successfully');
     // TODO: Save to Supabase
   };
 
@@ -61,10 +69,10 @@ const ProfileSettings = () => {
       <CardContent>
         <div className="mb-6 flex items-center gap-4">
           <Avatar className="h-20 w-20">
-            <AvatarImage src={user?.avatar_url} alt={user?.first_name} />
+            <AvatarImage src={userAvatarUrl} alt={userFirstName} />
             <AvatarFallback className="bg-athlex-gray-800 text-white">
-              {user?.first_name?.[0]}
-              {user?.last_name?.[0]}
+              {userFirstName?.[0]}
+              {userLastName?.[0]}
             </AvatarFallback>
           </Avatar>
           <Button className="bg-athlex-accent hover:bg-athlex-accent-alt">
