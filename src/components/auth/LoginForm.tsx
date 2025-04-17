@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -42,10 +43,10 @@ const LoginForm = () => {
         const userRole = profileData?.role as 'athlete' | 'scout' | 'coach';
         
         if (!userRole) {
-        // Change from /role-registration to /registration
-        navigate('/registration');
-        return;
-      }
+          // Change from /role-registration to /registration
+          navigate('/registration');
+          return;
+        }
         
         toast.success('Logged in successfully');
         setUserRole(userRole);
