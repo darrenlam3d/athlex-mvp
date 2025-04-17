@@ -26,18 +26,20 @@ export interface AthleteWithConnectionStatus extends Athlete {
 
 interface AthleteCardProps {
   athlete: Athlete;
-  type: 'shortlisted' | 'recommended' | 'all';
+  type?: 'shortlisted' | 'recommended' | 'all';
   onAddToShortlist?: (athleteId: string) => void;
   onRemoveFromShortlist?: (athleteId: string) => void;
   onOpenChat?: (athleteId: string) => void;
+  onClick?: () => void;
 }
 
 const AthleteCard: React.FC<AthleteCardProps> = ({ 
   athlete, 
-  type,
+  type = 'all',
   onAddToShortlist,
   onRemoveFromShortlist,
-  onOpenChat
+  onOpenChat,
+  onClick
 }) => {
   const navigate = useNavigate();
   
@@ -74,7 +76,10 @@ const AthleteCard: React.FC<AthleteCardProps> = ({
   };
 
   return (
-    <Card className="bg-athlex-gray-900 border-athlex-gray-800 overflow-hidden hover:border-athlex-accent/50 transition-colors">
+    <Card 
+      className="bg-athlex-gray-900 border-athlex-gray-800 overflow-hidden hover:border-athlex-accent/50 transition-colors cursor-pointer" 
+      onClick={onClick}
+    >
       <CardContent className="p-5">
         <div className="flex flex-col items-center text-center mb-4">
           <Avatar className="w-16 h-16 mb-3">

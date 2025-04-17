@@ -1,123 +1,153 @@
 
-import { isSupabaseConfigured } from '@/lib/supabase';
-import { mockAthleteProfiles } from '@/lib/mock/athleteData';
-import { mockShortlistedAthletes } from '@/lib/mock/scoutData';
 import { toast } from 'sonner';
+import { AthleteWithConnectionStatus } from '@/components/scouting/AthleteCard';
 
-// Export the mockShortlistedAthletes for backward compatibility
-export const shortlistedAthletesMock = mockShortlistedAthletes.map(item => {
-  const athlete = mockAthleteProfiles.find(a => a.id === item.athlete_id);
-  if (!athlete) return null;
-  
-  return {
-    id: athlete.id,
-    name: `${athlete.first_name} ${athlete.last_name}`,
-    sport: athlete.sport,
-    position: athlete.position,
-    club: athlete.club || '',
-    recent_speed_kmh: 25.4, // Sample data
-    profile_photo: athlete.avatar_url
-  };
-}).filter(Boolean);
-
-// Export recommended athletes mock data
-export const recommendedAthletesMock = mockAthleteProfiles
-  .filter(athlete => !shortlistedAthletesMock.some(sa => sa?.id === athlete.id))
-  .slice(0, 2)
-  .map(athlete => ({
-    id: athlete.id,
-    name: `${athlete.first_name} ${athlete.last_name}`,
-    sport: athlete.sport,
-    position: athlete.position,
-    club: athlete.club || '',
-    performance_score: Math.floor(Math.random() * 11) + 80, // Random score between 80-90
-    profile_photo: athlete.avatar_url
-  }));
-
-// All athletes (combination and more)
-export const allAthletesMock = [
-  ...shortlistedAthletesMock,
-  ...recommendedAthletesMock,
-  ...mockAthleteProfiles
-    .filter(athlete => 
-      !shortlistedAthletesMock.some(sa => sa?.id === athlete.id) && 
-      !recommendedAthletesMock.some(ra => ra.id === athlete.id)
-    )
-    .slice(0, 2)
-    .map(athlete => ({
-      id: athlete.id,
-      name: `${athlete.first_name} ${athlete.last_name}`,
-      sport: athlete.sport,
-      position: athlete.position,
-      club: athlete.club || '',
-      performance_score: Math.floor(Math.random() * 11) + 80,
-      profile_photo: athlete.avatar_url
-    }))
-];
-
-// Mock messages for the chat panel
-export const messagesMock = [
+// Mock data for shortlisted athletes with connection_status
+export const shortlistedAthletesMock: AthleteWithConnectionStatus[] = [
   {
-    from: "scout_001",
-    to: "athlete_004",
-    timestamp: new Date(Date.now() - 3600000).toISOString(),
-    message: "Hi Arif, I saw your last match. Impressive performance!"
+    id: "athlete_001",
+    name: "Michael Wong",
+    sport: "Football",
+    position: "Striker",
+    club: "Singapore United FC",
+    recent_speed_kmh: 32.5,
+    profile_photo: "https://randomuser.me/api/portraits/men/32.jpg",
+    connection_status: 'connected'
   },
   {
-    from: "athlete_004",
-    to: "scout_001",
-    timestamp: new Date(Date.now() - 1800000).toISOString(),
-    message: "Thank you! I've been working on my finishing technique."
+    id: "athlete_002",
+    name: "Sarah Chen",
+    sport: "Basketball",
+    position: "Point Guard",
+    club: "Eastern Phoenix",
+    performance_score: 87,
+    profile_photo: "https://randomuser.me/api/portraits/women/44.jpg",
+    connection_status: 'connected'
+  },
+  {
+    id: "athlete_003",
+    name: "Raj Singh",
+    sport: "Football",
+    position: "Center Back",
+    club: "Marina Bay FC",
+    recent_speed_kmh: 28.9,
+    profile_photo: "https://randomuser.me/api/portraits/men/68.jpg",
+    connection_status: 'connected'
   }
 ];
 
-// Add an athlete to shortlist
-export const addToShortlist = async (athleteId: string, currentUserId: string) => {
-  try {
-    if (isSupabaseConfigured()) {
-      console.log('Would add athlete to shortlist in Supabase if configured', { athleteId, currentUserId });
-    }
-    
-    toast.success('Athlete added to shortlist');
-    return true;
-  } catch (error) {
-    console.error('Error adding to shortlist:', error);
-    return false;
+// Mock data for recommended athletes with connection_status
+export const recommendedAthletesMock: AthleteWithConnectionStatus[] = [
+  {
+    id: "athlete_004",
+    name: "Arif Rahman",
+    sport: "Football",
+    position: "Striker",
+    club: "Tampines Elite",
+    recent_speed_kmh: 33.7,
+    profile_photo: "https://randomuser.me/api/portraits/men/75.jpg",
+    connection_status: 'not_connected'
+  },
+  {
+    id: "athlete_005",
+    name: "Lena Koh",
+    sport: "Netball",
+    position: "Wing Attack",
+    club: "Civic Blaze",
+    performance_score: 91,
+    profile_photo: "https://randomuser.me/api/portraits/women/22.jpg",
+    connection_status: 'not_connected'
+  },
+  {
+    id: "athlete_006",
+    name: "Marcus Chen",
+    sport: "Basketball",
+    position: "Point Guard",
+    club: "Skyline Ballers",
+    performance_score: 84,
+    profile_photo: "https://randomuser.me/api/portraits/men/8.jpg",
+    connection_status: 'not_connected'
   }
+];
+
+// Mock data for all athletes with connection_status
+export const allAthletesMock: AthleteWithConnectionStatus[] = [
+  ...shortlistedAthletesMock,
+  ...recommendedAthletesMock,
+  {
+    id: "athlete_007",
+    name: "Sarah Wong",
+    sport: "Football",
+    position: "Midfielder",
+    club: "Northern Stars FC",
+    recent_speed_kmh: 30.2,
+    profile_photo: "https://randomuser.me/api/portraits/women/17.jpg",
+    connection_status: 'not_connected'
+  },
+  {
+    id: "athlete_008",
+    name: "Taufiq Ismail",
+    sport: "Swimming",
+    position: "Freestyle",
+    club: "Aquatic Performance",
+    performance_score: 88,
+    profile_photo: "https://randomuser.me/api/portraits/men/45.jpg",
+    connection_status: 'not_connected'
+  }
+];
+
+// Mock messages data for chat
+export const messagesMock = [
+  {
+    id: "msg_001",
+    senderId: "scout_001",
+    recipientId: "athlete_001",
+    text: "Hi Michael, I was impressed with your performance in the last match. Would you be interested in a trial?",
+    timestamp: new Date(Date.now() - 86400000).toISOString() // 1 day ago
+  },
+  {
+    id: "msg_002",
+    senderId: "athlete_001",
+    recipientId: "scout_001",
+    text: "Thank you for reaching out! I would definitely be interested in a trial. When would this be?",
+    timestamp: new Date(Date.now() - 82800000).toISOString() // 23 hours ago
+  },
+  {
+    id: "msg_003",
+    senderId: "scout_001",
+    recipientId: "athlete_001",
+    text: "Great! We're looking at next Tuesday. Would that work for you?",
+    timestamp: new Date(Date.now() - 79200000).toISOString() // 22 hours ago
+  },
+  {
+    id: "msg_004",
+    senderId: "athlete_001",
+    recipientId: "scout_001",
+    text: "Tuesday works perfectly. What time and where?",
+    timestamp: new Date(Date.now() - 43200000).toISOString() // 12 hours ago
+  }
+];
+
+// Mock function to add athlete to shortlist
+export const addToShortlist = async (athleteId: string, scoutId: string): Promise<boolean> => {
+  console.log(`Adding athlete ${athleteId} to shortlist for scout ${scoutId}`);
+  // In a real app, this would make a Supabase call
+  // For demo, just return success
+  return true;
 };
 
-// Remove an athlete from shortlist
-export const removeFromShortlist = async (athleteId: string, currentUserId: string) => {
-  try {
-    if (isSupabaseConfigured()) {
-      console.log('Would remove athlete from shortlist in Supabase if configured', { athleteId, currentUserId });
-    }
-    
-    toast.success('Athlete removed from shortlist');
-    return true;
-  } catch (error) {
-    console.error('Error removing from shortlist:', error);
-    return false;
-  }
+// Mock function to remove athlete from shortlist
+export const removeFromShortlist = async (athleteId: string, scoutId: string): Promise<boolean> => {
+  console.log(`Removing athlete ${athleteId} from shortlist for scout ${scoutId}`);
+  // In a real app, this would make a Supabase call
+  // For demo, just return success
+  return true;
 };
 
-// Send a message to an athlete
-export const sendMessage = async (fromUserId: string, toUserId: string, message: string) => {
-  try {
-    const newMessage = {
-      from: fromUserId,
-      to: toUserId,
-      message,
-      timestamp: new Date().toISOString()
-    };
-    
-    if (isSupabaseConfigured()) {
-      console.log('Would send message in Supabase if configured', newMessage);
-    }
-    
-    return true;
-  } catch (error) {
-    console.error('Error sending message:', error);
-    return false;
-  }
+// Mock function to send a message
+export const sendMessage = async (senderId: string, recipientId: string, text: string): Promise<boolean> => {
+  console.log(`Sending message from ${senderId} to ${recipientId}: ${text}`);
+  // In a real app, this would make a Supabase call
+  // For demo, just return success
+  return true;
 };
