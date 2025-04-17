@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import MvpAthleteList from './MvpAthleteList';
@@ -19,6 +18,8 @@ export interface MvpAthlete {
   image: string;
   team?: string;
   nationality?: string;
+  sport: string;
+  connection_status: 'connected' | 'not_connected';
   stats: {
     xG: number;
     passCompletion: number;
@@ -46,6 +47,8 @@ const sampleAthletes: MvpAthlete[] = [
     tacticalRole: 'Box-to-Box',
     team: 'Manchester City',
     nationality: 'England',
+    sport: 'Football',
+    connection_status: 'not_connected',
     image: 'https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?q=80&w=2076',
     stats: {
       xG: 0.34,
@@ -72,6 +75,8 @@ const sampleAthletes: MvpAthlete[] = [
     tacticalRole: 'Inside Forward',
     team: 'Arsenal WFC',
     nationality: 'USA',
+    sport: 'Football',
+    connection_status: 'not_connected',
     image: 'https://images.unsplash.com/photo-1567013127542-490d757e6349?q=80&w=1974',
     stats: {
       xG: 0.68,
@@ -98,6 +103,8 @@ const sampleAthletes: MvpAthlete[] = [
     tacticalRole: 'Fullback',
     team: 'Tottenham Hotspur',
     nationality: 'China',
+    sport: 'Football',
+    connection_status: 'not_connected',
     image: 'https://images.unsplash.com/photo-1519058082700-08a0b56da9b4?q=80&w=1974',
     stats: {
       xG: 0.12,
@@ -124,6 +131,8 @@ const sampleAthletes: MvpAthlete[] = [
     tacticalRole: 'Playmaker',
     team: 'Real Madrid',
     nationality: 'Croatia',
+    sport: 'Football',
+    connection_status: 'not_connected',
     image: 'https://images.unsplash.com/photo-1539635278303-d4002c07eae3?q=80&w=2070',
     stats: {
       xG: 0.22,
