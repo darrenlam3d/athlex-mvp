@@ -1,5 +1,11 @@
 
+# This file controls the configuration for your Supabase project
+
 project_id = "dndudgqkoiybenqnavoi"
+
+[auth]
+site_url = "https://athlex.info"
+additional_redirect_urls = ["https://athlex.info/*"]
 
 [functions.send-notification]
 verify_jwt = false
