@@ -15,27 +15,27 @@ export const athleteRoutes = [
       <AthleteDashboard />
     </RouteGuard>
   } />,
-  <Route key="training" path="/training" element={
+  <Route key="athlete-training" path="/athlete-training" element={
     <RouteGuard requiredRole="athlete">
       <Training />
     </RouteGuard>
   } />,
-  <Route key="training-log" path="/training-log" element={
+  <Route key="athlete-training-log" path="/athlete-training-log" element={
     <RouteGuard requiredRole="athlete">
       <TrainingLog />
     </RouteGuard>
   } />,
-  <Route key="performance" path="/performance" element={
+  <Route key="athlete-performance" path="/athlete-performance" element={
     <RouteGuard requiredRole="athlete">
       <Performance />
     </RouteGuard>
   } />,
-  <Route key="performance-goals" path="/performance-goals" element={
+  <Route key="athlete-performance-goals" path="/athlete-performance-goals" element={
     <RouteGuard requiredRole="athlete">
       <PerformanceGoals />
     </RouteGuard>
   } />,
-  <Route key="nutrition" path="/nutrition" element={
+  <Route key="athlete-nutrition" path="/athlete-nutrition" element={
     <RouteGuard requiredRole="athlete">
       <Nutrition />
     </RouteGuard>

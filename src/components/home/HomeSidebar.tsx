@@ -38,9 +38,9 @@ const HomeSidebar = () => {
               <button className="w-full text-left text-sm text-gray-300 hover:text-white px-2 py-1.5 rounded-md hover:bg-gray-800">
                 Post Update
               </button>
-              <button className="w-full text-left text-sm text-gray-300 hover:text-white px-2 py-1.5 rounded-md hover:bg-gray-800">
+              <Link to="/athlete-training-log" className="block text-sm text-gray-300 hover:text-white px-2 py-1.5 rounded-md hover:bg-gray-800">
                 Track Training
-              </button>
+              </Link>
             </div>
             
             <div className="w-full border-t border-gray-700 my-3"></div>

@@ -8,10 +8,11 @@ import TrainingLogList from '@/components/training/TrainingLogList';
 import TrainingLogForm from '@/components/training/TrainingLogForm';
 import TrainingCalendar from '@/components/training/TrainingCalendar';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, Calendar as CalendarIcon, List } from 'lucide-react';
+import { PlusCircle, Calendar as CalendarIcon, List, ArrowLeft } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { mockTrainingLogs, mockTrainingSchedule } from '@/lib/mockData';
 import { adaptTrainingSessions, adaptAssignedTrainings } from '@/utils/trainingAdapterUtils';
+import { Link } from 'react-router-dom';
 
 const TrainingLog = () => {
   const [isAddingTraining, setIsAddingTraining] = useState(false);
@@ -64,7 +65,14 @@ const TrainingLog = () => {
           <div className="flex-1 p-4 md:p-6 overflow-y-auto">
             <div className="max-w-4xl mx-auto">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-                <h1 className="text-2xl md:text-3xl font-bold">Training Log</h1>
+                <div className="flex items-center gap-2">
+                  <Link to="/athlete-training">
+                    <Button variant="ghost" size="icon">
+                      <ArrowLeft className="h-5 w-5" />
+                    </Button>
+                  </Link>
+                  <h1 className="text-2xl md:text-3xl font-bold">Training Log</h1>
+                </div>
                 
                 <div className="flex space-x-2">
                   <Tabs defaultValue={view} onValueChange={(v) => setView(v as 'list' | 'calendar')} className="w-[200px]">
