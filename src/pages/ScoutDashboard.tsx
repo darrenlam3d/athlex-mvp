@@ -13,6 +13,7 @@ import AllAthletesSection from '@/components/scouting/AllAthletesSection';
 import MvpAthleteDetail from '@/components/mvp/MvpAthleteDetail';
 import ScoutLayout from '@/layouts/ScoutLayout';
 import { useUserRole } from '@/contexts/UserRoleContext';
+import { MvpAthlete } from '@/components/mvp/MvpScoutView';
 import { 
   shortlistedAthletesMock, 
   recommendedAthletesMock, 
@@ -23,22 +24,12 @@ import {
   sendMessage
 } from '@/utils/athleteUtils';
 
-// Add interface for MvpAthlete that extends AthleteWithConnectionStatus
-interface MvpAthlete extends AthleteWithConnectionStatus {
-  age: number;
-  tacticalRole: string;
-  image: string;
-  stats: {
-    [key: string]: number;
-  };
-  positionAverage: number;
-}
-
-// Define our custom Message interface to avoid conflicts
-interface ChatMessage {
+// Interface for the chat messages
+interface Message {
   from: string;
   to: string;
   message: string;
+  timestamp: string;
 }
 
 const ScoutDashboard = () => {
@@ -54,7 +45,7 @@ const ScoutDashboard = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('shortlisted');
   
-  // Updated state type explicitly to MvpAthlete to fix the type issue
+  // Updated to match the MvpAthlete type from MvpScoutView
   const [selectedAthlete, setSelectedAthlete] = useState<MvpAthlete | null>(null);
 
   // Force user role to be scout for this page
@@ -156,12 +147,7 @@ const ScoutDashboard = () => {
   const handleOpenChat = (athleteId: string) => {
     const athlete = shortlistedAthletes?.find(a => a.id === athleteId) || null;
     if (athlete) {
-      // Create a new object with required connection_status
-      const athleteWithConnectionStatus: AthleteWithConnectionStatus = {
-        ...athlete,
-        connection_status: 'connected' 
-      };
-      setSelectedAthlete(athleteWithConnectionStatus);
+      // Just store the athlete for chat, not for detail view
       setIsChatOpen(true);
     }
   };
@@ -180,29 +166,43 @@ const ScoutDashboard = () => {
 
   // Transform athletes to MvpAthlete type when setting selected athlete
   const handleOpenAthleteDetail = (athlete: AthleteWithConnectionStatus) => {
+    // Create a properly structured MvpAthlete object from the athlete data
     const mvpAthlete: MvpAthlete = {
-      ...athlete,
+      id: athlete.id,
+      name: athlete.name,
       age: 23, // Default value
+      position: athlete.position || "Unknown", // Ensure position is not undefined
       tacticalRole: athlete.position || 'Unknown',
       image: athlete.profile_photo || '',
+      team: athlete.club,
+      nationality: "Unknown", // Default value
       stats: {
-        pace: 85,
-        shooting: 80,
-        passing: 82,
-        dribbling: 78,
-        defending: 75,
-        physical: 83
+        xG: 0.34,
+        passCompletion: 87.2,
+        tackles: 6.4,
+        aerialDuelsWon: 4,
+        shotsOnTarget: 1.8,
+        distanceCovered: 12.3
       },
-      positionAverage: 80
+      positionAverage: {
+        xG: 0.22,
+        passCompletion: 79.5,
+        tackles: 4.8,
+        aerialDuelsWon: 3.2,
+        shotsOnTarget: 1.2,
+        distanceCovered: 10.8
+      }
     };
+    
     setSelectedAthlete(mvpAthlete);
   };
 
-  // Transform messages to correct Message type for ChatPanel
-  const transformedMessages: ChatMessage[] = messagesMock.map(msg => ({
+  // Transform messages to include timestamp as required by ChatPanel
+  const transformedMessages: Message[] = messagesMock.map(msg => ({
     from: msg.senderId,
     to: msg.recipientId,
-    message: msg.text
+    message: msg.text,
+    timestamp: msg.timestamp || new Date().toISOString() // Ensure timestamp is always present
   }));
 
   return (
