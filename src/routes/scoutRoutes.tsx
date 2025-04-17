@@ -1,22 +1,22 @@
+
 import React from 'react';
 import { Route } from 'react-router-dom';
 import RouteGuard from '@/components/auth/RouteGuard';
+import Community from '@/pages/Community';
 import ScoutDashboard from '@/pages/ScoutDashboard';
 import ScoutingReports from '@/pages/ScoutingReports';
 import ScoutNotes from '@/pages/ScoutNotes';
-import Settings from '@/pages/Settings';
-import Community from '@/pages/Community';
 import ScoutSettings from '@/pages/ScoutSettings';
 
 export const scoutRoutes = [
+  <Route key="scout-community" path="/scout-community" element={
+    <RouteGuard requiredRole="scout">
+      <Community />
+    </RouteGuard>
+  } />,
   <Route key="scout-dashboard" path="/scout-dashboard" element={
     <RouteGuard requiredRole="scout">
       <ScoutDashboard />
-    </RouteGuard>
-  } />,
-  <Route key="scout-reports" path="/scout-reports" element={
-    <RouteGuard requiredRole="scout">
-      <ScoutingReports />
     </RouteGuard>
   } />,
   <Route key="scout-notes" path="/scout-notes" element={
@@ -24,9 +24,9 @@ export const scoutRoutes = [
       <ScoutNotes />
     </RouteGuard>
   } />,
-  <Route key="scout-community" path="/scout-community" element={
+  <Route key="scout-reports" path="/scout-reports" element={
     <RouteGuard requiredRole="scout">
-      <Community />
+      <ScoutingReports />
     </RouteGuard>
   } />,
   <Route key="scout-settings" path="/scout-settings" element={
@@ -35,4 +35,3 @@ export const scoutRoutes = [
     </RouteGuard>
   } />,
 ];
-
