@@ -1,60 +1,62 @@
 
 import React from 'react';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import AthleteSidebar from '@/components/dashboard/AthleteSidebar';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import BasicInfo from '@/components/settings/BasicInfo';
-import FootballProfile from '@/components/settings/FootballProfile';
-import NotificationPreferences from '@/components/settings/NotificationPreferences';
-import PrivacyControls from '@/components/settings/PrivacyControls';
-import AthleteTrainingSettings from '@/components/settings/AthleteTrainingSettings';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import AthleteLayout from '@/layouts/AthleteLayout';
+import ProfileSettings from '@/components/settings/athlete/ProfileSettings';
+import PerformanceSettings from '@/components/settings/athlete/PerformanceSettings';
+import WearableSettings from '@/components/settings/athlete/WearableSettings';
+import TrainingSettings from '@/components/settings/athlete/TrainingSettings';
+import NotificationSettings from '@/components/settings/athlete/NotificationSettings';
+import PrivacySettings from '@/components/settings/athlete/PrivacySettings';
+import AccountSettings from '@/components/settings/AccountSettings';
 
 const AthleteSettings = () => {
   return (
-    <div className="min-h-screen bg-athlex-background text-white">
-      <SidebarProvider>
-        <div className="flex w-full min-h-screen">
-          <AthleteSidebar />
-          <div className="flex-1 p-4 md:p-6 overflow-y-auto">
-            <div className="max-w-6xl mx-auto">
-              <h1 className="text-2xl md:text-3xl font-bold mb-6">Athlete Settings</h1>
-              
-              <Tabs defaultValue="basic-info" className="w-full">
-                <TabsList className="grid grid-cols-2 md:grid-cols-5 mb-6 bg-gray-800">
-                  <TabsTrigger value="basic-info">Basic Info</TabsTrigger>
-                  <TabsTrigger value="sports-profile">Sports Profile</TabsTrigger>
-                  <TabsTrigger value="training">Training</TabsTrigger>
-                  <TabsTrigger value="notifications">Notifications</TabsTrigger>
-                  <TabsTrigger value="privacy">Privacy</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="basic-info">
-                  <BasicInfo />
-                </TabsContent>
-                
-                <TabsContent value="sports-profile">
-                  <FootballProfile />
-                </TabsContent>
-                
-                <TabsContent value="training">
-                  <AthleteTrainingSettings />
-                </TabsContent>
-                
-                <TabsContent value="notifications">
-                  <NotificationPreferences />
-                </TabsContent>
-                
-                <TabsContent value="privacy">
-                  <PrivacyControls />
-                </TabsContent>
-              </Tabs>
-            </div>
-          </div>
-        </div>
-      </SidebarProvider>
-    </div>
+    <AthleteLayout>
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-white">Settings</h1>
+        
+        <Tabs defaultValue="profile" className="w-full">
+          <TabsList className="grid grid-cols-2 md:grid-cols-7 mb-6 bg-athlex-gray-800">
+            <TabsTrigger value="profile">Profile</TabsTrigger>
+            <TabsTrigger value="performance">Performance</TabsTrigger>
+            <TabsTrigger value="wearables">Wearables</TabsTrigger>
+            <TabsTrigger value="training">Training</TabsTrigger>
+            <TabsTrigger value="notifications">Notifications</TabsTrigger>
+            <TabsTrigger value="privacy">Privacy</TabsTrigger>
+            <TabsTrigger value="account">Account</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="profile">
+            <ProfileSettings />
+          </TabsContent>
+          
+          <TabsContent value="performance">
+            <PerformanceSettings />
+          </TabsContent>
+          
+          <TabsContent value="wearables">
+            <WearableSettings />
+          </TabsContent>
+          
+          <TabsContent value="training">
+            <TrainingSettings />
+          </TabsContent>
+          
+          <TabsContent value="notifications">
+            <NotificationSettings />
+          </TabsContent>
+          
+          <TabsContent value="privacy">
+            <PrivacySettings />
+          </TabsContent>
+          
+          <TabsContent value="account">
+            <AccountSettings />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </AthleteLayout>
   );
 };
 
