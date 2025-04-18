@@ -22,14 +22,14 @@ const AthleteRoutes = () => (
       </RouteGuard>
     }
   >
-    <Route path="/athlete-dashboard" element={<AthleteDashboard />} />
-    <Route path="/athlete-performance" element={<AthletePerformance />} />
-    <Route path="/athlete-training-log" element={<AthleteTrainingLog />} />
-    <Route path="/athlete-performance-goals" element={<AthleteGoals />} />
-    <Route path="/athlete-nutrition" element={<AthleteNutrition />} />
-    <Route path="/community" element={<Community />} />
-    <Route path="/athlete-settings" element={<AthleteSettings />} />
-    <Route path="/athlete" element={<Navigate to="/athlete-dashboard" replace />} />
+    <Route index element={<Navigate to="/athlete/dashboard" replace />} />
+    <Route path="/athlete/dashboard" element={<AthleteDashboard />} />
+    <Route path="/athlete/performance" element={<AthletePerformance />} />
+    <Route path="/athlete/training-log" element={<AthleteTrainingLog />} />
+    <Route path="/athlete/goals" element={<AthleteGoals />} />
+    <Route path="/athlete/nutrition" element={<AthleteNutrition />} />
+    <Route path="/athlete/community" element={<Community />} />
+    <Route path="/athlete/settings" element={<AthleteSettings />} />
   </Route>
 );
 

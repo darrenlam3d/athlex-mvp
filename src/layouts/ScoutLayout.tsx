@@ -11,11 +11,11 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { icon: LayoutDashboard, text: 'Dashboard', path: '/scout-dashboard' },
-  { icon: FileText, text: 'Scouting Reports', path: '/scout-reports' },
-  { icon: ClipboardList, text: 'Scout Notes', path: '/scout-notes' },
-  { icon: Users, text: 'Community', path: '/scout-community' },
-  { icon: Settings, text: 'Settings', path: '/scout-settings' },
+  { icon: LayoutDashboard, text: 'Dashboard', path: '/scout/dashboard' },
+  { icon: FileText, text: 'Scouting Reports', path: '/scout/reports' },
+  { icon: ClipboardList, text: 'Scout Notes', path: '/scout/notes' },
+  { icon: Users, text: 'Community', path: '/scout/community' },
+  { icon: Settings, text: 'Settings', path: '/scout/settings' },
 ];
 
 interface ScoutLayoutProps {

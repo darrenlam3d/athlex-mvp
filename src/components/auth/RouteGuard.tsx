@@ -46,11 +46,11 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
     
     // Redirect to the appropriate dashboard based on the user's role
     if (role === 'athlete') {
-      return <Navigate to="/athlete-dashboard" replace />;
+      return <Navigate to="/athlete/dashboard" replace />;
     } else if (role === 'scout') {
-      return <Navigate to="/scout-dashboard" replace />;
+      return <Navigate to="/scout/dashboard" replace />;
     } else if (role === 'coach') {
-      return <Navigate to="/coach-dashboard" replace />;
+      return <Navigate to="/coach/dashboard" replace />;
     } else {
       // If no valid role, redirect to login
       return <Navigate to="/login" replace />;
