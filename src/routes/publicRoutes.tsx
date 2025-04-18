@@ -51,11 +51,11 @@ export const publicRoutes = [
   <Route key="messages" path="/messages" element={<Messages />} />,
   <Route key="settings" path="/settings" element={<Settings />} />,
   
-  // Legacy route handling for old athlete-* routes
+  // Legacy route handling for old athlete-* routes - Fixed TypeScript error
   <Route 
     key="legacy-athlete" 
     path="/athlete-:page" 
-    element={<Navigate to={location => `/athlete/${location.pathname.split('-')[1]}`} replace />} 
+    element={<Navigate to={(props) => `/athlete/${props.params.page}`} replace />} 
   />,
   
   // Catch-all route should always be last

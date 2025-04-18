@@ -1,31 +1,18 @@
 
 import React, { useEffect, useState } from 'react';
-import { useParams, Navigate, useNavigate } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { useUserRole } from '@/contexts/UserRoleContext';
 import { getAthleteById } from '@/utils/athleteDetailUtils';
-import { ArrowLeft, Calendar } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import ScoutLayout from '@/layouts/ScoutLayout';
-import CoachLayout from '@/layouts/CoachLayout';
-
-// Import all the components we created
-import AthleteHeader from '@/components/athlete/AthleteHeader';
-import AthletePassport from '@/components/athlete/AthletePassport';
-import RecentTraining from '@/components/athlete/RecentTraining';
-import PerformanceMetrics from '@/components/athlete/PerformanceMetrics';
-import GoalOverview from '@/components/athlete/GoalOverview';
-import ScoutingActions from '@/components/athlete/ScoutingActions';
-// Import our new components
-import NutritionOverview from '@/components/athlete/NutritionOverview';
-import ScoutingNotes from '@/components/athlete/ScoutingNotes';
+import AthleteDetailHeader from '@/components/athlete/detail/AthleteDetailHeader';
+import AthleteDetailContent from '@/components/athlete/detail/AthleteDetailContent';
+import AthleteDetailLayout from '@/components/athlete/detail/AthleteDetailLayout';
 
 const AthleteDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { userRole } = useUserRole();
-  const navigate = useNavigate();
   const [isShortlisted, setIsShortlisted] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   
@@ -54,19 +41,12 @@ const AthleteDetailPage: React.FC = () => {
     }
   });
 
-  // Check if athlete is in shortlist and connection status (mock for now)
+  // Check if athlete is in shortlist and connection status
   useEffect(() => {
-    // In a real app, this would be a database check
-    // For demo purposes, randomly determine if shortlisted
     setIsShortlisted(Math.random() > 0.5);
-    
-    // For coaches, determine if they have a connection with this athlete
-    // In a real app, this would be from a connections/relationships table
     if (userRole === 'coach') {
-      // Mock data: 70% chance of being connected for demo
       setIsConnected(Math.random() > 0.3);
     } else {
-      // Scouts always have access
       setIsConnected(true);
     }
   }, [id, userRole]);
@@ -76,14 +56,6 @@ const AthleteDetailPage: React.FC = () => {
       toast.success(`${athlete.name} added to shortlist`);
       setIsShortlisted(true);
     }
-  };
-
-  const handleBack = () => {
-    navigate(-1); // Go back to previous page
-  };
-  
-  const handleAssignTraining = () => {
-    navigate(`/assign-training?athlete_id=${id}`);
   };
 
   if (isLoading) {
@@ -100,120 +72,24 @@ const AthleteDetailPage: React.FC = () => {
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Athlete Not Found</h2>
           <p className="text-gray-400 mb-6">The athlete you're looking for might not exist or you don't have permission to view it.</p>
-          <Button onClick={handleBack} variant="outline">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Go Back
-          </Button>
+          <AthleteDetailHeader />
         </div>
       </div>
     );
   }
 
-  // Determine which sections to show based on user role and connection status
-  const showPerformanceMetrics = userRole === 'scout' || (userRole === 'coach' && isConnected);
-  const showGoals = userRole === 'scout' || (userRole === 'coach' && isConnected);
-  const showTrainingSessions = userRole === 'scout' || (userRole === 'coach' && isConnected);
-  const showNutrition = userRole === 'coach' && isConnected;
-
-  // Render content with the appropriate layout based on user role
-  const renderContent = () => {
-    const content = (
-      <>
-        <div className="max-w-7xl mx-auto">
-          <Button 
-            variant="ghost" 
-            className="mb-4" 
-            onClick={handleBack}
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
-          </Button>
-          
-          {/* Athlete Header with Assign Training button for coaches */}
-          <div className="flex flex-col md:flex-row gap-6 mb-6">
-            <div className="flex-1">
-              <AthleteHeader 
-                athlete={athlete} 
-                onAddToShortlist={handleAddToShortlist} 
-              />
-            </div>
-            
-            {/* Add Assign Training button for coaches */}
-            {userRole === 'coach' && isConnected && (
-              <div className="md:self-start md:mt-4">
-                <Button 
-                  className="w-full md:w-auto bg-athlex-accent hover:bg-athlex-accent/90"
-                  onClick={handleAssignTraining}
-                >
-                  <Calendar className="mr-2 h-4 w-4" />
-                  Assign Training to {athlete.name.split(' ')[0]}
-                </Button>
-              </div>
-            )}
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Left Column - Athlete Passport Summary and Recent Training */}
-            <div className="md:col-span-1 space-y-6">
-              <AthletePassport athlete={athlete} />
-              
-              {showTrainingSessions && (
-                <RecentTraining sessions={athlete?.training_sessions || []} />
-              )}
-              
-              <div className="md:hidden">
-                <ScoutingActions 
-                  athleteId={id || ''} 
-                  isShortlisted={isShortlisted} 
-                  isConnected={isConnected} 
-                />
-              </div>
-            </div>
-            
-            {/* Right Column - Performance Data and Goals */}
-            <div className="md:col-span-2 space-y-6">
-              {showPerformanceMetrics && (
-                <PerformanceMetrics performanceData={athlete?.performance_metrics} />
-              )}
-              
-              {showGoals && (
-                <GoalOverview goals={athlete?.goals || []} />
-              )}
-              
-              {/* Add Nutrition Overview for coaches */}
-              {showNutrition && (
-                <NutritionOverview athleteId={id || ''} />
-              )}
-              
-              {/* Scouting Notes section for both scouts and coaches */}
-              <ScoutingNotes 
-                athleteId={id || ''} 
-                isConnected={isConnected} 
-              />
-            </div>
-
-            {/* Scouting Actions - Desktop Only */}
-            <div className="hidden md:block md:col-span-1">
-              <ScoutingActions 
-                athleteId={id || ''} 
-                isShortlisted={isShortlisted}
-                isConnected={isConnected}
-              />
-            </div>
-          </div>
-        </div>
-      </>
-    );
-
-    if (userRole === 'coach') {
-      return <CoachLayout>{content}</CoachLayout>;
-    }
-    
-    // Default to Scout layout
-    return <ScoutLayout>{content}</ScoutLayout>;
-  };
-
-  return renderContent();
+  return (
+    <AthleteDetailLayout>
+      <AthleteDetailHeader />
+      <AthleteDetailContent
+        athlete={athlete}
+        id={id || ''}
+        isShortlisted={isShortlisted}
+        isConnected={isConnected}
+        onAddToShortlist={handleAddToShortlist}
+      />
+    </AthleteDetailLayout>
+  );
 };
 
 export default AthleteDetailPage;
