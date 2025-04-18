@@ -2,6 +2,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { isUserRoleLoaded } from '@/utils/roleUtils';
 import { Loader2 } from 'lucide-react';
 import { isDemoMode } from '@/lib/supabase';
 
@@ -13,11 +14,11 @@ interface RouteGuardProps {
 const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
   const { role, user, loading } = useAuth();
   const location = useLocation();
-
-  // Define public routes that don't require authentication
-  const publicPaths = ['/', '/login', '/login-demo', '/registration'];
-  const isPublicPath = publicPaths.includes(location.pathname);
-
+  
+  // Improved handling of demo login
+  const isFromDemoLogin = location.state?.fromDemoLogin === true;
+  const isInDemoMode = isDemoMode() || isFromDemoLogin;
+  
   // Show loading state
   if (loading) {
     return (
@@ -27,35 +28,27 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
       </div>
     );
   }
-
-  // Allow access to public paths without any redirects
-  // The landing page ('/') should never redirect, even for authenticated users
-  if (isPublicPath) {
-    return <>{children}</>;
+  
+  // In real auth mode (not demo), check if user is authenticated
+  if (!isInDemoMode && !user) {
+    console.log("RouteGuard - No authenticated user, redirecting to login");
+    return <Navigate to="/login" replace />;
   }
-
-  // Check if user is authenticated for protected routes
-  if (!isDemoMode() && !user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  // If no specific role is required, allow access
+  
+  // If no specific role is required, just render the children
   if (!requiredRole) {
     return <>{children}</>;
   }
-
-  // Check role match only after confirming authentication
-  if (user && role !== requiredRole) {
-    if (role === 'athlete') {
-      return <Navigate to="/athlete/dashboard" replace />;
-    } else if (role === 'scout') {
-      return <Navigate to="/scout/dashboard" replace />;
-    } else if (role === 'coach') {
-      return <Navigate to="/coach/dashboard" replace />;
-    }
-    return <Navigate to="/login" replace />;
+  
+  // Check if role is loaded and if it doesn't match the required role
+  if (isUserRoleLoaded(role) && role !== requiredRole) {
+    console.log(`RouteGuard - User role ${role} doesn't match required role ${requiredRole}, redirecting to dashboard`);
+    // Redirect to the dashboard instead of login since the user is authenticated
+    // The dashboard will handle redirecting to the correct role-specific dashboard
+    return <Navigate to="/dashboard" replace />;
   }
-
+  
+  // If the user has the required role or no role is loaded yet
   return <>{children}</>;
 };
 

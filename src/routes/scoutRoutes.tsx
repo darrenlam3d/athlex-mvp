@@ -1,32 +1,37 @@
 
 import React from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import RouteGuard from '@/components/auth/RouteGuard';
-import ScoutDashboard from '@/pages/ScoutDashboard';
-import ScoutReports from '@/pages/ScoutReports';
-import ScoutNotes from '@/pages/ScoutNotes';
 import Community from '@/pages/Community';
+import ScoutDashboard from '@/pages/ScoutDashboard';
+import ScoutingReports from '@/pages/ScoutingReports';
+import ScoutNotes from '@/pages/ScoutNotes';
 import ScoutSettings from '@/pages/ScoutSettings';
-import ScoutLayout from '@/layouts/ScoutLayout';
-import { Outlet } from 'react-router-dom';
 
-const ScoutRoutes = () => (
-  <Route 
-    element={
-      <RouteGuard requiredRole="scout">
-        <ScoutLayout>
-          <Outlet />
-        </ScoutLayout>
-      </RouteGuard>
-    }
-  >
-    <Route index element={<Navigate to="/scout/dashboard" replace />} />
-    <Route path="/scout/dashboard" element={<ScoutDashboard />} />
-    <Route path="/scout/reports" element={<ScoutReports />} />
-    <Route path="/scout/notes" element={<ScoutNotes />} />
-    <Route path="/scout/community" element={<Community />} />
-    <Route path="/scout/settings" element={<ScoutSettings />} />
-  </Route>
-);
-
-export default ScoutRoutes;
+export const scoutRoutes = [
+  <Route key="scout-community" path="/scout-community" element={
+    <RouteGuard requiredRole="scout">
+      <Community />
+    </RouteGuard>
+  } />,
+  <Route key="scout-dashboard" path="/scout-dashboard" element={
+    <RouteGuard requiredRole="scout">
+      <ScoutDashboard />
+    </RouteGuard>
+  } />,
+  <Route key="scout-notes" path="/scout-notes" element={
+    <RouteGuard requiredRole="scout">
+      <ScoutNotes />
+    </RouteGuard>
+  } />,
+  <Route key="scout-reports" path="/scout-reports" element={
+    <RouteGuard requiredRole="scout">
+      <ScoutingReports />
+    </RouteGuard>
+  } />,
+  <Route key="scout-settings" path="/scout-settings" element={
+    <RouteGuard requiredRole="scout">
+      <ScoutSettings />
+    </RouteGuard>
+  } />,
+];

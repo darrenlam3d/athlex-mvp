@@ -1,34 +1,49 @@
 
 import React from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import RouteGuard from '@/components/auth/RouteGuard';
 import AthleteDashboard from '@/pages/AthleteDashboard';
-import AthletePerformance from '@/pages/Performance';
-import AthleteTrainingLog from '@/pages/TrainingLog';
-import AthleteGoals from '@/pages/PerformanceGoals';
-import AthleteNutrition from '@/pages/Nutrition';
-import Community from '@/pages/Community';
 import AthleteSettings from '@/pages/AthleteSettings';
-import { Outlet } from 'react-router-dom';
+import Nutrition from '@/pages/Nutrition';
+import Performance from '@/pages/Performance';
+import PerformanceGoals from '@/pages/PerformanceGoals';
+import Training from '@/pages/Training';
+import TrainingLog from '@/pages/TrainingLog';
 
-const athleteRoutes = () => (
-  <Route 
-    path="/athlete"
-    element={
-      <RouteGuard requiredRole="athlete">
-        <Outlet />
-      </RouteGuard>
-    }
-  >
-    <Route index element={<Navigate to="/athlete/dashboard" replace />} />
-    <Route path="dashboard" element={<AthleteDashboard />} />
-    <Route path="performance" element={<AthletePerformance />} />
-    <Route path="training-log" element={<AthleteTrainingLog />} />
-    <Route path="goals" element={<AthleteGoals />} />
-    <Route path="nutrition" element={<AthleteNutrition />} />
-    <Route path="community" element={<Community />} />
-    <Route path="settings" element={<AthleteSettings />} />
-  </Route>
-);
-
-export default athleteRoutes;
+export const athleteRoutes = [
+  <Route key="athlete-dashboard" path="/athlete-dashboard" element={
+    <RouteGuard requiredRole="athlete">
+      <AthleteDashboard />
+    </RouteGuard>
+  } />,
+  <Route key="athlete-nutrition" path="/athlete-nutrition" element={
+    <RouteGuard requiredRole="athlete">
+      <Nutrition />
+    </RouteGuard>
+  } />,
+  <Route key="athlete-performance" path="/athlete-performance" element={
+    <RouteGuard requiredRole="athlete">
+      <Performance />
+    </RouteGuard>
+  } />,
+  <Route key="athlete-performance-goals" path="/athlete-performance-goals" element={
+    <RouteGuard requiredRole="athlete">
+      <PerformanceGoals />
+    </RouteGuard>
+  } />,
+  <Route key="athlete-settings" path="/athlete-settings" element={
+    <RouteGuard requiredRole="athlete">
+      <AthleteSettings />
+    </RouteGuard>
+  } />,
+  <Route key="athlete-training" path="/athlete-training" element={
+    <RouteGuard requiredRole="athlete">
+      <Training />
+    </RouteGuard>
+  } />,
+  <Route key="athlete-training-log" path="/athlete-training-log" element={
+    <RouteGuard requiredRole="athlete">
+      <TrainingLog />
+    </RouteGuard>
+  } />,
+];

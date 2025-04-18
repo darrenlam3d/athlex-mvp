@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -19,13 +18,13 @@ const AthleteSidebar = () => {
   const { signOut } = useAuth();
   
   const navItems = [
-    { icon: LayoutDashboard, text: 'Dashboard', path: '/athlete/dashboard' },
-    { icon: BarChart2, text: 'Performance', path: '/athlete/performance' },
-    { icon: Calendar, text: 'Training Log', path: '/athlete/training-log' },
-    { icon: Target, text: 'Goals', path: '/athlete/goals' },
-    { icon: Utensils, text: 'Nutrition', path: '/athlete/nutrition' },
-    { icon: Users, text: 'Community', path: '/athlete/community' },
-    { icon: Settings, text: 'Settings', path: '/athlete/settings' },
+    { icon: LayoutDashboard, text: 'Dashboard', path: '/athlete-dashboard' },
+    { icon: BarChart2, text: 'Performance', path: '/athlete-performance' },
+    { icon: Calendar, text: 'Training Log', path: '/athlete-training-log' },
+    { icon: Target, text: 'Goals', path: '/athlete-performance-goals' },
+    { icon: Utensils, text: 'Nutrition', path: '/athlete-nutrition' },
+    { icon: Users, text: 'Community', path: '/community' },
+    { icon: Settings, text: 'Settings', path: '/athlete-settings' },
   ];
 
   const handleSignOut = async () => {
@@ -35,7 +34,7 @@ const AthleteSidebar = () => {
   return (
     <aside className="w-64 bg-athlex-gray-900 text-white h-screen sticky top-0 border-r border-athlex-gray-800 flex flex-col">
       <div className="p-4 border-b border-athlex-gray-800 flex justify-center items-center">
-        <Link to="/athlete/dashboard" className="flex items-center justify-center">
+        <Link to="/athlete-dashboard" className="flex items-center justify-center">
           <img 
             src="/lovable-uploads/4fa9ab4b-66d6-42dc-979f-661fee5226e5.png" 
             alt="ATHLEX Logo" 
