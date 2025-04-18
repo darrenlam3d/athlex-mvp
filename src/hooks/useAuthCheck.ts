@@ -16,7 +16,7 @@ export const useAuthCheck = () => {
 
   useEffect(() => {
     // Only check auth and redirect for non-public pages
-    // The landing page ('/') should never redirect authenticated users
+    // The landing page ('/') should NEVER redirect authenticated users
     if (!loading && !isPublicPath && !user && !isDemoMode()) {
       console.log('useAuthCheck - No authenticated user, redirecting to login');
       toast.error('Please log in to access this page');

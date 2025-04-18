@@ -9,28 +9,26 @@ import AthleteGoals from '@/pages/PerformanceGoals';
 import AthleteNutrition from '@/pages/Nutrition';
 import Community from '@/pages/Community';
 import AthleteSettings from '@/pages/AthleteSettings';
-import AthleteLayout from '@/layouts/AthleteLayout';
 import { Outlet } from 'react-router-dom';
 
-const AthleteRoutes = () => (
+const athleteRoutes = () => (
   <Route 
+    path="/athlete"
     element={
       <RouteGuard requiredRole="athlete">
-        <AthleteLayout>
-          <Outlet />
-        </AthleteLayout>
+        <Outlet />
       </RouteGuard>
     }
   >
     <Route index element={<Navigate to="/athlete/dashboard" replace />} />
-    <Route path="/athlete/dashboard" element={<AthleteDashboard />} />
-    <Route path="/athlete/performance" element={<AthletePerformance />} />
-    <Route path="/athlete/training-log" element={<AthleteTrainingLog />} />
-    <Route path="/athlete/goals" element={<AthleteGoals />} />
-    <Route path="/athlete/nutrition" element={<AthleteNutrition />} />
-    <Route path="/athlete/community" element={<Community />} />
-    <Route path="/athlete/settings" element={<AthleteSettings />} />
+    <Route path="dashboard" element={<AthleteDashboard />} />
+    <Route path="performance" element={<AthletePerformance />} />
+    <Route path="training-log" element={<AthleteTrainingLog />} />
+    <Route path="goals" element={<AthleteGoals />} />
+    <Route path="nutrition" element={<AthleteNutrition />} />
+    <Route path="community" element={<Community />} />
+    <Route path="settings" element={<AthleteSettings />} />
   </Route>
 );
 
-export default AthleteRoutes;
+export default athleteRoutes;

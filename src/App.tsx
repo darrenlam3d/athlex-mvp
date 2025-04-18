@@ -18,6 +18,7 @@ import Index from "@/pages/Index";
 import Login from "@/pages/Login";
 import LoginDemo from "@/pages/LoginDemo";
 import NotFound from "@/pages/NotFound";
+import Dashboard from "@/pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,10 @@ const App = () => {
                     <Route path="/" element={<Index />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/login-demo" element={<LoginDemo />} />
+                    <Route path="/registration" element={publicRoutes.find(route => route.props.path === "/registration")?.props.element} />
+                    
+                    {/* Dashboard is a special case since it redirects based on role */}
+                    <Route path="/dashboard" element={<Dashboard />} />
                     
                     {/* Protected routes that require authentication */}
                     <Route element={<RouteTransitionHandler />}>
@@ -45,7 +50,7 @@ const App = () => {
                       {scoutRoutes()}
                       {coachRoutes()}
                       {publicRoutes.filter(route => 
-                        !['/', '/login', '/login-demo'].includes(route.props.path)
+                        !['/registration', '/', '/login', '/login-demo'].includes(route.props.path)
                       )}
                     </Route>
 
