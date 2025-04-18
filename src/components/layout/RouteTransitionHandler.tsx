@@ -1,37 +1,28 @@
 
 import React, { Suspense, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Outlet } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import RouteLoader from '../ui/route-loader';
 import { toast } from 'sonner';
+import { isDemoMode } from '@/lib/supabase';
 
-interface RouteTransitionHandlerProps {
-  children: React.ReactNode;
-}
-
-const RouteTransitionHandler = ({ children }: RouteTransitionHandlerProps) => {
+const RouteTransitionHandler = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [loadingTimeout, setLoadingTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  // Handle route normalization
+  // Check authentication
   useEffect(() => {
-    // Check for old route format
-    if (location.pathname.includes('/athlete-')) {
-      // Convert old format to new format
-      const newPath = location.pathname.replace('/athlete-', '/athlete/');
-      console.log(`Redirecting from ${location.pathname} to ${newPath}`);
-      navigate(newPath, { replace: true });
-      return;
+    if (!loading && !user && !isDemoMode()) {
+      console.log('RouteTransitionHandler - No authenticated user, redirecting to login');
+      toast.error('Please log in to access this page');
+      navigate('/login', { replace: true });
     }
+  }, [user, loading, navigate]);
 
-    // Special handling for root path
-    if (location.pathname === '/') {
-      return; // Allow root path to render normally
-    }
-  }, [location.pathname, navigate]);
-
-  // Reset transitioning state when location changes
+  // Handle transitions
   useEffect(() => {
     if (loadingTimeout) {
       clearTimeout(loadingTimeout);
@@ -51,9 +42,14 @@ const RouteTransitionHandler = ({ children }: RouteTransitionHandlerProps) => {
     };
   }, [location.pathname]);
 
+  // Show loading state while checking auth
+  if (loading) {
+    return <RouteLoader />;
+  }
+
   return (
     <Suspense fallback={<RouteLoader />}>
-      {isTransitioning ? <RouteLoader /> : children}
+      {isTransitioning ? <RouteLoader /> : <Outlet />}
     </Suspense>
   );
 };
