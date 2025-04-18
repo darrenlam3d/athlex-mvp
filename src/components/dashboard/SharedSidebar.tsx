@@ -71,10 +71,12 @@ const SharedSidebar = ({ navItems }: SharedSidebarProps) => {
     setIsTransitioning(false);
   }, [location]);
 
+  // Handle sign out with navigation
   const handleSignOut = async () => {
     try {
       await signOut();
       toast.success('Successfully signed out');
+      navigate('/', { replace: true });
     } catch (error) {
       console.error('Error signing out:', error);
       toast.error('Failed to sign out');

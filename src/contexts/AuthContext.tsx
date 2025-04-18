@@ -139,6 +139,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } catch (error) {
         console.error('Error signing out:', error.message);
         toast.error('Error signing out');
+        throw error;
       }
     }
     
@@ -147,11 +148,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
     setRole(null);
     localStorage.removeItem('userRole');
-    
-    toast.success('Signed out successfully');
-    
-    // Redirect to home page
-    window.location.href = '/';
   };
   
   // Function to update user profile

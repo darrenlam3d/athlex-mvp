@@ -31,6 +31,12 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
 
   // Allow access to public paths without authentication
   if (isPublicPath) {
+    // If user is authenticated and trying to access login/registration, redirect to dashboard
+    if (user) {
+      if (role === 'athlete') return <Navigate to="/athlete/dashboard" replace />;
+      if (role === 'scout') return <Navigate to="/scout/dashboard" replace />;
+      if (role === 'coach') return <Navigate to="/coach/dashboard" replace />;
+    }
     return <>{children}</>;
   }
 
