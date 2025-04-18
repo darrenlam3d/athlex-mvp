@@ -42,10 +42,19 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
   
   // Check if role is loaded and if it doesn't match the required role
   if (isUserRoleLoaded(role) && role !== requiredRole) {
-    console.log(`RouteGuard - User role ${role} doesn't match required role ${requiredRole}, redirecting to dashboard`);
-    // Redirect to the dashboard instead of login since the user is authenticated
-    // The dashboard will handle redirecting to the correct role-specific dashboard
-    return <Navigate to="/dashboard" replace />;
+    console.log(`RouteGuard - User role ${role} doesn't match required role ${requiredRole}`);
+    
+    // Redirect to the appropriate dashboard based on the user's role
+    if (role === 'athlete') {
+      return <Navigate to="/athlete-dashboard" replace />;
+    } else if (role === 'scout') {
+      return <Navigate to="/scout-dashboard" replace />;
+    } else if (role === 'coach') {
+      return <Navigate to="/coach-dashboard" replace />;
+    } else {
+      // If no valid role, redirect to login
+      return <Navigate to="/login" replace />;
+    }
   }
   
   // If the user has the required role or no role is loaded yet

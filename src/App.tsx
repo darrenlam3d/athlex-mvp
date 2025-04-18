@@ -9,9 +9,9 @@ import { ProfileProvider } from "@/contexts/ProfileContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { UserRoleProvider } from "@/contexts/UserRoleContext";
 import { MockDataProvider } from "@/contexts/MockDataContext";
-import { athleteRoutes } from "@/routes/athleteRoutes";
-import { scoutRoutes } from "@/routes/scoutRoutes";
-import { coachRoutes } from "@/routes/coachRoutes";
+import athleteRoutes from "@/routes/athleteRoutes";
+import scoutRoutes from "@/routes/scoutRoutes";
+import coachRoutes from "@/routes/coachRoutes";
 import { publicRoutes } from "@/routes/publicRoutes";
 
 const queryClient = new QueryClient();
@@ -30,9 +30,9 @@ const App = () => {
                   <SupabaseConfigWarning />
                   <Routes>
                     {publicRoutes}
-                    {athleteRoutes}
-                    {scoutRoutes}
-                    {coachRoutes}
+                    {athleteRoutes()}
+                    {scoutRoutes()}
+                    {coachRoutes()}
                   </Routes>
                 </BrowserRouter>
               </TooltipProvider>

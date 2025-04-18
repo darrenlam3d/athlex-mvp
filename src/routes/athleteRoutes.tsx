@@ -10,15 +10,15 @@ import AthleteNutrition from '@/pages/Nutrition';
 import Community from '@/pages/Community';
 import AthleteSettings from '@/pages/AthleteSettings';
 import AthleteLayout from '@/layouts/AthleteLayout';
+import { Outlet } from 'react-router-dom';
 
 const AthleteRoutes = () => (
   <Route 
     element={
-      <RouteGuard 
-        requiredRole="athlete"
-        redirectPath="/login" 
-      >
-        <AthleteLayout />
+      <RouteGuard requiredRole="athlete">
+        <AthleteLayout>
+          <Outlet />
+        </AthleteLayout>
       </RouteGuard>
     }
   >

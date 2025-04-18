@@ -10,15 +10,15 @@ import CoachPerformance from '@/pages/CoachPerformance';
 import CoachReports from '@/pages/CoachReports';
 import CoachSettings from '@/pages/CoachSettings';
 import CoachLayout from '@/layouts/CoachLayout';
+import { Outlet } from 'react-router-dom';
 
 const CoachRoutes = () => (
   <Route 
     element={
-      <RouteGuard 
-        requiredRole="coach"
-        redirectPath="/login" 
-      >
-        <CoachLayout />
+      <RouteGuard requiredRole="coach">
+        <CoachLayout>
+          <Outlet />
+        </CoachLayout>
       </RouteGuard>
     }
   >

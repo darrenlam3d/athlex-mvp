@@ -8,15 +8,15 @@ import ScoutNotes from '@/pages/ScoutNotes';
 import ScoutCommunity from '@/pages/Community';
 import ScoutSettings from '@/pages/ScoutSettings';
 import ScoutLayout from '@/layouts/ScoutLayout';
+import { Outlet } from 'react-router-dom';
 
 const ScoutRoutes = () => (
   <Route 
     element={
-      <RouteGuard 
-        requiredRole="scout"
-        redirectPath="/login" 
-      >
-        <ScoutLayout />
+      <RouteGuard requiredRole="scout">
+        <ScoutLayout>
+          <Outlet />
+        </ScoutLayout>
       </RouteGuard>
     }
   >
