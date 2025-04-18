@@ -8,24 +8,16 @@ export type UserRole = 'athlete' | 'scout' | 'coach' | '';
 interface UserRoleContextType {
   userRole: UserRole;
   setUserRole: (role: UserRole) => void;
+  clearRole: () => void;
 }
 
 const UserRoleContext = createContext<UserRoleContextType | undefined>(undefined);
 
 export const UserRoleProvider = ({ children }: { children: ReactNode }) => {
   const { role: authRole, setUserRole: updateAuthRole } = useAuth();
-  
-  // Initialize with the role from AuthContext or fallback to localStorage
-  const [userRole, setUserRoleState] = useState<UserRole>(() => {
-    // First try to use the role from auth context
-    if (authRole) return authRole as UserRole;
-    
-    // Fall back to localStorage if needed
-    const storedRole = localStorage.getItem('userRole');
-    return (storedRole as UserRole) || 'athlete';
-  });
+  const [userRole, setUserRoleState] = useState<UserRole>('');
 
-  // Update local state when auth role changes
+  // Initialize with the role from AuthContext
   useEffect(() => {
     if (authRole) {
       setUserRoleState(authRole as UserRole);
@@ -35,16 +27,19 @@ export const UserRoleProvider = ({ children }: { children: ReactNode }) => {
   // When role changes, update both local state and auth context
   const setUserRole = (newRole: UserRole) => {
     setUserRoleState(newRole);
-    localStorage.setItem('userRole', newRole);
-    
-    // Also update the auth context role
     updateAuthRole(newRole as 'athlete' | 'scout' | 'coach' | null);
-    
     console.log('User role updated to:', newRole);
   };
 
+  // Clear role state
+  const clearRole = () => {
+    setUserRoleState('');
+    localStorage.removeItem('userRole');
+    console.log('User role cleared');
+  };
+
   return (
-    <UserRoleContext.Provider value={{ userRole, setUserRole }}>
+    <UserRoleContext.Provider value={{ userRole, setUserRole, clearRole }}>
       {children}
     </UserRoleContext.Provider>
   );

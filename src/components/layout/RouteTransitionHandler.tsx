@@ -1,5 +1,5 @@
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 import { useLocation, useNavigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import RouteLoader from '../ui/route-loader';
@@ -10,37 +10,19 @@ const RouteTransitionHandler = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, loading } = useAuth();
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [loadingTimeout, setLoadingTimeout] = useState<NodeJS.Timeout | null>(null);
+  
+  // Public paths that don't require authentication
+  const publicPaths = ['/', '/login', '/login-demo', '/registration'];
+  const isPublicPath = publicPaths.includes(location.pathname);
 
-  // Check authentication
-  useEffect(() => {
-    if (!loading && !user && !isDemoMode()) {
+  // Redirect unauthenticated users
+  React.useEffect(() => {
+    if (!loading && !isPublicPath && !user && !isDemoMode()) {
       console.log('RouteTransitionHandler - No authenticated user, redirecting to login');
       toast.error('Please log in to access this page');
       navigate('/login', { replace: true });
     }
-  }, [user, loading, navigate]);
-
-  // Handle transitions
-  useEffect(() => {
-    if (loadingTimeout) {
-      clearTimeout(loadingTimeout);
-    }
-
-    setIsTransitioning(true);
-    const timeout = setTimeout(() => {
-      setIsTransitioning(false);
-    }, 200);
-    
-    setLoadingTimeout(timeout);
-
-    return () => {
-      if (loadingTimeout) {
-        clearTimeout(loadingTimeout);
-      }
-    };
-  }, [location.pathname]);
+  }, [user, loading, navigate, location.pathname, isPublicPath]);
 
   // Show loading state while checking auth
   if (loading) {
@@ -49,7 +31,7 @@ const RouteTransitionHandler = () => {
 
   return (
     <Suspense fallback={<RouteLoader />}>
-      {isTransitioning ? <RouteLoader /> : <Outlet />}
+      <Outlet />
     </Suspense>
   );
 };
