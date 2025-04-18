@@ -35,7 +35,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
   }
 
   // Check authentication for protected routes
-  if (!isInDemoMode && !user) {
+  if (!isDemoMode() && !user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
