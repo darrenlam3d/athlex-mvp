@@ -1,24 +1,34 @@
 
 import React, { ReactNode } from 'react';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import ScoutSidebar from '@/components/dashboard/ScoutSidebar';
+import BaseLayout from './BaseLayout';
+import SharedSidebar from '@/components/dashboard/SharedSidebar';
+import { 
+  LayoutDashboard, 
+  FileText,
+  Users,
+  Settings, 
+  ClipboardList
+} from 'lucide-react';
+
+const navItems = [
+  { icon: LayoutDashboard, text: 'Dashboard', path: '/scout-dashboard' },
+  { icon: FileText, text: 'Scouting Reports', path: '/scout-reports' },
+  { icon: ClipboardList, text: 'Scout Notes', path: '/scout-notes' },
+  { icon: Users, text: 'Community', path: '/scout-community' },
+  { icon: Settings, text: 'Settings', path: '/scout-settings' },
+];
 
 interface ScoutLayoutProps {
   children: ReactNode;
 }
 
-const ScoutLayout: React.FC<ScoutLayoutProps> = ({ children }) => {
+const ScoutLayout = ({ children }: ScoutLayoutProps) => {
   return (
-    <div className="min-h-screen bg-athlex-background text-white">
-      <SidebarProvider>
-        <div className="flex w-full min-h-screen">
-          <ScoutSidebar />
-          <div className="flex-1 p-4 md:p-6 overflow-y-auto">
-            {children}
-          </div>
-        </div>
-      </SidebarProvider>
-    </div>
+    <BaseLayout
+      sidebarContent={<SharedSidebar navItems={navItems} />}
+    >
+      {children}
+    </BaseLayout>
   );
 };
 

@@ -1,24 +1,38 @@
 
 import React, { ReactNode } from 'react';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import CoachSidebar from '@/components/dashboard/CoachSidebar';
+import BaseLayout from './BaseLayout';
+import SharedSidebar from '@/components/dashboard/SharedSidebar';
+import { 
+  LayoutDashboard, 
+  Users, 
+  Calendar,
+  Award,
+  FileText,
+  Settings, 
+  Apple 
+} from 'lucide-react';
+
+const navItems = [
+  { icon: LayoutDashboard, text: 'Dashboard', path: '/coach-dashboard' },
+  { icon: Users, text: 'Athletes', path: '/coach-athletes' },
+  { icon: Calendar, text: 'Training Plans', path: '/coach-training-plans' },
+  { icon: Apple, text: 'Nutrition Log', path: '/coach-nutrition' },
+  { icon: Award, text: 'Performance', path: '/coach-performance' },
+  { icon: FileText, text: 'Reports', path: '/coach-reports' },
+  { icon: Settings, text: 'Settings', path: '/coach-settings' },
+];
 
 interface CoachLayoutProps {
   children: ReactNode;
 }
 
-const CoachLayout: React.FC<CoachLayoutProps> = ({ children }) => {
+const CoachLayout = ({ children }: CoachLayoutProps) => {
   return (
-    <div className="min-h-screen bg-athlex-background text-white">
-      <SidebarProvider>
-        <div className="flex w-full min-h-screen">
-          <CoachSidebar />
-          <div className="flex-1 p-4 md:p-6 overflow-y-auto">
-            {children}
-          </div>
-        </div>
-      </SidebarProvider>
-    </div>
+    <BaseLayout
+      sidebarContent={<SharedSidebar navItems={navItems} />}
+    >
+      {children}
+    </BaseLayout>
   );
 };
 
