@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Route, Navigate, useLocation, useParams } from 'react-router-dom';
 import AdminDashboard from '@/pages/AdminDashboard';
 import Community from '@/pages/Community';
 import Dashboard from '@/pages/Dashboard';
@@ -34,6 +35,13 @@ const RoleRegistrationPage = () => (
   </div>
 );
 
+// Create a component to handle legacy athlete route redirects
+const LegacyAthleteRouteRedirect = () => {
+  const params = useParams<{ page: string }>();
+  const newPath = `/athlete/${params.page}`;
+  return <Navigate to={newPath} replace />;
+};
+
 export const publicRoutes = [
   // Root route should always be first
   <Route key="index" path="/" element={<Index />} />,
@@ -55,7 +63,7 @@ export const publicRoutes = [
   <Route 
     key="legacy-athlete" 
     path="/athlete-:page" 
-    element={<Navigate to={(props) => `/athlete/${props.params.page}`} replace />} 
+    element={<LegacyAthleteRouteRedirect />} 
   />,
   
   // Catch-all route should always be last
