@@ -2,7 +2,6 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { isUserRoleLoaded } from '@/utils/roleUtils';
 import { Loader2 } from 'lucide-react';
 import { isDemoMode } from '@/lib/supabase';
 
@@ -29,30 +28,23 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
     );
   }
 
-  // Allow access to public paths without authentication
+  // Allow access to public paths
   if (isPublicPath) {
-    // If user is authenticated and trying to access login/registration, redirect to dashboard
-    if (user && location.pathname !== '/') {
-      if (role === 'athlete') return <Navigate to="/athlete/dashboard" replace />;
-      if (role === 'scout') return <Navigate to="/scout/dashboard" replace />;
-      if (role === 'coach') return <Navigate to="/coach/dashboard" replace />;
-    }
     return <>{children}</>;
   }
 
-  // Check authentication for protected routes
+  // Check if user is authenticated for protected routes
   if (!isDemoMode() && !user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // If no specific role is required, render the children
+  // If no specific role is required, allow access
   if (!requiredRole) {
     return <>{children}</>;
   }
 
-  // Check if role is loaded and if it matches the required role
-  if (isUserRoleLoaded(role) && role !== requiredRole) {
-    // Redirect to the appropriate dashboard based on the user's role
+  // Check role match only after confirming authentication
+  if (user && role !== requiredRole) {
     if (role === 'athlete') {
       return <Navigate to="/athlete/dashboard" replace />;
     } else if (role === 'scout') {
@@ -60,7 +52,6 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
     } else if (role === 'coach') {
       return <Navigate to="/coach/dashboard" replace />;
     }
-    // If no valid role, redirect to login
     return <Navigate to="/login" replace />;
   }
 

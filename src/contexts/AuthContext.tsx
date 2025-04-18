@@ -130,27 +130,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   
   // Function to sign out
   const signOut = async () => {
-    if (!isDemoMode()) {
-      try {
+    try {
+      setLoading(true);
+      
+      if (!isDemoMode()) {
         const { error } = await supabase.auth.signOut();
-        if (error) {
-          throw error;
-        }
-      } catch (error) {
-        console.error('Error signing out:', error);
-        toast.error('Error signing out');
-        throw error;
+        if (error) throw error;
       }
+      
+      // Clear all auth state
+      setSession(null);
+      setUser(null);
+      setRole(null);
+      
+      // Clear local storage
+      localStorage.clear(); // Clear all storage including role
+      
+      // Redirect to home page
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Error signing out:', error);
+      toast.error('Error signing out');
+      throw error;
+    } finally {
+      setLoading(false);
     }
-    
-    // Clear session and user data
-    setSession(null);
-    setUser(null);
-    setRole(null);
-    localStorage.removeItem('userRole');
-    
-    // Navigate to home page after sign out
-    window.location.href = '/';
   };
   
   // Function to update user profile
