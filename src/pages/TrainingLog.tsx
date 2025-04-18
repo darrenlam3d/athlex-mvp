@@ -66,7 +66,7 @@ const TrainingLog = () => {
             <div className="max-w-4xl mx-auto">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
                 <div className="flex items-center gap-2">
-                  <Link to="/athlete-training">
+                  <Link to="/athlete/dashboard">
                     <Button variant="ghost" size="icon">
                       <ArrowLeft className="h-5 w-5" />
                     </Button>

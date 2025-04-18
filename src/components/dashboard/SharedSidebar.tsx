@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, { useCallback, useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -11,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { toast } from 'sonner';
 
 interface NavItem {
   icon: LucideIcon;
@@ -24,15 +25,45 @@ interface SharedSidebarProps {
 
 const SharedSidebar = ({ navItems }: SharedSidebarProps) => {
   const location = useLocation();
-  const [isTransitioning, setIsTransitioning] = React.useState(false);
+  const navigate = useNavigate();
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [lastClickTime, setLastClickTime] = useState(0);
 
-  const handleNavigation = () => {
-    if (isTransitioning) return;
+  // Handle navigation with debounce to prevent rapid clicks
+  const handleNavigation = useCallback((path: string) => {
+    // Prevent navigation during transition
+    if (isTransitioning) return false;
+    
+    // Debounce rapid clicks (300ms)
+    const now = Date.now();
+    if (now - lastClickTime < 300) {
+      return false;
+    }
+    
+    // Set transitioning state and update last click time
     setIsTransitioning(true);
-  };
+    setLastClickTime(now);
+    
+    // Check if we're already on this path
+    if (location.pathname === path) {
+      setIsTransitioning(false);
+      return false;
+    }
+    
+    // Perform navigation
+    try {
+      navigate(path);
+      return true;
+    } catch (error) {
+      console.error("Navigation error:", error);
+      toast.error("An error occurred while navigating");
+      setIsTransitioning(false);
+      return false;
+    }
+  }, [isTransitioning, lastClickTime, location.pathname, navigate]);
 
+  // Reset transitioning state when location changes
   React.useEffect(() => {
-    // Reset transitioning state when location changes
     setIsTransitioning(false);
   }, [location]);
 
@@ -58,13 +89,17 @@ const SharedSidebar = ({ navItems }: SharedSidebarProps) => {
               >
                 <NavLink
                   to={item.path}
-                  onClick={handleNavigation}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation(item.path);
+                  }}
                   className={({ isActive }) =>
                     cn(
                       'flex items-center gap-3 px-3 py-2 rounded-md transition-colors',
                       isActive
                         ? 'bg-athlex-gray-800 text-athlex-accent'
-                        : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white'
+                        : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white',
+                      isTransitioning && 'opacity-50 pointer-events-none'
                     )
                   }
                 >
