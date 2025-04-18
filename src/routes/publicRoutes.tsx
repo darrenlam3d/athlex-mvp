@@ -51,6 +51,13 @@ export const publicRoutes = [
   <Route key="messages" path="/messages" element={<Messages />} />,
   <Route key="settings" path="/settings" element={<Settings />} />,
   
+  // Legacy route handling for old athlete-* routes
+  <Route 
+    key="legacy-athlete" 
+    path="/athlete-:page" 
+    element={<Navigate to={location => `/athlete/${location.pathname.split('-')[1]}`} replace />} 
+  />,
+  
   // Catch-all route should always be last
   <Route key="not-found" path="*" element={<NotFound />} />,
 ];
