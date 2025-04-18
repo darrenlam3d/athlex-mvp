@@ -1,49 +1,36 @@
 
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 import RouteGuard from '@/components/auth/RouteGuard';
 import AthleteDashboard from '@/pages/AthleteDashboard';
+import AthletePerformance from '@/pages/Performance';
+import AthleteTrainingLog from '@/pages/TrainingLog';
+import AthleteGoals from '@/pages/PerformanceGoals';
+import AthleteNutrition from '@/pages/Nutrition';
+import Community from '@/pages/Community';
 import AthleteSettings from '@/pages/AthleteSettings';
-import Nutrition from '@/pages/Nutrition';
-import Performance from '@/pages/Performance';
-import PerformanceGoals from '@/pages/PerformanceGoals';
-import Training from '@/pages/Training';
-import TrainingLog from '@/pages/TrainingLog';
+import AthleteLayout from '@/layouts/AthleteLayout';
 
-export const athleteRoutes = [
-  <Route key="athlete-dashboard" path="/athlete-dashboard" element={
-    <RouteGuard requiredRole="athlete">
-      <AthleteDashboard />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-nutrition" path="/athlete-nutrition" element={
-    <RouteGuard requiredRole="athlete">
-      <Nutrition />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-performance" path="/athlete-performance" element={
-    <RouteGuard requiredRole="athlete">
-      <Performance />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-performance-goals" path="/athlete-performance-goals" element={
-    <RouteGuard requiredRole="athlete">
-      <PerformanceGoals />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-settings" path="/athlete-settings" element={
-    <RouteGuard requiredRole="athlete">
-      <AthleteSettings />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-training" path="/athlete-training" element={
-    <RouteGuard requiredRole="athlete">
-      <Training />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-training-log" path="/athlete-training-log" element={
-    <RouteGuard requiredRole="athlete">
-      <TrainingLog />
-    </RouteGuard>
-  } />,
-];
+const AthleteRoutes = () => (
+  <Route 
+    element={
+      <RouteGuard 
+        requiredRole="athlete"
+        redirectPath="/login" 
+      >
+        <AthleteLayout />
+      </RouteGuard>
+    }
+  >
+    <Route path="/athlete-dashboard" element={<AthleteDashboard />} />
+    <Route path="/athlete-performance" element={<AthletePerformance />} />
+    <Route path="/athlete-training-log" element={<AthleteTrainingLog />} />
+    <Route path="/athlete-performance-goals" element={<AthleteGoals />} />
+    <Route path="/athlete-nutrition" element={<AthleteNutrition />} />
+    <Route path="/community" element={<Community />} />
+    <Route path="/athlete-settings" element={<AthleteSettings />} />
+    <Route path="/athlete" element={<Navigate to="/athlete-dashboard" replace />} />
+  </Route>
+);
+
+export default AthleteRoutes;

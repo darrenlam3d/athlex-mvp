@@ -28,7 +28,11 @@ const SharedSidebar = ({ navItems, logo }: SidebarProps) => {
   const { signOut } = useAuth();
   
   return (
-    <Sidebar variant="sidebar" collapsible="icon">
+    <Sidebar 
+      variant="sidebar" 
+      collapsible="icon" 
+      className="bg-athlex-gray-900 border-r border-athlex-gray-800"
+    >
       <SidebarHeader className="p-4 border-b border-athlex-gray-800">
         <Link to="/" className="flex items-center justify-center">
           <img 
@@ -45,6 +49,11 @@ const SharedSidebar = ({ navItems, logo }: SidebarProps) => {
             <SidebarMenuItem key={item.path}>
               <SidebarMenuButton 
                 isActive={location.pathname === item.path}
+                className={`
+                  ${location.pathname === item.path 
+                    ? 'bg-athlex-gray-800 text-athlex-accent' 
+                    : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white'}
+                `}
                 tooltip={item.text}
               >
                 <Link to={item.path} className="flex items-center gap-3 w-full">

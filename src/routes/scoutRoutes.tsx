@@ -1,37 +1,32 @@
 
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 import RouteGuard from '@/components/auth/RouteGuard';
-import Community from '@/pages/Community';
 import ScoutDashboard from '@/pages/ScoutDashboard';
-import ScoutingReports from '@/pages/ScoutingReports';
+import ScoutReports from '@/pages/ScoutReports';
 import ScoutNotes from '@/pages/ScoutNotes';
+import ScoutCommunity from '@/pages/Community';
 import ScoutSettings from '@/pages/ScoutSettings';
+import ScoutLayout from '@/layouts/ScoutLayout';
 
-export const scoutRoutes = [
-  <Route key="scout-community" path="/scout-community" element={
-    <RouteGuard requiredRole="scout">
-      <Community />
-    </RouteGuard>
-  } />,
-  <Route key="scout-dashboard" path="/scout-dashboard" element={
-    <RouteGuard requiredRole="scout">
-      <ScoutDashboard />
-    </RouteGuard>
-  } />,
-  <Route key="scout-notes" path="/scout-notes" element={
-    <RouteGuard requiredRole="scout">
-      <ScoutNotes />
-    </RouteGuard>
-  } />,
-  <Route key="scout-reports" path="/scout-reports" element={
-    <RouteGuard requiredRole="scout">
-      <ScoutingReports />
-    </RouteGuard>
-  } />,
-  <Route key="scout-settings" path="/scout-settings" element={
-    <RouteGuard requiredRole="scout">
-      <ScoutSettings />
-    </RouteGuard>
-  } />,
-];
+const ScoutRoutes = () => (
+  <Route 
+    element={
+      <RouteGuard 
+        requiredRole="scout"
+        redirectPath="/login" 
+      >
+        <ScoutLayout />
+      </RouteGuard>
+    }
+  >
+    <Route path="/scout-dashboard" element={<ScoutDashboard />} />
+    <Route path="/scout-reports" element={<ScoutReports />} />
+    <Route path="/scout-notes" element={<ScoutNotes />} />
+    <Route path="/scout-community" element={<ScoutCommunity />} />
+    <Route path="/scout-settings" element={<ScoutSettings />} />
+    <Route path="/scout" element={<Navigate to="/scout-dashboard" replace />} />
+  </Route>
+);
+
+export default ScoutRoutes;
