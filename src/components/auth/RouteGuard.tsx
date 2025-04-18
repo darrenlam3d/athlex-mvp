@@ -28,7 +28,8 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
     );
   }
 
-  // Allow access to public paths
+  // Allow access to public paths without any redirects
+  // The landing page ('/') should never redirect, even for authenticated users
   if (isPublicPath) {
     return <>{children}</>;
   }

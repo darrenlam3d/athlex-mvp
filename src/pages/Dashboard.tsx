@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -38,7 +39,7 @@ const Dashboard = () => {
     return <Navigate to="/login" replace />;
   }
   
-  // Redirect based on role
+  // Redirect based on role - only when explicitly navigating to /dashboard
   if (role === 'athlete') {
     console.log("Dashboard - Redirecting to athlete dashboard");
     return <Navigate to="/athlete/dashboard" replace />;
