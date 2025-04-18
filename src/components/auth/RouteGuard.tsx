@@ -14,11 +14,11 @@ interface RouteGuardProps {
 const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
   const { role, user, loading } = useAuth();
   const location = useLocation();
-  
-  // Improved handling of demo login
-  const isFromDemoLogin = location.state?.fromDemoLogin === true;
-  const isInDemoMode = isDemoMode() || isFromDemoLogin;
-  
+
+  // Define public routes that don't require authentication
+  const publicPaths = ['/', '/login', '/login-demo', '/registration'];
+  const isPublicPath = publicPaths.includes(location.pathname);
+
   // Show loading state
   if (loading) {
     return (
@@ -28,22 +28,24 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
       </div>
     );
   }
-  
-  // In real auth mode (not demo), check if user is authenticated
-  if (!isInDemoMode && !user) {
-    console.log("RouteGuard - No authenticated user, redirecting to login");
-    return <Navigate to="/login" replace />;
+
+  // Allow access to public paths without authentication
+  if (isPublicPath) {
+    return <>{children}</>;
   }
-  
-  // If no specific role is required, just render the children
+
+  // Check authentication for protected routes
+  if (!isInDemoMode && !user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  // If no specific role is required, render the children
   if (!requiredRole) {
     return <>{children}</>;
   }
-  
-  // Check if role is loaded and if it doesn't match the required role
+
+  // Check if role is loaded and if it matches the required role
   if (isUserRoleLoaded(role) && role !== requiredRole) {
-    console.log(`RouteGuard - User role ${role} doesn't match required role ${requiredRole}`);
-    
     // Redirect to the appropriate dashboard based on the user's role
     if (role === 'athlete') {
       return <Navigate to="/athlete/dashboard" replace />;
@@ -51,13 +53,11 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
       return <Navigate to="/scout/dashboard" replace />;
     } else if (role === 'coach') {
       return <Navigate to="/coach/dashboard" replace />;
-    } else {
-      // If no valid role, redirect to login
-      return <Navigate to="/login" replace />;
     }
+    // If no valid role, redirect to login
+    return <Navigate to="/login" replace />;
   }
-  
-  // If the user has the required role or no role is loaded yet
+
   return <>{children}</>;
 };
 

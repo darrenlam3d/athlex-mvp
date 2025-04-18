@@ -1,8 +1,8 @@
-
 import React, { useCallback, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { LucideIcon } from 'lucide-react';
+import { LucideIcon, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   Sidebar,
   SidebarContent,
@@ -10,7 +10,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
+  SidebarFooter,
 } from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
 interface NavItem {
@@ -26,6 +29,7 @@ interface SharedSidebarProps {
 const SharedSidebar = ({ navItems }: SharedSidebarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { signOut } = useAuth();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [lastClickTime, setLastClickTime] = useState(0);
 
@@ -66,6 +70,16 @@ const SharedSidebar = ({ navItems }: SharedSidebarProps) => {
   React.useEffect(() => {
     setIsTransitioning(false);
   }, [location]);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast.success('Successfully signed out');
+    } catch (error) {
+      console.error('Error signing out:', error);
+      toast.error('Failed to sign out');
+    }
+  };
 
   return (
     <Sidebar>
@@ -111,6 +125,16 @@ const SharedSidebar = ({ navItems }: SharedSidebarProps) => {
           ))}
         </SidebarMenu>
       </SidebarContent>
+      <SidebarFooter className="p-4 border-t border-athlex-gray-800">
+        <Button 
+          variant="ghost" 
+          className="w-full justify-start text-white/70 hover:text-white"
+          onClick={handleSignOut}
+        >
+          <LogOut className="mr-2 h-4 w-4" />
+          Sign Out
+        </Button>
+      </SidebarFooter>
     </Sidebar>
   );
 };
