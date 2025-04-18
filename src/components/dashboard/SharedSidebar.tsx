@@ -28,7 +28,7 @@ const SharedSidebar = ({ navItems, logo }: SidebarProps) => {
   const { signOut } = useAuth();
   
   return (
-    <Sidebar>
+    <Sidebar variant="sidebar" collapsible="icon">
       <SidebarHeader className="p-4 border-b border-athlex-gray-800">
         <Link to="/" className="flex items-center justify-center">
           <img 
@@ -39,7 +39,7 @@ const SharedSidebar = ({ navItems, logo }: SidebarProps) => {
         </Link>
       </SidebarHeader>
       
-      <SidebarContent className="py-6 px-4">
+      <SidebarContent className="flex-1">
         <SidebarMenu>
           {navItems.map((item) => (
             <SidebarMenuItem key={item.path}>
