@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -42,17 +41,17 @@ const Dashboard = () => {
   // Redirect based on role
   if (role === 'athlete') {
     console.log("Dashboard - Redirecting to athlete dashboard");
-    return <Navigate to="/athlete-dashboard" replace />;
+    return <Navigate to="/athlete/dashboard" replace />;
   }
   
   if (role === 'scout') {
     console.log("Dashboard - Redirecting to scout dashboard");
-    return <Navigate to="/scout-dashboard" replace />;
+    return <Navigate to="/scout/dashboard" replace />;
   }
   
   if (role === 'coach') {
     console.log("Dashboard - Redirecting to coach dashboard");
-    return <Navigate to="/coach-dashboard" replace />;
+    return <Navigate to="/coach/dashboard" replace />;
   }
   
   // Default fallback - this should not happen with proper role handling
