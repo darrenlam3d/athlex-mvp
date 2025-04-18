@@ -19,7 +19,6 @@ const BaseLayout = ({ children, sidebarContent }: BaseLayoutProps) => {
             <SidebarTrigger asChild>
               <Button variant="outline" size="icon" className="h-10 w-10">
                 <Menu className="h-4 w-4" />
-                <span className="sr-only">Toggle Sidebar</span>
               </Button>
             </SidebarTrigger>
           </div>

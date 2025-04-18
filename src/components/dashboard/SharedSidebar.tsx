@@ -44,7 +44,6 @@ const SharedSidebar = ({ navItems, logo }: SidebarProps) => {
           {navItems.map((item) => (
             <SidebarMenuItem key={item.path}>
               <SidebarMenuButton
-                asChild
                 isActive={location.pathname === item.path}
                 tooltip={item.text}
               >
