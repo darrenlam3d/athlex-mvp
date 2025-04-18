@@ -43,14 +43,11 @@ const SharedSidebar = ({ navItems, logo }: SidebarProps) => {
         <SidebarMenu>
           {navItems.map((item) => (
             <SidebarMenuItem key={item.path}>
-              <SidebarMenuButton
+              <SidebarMenuButton 
                 isActive={location.pathname === item.path}
                 tooltip={item.text}
               >
-                <Link
-                  to={item.path}
-                  className="flex items-center gap-3 w-full"
-                >
+                <Link to={item.path} className="flex items-center gap-3 w-full">
                   <item.icon size={18} />
                   <span>{item.text}</span>
                 </Link>
