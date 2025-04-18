@@ -11,11 +11,11 @@ interface BaseLayoutProps {
 
 const BaseLayout = ({ children, sidebarContent }: BaseLayoutProps) => {
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-athlex-background">
+    <SidebarProvider defaultOpen={true}>
+      <div className="flex min-h-screen w-full bg-athlex-background text-white">
         {/* Mobile Trigger */}
         <div className="fixed top-4 left-4 z-50 md:hidden">
-          <SidebarTrigger asChild>
+          <SidebarTrigger>
             <Button variant="outline" size="icon" className="h-10 w-10">
               <Menu className="h-4 w-4" />
             </Button>
