@@ -15,9 +15,9 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
   const { role, user, loading } = useAuth();
   const location = useLocation();
 
-  // Define authentication-only routes (login, registration)
-  const authOnlyPaths = ['/login', '/login-demo', '/registration'];
-  const isAuthOnlyPath = authOnlyPaths.includes(location.pathname);
+  // Define public routes that don't require authentication
+  const publicPaths = ['/', '/login', '/login-demo', '/registration'];
+  const isPublicPath = publicPaths.includes(location.pathname);
 
   // Show loading state
   if (loading) {
@@ -29,15 +29,14 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
     );
   }
 
-  // If user is authenticated and trying to access auth pages, redirect to their dashboard
-  if (isAuthOnlyPath && user) {
-    if (role === 'athlete') return <Navigate to="/athlete/dashboard" replace />;
-    if (role === 'scout') return <Navigate to="/scout/dashboard" replace />;
-    if (role === 'coach') return <Navigate to="/coach/dashboard" replace />;
-  }
-
-  // Allow access to the landing page and auth pages without authentication
-  if (location.pathname === '/' || isAuthOnlyPath) {
+  // Allow access to public paths without authentication
+  if (isPublicPath) {
+    // If user is authenticated and trying to access login/registration, redirect to dashboard
+    if (user && location.pathname !== '/') {
+      if (role === 'athlete') return <Navigate to="/athlete/dashboard" replace />;
+      if (role === 'scout') return <Navigate to="/scout/dashboard" replace />;
+      if (role === 'coach') return <Navigate to="/coach/dashboard" replace />;
+    }
     return <>{children}</>;
   }
 
@@ -69,4 +68,3 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children, requiredRole }) => {
 };
 
 export default RouteGuard;
-
