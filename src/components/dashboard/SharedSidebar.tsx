@@ -1,9 +1,8 @@
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
+import { NavLink, useLocation } from 'react-router-dom';
+import { LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import {
   Sidebar,
   SidebarContent,
@@ -11,71 +10,72 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarFooter,
 } from '@/components/ui/sidebar';
 
-interface SidebarProps {
-  navItems: {
-    icon: React.ElementType;
-    text: string;
-    path: string;
-  }[];
-  logo?: string;
+interface NavItem {
+  icon: LucideIcon;
+  text: string;
+  path: string;
 }
 
-const SharedSidebar = ({ navItems, logo }: SidebarProps) => {
+interface SharedSidebarProps {
+  navItems: NavItem[];
+}
+
+const SharedSidebar = ({ navItems }: SharedSidebarProps) => {
   const location = useLocation();
-  const { signOut } = useAuth();
-  
+  const [isTransitioning, setIsTransitioning] = React.useState(false);
+
+  const handleNavigation = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+  };
+
+  React.useEffect(() => {
+    // Reset transitioning state when location changes
+    setIsTransitioning(false);
+  }, [location]);
+
   return (
-    <Sidebar 
-      variant="sidebar" 
-      collapsible="icon" 
-      className="bg-athlex-gray-900 border-r border-athlex-gray-800"
-    >
+    <Sidebar>
       <SidebarHeader className="p-4 border-b border-athlex-gray-800">
-        <Link to="/" className="flex items-center justify-center">
+        <NavLink to="/" className="flex items-center justify-center">
           <img 
-            src={logo || "/lovable-uploads/4fa9ab4b-66d6-42dc-979f-661fee5226e5.png"} 
+            src="/lovable-uploads/4fa9ab4b-66d6-42dc-979f-661fee5226e5.png" 
             alt="ATHLEX Logo" 
             className="h-10 w-auto" 
           />
-        </Link>
+        </NavLink>
       </SidebarHeader>
-      
-      <SidebarContent className="flex-1">
+      <SidebarContent>
         <SidebarMenu>
           {navItems.map((item) => (
             <SidebarMenuItem key={item.path}>
-              <SidebarMenuButton 
-                isActive={location.pathname === item.path}
-                className={`
-                  ${location.pathname === item.path 
-                    ? 'bg-athlex-gray-800 text-athlex-accent' 
-                    : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white'}
-                `}
-                tooltip={item.text}
+              <SidebarMenuButton
+                asChild
+                isActive={location.pathname.startsWith(item.path.split('/').slice(0, 3).join('/'))}
+                disabled={isTransitioning}
               >
-                <Link to={item.path} className="flex items-center gap-3 w-full">
+                <NavLink
+                  to={item.path}
+                  onClick={handleNavigation}
+                  className={({ isActive }) =>
+                    cn(
+                      'flex items-center gap-3 px-3 py-2 rounded-md transition-colors',
+                      isActive
+                        ? 'bg-athlex-gray-800 text-athlex-accent'
+                        : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white'
+                    )
+                  }
+                >
                   <item.icon size={18} />
                   <span>{item.text}</span>
-                </Link>
+                </NavLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
       </SidebarContent>
-
-      <SidebarFooter className="p-4 border-t border-athlex-gray-800">
-        <Button 
-          variant="outline" 
-          className="w-full justify-start text-white/70 hover:text-white border-athlex-gray-700"
-          onClick={signOut}
-        >
-          <LogOut size={18} className="mr-2" />
-          Sign Out
-        </Button>
-      </SidebarFooter>
     </Sidebar>
   );
 };

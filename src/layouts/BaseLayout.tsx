@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import RouteTransitionHandler from '@/components/layout/RouteTransitionHandler';
 
 interface BaseLayoutProps {
   children: ReactNode;
@@ -27,9 +28,11 @@ const BaseLayout = ({ children, sidebarContent }: BaseLayoutProps) => {
 
         {/* Main Content */}
         <SidebarInset className="flex-1">
-          <div className="p-4 md:p-6 pt-16 md:pt-4">
-            {children}
-          </div>
+          <RouteTransitionHandler>
+            <div className="p-4 md:p-6 pt-16 md:pt-4">
+              {children}
+            </div>
+          </RouteTransitionHandler>
         </SidebarInset>
       </div>
     </SidebarProvider>
