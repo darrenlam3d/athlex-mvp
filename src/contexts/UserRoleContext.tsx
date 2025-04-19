@@ -1,7 +1,7 @@
 
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
-// Define the types for user roles
+// Define the types for user roles - removed 'scout'
 export type UserRole = 'athlete' | 'coach' | null;
 
 // Define the context type

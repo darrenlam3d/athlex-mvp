@@ -76,12 +76,7 @@ const AthleteHeader: React.FC<AthleteHeaderProps> = ({ athlete, onAddToShortlist
             </div>
             
             <div className="mt-4 flex flex-wrap justify-center sm:justify-start gap-2">
-              {userRole === 'scout' && (
-                <Button size="sm" variant="outline" onClick={onAddToShortlist}>
-                  <Star className="mr-2 h-4 w-4" />
-                  Add to Shortlist
-                </Button>
-              )}
+              {/* Remove the Scout-specific button */}
               
               <Button 
                 size="sm" 

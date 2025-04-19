@@ -11,31 +11,21 @@ const NotificationPreferences = () => {
   const { userRole } = useUserRole();
   
   // Notification groups specific to different user roles
-  const scoutNotifications = [
-    { id: 'newAthleteMatches', label: 'New Athlete Matches', description: 'Get notified when new athletes match your criteria', icon: User, isOn: true },
-    { id: 'shortlistUpdates', label: 'Shortlist Updates', description: 'Receive updates when athletes in your shortlist have new activity', icon: Clipboard, isOn: true },
-    { id: 'scoutMessages', label: 'Messages', description: 'Receive notifications for new messages', icon: MessageSquare, isOn: true },
-  ];
-  
   const coachNotifications = [
     { id: 'logsSubmitted', label: 'Logs Submitted', description: 'Get notified when athletes submit training or nutrition logs', icon: Calendar, isOn: true },
     { id: 'injuryFlags', label: 'Injury Flags', description: 'Immediate notifications for injury reports', icon: AlertTriangle, isOn: true },
-    { id: 'scoutActivity', label: 'Scout Activity', description: 'When scouts view or shortlist your athletes', icon: Users, isOn: false },
     { id: 'coachMessages', label: 'Messages', description: 'Receive notifications for new messages', icon: MessageSquare, isOn: true },
   ];
   
   const athleteNotifications = [
     { id: 'trainingReminders', label: 'Training Reminders', description: 'Get reminders about upcoming training sessions', icon: Calendar, isOn: true },
     { id: 'coachFeedback', label: 'Coach Feedback', description: 'Notifications when coaches provide feedback', icon: Users, isOn: true },
-    { id: 'scoutInterest', label: 'Scout Interest', description: 'When scouts view or shortlist your profile', icon: Clipboard, isOn: true },
     { id: 'athleteMessages', label: 'Messages', description: 'Receive notifications for new messages', icon: MessageSquare, isOn: true },
   ];
   
   // Determine which notification set to use based on role
   const notificationGroups = 
-    userRole === 'scout' ? scoutNotifications :
-    userRole === 'coach' ? coachNotifications :
-    athleteNotifications;
+    userRole === 'coach' ? coachNotifications : athleteNotifications;
     
   const [notifications, setNotifications] = React.useState(notificationGroups);
 

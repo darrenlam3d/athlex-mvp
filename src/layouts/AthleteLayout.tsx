@@ -1,38 +1,22 @@
 
 import React, { ReactNode } from 'react';
-import BaseLayout from './BaseLayout';
-import SharedSidebar from '@/components/dashboard/SharedSidebar';
-import { 
-  LayoutDashboard, 
-  BarChart2, 
-  Calendar, 
-  Target, 
-  Utensils, 
-  Users, 
-  Settings 
-} from 'lucide-react';
-
-const navItems = [
-  { icon: LayoutDashboard, text: 'Dashboard', path: '/athlete-dashboard' },
-  { icon: BarChart2, text: 'Performance', path: '/athlete-performance' },
-  { icon: Calendar, text: 'Training Log', path: '/athlete-training-log' },
-  { icon: Target, text: 'Goals', path: '/athlete-performance-goals' },
-  { icon: Utensils, text: 'Nutrition', path: '/athlete-nutrition' },
-  { icon: Users, text: 'Community', path: '/community' },
-  { icon: Settings, text: 'Settings', path: '/athlete-settings' },
-];
+import { SidebarProvider } from '@/components/ui/sidebar';
+import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 
 interface AthleteLayoutProps {
   children: ReactNode;
 }
 
-const AthleteLayout = ({ children }: AthleteLayoutProps) => {
+const AthleteLayout: React.FC<AthleteLayoutProps> = ({ children }) => {
   return (
-    <BaseLayout
-      sidebarContent={<SharedSidebar navItems={navItems} />}
-    >
-      {children}
-    </BaseLayout>
+    <SidebarProvider>
+      <div className="flex min-h-screen bg-athlex-background text-white">
+        <DashboardSidebar />
+        <div className="flex-1 p-4 md:p-6 overflow-auto">
+          {children}
+        </div>
+      </div>
+    </SidebarProvider>
   );
 };
 

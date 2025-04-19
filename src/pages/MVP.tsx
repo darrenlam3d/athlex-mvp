@@ -3,12 +3,11 @@ import React, { useState } from 'react';
 import { useProfile } from '@/contexts/ProfileContext';
 import MvpRoleSelector from '@/components/mvp/MvpRoleSelector';
 import MvpAthleteView from '@/components/mvp/MvpAthleteView';
-import MvpScoutView from '@/components/mvp/MvpScoutView';
 import ScrollToTopButton from '@/components/ui/ScrollToTopButton';
 
 const MVP = () => {
-  // State to track the selected role
-  const [activeRole, setActiveRole] = useState<'athlete' | 'scout'>('athlete');
+  // State to track the selected role - now just focused on athlete
+  const [activeRole, setActiveRole] = useState<'athlete'>('athlete');
   
   return (
     <div className="min-h-screen bg-gray-950">
@@ -24,18 +23,12 @@ const MVP = () => {
           <h1 className="text-3xl font-bold text-center mb-2 gradient-text">ATHLEX MVP Demo</h1>
           <p className="text-gray-400 text-center max-w-2xl mx-auto">
             Experience the core features of ATHLEX platform — connecting athlete performance data with 
-            AI-powered insights for athletes, scouts, and coaches.
+            AI-powered insights for athletes and coaches.
           </p>
         </header>
         
-        <MvpRoleSelector activeRole={activeRole} onRoleChange={setActiveRole} />
-        
         <main className="mt-8 animate-fade-in">
-          {activeRole === 'athlete' ? (
-            <MvpAthleteView />
-          ) : (
-            <MvpScoutView />
-          )}
+          <MvpAthleteView />
         </main>
       </div>
       

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
@@ -79,9 +80,9 @@ const Nutrition = () => {
   const [isAddingMeal, setIsAddingMeal] = useState(false);
   const { userRole } = useUserRole();
   
-  // Redirect scouts to their dashboard
-  if (userRole === 'scout') {
-    return <Navigate to="/scout-dashboard" replace />;
+  // Redirect non-athlete, non-coach users to their dashboard
+  if (userRole !== 'athlete' && userRole !== 'coach') {
+    return <Navigate to="/dashboard" replace />;
   }
   
   // Fetch meal logs

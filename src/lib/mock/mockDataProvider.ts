@@ -8,14 +8,6 @@ import {
 } from './athleteData';
 
 import { 
-  mockScoutProfiles, 
-  mockScoutNotes, 
-  mockScoutReports, 
-  mockShortlistedAthletes,
-  getAthleteWithPerformanceData
-} from './scoutData';
-
-import { 
   mockCoachProfiles, 
   mockTrainingPlans, 
   mockAssignedTrainings, 
@@ -47,20 +39,13 @@ const filterByCoach = <T extends { coach_id: string }>(
   return items.filter(item => item.coach_id === coachId);
 };
 
-const filterByScout = <T extends { scout_id: string }>(
-  items: T[],
-  scoutId: string
-): T[] => {
-  return items.filter(item => item.scout_id === scoutId);
-};
-
 // Current user functions
 let currentUserId: string | null = null;
-let currentUserRole: 'athlete' | 'scout' | 'coach' | null = null;
+let currentUserRole: 'athlete' | 'coach' | null = null;
 
 export const setCurrentUser = (
   userId: string, 
-  role: 'athlete' | 'scout' | 'coach'
+  role: 'athlete' | 'coach'
 ) => {
   currentUserId = userId;
   currentUserRole = role;
@@ -75,7 +60,6 @@ export const getProfileById = (userId: string) => {
   
   const allProfiles = [
     ...mockAthleteProfiles,
-    ...mockScoutProfiles,
     ...mockCoachProfiles
   ];
   
@@ -119,50 +103,6 @@ export const getAthleteTrainingSessions = (athleteId: string) => {
 export const getAthleteNutritionLogs = (athleteId: string) => {
   const logs = filterByAthlete(mockNutritionLogs, athleteId);
   return simulateApiCall(logs);
-};
-
-// Scout data functions
-export const getScoutProfiles = () => simulateApiCall(mockScoutProfiles);
-export const getScoutProfileById = (scoutId: string) => {
-  const profile = mockScoutProfiles.find(s => s.id === scoutId);
-  return simulateApiCall(profile || null);
-};
-
-export const getScoutNotes = (scoutId: string, athleteId?: string) => {
-  let notes = filterByScout(mockScoutNotes, scoutId);
-  
-  if (athleteId) {
-    notes = notes.filter(note => note.athlete_id === athleteId);
-  }
-  
-  return simulateApiCall(notes);
-};
-
-export const getScoutReports = (scoutId: string, athleteId?: string) => {
-  let reports = filterByScout(mockScoutReports, scoutId);
-  
-  if (athleteId) {
-    reports = reports.filter(report => report.athlete_id === athleteId);
-  }
-  
-  return simulateApiCall(reports);
-};
-
-export const getShortlistedAthletes = (scoutId: string) => {
-  const shortlisted = filterByScout(mockShortlistedAthletes, scoutId);
-  
-  // Attach athlete profiles
-  const shortlistedWithProfiles = shortlisted.map(item => {
-    const athlete = mockAthleteProfiles.find(a => a.id === item.athlete_id);
-    return { ...item, athlete };
-  });
-  
-  return simulateApiCall(shortlistedWithProfiles);
-};
-
-export const getAthleteWithPerformance = (athleteId: string) => {
-  const athleteData = getAthleteWithPerformanceData(athleteId);
-  return simulateApiCall(athleteData);
 };
 
 // Coach data functions
@@ -215,14 +155,6 @@ export default {
   getAthletePerformanceMetrics,
   getAthleteTrainingSessions,
   getAthleteNutritionLogs,
-  
-  // Scout data
-  getScoutProfiles,
-  getScoutProfileById,
-  getScoutNotes,
-  getScoutReports,
-  getShortlistedAthletes,
-  getAthleteWithPerformance,
   
   // Coach data
   getCoachProfiles,

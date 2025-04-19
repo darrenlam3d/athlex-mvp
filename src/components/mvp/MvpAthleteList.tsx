@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MvpAthlete } from './MvpScoutView';
+import { MvpAthlete } from '@/types/mvpTypes';
 import { Badge } from '@/components/ui/badge';
 import { Flag, Users } from 'lucide-react';
 

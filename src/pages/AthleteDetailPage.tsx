@@ -8,8 +8,8 @@ import { useUserRole } from '@/contexts/UserRoleContext';
 import { getAthleteById } from '@/utils/athleteDetailUtils';
 import { ArrowLeft, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import ScoutLayout from '@/layouts/ScoutLayout';
 import CoachLayout from '@/layouts/CoachLayout';
+import AthleteLayout from '@/layouts/AthleteLayout';
 
 // Import all the components we created
 import AthleteHeader from '@/components/athlete/AthleteHeader';
@@ -26,7 +26,6 @@ const AthleteDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { userRole } = useUserRole();
   const navigate = useNavigate();
-  const [isShortlisted, setIsShortlisted] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   
   // Log the current user role for debugging
@@ -34,8 +33,8 @@ const AthleteDetailPage: React.FC = () => {
     console.log("Current user role on athlete detail page:", userRole);
   }, [userRole]);
   
-  // Allow both scouts and coaches to view athlete profiles
-  const hasAccess = userRole === 'scout' || userRole === 'coach';
+  // Only coaches should be able to view athlete profiles
+  const hasAccess = userRole === 'coach';
   
   if (!hasAccess) {
     console.log("Access denied: user role is", userRole);
@@ -54,29 +53,17 @@ const AthleteDetailPage: React.FC = () => {
     }
   });
 
-  // Check if athlete is in shortlist and connection status (mock for now)
+  // Check connection status (mock for now)
   useEffect(() => {
-    // In a real app, this would be a database check
-    // For demo purposes, randomly determine if shortlisted
-    setIsShortlisted(Math.random() > 0.5);
-    
     // For coaches, determine if they have a connection with this athlete
     // In a real app, this would be from a connections/relationships table
     if (userRole === 'coach') {
       // Mock data: 70% chance of being connected for demo
       setIsConnected(Math.random() > 0.3);
     } else {
-      // Scouts always have access
-      setIsConnected(true);
+      setIsConnected(false);
     }
   }, [id, userRole]);
-
-  const handleAddToShortlist = () => {
-    if (athlete) {
-      toast.success(`${athlete.name} added to shortlist`);
-      setIsShortlisted(true);
-    }
-  };
 
   const handleBack = () => {
     navigate(-1); // Go back to previous page
@@ -110,9 +97,9 @@ const AthleteDetailPage: React.FC = () => {
   }
 
   // Determine which sections to show based on user role and connection status
-  const showPerformanceMetrics = userRole === 'scout' || (userRole === 'coach' && isConnected);
-  const showGoals = userRole === 'scout' || (userRole === 'coach' && isConnected);
-  const showTrainingSessions = userRole === 'scout' || (userRole === 'coach' && isConnected);
+  const showPerformanceMetrics = userRole === 'coach' && isConnected;
+  const showGoals = userRole === 'coach' && isConnected;
+  const showTrainingSessions = userRole === 'coach' && isConnected;
   const showNutrition = userRole === 'coach' && isConnected;
 
   // Render content with the appropriate layout based on user role
@@ -134,7 +121,7 @@ const AthleteDetailPage: React.FC = () => {
             <div className="flex-1">
               <AthleteHeader 
                 athlete={athlete} 
-                onAddToShortlist={handleAddToShortlist} 
+                onAddToShortlist={() => {}} 
               />
             </div>
             
@@ -164,7 +151,6 @@ const AthleteDetailPage: React.FC = () => {
               <div className="md:hidden">
                 <ScoutingActions 
                   athleteId={id || ''} 
-                  isShortlisted={isShortlisted} 
                   isConnected={isConnected} 
                 />
               </div>
@@ -185,7 +171,7 @@ const AthleteDetailPage: React.FC = () => {
                 <NutritionOverview athleteId={id || ''} />
               )}
               
-              {/* Scouting Notes section for both scouts and coaches */}
+              {/* Scouting Notes section for coaches */}
               <ScoutingNotes 
                 athleteId={id || ''} 
                 isConnected={isConnected} 
@@ -196,7 +182,6 @@ const AthleteDetailPage: React.FC = () => {
             <div className="hidden md:block md:col-span-1">
               <ScoutingActions 
                 athleteId={id || ''} 
-                isShortlisted={isShortlisted}
                 isConnected={isConnected}
               />
             </div>
@@ -209,8 +194,8 @@ const AthleteDetailPage: React.FC = () => {
       return <CoachLayout>{content}</CoachLayout>;
     }
     
-    // Default to Scout layout
-    return <ScoutLayout>{content}</ScoutLayout>;
+    // Default to Athlete layout
+    return <AthleteLayout>{content}</AthleteLayout>;
   };
 
   return renderContent();

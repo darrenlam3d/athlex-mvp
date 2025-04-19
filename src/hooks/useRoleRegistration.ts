@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useUniversalRegistration } from './useUniversalRegistration';
 import { useAthleteRegistration } from './useAthleteRegistration';
 import { useCoachRegistration } from './useCoachRegistration';
-import { useScoutRegistration } from './useScoutRegistration';
 import type { UserRole } from '@/contexts/UserRoleContext';
 
 export const useRoleRegistration = () => {
@@ -25,12 +24,7 @@ export const useRoleRegistration = () => {
     handleCoachSubmit 
   } = useCoachRegistration(universalFormData);
 
-  const { 
-    isLoading: scoutLoading,
-    handleScoutSubmit 
-  } = useScoutRegistration(universalFormData);
-
-  const isLoading = universalLoading || athleteLoading || coachLoading || scoutLoading;
+  const isLoading = universalLoading || athleteLoading || coachLoading;
 
   return {
     selectedRole,
@@ -39,6 +33,5 @@ export const useRoleRegistration = () => {
     handleUniversalSubmit,
     handleAthleteSubmit,
     handleCoachSubmit,
-    handleScoutSubmit,
   };
 };

@@ -1,10 +1,10 @@
+
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRoleRegistration } from '@/hooks/useRoleRegistration';
 import UniversalRegistrationForm from './UniversalRegistrationForm';
 import AthleteRegistrationForm from './AthleteRegistrationForm';
 import CoachRegistrationForm from './CoachRegistrationForm';
-import ScoutRegistrationForm from './ScoutRegistrationForm';
 import RoleRegistrationLayout from './RoleRegistrationLayout';
 import { UniversalFormValues } from './UniversalRegistrationForm';
 import type { UserRole } from '@/contexts/UserRoleContext';
@@ -30,7 +30,6 @@ const RoleRegistration = () => {
     handleUniversalSubmit,
     handleAthleteSubmit,
     handleCoachSubmit,
-    handleScoutSubmit,
   } = useRoleRegistration();
 
   const renderProfileForm = () => {
@@ -39,8 +38,6 @@ const RoleRegistration = () => {
         return <AthleteRegistrationForm onSubmit={handleAthleteSubmit} isLoading={isLoading} />;
       case 'coach':
         return <CoachRegistrationForm onSubmit={handleCoachSubmit} isLoading={isLoading} />;
-      case 'scout':
-        return <ScoutRegistrationForm onSubmit={handleScoutSubmit} isLoading={isLoading} />;
       default:
         return null;
     }

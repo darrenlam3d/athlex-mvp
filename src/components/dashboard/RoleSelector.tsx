@@ -12,7 +12,7 @@ const RoleSelector = () => {
   const { user, updateUserProfile } = useAuth();
   
   const handleRoleChange = async (newRole: string) => {
-    const userRoleValue = newRole as 'athlete' | 'scout' | 'coach';
+    const userRoleValue = newRole as 'athlete' | 'coach';
     
     try {
       // Set the user role in context
@@ -70,7 +70,6 @@ const RoleSelector = () => {
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="athlete">Athlete</SelectItem>
-        <SelectItem value="scout">Scout</SelectItem>
         <SelectItem value="coach">Coach</SelectItem>
       </SelectContent>
     </Select>

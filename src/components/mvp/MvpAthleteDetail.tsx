@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import MvpTrainingRecommendation from './MvpTrainingRecommendation';
-import { MvpAthlete } from './MvpScoutView';
+import { MvpAthlete } from '@/types/mvpTypes';
 import { Badge } from '@/components/ui/badge';
 import { Share2, Download, Star, Flag, Users, BarChart as BarChartIcon, PieChart, Activity, Award } from 'lucide-react';
 
