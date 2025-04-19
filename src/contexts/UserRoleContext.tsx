@@ -1,55 +1,42 @@
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useAuth } from './AuthContext';
+import React, { createContext, useState, useContext, ReactNode } from 'react';
 
-// Updated type to explicitly include empty string for initialization states
-export type UserRole = 'athlete' | 'scout' | 'coach' | '';
+// Define the types for user roles
+export type UserRole = 'athlete' | 'coach' | null;
 
+// Define the context type
 interface UserRoleContextType {
   userRole: UserRole;
   setUserRole: (role: UserRole) => void;
+  isRoleLoading: boolean;
+  setIsRoleLoading: (loading: boolean) => void;
 }
 
-const UserRoleContext = createContext<UserRoleContextType | undefined>(undefined);
+// Create the context with default values
+const UserRoleContext = createContext<UserRoleContextType>({
+  userRole: null,
+  setUserRole: () => {},
+  isRoleLoading: true,
+  setIsRoleLoading: () => {},
+});
 
+// Create a provider component
 export const UserRoleProvider = ({ children }: { children: ReactNode }) => {
-  const { role: authRole, setUserRole: updateAuthRole } = useAuth();
-  
-  // Initialize with the role from AuthContext or fallback to localStorage
-  const [userRole, setUserRoleState] = useState<UserRole>(() => {
-    // First try to use the role from auth context
-    if (authRole) return authRole as UserRole;
-    
-    // Fall back to localStorage if needed
-    const storedRole = localStorage.getItem('userRole');
-    return (storedRole as UserRole) || 'athlete';
-  });
+  const [userRole, setUserRole] = useState<UserRole>(null);
+  const [isRoleLoading, setIsRoleLoading] = useState(true);
 
-  // Update local state when auth role changes
-  useEffect(() => {
-    if (authRole) {
-      setUserRoleState(authRole as UserRole);
-    }
-  }, [authRole]);
-
-  // When role changes, update both local state and auth context
-  const setUserRole = (newRole: UserRole) => {
-    setUserRoleState(newRole);
-    localStorage.setItem('userRole', newRole);
-    
-    // Also update the auth context role
-    updateAuthRole(newRole as 'athlete' | 'scout' | 'coach' | null);
-    
-    console.log('User role updated to:', newRole);
+  // These values are passed to consuming components
+  const value = {
+    userRole,
+    setUserRole,
+    isRoleLoading,
+    setIsRoleLoading,
   };
 
-  return (
-    <UserRoleContext.Provider value={{ userRole, setUserRole }}>
-      {children}
-    </UserRoleContext.Provider>
-  );
+  return <UserRoleContext.Provider value={value}>{children}</UserRoleContext.Provider>;
 };
 
+// Create a custom hook to use the context
 export const useUserRole = () => {
   const context = useContext(UserRoleContext);
   if (context === undefined) {

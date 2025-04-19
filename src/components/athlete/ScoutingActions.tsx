@@ -5,9 +5,7 @@ import {
   FileText, 
   Share, 
   Download, 
-  User, 
-  Star, 
-  StarOff 
+  User
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
@@ -24,18 +22,15 @@ import { Input } from '@/components/ui/input';
 
 interface ScoutingActionsProps {
   athleteId: string;
-  isShortlisted?: boolean;
   isConnected?: boolean;
 }
 
 const ScoutingActions: React.FC<ScoutingActionsProps> = ({ 
-  athleteId, 
-  isShortlisted = false,
+  athleteId,
   isConnected = true
 }) => {
   const navigate = useNavigate();
   const { userRole } = useUserRole();
-  const [shortlisted, setShortlisted] = useState(isShortlisted);
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
@@ -44,7 +39,6 @@ const ScoutingActions: React.FC<ScoutingActionsProps> = ({
   const mockUsers = [
     { id: 'user1', name: 'Coach Thompson', role: 'Head Coach', profile_photo: null },
     { id: 'user2', name: 'Emma Lee', role: 'Assistant Coach', profile_photo: null },
-    { id: 'user3', name: 'Marcus Chen', role: 'Scout', profile_photo: null },
     { id: 'user4', name: 'Sarah Wong', role: 'Performance Analyst', profile_photo: null }
   ];
 
@@ -53,8 +47,8 @@ const ScoutingActions: React.FC<ScoutingActionsProps> = ({
     user.role.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Only scouts or connected coaches can use these actions
-  const canUseActions = userRole === 'scout' || (userRole === 'coach' && isConnected);
+  // Only connected coaches can use these actions
+  const canUseActions = userRole === 'coach' && isConnected;
 
   const handleCreateScoutingNote = () => {
     // In a real app, this would open a modal or navigate to a note creation page
@@ -86,16 +80,6 @@ const ScoutingActions: React.FC<ScoutingActionsProps> = ({
     console.log('Already on profile page for athlete ID:', athleteId);
   };
 
-  const handleToggleShortlist = () => {
-    setShortlisted(!shortlisted);
-    
-    if (!shortlisted) {
-      toast.success('Athlete added to shortlist');
-    } else {
-      toast.success('Athlete removed from shortlist');
-    }
-  };
-
   const toggleUserSelection = (userId: string) => {
     if (selectedUsers.includes(userId)) {
       setSelectedUsers(selectedUsers.filter(id => id !== userId));
@@ -111,7 +95,7 @@ const ScoutingActions: React.FC<ScoutingActionsProps> = ({
       .toUpperCase();
   };
 
-  // If not a scout or connected coach, show limited actions
+  // If not a connected coach, show limited actions
   if (!canUseActions) {
     return (
       <div className="space-y-3">
@@ -128,24 +112,6 @@ const ScoutingActions: React.FC<ScoutingActionsProps> = ({
       <Button variant="default" className="w-full" onClick={handleViewProfile}>
         <User className="mr-2 h-4 w-4" />
         View Full Profile
-      </Button>
-      
-      <Button 
-        variant={shortlisted ? "secondary" : "outline"} 
-        className="w-full" 
-        onClick={handleToggleShortlist}
-      >
-        {shortlisted ? (
-          <>
-            <StarOff className="mr-2 h-4 w-4" />
-            Remove from Shortlist
-          </>
-        ) : (
-          <>
-            <Star className="mr-2 h-4 w-4" />
-            Add to Shortlist
-          </>
-        )}
       </Button>
       
       <Button variant="outline" className="w-full" onClick={handleCreateScoutingNote}>
@@ -172,7 +138,7 @@ const ScoutingActions: React.FC<ScoutingActionsProps> = ({
           
           <div className="mt-4 space-y-4">
             <Input
-              placeholder="Search coaches and scouts..."
+              placeholder="Search coaches..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="bg-athlex-gray-800 border-athlex-gray-700"

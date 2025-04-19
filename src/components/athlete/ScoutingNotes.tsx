@@ -12,9 +12,9 @@ import { format } from 'date-fns';
 
 interface ScoutNote {
   note_id: string;
-  scout_id: string;
-  scout_name: string;
-  scout_role?: string;
+  coach_id: string;
+  coach_name: string;
+  coach_role?: string;
   note: string;
   date: string;
   profile_photo?: string;
@@ -35,25 +35,25 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({
   const [newNote, setNewNote] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'recent'>('all');
   
-  // Check if user can add notes (scouts or connected coaches)
-  const canAddNotes = userRole === 'scout' || (userRole === 'coach' && isConnected);
+  // Check if user can add notes (connected coaches)
+  const canAddNotes = userRole === 'coach' && isConnected;
   
   // Create mock data for preview if no real notes provided
   const mockNotes: ScoutNote[] = [
     {
       note_id: "note1",
-      scout_id: "scout123",
-      scout_name: "Coach Thompson",
-      scout_role: "Head Talent Scout",
+      coach_id: "coach123",
+      coach_name: "Coach Thompson",
+      coach_role: "Head Coach",
       note: "Excellent agility and game sense. Shows natural leadership on the field and communicates well with teammates. Needs to work on defensive positioning when out of possession.",
       date: "2025-04-10T15:30:00",
       profile_photo: undefined
     },
     {
       note_id: "note2",
-      scout_id: "scout456",
-      scout_name: "Amanda Lee",
-      scout_role: "Performance Analyst",
+      coach_id: "coach456",
+      coach_name: "Amanda Lee",
+      coach_role: "Performance Analyst",
       note: "Great first touch and technical ability. Decision-making under pressure is a standout quality. Should focus on increasing upper body strength for better protection of the ball.",
       date: "2025-04-05T11:15:00",
       profile_photo: undefined
@@ -66,7 +66,7 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({
   const handleAddNote = () => {
     if (newNote.trim()) {
       // In a real implementation, this would call an API to save the note
-      toast.success("Scouting note saved successfully");
+      toast.success("Coaching note saved successfully");
       setNewNote('');
     } else {
       toast.error("Please enter a note");
@@ -90,13 +90,13 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({
     return (
       <Card className="bg-gray-900/60 border-gray-800">
         <CardHeader>
-          <CardTitle className="text-xl">Scouting Notes</CardTitle>
+          <CardTitle className="text-xl">Coaching Notes</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-center py-10">
             <Lock className="h-12 w-12 mx-auto text-gray-500 mb-3" />
             <p className="text-lg font-medium text-gray-300 mb-1">Access Required</p>
-            <p className="text-gray-400">You need to connect with this athlete to view and add scouting notes.</p>
+            <p className="text-gray-400">You need to connect with this athlete to view and add coaching notes.</p>
             <Button variant="outline" className="mt-4">
               <UserCheck className="mr-2 h-4 w-4" />
               Request Connection
@@ -110,7 +110,7 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({
   return (
     <Card className="bg-gray-900/60 border-gray-800">
       <CardHeader>
-        <CardTitle className="text-xl">Scouting Notes</CardTitle>
+        <CardTitle className="text-xl">Coaching Notes</CardTitle>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="notes" className="w-full">
@@ -132,7 +132,7 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({
             {displayNotes.length === 0 ? (
               <div className="text-center py-8">
                 <FileText className="h-12 w-12 mx-auto text-gray-500 mb-3" />
-                <p className="text-gray-400">No scouting notes available</p>
+                <p className="text-gray-400">No coaching notes available</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -145,15 +145,15 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({
                       <Avatar className="h-10 w-10">
                         <AvatarImage src={note.profile_photo} />
                         <AvatarFallback className="bg-athlex-accent/20 text-athlex-accent">
-                          {getInitials(note.scout_name)}
+                          {getInitials(note.coach_name)}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1">
                         <div className="flex justify-between items-start">
                           <div>
-                            <h4 className="font-medium">{note.scout_name}</h4>
-                            {note.scout_role && (
-                              <p className="text-xs text-gray-400">{note.scout_role}</p>
+                            <h4 className="font-medium">{note.coach_name}</h4>
+                            {note.coach_role && (
+                              <p className="text-xs text-gray-400">{note.coach_role}</p>
                             )}
                           </div>
                           <span className="text-sm text-gray-400">
@@ -175,7 +175,7 @@ const ScoutingNotes: React.FC<ScoutingNotesProps> = ({
                 <Textarea
                   value={newNote}
                   onChange={(e) => setNewNote(e.target.value)}
-                  placeholder="Enter your scouting observations here..."
+                  placeholder="Enter your coaching observations here..."
                   className="min-h-[150px] bg-gray-800/50 border-gray-700"
                 />
                 <Button onClick={handleAddNote} className="bg-athlex-accent hover:bg-athlex-accent/90">
