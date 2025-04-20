@@ -2,48 +2,39 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import RouteGuard from '@/components/auth/RouteGuard';
-import AthleteDashboard from '@/pages/AthleteDashboard';
-import AthleteSettings from '@/pages/AthleteSettings';
-import Nutrition from '@/pages/Nutrition';
-import Performance from '@/pages/Performance';
-import PerformanceGoals from '@/pages/PerformanceGoals';
-import Training from '@/pages/Training';
-import TrainingLog from '@/pages/TrainingLog';
+import AthleteLayout from '@/layouts/AthleteLayout';
+
+const protectedAthleteRoute = (path: string, Component: React.ComponentType) => (
+  <Route 
+    key={path} 
+    path={path} 
+    element={
+      <RouteGuard requiredRole="athlete">
+        <AthleteLayout>
+          <Component />
+        </AthleteLayout>
+      </RouteGuard>
+    } 
+  />
+);
+
+// Placeholder components for athlete routes
+const DashboardPage = () => <h1>Athlete Dashboard</h1>;
+const UploadPage = () => <h1>Upload Data</h1>;
+const StatsPage = () => <h1>Stats</h1>;
+const NutritionPage = () => <h1>Nutrition</h1>;
+const CalendarPage = () => <h1>Calendar</h1>;
+const RecommendationsPage = () => <h1>Recommendations</h1>;
+const MessagesPage = () => <h1>Messages</h1>;
+const SettingsPage = () => <h1>Settings</h1>;
 
 export const athleteRoutes = [
-  <Route key="athlete-dashboard" path="/athlete-dashboard" element={
-    <RouteGuard requiredRole="athlete">
-      <AthleteDashboard />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-nutrition" path="/athlete-nutrition" element={
-    <RouteGuard requiredRole="athlete">
-      <Nutrition />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-performance" path="/athlete-performance" element={
-    <RouteGuard requiredRole="athlete">
-      <Performance />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-performance-goals" path="/athlete-performance-goals" element={
-    <RouteGuard requiredRole="athlete">
-      <PerformanceGoals />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-settings" path="/athlete-settings" element={
-    <RouteGuard requiredRole="athlete">
-      <AthleteSettings />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-training" path="/athlete-training" element={
-    <RouteGuard requiredRole="athlete">
-      <Training />
-    </RouteGuard>
-  } />,
-  <Route key="athlete-training-log" path="/athlete-training-log" element={
-    <RouteGuard requiredRole="athlete">
-      <TrainingLog />
-    </RouteGuard>
-  } />,
+  protectedAthleteRoute('/athlete/dashboard', DashboardPage),
+  protectedAthleteRoute('/athlete/upload', UploadPage),
+  protectedAthleteRoute('/athlete/stats', StatsPage),
+  protectedAthleteRoute('/athlete/nutrition', NutritionPage),
+  protectedAthleteRoute('/athlete/calendar', CalendarPage),
+  protectedAthleteRoute('/athlete/recommendations', RecommendationsPage),
+  protectedAthleteRoute('/athlete/messages', MessagesPage),
+  protectedAthleteRoute('/athlete/settings', SettingsPage),
 ];
