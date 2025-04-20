@@ -1,4 +1,3 @@
-
 // Common data types for mock data
 
 // Users
@@ -8,7 +7,7 @@ export interface UserProfile {
   first_name: string;
   last_name: string;
   full_name?: string;
-  role: 'athlete' | 'scout' | 'coach' | 'admin';
+  role: 'athlete' | 'coach';
   avatar_url?: string;
   bio?: string;
   created_at: string;
