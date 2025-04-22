@@ -1,6 +1,6 @@
 
 import { toast } from 'sonner';
-import { AthleteWithConnectionStatus } from '@/components/scouting/AthleteCard';
+import { AthleteWithConnectionStatus } from '@/types/athleteTypes';
 
 // Mock data for shortlisted athletes with connection_status
 export const shortlistedAthletesMock: AthleteWithConnectionStatus[] = [

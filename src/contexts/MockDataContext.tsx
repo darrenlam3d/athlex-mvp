@@ -25,9 +25,11 @@ export const MockDataProvider = ({ children }: { children: ReactNode }) => {
       
       if (demoModeActive && role) {
         // In demo mode, set the current user based on role
-        const userId = `${role}_001`; // Use the first user of each role type
-        setCurrentUser(userId, role);
-        console.log(`Mock data initialized for demo user: ${userId} with role: ${role}`);
+        // Only use athlete or coach roles for mockDataProvider
+        const effectiveRole = (role === 'athlete' || role === 'coach') ? role : 'athlete';
+        const userId = `${effectiveRole}_001`; // Use the first user of each role type
+        setCurrentUser(userId, effectiveRole);
+        console.log(`Mock data initialized for demo user: ${userId} with role: ${effectiveRole}`);
       }
     };
     

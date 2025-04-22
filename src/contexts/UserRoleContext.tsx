@@ -1,7 +1,7 @@
 
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
-export type UserRole = 'athlete' | 'coach' | null;
+export type UserRole = 'athlete' | 'coach' | 'scout' | null;
 
 interface UserRoleContextType {
   userRole: UserRole;

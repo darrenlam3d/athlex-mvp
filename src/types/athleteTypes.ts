@@ -29,6 +29,7 @@ export interface TrainingSession {
   date: string;
   coach_name?: string;
   coach_id?: string;
+  coach?: string;
   highlights?: string[];
 }
 
@@ -53,4 +54,16 @@ export interface PerformanceData {
   power: number;
   overall: number;
   timestamp: string;
+}
+
+export interface AthleteWithConnectionStatus {
+  id: string;
+  name: string;
+  sport: string;
+  position: string;
+  club?: string;
+  profile_photo?: string;
+  recent_speed_kmh?: number;
+  performance_score?: number;
+  connection_status: 'connected' | 'not_connected' | 'pending';
 }
