@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -8,7 +9,8 @@ import {
   Utensils, 
   Users, 
   Settings, 
-  LogOut 
+  LogOut,
+  Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
@@ -19,6 +21,7 @@ const AthleteSidebar = () => {
   
   const navItems = [
     { icon: LayoutDashboard, text: 'Dashboard', path: '/athlete-dashboard' },
+    { icon: Sparkles, text: 'ATHLEX MVP', path: '/athlex-mvp', special: true },
     { icon: BarChart2, text: 'Performance', path: '/athlete-performance' },
     { icon: Calendar, text: 'Training Log', path: '/athlete-training-log' },
     { icon: Target, text: 'Goals', path: '/athlete-performance-goals' },
@@ -53,10 +56,15 @@ const AthleteSidebar = () => {
                   location.pathname === item.path 
                     ? 'bg-athlex-gray-800 text-athlex-accent' 
                     : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white'
-                }`}
+                } ${item.special ? 'bg-athlex-accent/10 border border-athlex-accent/30' : ''}`}
               >
                 <item.icon size={18} />
                 <span>{item.text}</span>
+                {item.special && (
+                  <span className="ml-auto text-xs bg-athlex-accent text-white px-1.5 py-0.5 rounded-full">
+                    New
+                  </span>
+                )}
               </Link>
             </li>
           ))}
