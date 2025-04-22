@@ -1,7 +1,6 @@
 
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
-// Update roles to only include athlete and coach
 export type UserRole = 'athlete' | 'coach' | null;
 
 interface UserRoleContextType {
