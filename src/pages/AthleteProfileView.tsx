@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ProfileProvider } from '@/contexts/ProfileContext';
 import { SidebarProvider } from '@/components/ui/sidebar';
@@ -641,4 +642,55 @@ const ProfileContent = ({ activeTab, setActiveTab }) => {
               </div>
               
               <div className="space-y-6">
-                <div className="border-b border-gray-
+                <div className="border-b border-gray-700 pb-4">
+                  <div className="flex justify-between mb-2">
+                    <h4 className="font-medium">Match vs. Athletic Bilbao U23</h4>
+                    <span className="text-xs text-gray-400">2025-03-12</span>
+                  </div>
+                  <p className="text-sm text-gray-300">
+                    Excellent game awareness and decision-making. Made several key passes that created scoring opportunities. Positioning and spatial awareness were outstanding. Need to work on defensive transitions when possession is lost.
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <Badge variant="outline" className="text-blue-400 border-blue-400/30 bg-blue-400/10">Positioning</Badge>
+                    <Badge variant="outline" className="text-green-400 border-green-400/30 bg-green-400/10">Vision</Badge>
+                    <Badge variant="outline" className="text-yellow-400 border-yellow-400/30 bg-yellow-400/10">Defensive Work</Badge>
+                  </div>
+                </div>
+                
+                <div className="border-b border-gray-700 pb-4">
+                  <div className="flex justify-between mb-2">
+                    <h4 className="font-medium">Training Observation</h4>
+                    <span className="text-xs text-gray-400">2025-02-28</span>
+                  </div>
+                  <p className="text-sm text-gray-300">
+                    Showed impressive technical ability in close-quarter drills. First touch is exceptional, able to receive and control difficult passes under pressure. Long-range passing accuracy is improving but still inconsistent. Mental resilience seems to waver when faced with repeated failures.
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <Badge variant="outline" className="text-blue-400 border-blue-400/30 bg-blue-400/10">Technical</Badge>
+                    <Badge variant="outline" className="text-purple-400 border-purple-400/30 bg-purple-400/10">Mental</Badge>
+                  </div>
+                </div>
+                
+                <div className="pb-4">
+                  <div className="flex justify-between mb-2">
+                    <h4 className="font-medium">Physical Assessment</h4>
+                    <span className="text-xs text-gray-400">2025-02-15</span>
+                  </div>
+                  <p className="text-sm text-gray-300">
+                    VO2 max test shows above-average cardiovascular capacity. Acceleration and top speed are good for position. Lower body strength could be improved - recommend targeted gym work. Core stability is excellent. Overall physical development is on track but has room for improvement in specific areas.
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <Badge variant="outline" className="text-green-400 border-green-400/30 bg-green-400/10">Physical</Badge>
+                    <Badge variant="outline" className="text-yellow-400 border-yellow-400/30 bg-yellow-400/10">Strength</Badge>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </>
+  );
+};
+
+export default AthleteProfileView;
