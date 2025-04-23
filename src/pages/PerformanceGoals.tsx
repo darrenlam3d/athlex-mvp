@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserRole } from '@/contexts/UserRoleContext';
+import { ProfileProvider } from '@/contexts/ProfileContext';
 import AthleteLayout from '@/layouts/AthleteLayout';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -121,163 +121,165 @@ const PerformanceGoals = () => {
   };
 
   return (
-    <AthleteLayout>
-      <div className="container max-w-4xl mx-auto py-8 px-4">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
-            <Button variant="ghost" size="icon" onClick={handleBack} className="mr-2">
-              <ArrowLeft className="h-5 w-5" />
+    <ProfileProvider>
+      <AthleteLayout>
+        <div className="container max-w-4xl mx-auto py-8 px-4">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center">
+              <Button variant="ghost" size="icon" onClick={handleBack} className="mr-2">
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+              <h1 className="text-2xl font-bold gradient-text">Performance Goals</h1>
+            </div>
+            <Button onClick={toggleForm} className="flex items-center">
+              <PlusCircle className="h-5 w-5 mr-2" />
+              {showForm ? 'Cancel' : 'Add Goal'}
             </Button>
-            <h1 className="text-2xl font-bold gradient-text">Performance Goals</h1>
           </div>
-          <Button onClick={toggleForm} className="flex items-center">
-            <PlusCircle className="h-5 w-5 mr-2" />
-            {showForm ? 'Cancel' : 'Add Goal'}
-          </Button>
-        </div>
 
-        {/* Add Goal Form */}
-        {showForm && (
-          <div className="bg-athlex-gray-900/60 border border-athlex-gray-800 rounded-lg p-5 mb-8 animate-fadeIn">
-            <h2 className="text-lg font-semibold mb-4">Create New Goal</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="title">Goal Title</Label>
-                <Input
-                  id="title"
-                  name="title"
-                  value={newGoal.title}
-                  onChange={handleInputChange}
-                  className="bg-athlex-gray-800 border-athlex-gray-700"
-                  required
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="description">Description (Optional)</Label>
-                <Input
-                  id="description"
-                  name="description"
-                  value={newGoal.description}
-                  onChange={handleInputChange}
-                  className="bg-athlex-gray-800 border-athlex-gray-700"
-                />
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Add Goal Form */}
+          {showForm && (
+            <div className="bg-athlex-gray-900/60 border border-athlex-gray-800 rounded-lg p-5 mb-8 animate-fadeIn">
+              <h2 className="text-lg font-semibold mb-4">Create New Goal</h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <Label htmlFor="metric">Metric</Label>
-                  <Select
-                    value={newGoal.metric}
-                    onValueChange={handleSelectChange}
-                  >
-                    <SelectTrigger className="bg-athlex-gray-800 border-athlex-gray-700">
-                      <SelectValue placeholder="Select metric" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {goalMetrics.map(metric => (
-                        <SelectItem key={metric.id} value={metric.id}>
-                          {metric.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <Label htmlFor="target">Target Value</Label>
+                  <Label htmlFor="title">Goal Title</Label>
                   <Input
-                    id="target"
-                    name="target"
-                    type="number"
-                    value={newGoal.target}
+                    id="title"
+                    name="title"
+                    value={newGoal.title}
                     onChange={handleInputChange}
                     className="bg-athlex-gray-800 border-athlex-gray-700"
                     required
                   />
                 </div>
-              </div>
-              
-              <div>
-                <Label htmlFor="end_date">Target Date</Label>
-                <Input
-                  id="end_date"
-                  name="end_date"
-                  type="date"
-                  value={newGoal.end_date}
-                  onChange={handleInputChange}
-                  className="bg-athlex-gray-800 border-athlex-gray-700"
-                  required
-                />
-              </div>
-              
-              <div className="flex justify-end">
-                <Button type="submit">Create Goal</Button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {/* Goals List */}
-        <div className="space-y-4">
-          {goals.length === 0 ? (
-            <div className="text-center py-12 bg-athlex-gray-900/60 border border-athlex-gray-800 rounded-lg">
-              <Activity className="h-12 w-12 mx-auto text-gray-500 mb-3" />
-              <h3 className="text-xl font-semibold text-gray-300">No Goals Yet</h3>
-              <p className="text-gray-500 mt-2">Add your first performance goal to start tracking.</p>
-              <Button onClick={toggleForm} className="mt-4">
-                <PlusCircle className="h-5 w-5 mr-2" />
-                Add Goal
-              </Button>
-            </div>
-          ) : (
-            goals.map(goal => (
-              <div key={goal.id} className="bg-athlex-gray-900/60 border border-athlex-gray-800 rounded-lg p-5">
-                <div className="flex justify-between items-start">
+                
+                <div>
+                  <Label htmlFor="description">Description (Optional)</Label>
+                  <Input
+                    id="description"
+                    name="description"
+                    value={newGoal.description}
+                    onChange={handleInputChange}
+                    className="bg-athlex-gray-800 border-athlex-gray-700"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <h3 className="text-lg font-semibold">{goal.title}</h3>
-                    <p className="text-sm text-gray-400">{goal.description}</p>
+                    <Label htmlFor="metric">Metric</Label>
+                    <Select
+                      value={newGoal.metric}
+                      onValueChange={handleSelectChange}
+                    >
+                      <SelectTrigger className="bg-athlex-gray-800 border-athlex-gray-700">
+                        <SelectValue placeholder="Select metric" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {goalMetrics.map(metric => (
+                          <SelectItem key={metric.id} value={metric.id}>
+                            {metric.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={() => deleteGoal(goal.id)} className="text-red-500 hover:text-red-400 hover:bg-red-500/10">
-                    <Trash2 className="h-5 w-5" />
-                  </Button>
-                </div>
-                
-                <div className="mt-4 space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>{goal.metric}</span>
-                    <span className="text-athlex-accent">
-                      {goal.current} / {goal.target}
-                    </span>
-                  </div>
-                  <Progress value={goal.progress} className="h-2" />
-                </div>
-                
-                <div className="mt-4 flex justify-between text-xs text-gray-400">
-                  <span>Started: {new Date(goal.start_date).toLocaleDateString()}</span>
-                  <span>Target: {new Date(goal.end_date).toLocaleDateString()}</span>
-                </div>
-                
-                <div className="mt-4 flex justify-between items-center">
-                  <span className={`px-2 py-1 rounded text-xs font-medium ${
-                    goal.status === 'completed' ? 'bg-green-500/20 text-green-400' :
-                    goal.status === 'in_progress' ? 'bg-blue-500/20 text-blue-400' :
-                    goal.status === 'cancelled' ? 'bg-red-500/20 text-red-400' :
-                    'bg-gray-500/20 text-gray-400'
-                  }`}>
-                    {goal.status.replace('_', ' ')}
-                  </span>
                   
-                  <Button variant="outline" size="sm" className="border-athlex-gray-700">
-                    Update Progress
-                  </Button>
+                  <div>
+                    <Label htmlFor="target">Target Value</Label>
+                    <Input
+                      id="target"
+                      name="target"
+                      type="number"
+                      value={newGoal.target}
+                      onChange={handleInputChange}
+                      className="bg-athlex-gray-800 border-athlex-gray-700"
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
-            ))
+                
+                <div>
+                  <Label htmlFor="end_date">Target Date</Label>
+                  <Input
+                    id="end_date"
+                    name="end_date"
+                    type="date"
+                    value={newGoal.end_date}
+                    onChange={handleInputChange}
+                    className="bg-athlex-gray-800 border-athlex-gray-700"
+                    required
+                  />
+                </div>
+                
+                <div className="flex justify-end">
+                  <Button type="submit">Create Goal</Button>
+                </div>
+              </form>
+            </div>
           )}
+
+          {/* Goals List */}
+          <div className="space-y-4">
+            {goals.length === 0 ? (
+              <div className="text-center py-12 bg-athlex-gray-900/60 border border-athlex-gray-800 rounded-lg">
+                <Activity className="h-12 w-12 mx-auto text-gray-500 mb-3" />
+                <h3 className="text-xl font-semibold text-gray-300">No Goals Yet</h3>
+                <p className="text-gray-500 mt-2">Add your first performance goal to start tracking.</p>
+                <Button onClick={toggleForm} className="mt-4">
+                  <PlusCircle className="h-5 w-5 mr-2" />
+                  Add Goal
+                </Button>
+              </div>
+            ) : (
+              goals.map(goal => (
+                <div key={goal.id} className="bg-athlex-gray-900/60 border border-athlex-gray-800 rounded-lg p-5">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-semibold">{goal.title}</h3>
+                      <p className="text-sm text-gray-400">{goal.description}</p>
+                    </div>
+                    <Button variant="ghost" size="icon" onClick={() => deleteGoal(goal.id)} className="text-red-500 hover:text-red-400 hover:bg-red-500/10">
+                      <Trash2 className="h-5 w-5" />
+                    </Button>
+                  </div>
+                  
+                  <div className="mt-4 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>{goal.metric}</span>
+                      <span className="text-athlex-accent">
+                        {goal.current} / {goal.target}
+                      </span>
+                    </div>
+                    <Progress value={goal.progress} className="h-2" />
+                  </div>
+                  
+                  <div className="mt-4 flex justify-between text-xs text-gray-400">
+                    <span>Started: {new Date(goal.start_date).toLocaleDateString()}</span>
+                    <span>Target: {new Date(goal.end_date).toLocaleDateString()}</span>
+                  </div>
+                  
+                  <div className="mt-4 flex justify-between items-center">
+                    <span className={`px-2 py-1 rounded text-xs font-medium ${
+                      goal.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                      goal.status === 'in_progress' ? 'bg-blue-500/20 text-blue-400' :
+                      goal.status === 'cancelled' ? 'bg-red-500/20 text-red-400' :
+                      'bg-gray-500/20 text-gray-400'
+                    }`}>
+                      {goal.status.replace('_', ' ')}
+                    </span>
+                    
+                    <Button variant="outline" size="sm" className="border-athlex-gray-700">
+                      Update Progress
+                    </Button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
-      </div>
-    </AthleteLayout>
+      </AthleteLayout>
+    </ProfileProvider>
   );
 };
 
