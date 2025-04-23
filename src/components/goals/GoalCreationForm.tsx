@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -12,7 +13,19 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+// The UI goal type to match GoalPage + ActiveGoalsList
+interface UIGoal {
+  goal_id: string;
+  metric: string;
+  target_value: number;
+  current_value: number;
+  unit: string;
+  start_date: string;
+  end_date: string;
+  progress_percent: number;
+  status: string;
+}
 
 // Form schema
 const formSchema = z.object({
@@ -25,7 +38,7 @@ const formSchema = z.object({
 });
 
 interface GoalCreationFormProps {
-  onSubmit: (data: any) => void;
+  onSubmit: (data: UIGoal) => void;
   onCancel: () => void;
 }
 
@@ -43,18 +56,20 @@ const GoalCreationForm: React.FC<GoalCreationFormProps> = ({ onSubmit, onCancel 
   });
 
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    const newGoal = {
-      goal_id: `goal_${Date.now()}`, // Changed from goal_id to id
+    const targetNum = parseFloat(values.target_value);
+    const currentNum = parseFloat(values.current_value) || 0;
+    const progress = targetNum > 0 ? Math.round((currentNum / targetNum) * 100) : 0;
+    const newGoal: UIGoal = {
+      goal_id: `goal_${Date.now()}`,
       metric: values.metric,
-      target_value: parseFloat(values.target_value),
-      current_value: parseFloat(values.current_value) || 0,
-      unit: values.unit,
+      target_value: targetNum,
+      current_value: currentNum,
+      unit: values.unit || '',
       start_date: values.start_date,
       end_date: values.end_date,
-      progress_percent: Math.round((parseFloat(values.current_value) / parseFloat(values.target_value)) * 100) || 0,
+      progress_percent: progress,
       status: 'In Progress',
     };
-    
     onSubmit(newGoal);
   };
 
@@ -74,7 +89,6 @@ const GoalCreationForm: React.FC<GoalCreationFormProps> = ({ onSubmit, onCancel 
             </FormItem>
           )}
         />
-        
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -89,7 +103,6 @@ const GoalCreationForm: React.FC<GoalCreationFormProps> = ({ onSubmit, onCancel 
               </FormItem>
             )}
           />
-          
           <FormField
             control={form.control}
             name="current_value"
@@ -104,7 +117,6 @@ const GoalCreationForm: React.FC<GoalCreationFormProps> = ({ onSubmit, onCancel 
             )}
           />
         </div>
-        
         <FormField
           control={form.control}
           name="unit"
@@ -118,7 +130,6 @@ const GoalCreationForm: React.FC<GoalCreationFormProps> = ({ onSubmit, onCancel 
             </FormItem>
           )}
         />
-        
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -133,7 +144,6 @@ const GoalCreationForm: React.FC<GoalCreationFormProps> = ({ onSubmit, onCancel 
               </FormItem>
             )}
           />
-          
           <FormField
             control={form.control}
             name="end_date"
@@ -148,7 +158,6 @@ const GoalCreationForm: React.FC<GoalCreationFormProps> = ({ onSubmit, onCancel 
             )}
           />
         </div>
-        
         <div className="flex justify-end space-x-2 pt-4">
           <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>
           <Button type="submit">Create Goal</Button>
@@ -159,3 +168,4 @@ const GoalCreationForm: React.FC<GoalCreationFormProps> = ({ onSubmit, onCancel 
 };
 
 export default GoalCreationForm;
+

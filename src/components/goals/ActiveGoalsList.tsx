@@ -6,11 +6,13 @@ import { Badge } from '@/components/ui/badge';
 import { Target, Plus, Calendar, TrendingUp, TrendingDown, ArrowUpRight } from 'lucide-react';
 import { format, parseISO, isAfter } from 'date-fns';
 
+// UI Goal type matches usage everywhere
 interface Goal {
   goal_id: string;
   metric: string;
   target_value: number;
   current_value: number;
+  unit: string;
   start_date: string;
   end_date: string;
   progress_percent: number;
@@ -31,19 +33,15 @@ const ActiveGoalsList: React.FC<ActiveGoalsListProps> = ({ goals, onCreateGoal }
   };
 
   const getStatusBadge = (status: string, endDate: string) => {
-    // Safely parse the date string, return early if it's undefined or invalid
     if (!endDate) {
       return <Badge variant="secondary">Unknown</Badge>;
     }
-    
     try {
       const endDateObj = parseISO(endDate);
       const isExpired = isAfter(new Date(), endDateObj);
-      
       if (isExpired && status !== 'Completed') {
         return <Badge variant="destructive">Expired</Badge>;
       }
-      
       switch (status) {
         case 'Completed':
           return <Badge className="bg-green-600">Completed</Badge>;
@@ -66,10 +64,8 @@ const ActiveGoalsList: React.FC<ActiveGoalsListProps> = ({ goals, onCreateGoal }
            metric.toLowerCase().includes('minutes');
   };
   
-  // Helper function to safely format dates
   const safelyFormatDate = (dateStr: string, formatStr: string) => {
     if (!dateStr) return 'Unknown';
-    
     try {
       const date = parseISO(dateStr);
       return format(date, formatStr);
@@ -115,13 +111,12 @@ const ActiveGoalsList: React.FC<ActiveGoalsListProps> = ({ goals, onCreateGoal }
           <div className="space-y-6">
             {goals.map((goal) => {
               const decreasing = isDecreasingMetric(goal.metric);
-              
               return (
                 <div key={goal.goal_id} className="bg-athlex-gray-800/50 rounded-lg p-5 border border-gray-700">
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="font-medium text-lg">
-                        {goal.metric}
+                        {goal.metric} <span className="text-gray-400 text-base ml-2">{goal.unit && `(${goal.unit})`}</span>
                       </h3>
                       <div className="flex items-center text-sm text-gray-400 mt-1">
                         <Calendar className="h-3 w-3 mr-1" />
@@ -130,12 +125,12 @@ const ActiveGoalsList: React.FC<ActiveGoalsListProps> = ({ goals, onCreateGoal }
                     </div>
                     {getStatusBadge(goal.status, goal.end_date)}
                   </div>
-                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                     <div className="flex items-baseline gap-2">
                       <span className="text-gray-400">Current:</span>
                       <span className="text-xl font-medium flex items-center">
                         {goal.current_value}
+                        {goal.unit && <span className="ml-1 text-base">{goal.unit}</span>}
                         {decreasing ? (
                           <TrendingDown className="h-4 w-4 ml-1 text-green-400" />
                         ) : (
@@ -145,10 +140,12 @@ const ActiveGoalsList: React.FC<ActiveGoalsListProps> = ({ goals, onCreateGoal }
                     </div>
                     <div className="flex items-baseline gap-2">
                       <span className="text-gray-400">Target:</span>
-                      <span className="text-xl font-medium">{goal.target_value}</span>
+                      <span className="text-xl font-medium">
+                        {goal.target_value}
+                        {goal.unit && <span className="ml-1 text-base">{goal.unit}</span>}
+                      </span>
                     </div>
                   </div>
-                  
                   <div className="mt-4">
                     <div className="flex justify-between text-sm mb-1">
                       <span>Progress</span>
@@ -159,7 +156,6 @@ const ActiveGoalsList: React.FC<ActiveGoalsListProps> = ({ goals, onCreateGoal }
                       className={`h-2 ${getProgressColor(goal.progress_percent)}`} 
                     />
                   </div>
-                  
                   <div className="mt-4 flex justify-end">
                     <Button variant="ghost" size="sm" className="text-athlex-accent">
                       View Details
