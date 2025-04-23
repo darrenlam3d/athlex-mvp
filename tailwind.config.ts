@@ -71,15 +71,17 @@ export default {
 					'foreground': '#ffffff',
 					'accent': '#9b87f5', // Changed from blue to neon purple
 					'accent-alt': '#8B5CF6', // Changed secondary accent to purple
-					'gray-100': '#f3f4f6',
-					'gray-200': '#e5e7eb',
-					'gray-300': '#d1d5db',
-					'gray-400': '#9ca3af',
-					'gray-500': '#6b7280',
-					'gray-600': '#333333',
-					'gray-700': '#374151',
-					'gray-800': '#1f2937',
-					'gray-900': '#111827',
+					'gray': {
+						'100': '#f3f4f6',
+						'200': '#e5e7eb',
+						'300': '#d1d5db',
+						'400': '#9ca3af',
+						'500': '#6b7280',
+						'600': '#4b5563', // Added missing gray-600 color
+						'700': '#374151',
+						'800': '#1f2937',
+						'900': '#111827',
+					}
 				}
 			},
 			borderRadius: {
