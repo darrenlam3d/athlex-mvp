@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 import athlexColors from "./src/styles/colors";
 
@@ -69,11 +68,21 @@ export default {
           ring: "hsl(var(--sidebar-ring))"
         },
         athlex: {
+          gray: {
+            "100": athlexColors.gray["100"],
+            "200": athlexColors.gray["200"],
+            "300": athlexColors.gray["300"],
+            "400": athlexColors.gray["400"],
+            "500": athlexColors.gray["500"],
+            "600": athlexColors.gray["600"],
+            "700": athlexColors.gray["700"],
+            "800": athlexColors.gray["800"],
+            "900": athlexColors.gray["900"],
+          },
           background: athlexColors.black,
           foreground: athlexColors.white,
           accent: athlexColors.accent,
           "accent-alt": athlexColors.accentAlt,
-          gray: athlexColors.gray,
           blue: athlexColors.blue,
           green: athlexColors.green,
           yellow: athlexColors.yellow,
@@ -126,4 +135,3 @@ export default {
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
-

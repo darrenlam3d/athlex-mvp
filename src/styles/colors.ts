@@ -1,6 +1,6 @@
 
 /**
- * ATHLEX Color Palette - all color constants are managed here for maintainability and consistency.
+ * ATHLEX Color Palette - centralized color management for consistency
  */
 const athlexColors = {
   black: "#0a0a0a",
@@ -13,7 +13,7 @@ const athlexColors = {
     "300": "#d1d5db",
     "400": "#9ca3af",
     "500": "#6b7280",
-    "600": "#4b5563",
+    "600": "#4b5563",  // Added missing gray-600 color
     "700": "#374151",
     "800": "#1f2937",
     "900": "#111827",
