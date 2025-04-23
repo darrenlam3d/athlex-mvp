@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from "@/hooks/use-toast";
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
 import AthleteLayout from '@/layouts/AthleteLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,11 +21,11 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { isSupabaseConfigured, supabase } from '@/lib/supabase';
-import { mockAthlete } from '@/lib/mockData';
-import { Link } from 'react-router-dom';
+import { isSupabaseConfigured, isDemoMode, supabase } from '@/lib/supabase';
+import { mockAthlete, mockGoals } from '@/lib/mockData';
+import { useMockData } from '@/contexts/MockDataContext';
 
-// Mock data for now - will connect to Supabase later
+// Mock data for healthkit
 const mockHealthKitData = [
   { date: '2025-04-16', value: 7.2, type: 'sleep' },
   { date: '2025-04-17', value: 6.5, type: 'sleep' },
@@ -34,6 +36,7 @@ const mockHealthKitData = [
   { date: '2025-04-22', value: 7.9, type: 'sleep' },
 ];
 
+// Mock wellness data
 const mockWellnessData = {
   soreness_score: 3,
   fatigue_score: 2,
@@ -41,12 +44,14 @@ const mockWellnessData = {
   timestamp: '2025-04-22T08:30:00Z'
 };
 
+// Mock test results
 const mockTestResults = [
   { id: 'test1', test_type: 'Vertical Jump', score: '65 cm', timestamp: '2025-04-20T10:15:00Z' },
   { id: 'test2', test_type: 'Sprint 40m', score: '5.1s', timestamp: '2025-04-18T09:30:00Z' },
   { id: 'test3', test_type: 'Shuttle Run', score: '10.2s', timestamp: '2025-04-15T14:45:00Z' },
 ];
 
+// Mock training load data
 const mockSessionData = [
   { week: 'Week 1', load: 350 },
   { week: 'Week 2', load: 400 },
@@ -55,6 +60,7 @@ const mockSessionData = [
   { week: 'Current', load: 600 },
 ];
 
+// Calculate ACWR based on training load data
 const calculateACWR = (data: any[]) => {
   if (data.length < 5) return null;
   
@@ -65,22 +71,72 @@ const calculateACWR = (data: any[]) => {
   return currentWeekLoad / previousWeeksLoad;
 };
 
+// Manage session data in localStorage to persist between visits
+const getStoredSessions = () => {
+  const stored = localStorage.getItem('athlex_sessions');
+  return stored ? JSON.parse(stored) : mockSessionData;
+};
+
+const getStoredTestResults = () => {
+  const stored = localStorage.getItem('athlex_test_results');
+  return stored ? JSON.parse(stored) : mockTestResults;
+};
+
+const getStoredWellness = () => {
+  const stored = localStorage.getItem('athlex_wellness');
+  return stored ? JSON.parse(stored) : mockWellnessData;
+};
+
+const getStoredGoals = () => {
+  const stored = localStorage.getItem('athlex_goals');
+  return stored ? JSON.parse(stored) : mockGoals;
+};
+
 const AthleteMvpDashboard = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
+  const { isDemo } = useMockData();
   const [athleteName, setAthleteName] = useState("Athlete");
   const [healthKitConnected, setHealthKitConnected] = useState(false);
+  const [sessionData, setSessionData] = useState(getStoredSessions());
+  const [testResults, setTestResults] = useState(getStoredTestResults());
+  const [wellnessData, setWellnessData] = useState(getStoredWellness());
+  const [goals, setGoals] = useState(getStoredGoals());
+
+  // Check if user has previously connected HealthKit
+  useEffect(() => {
+    const storedHealthKitStatus = localStorage.getItem('healthkit_connected');
+    if (storedHealthKitStatus === 'true') {
+      setHealthKitConnected(true);
+    }
+  }, []);
 
   // Fetch athlete profile data
   const { data: athleteData, isLoading: profileLoading } = useQuery({
     queryKey: ['athleteProfile'],
     queryFn: async () => {
-      // In a real app, we would fetch from Supabase
       console.log('AthleteMvpDashboard - Fetching athlete profile');
       
-      // For demo purposes, use mock data
-      return mockAthlete;
+      if (isDemoMode() || isDemo) {
+        return mockAthlete;
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user?.id)
+          .single();
+          
+        if (error) throw error;
+        return data;
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+        return mockAthlete;
+      }
     },
+    enabled: !authLoading && !!user,
     meta: {
       onSuccess: (data) => {
         if (data) {
@@ -102,6 +158,7 @@ const AthleteMvpDashboard = () => {
   // Simulate connecting to HealthKit
   const connectToHealthKit = () => {
     setHealthKitConnected(true);
+    localStorage.setItem('healthkit_connected', 'true');
     toast({
       title: "Success",
       description: "HealthKit Connected Successfully!",
@@ -110,8 +167,45 @@ const AthleteMvpDashboard = () => {
   };
 
   // Calculate ACWR for training load
-  const acwr = calculateACWR(mockSessionData);
+  const acwr = calculateACWR(sessionData);
   const showRecoveryMessage = acwr !== null && acwr > 1.5;
+  
+  // Save any updated data to localStorage
+  useEffect(() => {
+    localStorage.setItem('athlex_sessions', JSON.stringify(sessionData));
+  }, [sessionData]);
+  
+  useEffect(() => {
+    localStorage.setItem('athlex_test_results', JSON.stringify(testResults));
+  }, [testResults]);
+  
+  useEffect(() => {
+    localStorage.setItem('athlex_wellness', JSON.stringify(wellnessData));
+  }, [wellnessData]);
+  
+  useEffect(() => {
+    localStorage.setItem('athlex_goals', JSON.stringify(goals));
+  }, [goals]);
+
+  // Handle data updates from other pages
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'athlex_sessions') {
+        setSessionData(JSON.parse(e.newValue || '[]'));
+      } else if (e.key === 'athlex_test_results') {
+        setTestResults(JSON.parse(e.newValue || '[]'));
+      } else if (e.key === 'athlex_wellness') {
+        setWellnessData(JSON.parse(e.newValue || '{}'));
+      } else if (e.key === 'athlex_goals') {
+        setGoals(JSON.parse(e.newValue || '[]'));
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   return (
     <AthleteLayout>
@@ -223,7 +317,7 @@ const AthleteMvpDashboard = () => {
               <CardContent className="pt-0">
                 <div className="h-[250px]">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={mockSessionData}>
+                    <LineChart data={sessionData}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#333" />
                       <XAxis dataKey="week" tick={{ fill: '#888' }} />
                       <YAxis tick={{ fill: '#888' }} domain={[0, 800]} />
@@ -269,7 +363,7 @@ const AthleteMvpDashboard = () => {
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="divide-y divide-gray-800">
-                  {mockTestResults.map(test => (
+                  {testResults.map(test => (
                     <div key={test.id} className="py-3 flex justify-between items-center">
                       <div>
                         <h4 className="font-medium">{test.test_type}</h4>
@@ -283,15 +377,17 @@ const AthleteMvpDashboard = () => {
                     </div>
                   ))}
                 </div>
-                <Button variant="outline" size="sm" className="w-full mt-4 border-gray-700">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Log Test Result
-                </Button>
+                <Link to="/log-test-result">
+                  <Button variant="outline" size="sm" className="w-full mt-4 border-gray-700">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Log Test Result
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </TabsContent>
           
-          {/* Performance Tab - Add content here */}
+          {/* Performance Tab */}
           <TabsContent value="performance" className="space-y-6 mt-6">
             <Card className="bg-athlex-gray-900/80 border-athlex-gray-800">
               <CardHeader>
@@ -300,7 +396,7 @@ const AthleteMvpDashboard = () => {
               <CardContent>
                 <p className="text-gray-400">Detailed performance analytics will appear here once you log more training data.</p>
                 <div className="flex space-x-4 mt-6">
-                  <Button variant="outline" className="flex-1 border-gray-700">
+                  <Button variant="outline" className="flex-1 border-gray-700" onClick={() => navigate('/log-training')}>
                     <Calendar className="h-4 w-4 mr-2" />
                     Log Session
                   </Button>
@@ -318,36 +414,30 @@ const AthleteMvpDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <h4 className="font-medium">Improve sprint speed</h4>
-                      <span className="text-sm text-gray-400">65%</span>
+                  {goals.slice(0, 2).map((goal, index) => (
+                    <div key={goal.goal_id || index} className="space-y-2">
+                      <div className="flex justify-between">
+                        <h4 className="font-medium">{goal.metric}</h4>
+                        <span className="text-sm text-gray-400">{goal.progress_percent}%</span>
+                      </div>
+                      <div className="w-full bg-gray-800 rounded-full h-2.5">
+                        <div
+                          className="bg-athlex-accent h-2.5 rounded-full"
+                          style={{ width: `${goal.progress_percent}%` }}
+                        ></div>
+                      </div>
                     </div>
-                    <div className="w-full bg-gray-800 rounded-full h-2.5">
-                      <div
-                        className="bg-athlex-accent h-2.5 rounded-full"
-                        style={{ width: '65%' }}
-                      ></div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <h4 className="font-medium">Increase vertical jump</h4>
-                      <span className="text-sm text-gray-400">40%</span>
-                    </div>
-                    <div className="w-full bg-gray-800 rounded-full h-2.5">
-                      <div
-                        className="bg-athlex-accent h-2.5 rounded-full"
-                        style={{ width: '40%' }}
-                      ></div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
                 
-                <Button variant="outline" size="sm" className="w-full mt-4 border-gray-700">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full mt-4 border-gray-700"
+                  onClick={() => navigate('/goals')}
+                >
                   <Target className="h-4 w-4 mr-2" />
-                  Add New Goal
+                  Manage Goals
                 </Button>
               </CardContent>
             </Card>
@@ -363,38 +453,40 @@ const AthleteMvpDashboard = () => {
                 <div className="grid grid-cols-3 gap-4">
                   <div className="bg-athlex-gray-800/60 rounded-lg p-4 text-center">
                     <h3 className="text-sm text-gray-400">Soreness</h3>
-                    <div className="text-3xl font-bold mt-2">{mockWellnessData.soreness_score}</div>
+                    <div className="text-3xl font-bold mt-2">{wellnessData.soreness_score}</div>
                     <div className="text-xs text-gray-500 mt-1">out of 5</div>
                   </div>
                   
                   <div className="bg-athlex-gray-800/60 rounded-lg p-4 text-center">
                     <h3 className="text-sm text-gray-400">Fatigue</h3>
-                    <div className="text-3xl font-bold mt-2">{mockWellnessData.fatigue_score}</div>
+                    <div className="text-3xl font-bold mt-2">{wellnessData.fatigue_score}</div>
                     <div className="text-xs text-gray-500 mt-1">out of 5</div>
                   </div>
                   
                   <div className="bg-athlex-gray-800/60 rounded-lg p-4 text-center">
                     <h3 className="text-sm text-gray-400">Mood</h3>
-                    <div className="text-3xl font-bold mt-2">{mockWellnessData.mood_score}</div>
+                    <div className="text-3xl font-bold mt-2">{wellnessData.mood_score}</div>
                     <div className="text-xs text-gray-500 mt-1">out of 5</div>
                   </div>
                 </div>
                 
                 <p className="text-sm text-gray-400 mt-4">
-                  Last updated: {new Date(mockWellnessData.timestamp).toLocaleString()}
+                  Last updated: {new Date(wellnessData.timestamp).toLocaleString()}
                 </p>
                 
-                <Button variant="outline" size="sm" className="w-full mt-4 border-gray-700">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Log Wellness Score
-                </Button>
+                <Link to="/log-wellness">
+                  <Button variant="outline" size="sm" className="w-full mt-4 border-gray-700">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Log Wellness Score
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
         
         {/* Quick Action Buttons */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           <Link to="/log-training">
             <Button 
               variant="outline" 
@@ -422,6 +514,16 @@ const AthleteMvpDashboard = () => {
             >
               <Target className="h-5 w-5 mb-2" />
               <span>Log Test Result</span>
+            </Button>
+          </Link>
+          
+          <Link to="/goals">
+            <Button 
+              variant="outline" 
+              className="bg-athlex-gray-900/80 border-athlex-gray-800 hover:border-athlex-accent p-4 h-auto flex flex-col items-center w-full"
+            >
+              <BarChart2 className="h-5 w-5 mb-2" />
+              <span>Goals</span>
             </Button>
           </Link>
         </div>

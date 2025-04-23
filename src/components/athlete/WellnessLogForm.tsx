@@ -1,161 +1,185 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Slider } from '@/components/ui/slider';
 import { toast } from 'sonner';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+
+const formSchema = z.object({
+  soreness_score: z.string().min(1, {
+    message: "Please select a soreness score",
+  }),
+  fatigue_score: z.string().min(1, {
+    message: "Please select a fatigue score",
+  }),
+  mood_score: z.string().min(1, {
+    message: "Please select a mood score",
+  }),
+  notes: z.string().optional(),
+});
 
 interface WellnessLogFormProps {
-  onSuccess?: () => void;
+  onSuccess: () => void;
 }
 
 const WellnessLogForm: React.FC<WellnessLogFormProps> = ({ onSuccess }) => {
-  const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    soreness: 3,
-    fatigue: 3,
-    mood: 3,
-    notes: '',
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      soreness_score: "",
+      fatigue_score: "",
+      mood_score: "",
+      notes: "",
+    },
   });
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSliderChange = (name: string, value: number[]) => {
-    setFormData(prev => ({ ...prev, [name]: value[0] }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    // Create wellness data object
+    const wellnessData = {
+      soreness_score: parseInt(values.soreness_score),
+      fatigue_score: parseInt(values.fatigue_score),
+      mood_score: parseInt(values.mood_score),
+      notes: values.notes,
+      timestamp: new Date().toISOString()
+    };
     
-    try {
-      // In a real app, this would be a Supabase insert
-      console.log('Submitting wellness log:', formData);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast.success('Wellness metrics logged successfully!');
-      
-      if (onSuccess) {
-        onSuccess();
-      } else {
-        navigate('/athlex-mvp');
-      }
-    } catch (error) {
-      console.error('Error logging wellness:', error);
-      toast.error('Failed to log wellness. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  // Helper function for generating slider labels
-  const getScoreLabels = (metric: string) => {
-    switch (metric) {
-      case 'soreness':
-        return { low: 'None (1)', mid: 'Moderate (3)', high: 'Severe (5)' };
-      case 'fatigue':
-        return { low: 'Fresh (1)', mid: 'Somewhat (3)', high: 'Exhausted (5)' };
-      case 'mood':
-        return { low: 'Poor (1)', mid: 'Neutral (3)', high: 'Excellent (5)' };
-      default:
-        return { low: 'Low (1)', mid: 'Medium (3)', high: 'High (5)' };
-    }
-  };
-
-  // Helper component for wellness sliders
-  const WellnessSlider = ({ name, label }: { name: 'soreness' | 'fatigue' | 'mood', label: string }) => {
-    const score = formData[name];
-    const labels = getScoreLabels(name);
+    // Save to localStorage
+    localStorage.setItem('athlex_wellness', JSON.stringify(wellnessData));
     
-    return (
-      <div className="space-y-2">
-        <div className="flex justify-between items-center">
-          <Label htmlFor={name}>{label}</Label>
-          <span className={`font-medium ${
-            name === 'mood' 
-              ? (score > 3 ? 'text-green-500' : score < 3 ? 'text-red-500' : 'text-yellow-500')
-              : (score < 3 ? 'text-green-500' : score > 3 ? 'text-red-500' : 'text-yellow-500')
-          }`}>
-            {score}
-          </span>
-        </div>
-        <Slider
-          id={name}
-          min={1}
-          max={5}
-          step={1}
-          value={[score]}
-          onValueChange={(value) => handleSliderChange(name, value)}
-          className="py-4"
-        />
-        <div className="flex justify-between text-xs text-gray-400">
-          <span>{labels.low}</span>
-          <span>{labels.mid}</span>
-          <span>{labels.high}</span>
-        </div>
-      </div>
-    );
+    // Show success message
+    toast.success("Wellness data logged successfully!");
+    
+    // Trigger success callback
+    onSuccess();
   };
+
+  const scoreOptions = [1, 2, 3, 4, 5];
 
   return (
-    <Card className="bg-athlex-gray-900/80 border-athlex-gray-800">
-      <CardHeader>
-        <CardTitle className="text-xl">Log Wellness</CardTitle>
-      </CardHeader>
-      <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-6">
-          <WellnessSlider name="soreness" label="Muscle Soreness" />
-          <WellnessSlider name="fatigue" label="Overall Fatigue" />
-          <WellnessSlider name="mood" label="Mood" />
-          
-          <div className="space-y-2">
-            <Label htmlFor="notes">Additional Notes (optional)</Label>
-            <Textarea
-              id="notes"
-              name="notes"
-              value={formData.notes}
-              onChange={handleTextChange}
-              placeholder="Any additional comments about how you're feeling"
-              className="bg-athlex-gray-800 border-athlex-gray-700 min-h-[100px]"
-            />
-          </div>
-          
-          {/* Wellness Overview */}
-          <div className="bg-athlex-accent/10 border border-athlex-accent/30 rounded-lg p-4">
-            <p className="text-sm font-medium">Wellness Score</p>
-            <p className="text-2xl font-bold text-athlex-accent mt-1">
-              {((formData.mood + (6 - formData.soreness) + (6 - formData.fatigue)) / 3).toFixed(1)} / 5
-            </p>
-            <p className="text-xs text-gray-400 mt-1">
-              Combined score based on your mood, soreness, and fatigue levels
+    <Card className="bg-athlex-gray-900/80 border-athlex-gray-800 p-6">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-1 mb-4">
+            <h3 className="text-lg font-medium">How are you feeling today?</h3>
+            <p className="text-sm text-gray-400">
+              Rate each aspect from 1 (minimal) to 5 (severe)
             </p>
           </div>
-        </CardContent>
-        
-        <CardFooter className="flex justify-end space-x-2">
-          <Button 
-            type="button" 
-            variant="ghost" 
-            onClick={() => navigate('/athlex-mvp')}
-            disabled={isSubmitting}
-            className="border border-gray-700"
-          >
-            Cancel
-          </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Saving...' : 'Save Wellness Log'}
-          </Button>
-        </CardFooter>
-      </form>
+          
+          <FormField
+            control={form.control}
+            name="soreness_score"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Muscle Soreness</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="bg-athlex-gray-800 border-athlex-gray-700">
+                      <SelectValue placeholder="Select soreness level" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="bg-athlex-gray-800 border-athlex-gray-700">
+                    {scoreOptions.map(score => (
+                      <SelectItem key={`soreness-${score}`} value={score.toString()}>
+                        {score} - {score === 1 ? 'Minimal' : score === 5 ? 'Severe' : ''}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="fatigue_score"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Fatigue Level</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="bg-athlex-gray-800 border-athlex-gray-700">
+                      <SelectValue placeholder="Select fatigue level" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="bg-athlex-gray-800 border-athlex-gray-700">
+                    {scoreOptions.map(score => (
+                      <SelectItem key={`fatigue-${score}`} value={score.toString()}>
+                        {score} - {score === 1 ? 'Fresh' : score === 5 ? 'Exhausted' : ''}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="mood_score"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Overall Mood</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="bg-athlex-gray-800 border-athlex-gray-700">
+                      <SelectValue placeholder="Select mood level" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="bg-athlex-gray-800 border-athlex-gray-700">
+                    {scoreOptions.map(score => (
+                      <SelectItem key={`mood-${score}`} value={score.toString()}>
+                        {score} - {score === 1 ? 'Very Low' : score === 5 ? 'Excellent' : ''}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name="notes"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Additional Notes (Optional)</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Any specific details about how you're feeling"
+                    className="resize-none bg-athlex-gray-800 border-athlex-gray-700"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <Button type="submit" className="w-full">Log Wellness Data</Button>
+        </form>
+      </Form>
     </Card>
   );
 };

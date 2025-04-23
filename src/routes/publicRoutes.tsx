@@ -8,11 +8,13 @@ import PerformanceGoals from '@/pages/PerformanceGoals';
 import AthleteDetailPage from '@/pages/AthleteDetailPage';
 import MVP from '@/pages/MVP';
 import Login from '@/pages/Login';
+import LoginDemo from '@/pages/LoginDemo';
 import Profile from '@/pages/Profile';
 import AthleteMvpDashboard from '@/pages/AthleteMvpDashboard';
 import LogTrainingPage from '@/pages/LogTrainingPage';
 import LogWellnessPage from '@/pages/LogWellnessPage';
 import LogTestResultPage from '@/pages/LogTestResultPage';
+import GoalsPage from '@/pages/GoalsPage';
 
 export const publicRoutes = [
   // Root route should always be first
@@ -20,6 +22,7 @@ export const publicRoutes = [
   
   // Auth routes
   <Route key="login" path="/login" element={<Login />} />,
+  <Route key="login-demo" path="/login-demo" element={<LoginDemo />} />,
   
   // Dashboard routes
   <Route key="dashboard" path="/dashboard" element={<Dashboard />} />,
@@ -38,6 +41,7 @@ export const publicRoutes = [
   <Route key="log-training" path="/log-training" element={<LogTrainingPage />} />,
   <Route key="log-wellness" path="/log-wellness" element={<LogWellnessPage />} />,
   <Route key="log-test-result" path="/log-test-result" element={<LogTestResultPage />} />,
+  <Route key="goals" path="/goals" element={<GoalsPage />} />,
   
   // Catch-all route should always be last
   <Route key="not-found" path="*" element={<NotFound />} />,

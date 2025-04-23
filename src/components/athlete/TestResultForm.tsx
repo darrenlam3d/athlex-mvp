@@ -1,32 +1,11 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { toast } from 'sonner';
-
-const testTypes = [
-  { id: "vertical_jump", name: "Vertical Jump", unit: "cm" },
-  { id: "sprint_40m", name: "Sprint 40m", unit: "s" },
-  { id: "shuttle_run", name: "Shuttle Run", unit: "s" },
-  { id: "max_pushups", name: "Max Push-ups", unit: "reps" },
-  { id: "beep_test", name: "Beep Test", unit: "level" },
-  { id: "box_jump", name: "Box Jump", unit: "cm" },
-  { id: "broad_jump", name: "Broad Jump", unit: "cm" },
-  { id: "max_pullups", name: "Max Pull-ups", unit: "reps" },
-  { id: "bench_press", name: "Bench Press", unit: "kg" },
-  { id: "squat", name: "Squat", unit: "kg" }
-];
 
 interface TestResultFormProps {
   onSuccess?: () => void;
@@ -37,25 +16,14 @@ const TestResultForm: React.FC<TestResultFormProps> = ({ onSuccess }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     testType: '',
-    result: '',
+    score: '',
     date: new Date().toISOString().split('T')[0],
     notes: '',
   });
-  const [selectedUnit, setSelectedUnit] = useState('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSelectChange = (value: string) => {
-    setFormData(prev => ({ ...prev, testType: value }));
-    
-    // Update the unit based on the selected test type
-    const test = testTypes.find(t => t.id === value);
-    if (test) {
-      setSelectedUnit(test.unit);
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -63,13 +31,37 @@ const TestResultForm: React.FC<TestResultFormProps> = ({ onSuccess }) => {
     setIsSubmitting(true);
     
     try {
-      // In a real app, this would be a Supabase insert
-      console.log('Submitting test result:', formData);
+      // Validate form
+      if (!formData.testType || !formData.score) {
+        throw new Error('Please fill in all required fields');
+      }
+      
+      // Get existing test results or use default empty array
+      const storedResults = localStorage.getItem('athlex_test_results');
+      const testResults = storedResults ? JSON.parse(storedResults) : [];
+      
+      // Create new test result
+      const newResult = {
+        id: `test_${Date.now()}`,
+        test_type: formData.testType,
+        score: formData.score,
+        timestamp: new Date(formData.date).toISOString(),
+        notes: formData.notes
+      };
+      
+      // Add to beginning of array
+      testResults.unshift(newResult);
+      
+      // Keep only most recent 10 results
+      const updatedResults = testResults.slice(0, 10);
+      
+      // Save to localStorage
+      localStorage.setItem('athlex_test_results', JSON.stringify(updatedResults));
       
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      toast.success('Test result saved successfully!');
+      toast.success('Test result logged successfully!');
       
       if (onSuccess) {
         onSuccess();
@@ -77,8 +69,8 @@ const TestResultForm: React.FC<TestResultFormProps> = ({ onSuccess }) => {
         navigate('/athlex-mvp');
       }
     } catch (error) {
-      console.error('Error saving test result:', error);
-      toast.error('Failed to save test result. Please try again.');
+      console.error('Error logging test result:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to log test result');
     } finally {
       setIsSubmitting(false);
     }
@@ -90,61 +82,61 @@ const TestResultForm: React.FC<TestResultFormProps> = ({ onSuccess }) => {
         <CardTitle className="text-xl">Log Test Result</CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="testType">Test Type</Label>
-            <Select
+            <Label htmlFor="testType">Test Type *</Label>
+            <select
+              id="testType"
+              name="testType"
               value={formData.testType}
-              onValueChange={handleSelectChange}
+              onChange={handleChange}
+              className="w-full bg-athlex-gray-800 border-athlex-gray-700 rounded-md p-2"
               required
             >
-              <SelectTrigger className="bg-athlex-gray-800 border-athlex-gray-700">
-                <SelectValue placeholder="Select test type" />
-              </SelectTrigger>
-              <SelectContent>
-                {testTypes.map(type => (
-                  <SelectItem key={type.id} value={type.id}>{type.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              <option value="" disabled>Select test type</option>
+              <option value="Vertical Jump">Vertical Jump</option>
+              <option value="Sprint 40m">Sprint 40m</option>
+              <option value="Shuttle Run">Shuttle Run</option>
+              <option value="1RM Squat">1RM Squat</option>
+              <option value="Beep Test">Beep Test</option>
+              <option value="Agility T-Test">Agility T-Test</option>
+            </select>
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="result">
-              Result {selectedUnit && <span className="text-gray-400">({selectedUnit})</span>}
-            </Label>
+            <Label htmlFor="score">Score (with units) *</Label>
             <Input
-              id="result"
-              name="result"
-              value={formData.result}
-              onChange={handleInputChange}
-              placeholder={`e.g. 65 ${selectedUnit}`}
+              id="score"
+              name="score"
+              placeholder="e.g., 65 cm, 4.5 s, Level 12"
+              value={formData.score}
+              onChange={handleChange}
               className="bg-athlex-gray-800 border-athlex-gray-700"
               required
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="date">Test Date</Label>
+            <Label htmlFor="date">Test Date *</Label>
             <Input
               id="date"
               name="date"
               type="date"
               value={formData.date}
-              onChange={handleInputChange}
+              onChange={handleChange}
               className="bg-athlex-gray-800 border-athlex-gray-700"
               required
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="notes">Notes (optional)</Label>
+            <Label htmlFor="notes">Notes (Optional)</Label>
             <Textarea
               id="notes"
               name="notes"
+              placeholder="Any additional details about the test"
               value={formData.notes}
-              onChange={handleInputChange}
-              placeholder="Any comments about this test (conditions, technique, etc.)"
+              onChange={handleChange}
               className="bg-athlex-gray-800 border-athlex-gray-700 min-h-[100px]"
             />
           </div>
@@ -161,7 +153,7 @@ const TestResultForm: React.FC<TestResultFormProps> = ({ onSuccess }) => {
             Cancel
           </Button>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Saving...' : 'Save Result'}
+            {isSubmitting ? 'Saving...' : 'Save Test Result'}
           </Button>
         </CardFooter>
       </form>
