@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserRole } from '@/contexts/UserRoleContext';
@@ -16,35 +15,30 @@ import {
 import { Progress } from '@/components/ui/progress';
 import { PlusCircle, ArrowLeft, Activity, Trash2 } from 'lucide-react';
 import { mockGoals } from '@/lib/mockData';
+import type { Goal as MockGoal } from '@/lib/mock/types';
+import type { Goal } from '@/types/athleteTypes';
 
-// Types for goals from mockData
-interface Goal {
-  id: string;
-  title: string;
-  description: string;
-  metric: string;
-  current: number;
-  target: number;
-  progress: number;
-  start_date: string;
-  end_date: string;
-  status: 'not_started' | 'in_progress' | 'completed' | 'cancelled';
-}
-
-// Mock goal metrics
-const goalMetrics = [
-  { id: "speed", name: "Speed (km/h)" },
-  { id: "distance", name: "Distance (km)" },
-  { id: "vo2max", name: "VO2 Max (ml/kg/min)" },
-  { id: "vertical_jump", name: "Vertical Jump (cm)" },
-  { id: "agility", name: "Agility (seconds)" },
-  { id: "strength", name: "Strength (kg)" },
-];
+// Convert from mock data type to our component type
+const convertMockGoalsToGoals = (mockGoals: MockGoal[]): Goal[] => {
+  return mockGoals.map(goal => ({
+    id: goal.id,
+    title: goal.title || goal.metric, // Use metric as title if title doesn't exist
+    description: goal.description || '',
+    metric: goal.metric,
+    current: goal.current_value || 0,
+    target: goal.target_value || 0,
+    progress: goal.progress_percent || 0,
+    start_date: goal.start_date,
+    end_date: goal.end_date || '',
+    status: goal.status || 'not_started',
+  }));
+};
 
 const PerformanceGoals = () => {
   const { userRole } = useUserRole();
   const navigate = useNavigate();
-  const [goals, setGoals] = useState<Goal[]>(mockGoals);
+  // Convert mock goals to the expected Goal type
+  const [goals, setGoals] = useState<Goal[]>(() => convertMockGoalsToGoals(mockGoals));
   const [showForm, setShowForm] = useState(false);
   const [newGoal, setNewGoal] = useState({
     title: '',
