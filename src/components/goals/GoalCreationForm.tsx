@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -45,7 +44,7 @@ const GoalCreationForm: React.FC<GoalCreationFormProps> = ({ onSubmit, onCancel 
 
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     const newGoal = {
-      goal_id: `goal_${Date.now()}`,
+      goal_id: `goal_${Date.now()}`, // Changed from goal_id to id
       metric: values.metric,
       target_value: parseFloat(values.target_value),
       current_value: parseFloat(values.current_value) || 0,

@@ -10,9 +10,24 @@ import ActiveGoalsList from '@/components/goals/ActiveGoalsList';
 import GoalCreationForm from '@/components/goals/GoalCreationForm';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
+// Transform the mock goals to the expected format used by ActiveGoalsList
+const transformGoals = (goals) => {
+  return goals.map(goal => ({
+    goal_id: goal.id,
+    metric: goal.metric,
+    target_value: goal.target_value,
+    current_value: goal.current_value || 0,
+    unit: goal.unit || '',
+    start_date: goal.start_date,
+    end_date: goal.end_date,
+    progress_percent: goal.progress_percent || 0,
+    status: goal.status || 'In Progress'
+  }));
+};
+
 const GoalsPage = () => {
   const navigate = useNavigate();
-  const [goals, setGoals] = useState(mockGoals);
+  const [goals, setGoals] = useState(transformGoals(mockGoals));
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
   const handleCreateGoal = () => {
