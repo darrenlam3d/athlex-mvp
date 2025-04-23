@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserRole } from '@/contexts/UserRoleContext';
@@ -17,6 +18,16 @@ import { PlusCircle, ArrowLeft, Activity, Trash2 } from 'lucide-react';
 import { mockGoals } from '@/lib/mockData';
 import type { Goal as MockGoal } from '@/lib/mock/types';
 import type { Goal } from '@/types/athleteTypes';
+
+// Mock goal metrics
+const goalMetrics = [
+  { id: "speed", name: "Speed (km/h)" },
+  { id: "distance", name: "Distance (km)" },
+  { id: "vo2max", name: "VO2 Max (ml/kg/min)" },
+  { id: "vertical_jump", name: "Vertical Jump (cm)" },
+  { id: "agility", name: "Agility (seconds)" },
+  { id: "strength", name: "Strength (kg)" },
+];
 
 // Convert from mock data type to our component type
 const convertMockGoalsToGoals = (mockGoals: MockGoal[]): Goal[] => {
