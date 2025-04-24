@@ -3,31 +3,27 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
-  BarChart2, 
-  Calendar, 
-  Target, 
-  User, 
+  Search, 
+  Star, 
+  FileText,
+  Users,
   Settings, 
-  LogOut,
-  Sparkles,
-  HeartPulse,
-  Activity
+  LogOut
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 
-const AthleteSidebar = () => {
+const ScoutSidebar = () => {
   const location = useLocation();
   const { signOut } = useAuth();
   
   const navItems = [
-    { icon: LayoutDashboard, text: 'Dashboard', path: '/athlete/dashboard' },
-    { icon: Target, text: 'Goals', path: '/athlete/goals' },
-    { icon: Calendar, text: 'Training Log', path: '/athlete/training' },
-    { icon: HeartPulse, text: 'Wellness Log', path: '/athlete/wellness' },
-    { icon: Activity, text: 'Test Results', path: '/athlete/test' },
-    { icon: User, text: 'Profile', path: '/athlete/profile' },
-    { icon: Sparkles, text: 'ATHLEX MVP', path: '/athlex-mvp', special: true },
+    { icon: LayoutDashboard, text: 'Dashboard', path: '/scout/dashboard' },
+    { icon: Search, text: 'Talent Search', path: '/scout/search' },
+    { icon: Star, text: 'Talent Pool', path: '/scout/pool' },
+    { icon: FileText, text: 'Reports', path: '/scout/reports' },
+    { icon: Users, text: 'Team', path: '/scout/team' },
+    { icon: Settings, text: 'Settings', path: '/scout/settings' },
   ];
 
   const handleSignOut = async () => {
@@ -37,7 +33,7 @@ const AthleteSidebar = () => {
   return (
     <aside className="w-64 bg-athlex-gray-900 text-white h-screen sticky top-0 border-r border-athlex-gray-800 flex flex-col">
       <div className="p-4 border-b border-athlex-gray-800 flex justify-center items-center">
-        <Link to="/athlete" className="flex items-center justify-center">
+        <Link to="/scout" className="flex items-center justify-center">
           <img 
             src="/lovable-uploads/4fa9ab4b-66d6-42dc-979f-661fee5226e5.png" 
             alt="ATHLEX Logo" 
@@ -56,15 +52,10 @@ const AthleteSidebar = () => {
                   location.pathname === item.path 
                     ? 'bg-athlex-gray-800 text-athlex-accent' 
                     : 'text-white/70 hover:bg-athlex-gray-800 hover:text-white'
-                } ${item.special ? 'bg-athlex-accent/10 border border-athlex-accent/30' : ''}`}
+                }`}
               >
                 <item.icon size={18} />
                 <span>{item.text}</span>
-                {item.special && (
-                  <span className="ml-auto text-xs bg-athlex-accent text-white px-1.5 py-0.5 rounded-full">
-                    New
-                  </span>
-                )}
               </Link>
             </li>
           ))}
@@ -85,4 +76,4 @@ const AthleteSidebar = () => {
   );
 };
 
-export default AthleteSidebar;
+export default ScoutSidebar;

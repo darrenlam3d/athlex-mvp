@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
-import AthleteLayout from '@/layouts/AthleteLayout';
 import { mockGoals } from '@/lib/mockData';
 import ActiveGoalsList from '@/components/goals/ActiveGoalsList';
 import GoalCreationForm from '@/components/goals/GoalCreationForm';
@@ -47,7 +46,7 @@ const transformGoals = (goals: typeof mockGoals): UIGoal[] => {
   }));
 };
 
-const GoalsPage: React.FC = () => {
+export const GoalsPage: React.FC = () => {
   const navigate = useNavigate();
   const [goals, setGoals] = useState<UIGoal[]>(transformGoals(mockGoals));
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -65,27 +64,18 @@ const GoalsPage: React.FC = () => {
   };
 
   return (
-    <AthleteLayout>
-      <div className="container max-w-4xl mx-auto py-8 px-4">
-        <div className="flex items-center mb-6">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/athlex-mvp')} className="mr-2">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <h1 className="text-2xl font-bold gradient-text">Performance Goals</h1>
-        </div>
-        <ActiveGoalsList goals={goals} onCreateGoal={handleCreateGoal} />
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="bg-athlex-gray-900 border-athlex-gray-800">
-            <DialogHeader>
-              <DialogTitle>Create New Goal</DialogTitle>
-            </DialogHeader>
-            <GoalCreationForm onSubmit={handleGoalCreated} onCancel={() => setIsDialogOpen(false)} />
-          </DialogContent>
-        </Dialog>
-      </div>
-    </AthleteLayout>
+    <div className="container max-w-4xl mx-auto py-4">
+      <ActiveGoalsList goals={goals} onCreateGoal={handleCreateGoal} />
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="bg-athlex-gray-900 border-athlex-gray-800">
+          <DialogHeader>
+            <DialogTitle>Create New Goal</DialogTitle>
+          </DialogHeader>
+          <GoalCreationForm onSubmit={handleGoalCreated} onCancel={() => setIsDialogOpen(false)} />
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 
 export default GoalsPage;
-
