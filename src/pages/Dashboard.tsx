@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,10 +10,13 @@ const Dashboard = () => {
   const { role, user, loading } = useAuth();
   
   useEffect(() => {
-    console.log("Dashboard.tsx - Current user:", user?.email);
-    console.log("Dashboard.tsx - Current user role:", role);
-    console.log("Dashboard.tsx - Demo mode:", isDemoMode());
-  }, [user, role]);
+    console.log("Dashboard.tsx - Detailed Role Diagnostics:");
+    console.log("User:", user ? user.email : "No user");
+    console.log("Role from context:", role);
+    console.log("Loading state:", loading);
+    console.log("LocalStorage role:", localStorage.getItem('userRole'));
+    console.log("Demo mode:", isDemoMode());
+  }, [user, role, loading]);
   
   // Show loading state
   if (loading) {
