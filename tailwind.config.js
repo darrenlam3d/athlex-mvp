@@ -27,7 +27,8 @@ module.exports = {
           gray: {
             900: "#111111",
             800: "#1A1A1A",
-            700: "#2A2A2A"
+            700: "#2A2A2A",
+            600: "#4b5563" // Added missing gray-600 color
           }
         },
         border: "hsl(var(--border))",

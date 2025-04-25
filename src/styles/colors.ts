@@ -1,3 +1,4 @@
+
 /**
  * ATHLEX Color Palette - centralized color management for consistency
  */
