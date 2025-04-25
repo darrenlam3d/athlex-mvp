@@ -12,9 +12,9 @@ export const isUserRoleLoaded = (role: UserRole): boolean => {
 };
 
 export const getRoleDashboardPath = (role: UserRole): string => {
-  if (role === 'athlete') return '/athlete-dashboard';
-  if (role === 'coach') return '/coach-dashboard';
-  if (role === 'scout') return '/scout-dashboard';
+  if (role === 'athlete') return '/athlete/dashboard';
+  if (role === 'coach') return '/coach/dashboard';
+  if (role === 'scout') return '/scout/dashboard';
   return '/login'; // Default fallback
 };
 

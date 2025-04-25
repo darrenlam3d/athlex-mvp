@@ -1,16 +1,21 @@
 
 import React from 'react';
-import { useUserRole } from '@/contexts/UserRoleContext';
-import AthleteSidebar from './AthleteSidebar';
-import CoachSidebar from './CoachSidebar';
+import { useAuth } from '@/contexts/AuthContext';
+import AthleteSidebar from '@/components/athlete/AthleteSidebar';
+import CoachSidebar from '@/components/coach/CoachSidebar';
+import ScoutSidebar from '@/components/scout/ScoutSidebar';
 
 // This component is a wrapper that loads the appropriate sidebar based on user role
 const DashboardSidebar = () => {
-  const { userRole } = useUserRole();
+  const { role } = useAuth();
   
   // Return the appropriate sidebar based on user role
-  if (userRole === 'coach') {
+  if (role === 'coach') {
     return <CoachSidebar />;
+  }
+  
+  if (role === 'scout') {
+    return <ScoutSidebar />;
   }
   
   // Default to athlete sidebar

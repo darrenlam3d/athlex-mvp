@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import Landing from '@/pages/Landing';
@@ -33,19 +34,18 @@ import ScoutDashboard from '@/pages/scout/ScoutDashboard';
 import AthleteDetailPage from '@/pages/AthleteDetailPage';
 
 export const publicRoutes = [
-  // Root route now uses Landing component
+  // Root route uses Landing component
   <Route key="landing" path="/" element={<Landing />} />,
   
-  // Move the old Index component to /dashboard-index
-  <Route key="dashboard-index" path="/dashboard-index" element={<Index />} />,
-  
-  // Root route and auth routes
-  <Route key="index" path="/" element={<Index />} />,
+  // Authentication routes
   <Route key="login" path="/login" element={<Login />} />,
   <Route key="login-demo" path="/login-demo" element={<LoginDemo />} />,
   
-  // Legacy dashboard route - redirects to role-specific dashboards
+  // Dashboard route - redirects to role-specific dashboards
   <Route key="dashboard" path="/dashboard" element={<Dashboard />} />,
+  
+  // The old Index component is moved to /dashboard-index
+  <Route key="dashboard-index" path="/dashboard-index" element={<Index />} />,
   
   // MVP Demo Routes
   <Route key="mvp" path="/mvp" element={<MVP />} />,

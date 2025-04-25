@@ -1,4 +1,6 @@
 
+const colors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -7,8 +9,7 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-  ],
-  prefix: "",
+	],
   theme: {
     container: {
       center: true,
@@ -19,18 +20,6 @@ module.exports = {
     },
     extend: {
       colors: {
-        athlex: {
-          accent: "#9b87f5",
-          "accent-alt": "#8B5CF6",
-          background: "#0a0a0a",
-          foreground: "#FFFFFF",
-          gray: {
-            900: "#111111",
-            800: "#1A1A1A",
-            700: "#2A2A2A",
-            600: "#4b5563" // Added missing gray-600 color
-          }
-        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -64,6 +53,22 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Custom ATHLEX colors
+        "athlex-background": "#0a0a0a",
+        "athlex-foreground": "#ffffff",
+        "athlex-accent": "#9b87f5",
+        "athlex-accent-alt": "#8B5CF6",
+        "athlex-gray": {
+          "100": "#f3f4f6",
+          "200": "#e5e7eb",
+          "300": "#d1d5db",
+          "400": "#9ca3af",
+          "500": "#6b7280",
+          "600": "#4b5563",  // Added missing color
+          "700": "#374151",
+          "800": "#1f2937",
+          "900": "#111827",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -79,24 +84,10 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
-        "fadeIn": {
-          from: { opacity: 0 },
-          to: { opacity: 1 },
-        },
-        "glow": {
-          "0%, 100%": { 
-            boxShadow: "0 0 10px rgba(155, 135, 245, 0.6), 0 0 20px rgba(155, 135, 245, 0.4)" 
-          },
-          "50%": { 
-            boxShadow: "0 0 15px rgba(155, 135, 245, 0.8), 0 0 30px rgba(155, 135, 245, 0.6)" 
-          },
-        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fadeIn": "fadeIn 0.5s ease-out",
-        "glow": "glow 2s ease-in-out infinite",
       },
     },
   },
