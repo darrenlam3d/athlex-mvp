@@ -84,10 +84,21 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        // Add the missing glow animation keyframes
+        "glow": {
+          "0%, 100%": { 
+            boxShadow: "0 0 5px rgba(155, 135, 245, 0.6), 0 0 10px rgba(155, 135, 245, 0.4)" 
+          },
+          "50%": { 
+            boxShadow: "0 0 20px rgba(155, 135, 245, 0.8), 0 0 30px rgba(155, 135, 245, 0.6)" 
+          }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        // Add the missing glow animation
+        "glow": "glow 2s ease-in-out infinite",
       },
     },
   },
