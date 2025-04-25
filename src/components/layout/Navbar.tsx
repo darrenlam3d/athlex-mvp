@@ -36,7 +36,7 @@ const Navbar = () => {
     >
       <div className="container flex justify-between items-center">
         <div className="flex items-center">
-          <a href="#" className="flex items-center">
+          <a href="/" className="flex items-center">
             <img 
               src="/lovable-uploads/4fa9ab4b-66d6-42dc-979f-661fee5226e5.png" 
               alt="ATHLEX Logo" 
