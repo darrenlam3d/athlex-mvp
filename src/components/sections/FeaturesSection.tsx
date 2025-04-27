@@ -49,9 +49,7 @@ const FeaturesSection = () => {
         <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="flex justify-center mb-16">
             <TabsList className="bg-athlex-gray-800 p-1">
-              <TabsTrigger value="edge" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "edge" ? "text-white gradient-text" : "text-white/60"}`}>
-                ATHLEX Edge
-              </TabsTrigger>
+              <TabsTrigger value="edge" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "edge" ? "text-white gradient-text" : "text-white/60"}`}>Built Different</TabsTrigger>
               <TabsTrigger value="athletes" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "athletes" ? "text-white gradient-text" : "text-white/60"}`}>
                 For Athletes
               </TabsTrigger>
@@ -63,10 +61,7 @@ const FeaturesSection = () => {
 
           <TabsContent value="edge" className="animate-fade-in">
             <div className="mb-8 text-center max-w-3xl mx-auto">
-              <p className="text-white/80 text-lg mb-6">
-                ATHLEX Edge is the official newsletter and early-access community for the ATHLEX platform. 
-                It serves as the inner circle for athletes, coaches, scouts, and performance leaders who want to grow with ATHLEX from the ground up.
-              </p>
+              <p className="text-white/80 text-lg mb-6">'Built Different' is the official newsletter and early-access community for the ATHLEX platform. It serves as the inner circle for athletes, coaches, scouts, and performance leaders who want to grow with ATHLEX from the ground up.</p>
               <div className="mt-8">
                 <Link to="/edge-signup">
                   
