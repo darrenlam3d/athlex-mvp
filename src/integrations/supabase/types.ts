@@ -257,6 +257,199 @@ export type Database = {
           },
         ]
       }
+      healthkit_activity_energy: {
+        Row: {
+          created_at: string
+          energy_burned: number
+          id: string
+          source: string
+          timestamp: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          energy_burned: number
+          id?: string
+          source: string
+          timestamp?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          energy_burned?: number
+          id?: string
+          source?: string
+          timestamp?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "healthkit_activity_energy_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      healthkit_heart_rate: {
+        Row: {
+          bpm: number
+          created_at: string
+          id: string
+          source: string
+          timestamp: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          bpm: number
+          created_at?: string
+          id?: string
+          source: string
+          timestamp?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          bpm?: number
+          created_at?: string
+          id?: string
+          source?: string
+          timestamp?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "healthkit_heart_rate_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      healthkit_sleep_analysis: {
+        Row: {
+          created_at: string
+          duration: number
+          id: string
+          quality: string | null
+          source: string
+          timestamp: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration: number
+          id?: string
+          quality?: string | null
+          source: string
+          timestamp?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          duration?: number
+          id?: string
+          quality?: string | null
+          source?: string
+          timestamp?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "healthkit_sleep_analysis_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      healthkit_steps: {
+        Row: {
+          created_at: string
+          id: string
+          source: string
+          steps_count: number
+          timestamp: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          source: string
+          steps_count: number
+          timestamp?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          source?: string
+          steps_count?: number
+          timestamp?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "healthkit_steps_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      healthkit_vo2max: {
+        Row: {
+          created_at: string
+          id: string
+          source: string
+          timestamp: string
+          updated_at: string
+          user_id: string
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          source: string
+          timestamp?: string
+          updated_at?: string
+          user_id: string
+          value: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          source?: string
+          timestamp?: string
+          updated_at?: string
+          user_id?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "healthkit_vo2max_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       nutrition_logs: {
         Row: {
           athlete_id: string
@@ -312,6 +505,47 @@ export type Database = {
             foreignKeyName: "nutrition_logs_coach_id_fkey"
             columns: ["coach_id"]
             isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      parental_consent: {
+        Row: {
+          child_user_id: string
+          consent_date: string | null
+          consent_status: Database["public"]["Enums"]["consent_status"]
+          created_at: string
+          id: string
+          parent_email: string
+          updated_at: string
+          verification_token: string
+        }
+        Insert: {
+          child_user_id: string
+          consent_date?: string | null
+          consent_status?: Database["public"]["Enums"]["consent_status"]
+          created_at?: string
+          id?: string
+          parent_email: string
+          updated_at?: string
+          verification_token: string
+        }
+        Update: {
+          child_user_id?: string
+          consent_date?: string | null
+          consent_status?: Database["public"]["Enums"]["consent_status"]
+          created_at?: string
+          id?: string
+          parent_email?: string
+          updated_at?: string
+          verification_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "parental_consent_child_user_id_fkey"
+            columns: ["child_user_id"]
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -659,6 +893,44 @@ export type Database = {
           },
         ]
       }
+      user_consent_history: {
+        Row: {
+          consent_date: string
+          consent_given: boolean
+          consent_type: string
+          created_at: string
+          id: string
+          ip_address: string | null
+          user_id: string
+        }
+        Insert: {
+          consent_date?: string
+          consent_given: boolean
+          consent_type: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          user_id: string
+        }
+        Update: {
+          consent_date?: string
+          consent_given?: boolean
+          consent_type?: string
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_consent_history_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       waitlist_registrations: {
         Row: {
           created_at: string
@@ -771,6 +1043,7 @@ export type Database = {
     Enums: {
       coaching_level: "beginner" | "club" | "academy" | "pro"
       completion_status: "not_started" | "in_progress" | "completed" | "missed"
+      consent_status: "pending" | "approved" | "rejected"
       goal_status: "not_started" | "in_progress" | "completed" | "failed"
       intensity_level: "low" | "medium" | "high"
       meal_type: "breakfast" | "lunch" | "dinner" | "snack"
@@ -909,6 +1182,7 @@ export const Constants = {
     Enums: {
       coaching_level: ["beginner", "club", "academy", "pro"],
       completion_status: ["not_started", "in_progress", "completed", "missed"],
+      consent_status: ["pending", "approved", "rejected"],
       goal_status: ["not_started", "in_progress", "completed", "failed"],
       intensity_level: ["low", "medium", "high"],
       meal_type: ["breakfast", "lunch", "dinner", "snack"],
