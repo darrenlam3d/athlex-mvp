@@ -1,13 +1,22 @@
 
+// deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.5.0"
 import { Resend } from "npm:resend@2.0.0";
+
+// Initialize environment variables
+const supabaseUrl = Deno.env.get('SUPABASE_URL') || '';
+const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || '';
+const resendApiKey = Deno.env.get("RESEND_API_KEY") || '';
+
+// Initialize Supabase client with service role key for admin access
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
+const resend = new Resend(resendApiKey);
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
-
-const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -67,7 +76,7 @@ serve(async (req) => {
       JSON.stringify({ success: true }), 
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error processing consent:', error)
     return new Response(
       JSON.stringify({ error: error.message }), 

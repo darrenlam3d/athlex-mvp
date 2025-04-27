@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/contexts/AuthContext';
 
 const parentalConsentSchema = z.object({
   parentEmail: z.string().email('Valid parent email is required'),
@@ -22,6 +23,7 @@ type ParentalConsentFormValues = z.infer<typeof parentalConsentSchema>;
 
 export const ParentalConsentForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { user } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm<ParentalConsentFormValues>({
     resolver: zodResolver(parentalConsentSchema)
   });
@@ -30,13 +32,18 @@ export const ParentalConsentForm = () => {
     try {
       setIsSubmitting(true);
       
+      if (!user) {
+        throw new Error("You must be logged in to request parental consent");
+      }
+      
       const verificationToken = crypto.randomUUID();
       
       const { error } = await supabase
         .from('parental_consent')
         .insert({
           parent_email: data.parentEmail,
-          verification_token: verificationToken
+          verification_token: verificationToken,
+          child_user_id: user.id  // Add the required child_user_id field
         });
 
       if (error) throw error;

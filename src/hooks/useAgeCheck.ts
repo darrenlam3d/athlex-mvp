@@ -45,17 +45,17 @@ export const useAgeCheck = () => {
 
         const birthDate = new Date(dateOfBirth);
         const today = new Date();
-        const age = today.getFullYear() - birthDate.getFullYear();
+        let calculatedAge = today.getFullYear() - birthDate.getFullYear();
         
         // Check if birthday hasn't occurred this year
         if (
           today.getMonth() < birthDate.getMonth() || 
           (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())
         ) {
-          age--;
+          calculatedAge--;
         }
 
-        setNeedsParentalConsent(age < 13);
+        setNeedsParentalConsent(calculatedAge < 13);
       } catch (error) {
         console.error('Error in age check:', error);
         setNeedsParentalConsent(false);
