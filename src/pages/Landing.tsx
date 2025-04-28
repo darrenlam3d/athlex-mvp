@@ -9,6 +9,7 @@ import FaqSection from '@/components/sections/FaqSection';
 import CommunitySection from '@/components/sections/CommunitySection';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import ScrollToTopButton from '@/components/ui/ScrollToTopButton';
 
 const Landing = () => {
   return (
@@ -24,6 +25,7 @@ const Landing = () => {
         <SignUpSection />
       </main>
       <Footer />
+      <ScrollToTopButton />
     </div>
   );
 };
