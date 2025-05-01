@@ -18,43 +18,51 @@ const Footer = () => {
       form.reset();
     }
   };
+  
+  const scrollToSignup = () => {
+    const signupSection = document.getElementById('signup');
+    if (signupSection) {
+      signupSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <footer className="bg-athlex-gray-100 pt-16 pb-8 border-t border-athlex-gray-200">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {/* Brand Column */}
+          {/* Product Column */}
           <div>
-            <a href="#" className="flex items-center mb-4">
-              <span className="text-xl font-bold gradient-text">ATHLEX</span>
-            </a>
-            <p className="text-athlex-gray-600 mb-4">
-              Built by athletes, for athletes. Take control of your journey, track your growth, and get discovered—<span className="font-bold text-athlex-accent">globally</span>.
-            </p>
-            <div className="flex space-x-4 mt-6">
-              <a href="#" className="text-athlex-gray-500 hover:text-athlex-accent" aria-label="LinkedIn">
-                <Linkedin size={20} />
-              </a>
-              <a href="#" className="text-athlex-gray-500 hover:text-athlex-accent" aria-label="Instagram">
-                <Instagram size={20} />
-              </a>
-              <a href="mailto:contact@athlex.example" className="text-athlex-gray-500 hover:text-athlex-accent" aria-label="Email">
-                <Mail size={20} />
-              </a>
-            </div>
-          </div>
-          
-          {/* Links Columns */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-athlex-gray-800">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4 text-athlex-gray-800">Product</h3>
             <ul className="space-y-2">
               <li><a href="#features" className="text-athlex-gray-600 hover:text-athlex-accent">Features</a></li>
               <li><a href="#why" className="text-athlex-gray-600 hover:text-athlex-accent">Why ATHLEX</a></li>
-              <li><a href="#community" className="text-athlex-gray-600 hover:text-athlex-accent">Community</a></li>
               <li><a href="#faq" className="text-athlex-gray-600 hover:text-athlex-accent">FAQ</a></li>
             </ul>
           </div>
           
+          {/* Company Column */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4 text-athlex-gray-800">Company</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="#" className="text-athlex-gray-600 hover:text-athlex-accent">
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-athlex-gray-600 hover:text-athlex-accent">
+                  Built Different Newsletter
+                </a>
+              </li>
+              <li>
+                <a href="mailto:athlex.gaia@gmail.com" className="text-athlex-gray-600 hover:text-athlex-accent">
+                  Contact Us
+                </a>
+              </li>
+            </ul>
+          </div>
+          
+          {/* Legal Column */}
           <div>
             <h3 className="text-lg font-semibold mb-4 text-athlex-gray-800">Legal</h3>
             <ul className="space-y-2">
@@ -76,11 +84,11 @@ const Footer = () => {
             </ul>
           </div>
           
-          {/* Newsletter */}
+          {/* Stay Updated Column */}
           <div>
             <h3 className="text-lg font-semibold mb-4 text-athlex-gray-800">Stay Updated</h3>
             <p className="text-athlex-gray-600 mb-4">Subscribe to our newsletter for the latest updates.</p>
-            <form onSubmit={handleNewsletterSubmit} className="flex">
+            <form onSubmit={handleNewsletterSubmit} className="flex mb-4">
               <Input 
                 type="email" 
                 name="email"
@@ -95,6 +103,26 @@ const Footer = () => {
                 Subscribe
               </Button>
             </form>
+            
+            <Button 
+              variant="default" 
+              className="w-full cta-button"
+              onClick={scrollToSignup}
+            >
+              Join Waitlist
+            </Button>
+            
+            <div className="flex space-x-4 mt-6">
+              <a href="#" className="text-athlex-gray-500 hover:text-athlex-accent" aria-label="LinkedIn">
+                <Linkedin size={20} />
+              </a>
+              <a href="#" className="text-athlex-gray-500 hover:text-athlex-accent" aria-label="Instagram">
+                <Instagram size={20} />
+              </a>
+              <a href="mailto:contact@athlex.example" className="text-athlex-gray-500 hover:text-athlex-accent" aria-label="Email">
+                <Mail size={20} />
+              </a>
+            </div>
           </div>
         </div>
         

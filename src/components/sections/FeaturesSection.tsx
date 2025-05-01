@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Shield, ChartBar, Lightbulb, Target, TrendingUp, Trophy, Search, BarChart, LineChart, ThumbsUp, ClipboardList, Mail } from 'lucide-react';
+import { Shield, ChartBar, Lightbulb, Target, Trophy } from 'lucide-react';
 
 const FeaturesSection = () => {
   const [activeTab, setActiveTab] = useState("athletes");
@@ -63,60 +63,70 @@ const FeaturesSection = () => {
           </div>
 
           <TabsContent value="athletes" className="animate-fade-in">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               <FeatureCard 
                 icon={<Shield size={28} className="text-athlex-accent" />} 
-                title="Verified Athlete Profile" 
-                description="Build a trusted digital ID that evolves with you across teams, seasons, and competitions." />
+                title="Verified Athlete Profile"
+                benefit="Your trusted digital ID that evolves with you"
+                stat="100% verified credentials" />
+              
               <FeatureCard 
                 icon={<ChartBar size={28} className="text-athlex-accent" />} 
-                title="Performance Tracking" 
-                description="Monitor key metrics and benchmark against peers by age, role, and sport." />
+                title="Performance Tracking"
+                benefit="Track progress across 20+ key metrics" 
+                stat="20+ metrics tracked" />
+              
               <FeatureCard 
                 icon={<Lightbulb size={28} className="text-athlex-accent" />} 
-                title="AI-Driven Training Insights" 
-                description="Receive personalized recommendations based on your performance data." />
+                title="AI-Driven Insights"
+                benefit="Get personalized training recommendations"
+                stat="Weekly personalized insights" />
+              
               <FeatureCard 
                 icon={<Target size={28} className="text-athlex-accent" />} 
-                title="Goal Setting & Milestones" 
-                description="Set objectives, track progress, and celebrate achievements along your journey." />
-              <FeatureCard 
-                icon={<TrendingUp size={28} className="text-athlex-accent" />} 
-                title="Skill Development Pathways" 
-                description="Follow structured drills and progression plans aligned to your sport and position." />
+                title="Goal Setting & Milestones"
+                benefit="Set objectives and celebrate achievements"
+                stat="92% goal completion rate" />
+              
               <FeatureCard 
                 icon={<Trophy size={28} className="text-athlex-accent" />} 
-                title="Global Opportunity Discovery" 
-                description="Connect with coaches and opportunities worldwide." />
+                title="Global Opportunity Discovery"
+                benefit="Connect with scholarships, camps & coaches"
+                stat="200+ global opportunities" />
             </div>
           </TabsContent>
 
           <TabsContent value="coaches" className="animate-fade-in">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               <FeatureCard 
-                icon={<Search size={28} className="text-athlex-accent" />} 
+                icon={<Shield size={28} className="text-athlex-accent" />} 
                 title="Talent Discovery Engine" 
-                description="Find athletes based on sport, age, performance metrics, and more." />
+                benefit="Find athletes based on precise criteria"
+                stat="Advanced filtering tools" />
+              
               <FeatureCard 
-                icon={<BarChart size={28} className="text-athlex-accent" />} 
+                icon={<ChartBar size={28} className="text-athlex-accent" />} 
                 title="Verified Performance Data" 
-                description="Access clean, structured athlete metrics you can trust." />
+                benefit="Access clean, structured metrics you can trust"
+                stat="100% verified data" />
+              
               <FeatureCard 
-                icon={<LineChart size={28} className="text-athlex-accent" />} 
+                icon={<Lightbulb size={28} className="text-athlex-accent" />} 
                 title="Development Analytics" 
-                description="Track progression patterns and identify high-potential talent early." />
+                benefit="Track progression patterns"
+                stat="Predictive growth modeling" />
+              
               <FeatureCard 
-                icon={<ThumbsUp size={28} className="text-athlex-accent" />} 
+                icon={<Target size={28} className="text-athlex-accent" />} 
                 title="Endorsement Tools" 
-                description="Provide credible feedback that strengthens athlete profiles." />
+                benefit="Provide credible athlete feedback"
+                stat="Trust score system" />
+              
               <FeatureCard 
-                icon={<ClipboardList size={28} className="text-athlex-accent" />} 
-                title="Athlete Shortlists" 
-                description="Organize talent pipelines across age groups or competitions." />
-              <FeatureCard 
-                icon={<Mail size={28} className="text-athlex-accent" />} 
+                icon={<Trophy size={28} className="text-athlex-accent" />} 
                 title="Direct Contact Requests" 
-                description="Connect with athletes that match your specific requirements." />
+                benefit="Connect with matching talent"
+                stat="Smart matching algorithm" />
             </div>
           </TabsContent>
         </Tabs>
@@ -128,18 +138,32 @@ const FeaturesSection = () => {
 const FeatureCard = ({
   icon,
   title,
-  description
+  benefit,
+  stat
 }: {
   icon: React.ReactNode;
   title: string;
-  description: string;
+  benefit: string;
+  stat: string;
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
   return (
-    <div className="bg-white border border-athlex-gray-200 p-6 rounded-lg hover:border-athlex-accent transition-all duration-300 shadow-sm hover:shadow-md flex items-start gap-4">
-      <div className="text-3xl">{icon}</div>
-      <div>
-        <h3 className="text-lg font-semibold mb-2 text-athlex-gray-800">{title}</h3>
-        <p className="text-athlex-gray-600">{description}</p>
+    <div 
+      className="bg-white border border-athlex-gray-200 p-6 rounded-lg hover:border-athlex-accent transition-all duration-300 shadow-sm hover:shadow-md flex flex-col items-center text-center h-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="text-3xl mb-4">{icon}</div>
+      <h3 className="text-lg font-semibold mb-3 text-athlex-gray-800">{title}</h3>
+      
+      <div className="relative flex-grow flex items-center justify-center w-full">
+        <p className={`text-athlex-gray-600 transition-opacity duration-300 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
+          {benefit}
+        </p>
+        <div className={`absolute top-0 left-0 w-full h-full flex items-center justify-center transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+          <p className="text-athlex-accent font-medium">{stat}</p>
+        </div>
       </div>
     </div>
   );

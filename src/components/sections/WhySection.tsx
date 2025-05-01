@@ -14,30 +14,30 @@ const WhySection = () => {
             Why ATHLEX
           </h2>
           <p className="text-athlex-gray-700 text-lg md:text-xl">
-            ATHLEX transforms the sports ecosystem by addressing critical gaps in athlete development and discovery.
+            Transforming the sports ecosystem by addressing critical gaps in athlete development and discovery.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
           <ValueCard
             icon={<Layers className="w-8 h-8 text-athlex-accent" />}
             title="Unified Platform"
-            description="All your athletic development needs in a single, integrated ecosystem—track, train, connect, and grow."
+            description="One integrated ecosystem for all your athletic needs"
           />
           <ValueCard
             icon={<Zap className="w-8 h-8 text-athlex-accent" />}
             title="Intelligent Discovery"
-            description="AI-powered matching connects athletes with the right opportunities based on performance, potential, and goals."
+            description="AI-powered matching connects talent with opportunities"
           />
           <ValueCard
             icon={<Globe className="w-8 h-8 text-athlex-accent" />}
             title="Global Reach"
-            description="Break geographical barriers and connect with opportunities worldwide, expanding your athletic horizons."
+            description="Break geographical barriers, connect worldwide"
           />
           <ValueCard
             icon={<LineChart className="w-8 h-8 text-athlex-accent" />}
             title="Integrated Growth Tools"
-            description="Access a comprehensive toolkit designed for holistic athletic development—physical, mental, and strategic."
+            description="Holistic development—physical, mental, strategic"
           />
         </div>
       </div>

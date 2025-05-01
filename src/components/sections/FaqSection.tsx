@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { HelpCircle } from 'lucide-react';
@@ -65,7 +66,7 @@ const FaqSection = () => {
   // Function to determine which FAQs to show
   const getFaqsToDisplay = () => {
     const categoryFaqs = faqs[activeCategory as keyof typeof faqs];
-    return showAllFaqs ? categoryFaqs : categoryFaqs.slice(0, 3);
+    return showAllFaqs ? categoryFaqs : categoryFaqs.slice(0, 2);
   };
 
   return (
@@ -122,7 +123,7 @@ const FaqSection = () => {
           </Accordion>
           
           {/* View All / View Less Toggle Button */}
-          {faqs[activeCategory as keyof typeof faqs].length > 3 && (
+          {faqs[activeCategory as keyof typeof faqs].length > 2 && (
             <div className="mt-6 text-center">
               <Button
                 variant="outline"
