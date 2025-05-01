@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Share2, Linkedin, Twitter, ThumbsUp } from "lucide-react";
+import { Share2, Linkedin, Twitter } from "lucide-react";
 import { toast } from 'sonner';
 
 const CommunitySection = () => {
@@ -137,20 +137,6 @@ const CommunitySection = () => {
                 <Share2 className="mr-2 h-5 w-5" />
                 <span className="sr-only md:not-sr-only md:text-sm">Copy Link</span>
               </Button>
-            </div>
-
-            <div className="bg-white p-4 rounded-lg border border-athlex-gray-200 flex items-center justify-between">
-              <div className="flex items-center">
-                <ThumbsUp className="text-athlex-accent mr-3" />
-                <p className="text-sm text-athlex-gray-700">
-                  <span className="font-medium">247 people</span> joined our waitlist this week
-                </p>
-              </div>
-              <a href="#signup">
-                <Button size="sm" variant="default" className="cta-button">
-                  Join Now
-                </Button>
-              </a>
             </div>
           </div>
         </div>
