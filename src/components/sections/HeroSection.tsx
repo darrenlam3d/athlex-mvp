@@ -20,42 +20,14 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-athlex-background overflow-hidden pt-16">
-      {/* Video Background */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/70 z-10"></div>
-        <video
-          className="absolute inset-0 w-full h-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-silhouettes-of-people-training-in-a-gym-1393-large.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        {/* Fallback image if video doesn't load */}
-        <div 
-          className="absolute inset-0 z-0 opacity-20"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'grayscale(100%)',
-          }}
-        ></div>
-      </div>
-      
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-athlex-accent/10 to-transparent z-[5]"></div>
-      
+    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-athlex-accent/10 to-white overflow-hidden pt-16">
       <div className="container relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 animate-fade-in text-white text-shadow-black">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 animate-fade-in text-athlex-gray-900">
             By <span className="text-athlex-accent">Athletes</span>, For <span className="text-athlex-accent">Athletes</span>.
           </h1>
           
-          <p className="text-xl md:text-2xl text-white/80 mb-6 animate-fade-in text-shadow-black" style={{ animationDelay: "0.2s" }}>
+          <p className="text-xl md:text-2xl text-athlex-gray-700 mb-6 animate-fade-in" style={{ animationDelay: "0.2s" }}>
             Empowering athletes to grow, connect, and get discovered—<span className="font-bold text-athlex-accent">globally</span>.
           </p>
           
@@ -85,7 +57,7 @@ const HeroSection = () => {
           
           <div className="mt-16 animate-fade-in" style={{ animationDelay: "0.6s" }}>
             <div className="flex justify-center">
-              <a href="#features" className="flex flex-col items-center text-white/70 hover:text-white transition-colors duration-300">
+              <a href="#features" className="flex flex-col items-center text-athlex-gray-600 hover:text-athlex-accent transition-colors duration-300">
                 <span className="text-sm">Discover More</span>
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
@@ -112,9 +84,9 @@ const HeroSection = () => {
 
 const FeatureIcon = ({ icon, label }: { icon: React.ReactNode, label: string }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-athlex-gray-800/40 hover:bg-athlex-gray-800/70 transition-all duration-300 border border-athlex-gray-700/50">
+    <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-white hover:bg-athlex-gray-50 transition-all duration-300 border border-athlex-gray-200 shadow-sm">
       <div className="text-3xl mb-2">{icon}</div>
-      <p className="text-sm text-white/80">{label}</p>
+      <p className="text-sm text-athlex-gray-700">{label}</p>
     </div>
   );
 };

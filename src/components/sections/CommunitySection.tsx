@@ -37,13 +37,13 @@ const CommunitySection = () => {
   };
   
   return (
-    <section id="community" className="section-padding bg-athlex-background">
+    <section id="community" className="section-padding bg-white">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {/* Feedback Column */}
-          <div className="bg-athlex-gray-800/40 border border-athlex-gray-700 rounded-lg p-6 md:p-8">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">Tell Us What Matters to You</h3>
-            <p className="text-white/70 mb-6">
+          <div className="bg-athlex-gray-50 border border-athlex-gray-200 rounded-lg p-6 md:p-8 shadow-sm">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-athlex-gray-800">Tell Us What Matters to You</h3>
+            <p className="text-athlex-gray-700 mb-6">
               Your input is invaluable as we build ATHLEX. Help shape the platform by sharing your thoughts, needs, and expectations.
             </p>
             <Button 
@@ -55,16 +55,16 @@ const CommunitySection = () => {
           </div>
           
           {/* Share Column */}
-          <div className="bg-athlex-gray-800/40 border border-athlex-gray-700 rounded-lg p-6 md:p-8">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">Know someone who needs ATHLEX?</h3>
-            <p className="text-white/70 mb-6">
+          <div className="bg-athlex-gray-50 border border-athlex-gray-200 rounded-lg p-6 md:p-8 shadow-sm">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-athlex-gray-800">Know someone who needs ATHLEX?</h3>
+            <p className="text-athlex-gray-700 mb-6">
               Help us reach athletes, coaches, and sports organizations who could benefit from ATHLEX.
             </p>
             
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <Button 
                 variant="outline" 
-                className="bg-transparent border-athlex-gray-700 hover:bg-athlex-gray-700 flex items-center justify-center"
+                className="border-athlex-gray-300 hover:bg-athlex-accent/10 flex items-center justify-center"
                 onClick={() => handleShare("linkedin")}
               >
                 <Linkedin className="mr-2 h-5 w-5" />
@@ -73,7 +73,7 @@ const CommunitySection = () => {
               
               <Button 
                 variant="outline" 
-                className="bg-transparent border-athlex-gray-700 hover:bg-athlex-gray-700 flex items-center justify-center"
+                className="border-athlex-gray-300 hover:bg-athlex-accent/10 flex items-center justify-center"
                 onClick={() => handleShare("twitter")}
               >
                 <Twitter className="mr-2 h-5 w-5" />
@@ -82,7 +82,7 @@ const CommunitySection = () => {
               
               <Button 
                 variant="outline" 
-                className="bg-transparent border-athlex-gray-700 hover:bg-athlex-gray-700 flex items-center justify-center"
+                className="border-athlex-gray-300 hover:bg-athlex-accent/10 flex items-center justify-center"
                 onClick={() => handleShare("whatsapp")}
               >
                 <svg viewBox="0 0 24 24" className="mr-2 h-5 w-5" fill="currentColor">
@@ -93,7 +93,7 @@ const CommunitySection = () => {
               
               <Button 
                 variant="outline" 
-                className="bg-transparent border-athlex-gray-700 hover:bg-athlex-gray-700 flex items-center justify-center"
+                className="border-athlex-gray-300 hover:bg-athlex-accent/10 flex items-center justify-center"
                 onClick={handleCopyLink}
               >
                 <Share2 className="mr-2 h-5 w-5" />

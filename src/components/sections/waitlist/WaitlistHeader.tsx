@@ -4,7 +4,7 @@ import React from 'react';
 const WaitlistHeader = () => {
   return (
     <div className="text-center mb-12">
-      <h2 className="text-3xl md:text-4xl font-bold mb-4">
+      <h2 className="text-3xl md:text-4xl font-bold mb-4 text-athlex-gray-900">
         Join the Movement.<br />
         <span className="text-athlex-accent">Elevate the Next Generation.</span>
       </h2>

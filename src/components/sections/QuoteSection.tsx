@@ -102,7 +102,7 @@ const QuoteSection = () => {
   };
 
   return (
-    <section className="section-padding bg-gradient-to-b from-athlex-gray-900 to-athlex-background">
+    <section className="section-padding bg-athlex-gray-50">
       <div className="container max-w-4xl mx-auto">
         <div className="relative min-h-[300px] flex flex-col items-center">
           <div className="text-6xl md:text-8xl text-athlex-accent opacity-30 absolute top-0 left-0 transform -translate-y-1/2">
@@ -114,10 +114,10 @@ const QuoteSection = () => {
               fadeState === 'fade-in' ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <p className="mb-6">
+            <p className="mb-6 text-athlex-gray-800">
               {renderQuoteWithHighlight(quotes[currentQuoteIndex])}
             </p>
-            <footer className="text-lg md:text-xl text-white/60">
+            <footer className="text-lg md:text-xl text-athlex-gray-600">
               — {quotes[currentQuoteIndex].author}
             </footer>
           </blockquote>

@@ -5,19 +5,8 @@ import { Trophy, Medal, Award, GraduationCap } from 'lucide-react';
 const WhySection = () => {
   return (
     <section id="why" className="section-padding py-24 md:py-32 relative overflow-hidden bg-white">
-      {/* Background athlete image with overlay */}
-      <div 
-        className="absolute inset-0 z-0 opacity-10"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2000&auto=format&fit=crop')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          filter: 'grayscale(60%)',
-        }}
-      >
-        {/* Light Overlay */}
-        <div className="absolute inset-0 bg-white/80"></div>
-      </div>
+      {/* Light purple gradient background */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-athlex-accent/5 to-white"></div>
       
       <div className="container relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-20">
