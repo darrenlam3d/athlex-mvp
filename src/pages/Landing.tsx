@@ -13,7 +13,7 @@ import ScrollToTopButton from '@/components/ui/ScrollToTopButton';
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-athlex-background">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <main>
         <HeroSection />

@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 import athlexColors from "./src/styles/colors";
 
@@ -79,8 +80,8 @@ export default {
             "800": athlexColors.gray["800"],
             "900": athlexColors.gray["900"],
           },
-          background: athlexColors.black,
-          foreground: athlexColors.white,
+          background: athlexColors.white,
+          foreground: athlexColors.black,
           accent: athlexColors.accent,
           "accent-alt": athlexColors.accentAlt,
           blue: athlexColors.blue,
@@ -115,8 +116,8 @@ export default {
           "100%": { opacity: "1", transform: "translateX(0)" }
         },
         "glow": {
-          "0%, 100%": { boxShadow: "0 0 5px rgba(155, 135, 245, 0.6), 0 0 10px rgba(155, 135, 245, 0.4)" },
-          "50%": { boxShadow: "0 0 20px rgba(155, 135, 245, 0.8), 0 0 30px rgba(155, 135, 245, 0.6)" }
+          "0%, 100%": { boxShadow: "0 0 5px rgba(155, 135, 245, 0.4), 0 0 10px rgba(155, 135, 245, 0.2)" },
+          "50%": { boxShadow: "0 0 15px rgba(155, 135, 245, 0.6), 0 0 25px rgba(155, 135, 245, 0.4)" }
         },
         "pulse-soft": {
           "0%, 100%": { opacity: "1" },

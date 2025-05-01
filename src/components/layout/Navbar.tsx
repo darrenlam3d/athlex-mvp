@@ -30,7 +30,7 @@ const Navbar = () => {
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'py-3 bg-athlex-background/95 backdrop-blur-md border-b border-athlex-gray-800' 
+          ? 'py-3 bg-white/95 backdrop-blur-md border-b border-athlex-gray-200 shadow-sm' 
           : 'py-5 bg-transparent'
       }`}
     >
@@ -47,10 +47,10 @@ const Navbar = () => {
         
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          <a href="#features" className="text-white/80 hover:text-white underline-hover">Features</a>
-          <a href="#why" className="text-white/80 hover:text-white underline-hover">Why ATHLEX</a>
-          <a href="#community" className="text-white/80 hover:text-white underline-hover">Community</a>
-          <a href="#faq" className="text-white/80 hover:text-white underline-hover">FAQ</a>
+          <a href="#features" className="text-athlex-gray-700 hover:text-athlex-gray-900 underline-hover">Features</a>
+          <a href="#why" className="text-athlex-gray-700 hover:text-athlex-gray-900 underline-hover">Why ATHLEX</a>
+          <a href="#community" className="text-athlex-gray-700 hover:text-athlex-gray-900 underline-hover">Community</a>
+          <a href="#faq" className="text-athlex-gray-700 hover:text-athlex-gray-900 underline-hover">FAQ</a>
           <a href="#signup">
             <Button variant="default" className="cta-button">
               Join Waitlist
@@ -63,7 +63,7 @@ const Navbar = () => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="text-white"
+            className="text-athlex-gray-800"
             onClick={toggleMobileMenu}
           >
             {mobileMenuOpen ? <X /> : <Menu />}
@@ -73,12 +73,12 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-athlex-background border-b border-athlex-gray-800 py-5 animate-fade-in">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-athlex-gray-200 py-5 animate-fade-in shadow-md">
           <div className="container flex flex-col space-y-4">
-            <a href="#features" className="text-white/80 hover:text-white py-2" onClick={toggleMobileMenu}>Features</a>
-            <a href="#why" className="text-white/80 hover:text-white py-2" onClick={toggleMobileMenu}>Why ATHLEX</a>
-            <a href="#community" className="text-white/80 hover:text-white py-2" onClick={toggleMobileMenu}>Community</a>
-            <a href="#faq" className="text-white/80 hover:text-white py-2" onClick={toggleMobileMenu}>FAQ</a>
+            <a href="#features" className="text-athlex-gray-700 hover:text-athlex-gray-900 py-2" onClick={toggleMobileMenu}>Features</a>
+            <a href="#why" className="text-athlex-gray-700 hover:text-athlex-gray-900 py-2" onClick={toggleMobileMenu}>Why ATHLEX</a>
+            <a href="#community" className="text-athlex-gray-700 hover:text-athlex-gray-900 py-2" onClick={toggleMobileMenu}>Community</a>
+            <a href="#faq" className="text-athlex-gray-700 hover:text-athlex-gray-900 py-2" onClick={toggleMobileMenu}>FAQ</a>
             <a href="#signup" onClick={toggleMobileMenu}>
               <Button variant="default" className="cta-button w-full">
                 Join Waitlist

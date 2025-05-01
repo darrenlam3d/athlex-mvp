@@ -3,20 +3,20 @@
  * ATHLEX Color Palette - centralized color management for consistency
  */
 const athlexColors = {
-  black: "#0a0a0a",
   white: "#ffffff",
+  black: "#0a0a0a",
   accent: "#9b87f5",
   accentAlt: "#8B5CF6",
   gray: {
-    "100": "#f3f4f6",
-    "200": "#e5e7eb",
-    "300": "#d1d5db",
-    "400": "#9ca3af",
-    "500": "#6b7280",
-    "600": "#4b5563", // Ensure this color is defined
-    "700": "#374151",
-    "800": "#1f2937",
-    "900": "#111827",
+    "100": "#f8f9fa",
+    "200": "#e9ecef",
+    "300": "#dee2e6",
+    "400": "#ced4da",
+    "500": "#adb5bd",
+    "600": "#6c757d",
+    "700": "#495057",
+    "800": "#343a40",
+    "900": "#212529",
   },
   // Additional brand or feedback colors
   blue: {

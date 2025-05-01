@@ -7,44 +7,44 @@
 
 @layer base {
   :root {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 100%;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
 
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
 
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 264 80% 74%; /* Changed from blue to neon purple */
+    --primary: 264 80% 74%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 262 83% 67%; /* Changed to a secondary purple */
+    --secondary: 262 83% 67%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 264 80% 74%; /* Changed from blue to neon purple */
+    --accent: 264 80% 74%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 264 80% 74%; /* Changed from blue to neon purple */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 264 80% 74%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 3.9%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 264 80% 74%; /* Changed from blue to neon purple */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 264 80% 74%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 264 80% 74%; /* Changed from blue to neon purple */
+    --sidebar-accent: 0 0% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 264 80% 74%;
   }
 
   .dark {
@@ -93,12 +93,12 @@
   }
 
   body {
-    @apply bg-athlex-background text-athlex-foreground font-sans antialiased;
+    @apply bg-white text-athlex-gray-800 font-sans antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-medium tracking-tight;
+    @apply font-medium tracking-tight text-athlex-gray-900;
   }
 
   html {
@@ -108,11 +108,11 @@
 
 @layer utilities {
   .cta-button {
-    @apply relative bg-athlex-accent text-athlex-foreground font-medium rounded-md px-6 py-3 transition-all duration-300 hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-athlex-accent focus:ring-opacity-50;
+    @apply relative bg-athlex-accent text-white font-medium rounded-md px-6 py-3 transition-all duration-300 hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-athlex-accent focus:ring-opacity-50 shadow-md;
   }
 
   .cta-button-secondary {
-    @apply relative bg-athlex-accent-alt text-athlex-foreground font-medium rounded-md px-6 py-3 transition-all duration-300 hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-athlex-accent-alt focus:ring-opacity-50;
+    @apply relative bg-athlex-accent-alt text-white font-medium rounded-md px-6 py-3 transition-all duration-300 hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-athlex-accent-alt focus:ring-opacity-50 shadow-md;
   }
   
   .cta-button:hover, .cta-button-secondary:hover {
@@ -139,8 +139,8 @@
     @apply relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-athlex-accent after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full;
   }
 
-  .text-shadow-black {
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  .text-shadow-light {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
   }
 
   /* Custom scrollbar for webkit browsers */
@@ -149,15 +149,15 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-athlex-gray-900;
+    @apply bg-gray-100;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-athlex-gray-700 rounded-full;
+    @apply bg-athlex-gray-300 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-athlex-gray-600;
+    @apply bg-athlex-gray-400;
   }
 }
 

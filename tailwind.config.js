@@ -54,20 +54,20 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
         // Custom ATHLEX colors
-        "athlex-background": "#0a0a0a",
-        "athlex-foreground": "#ffffff",
+        "athlex-background": "#ffffff",
+        "athlex-foreground": "#212529",
         "athlex-accent": "#9b87f5",
         "athlex-accent-alt": "#8B5CF6",
         "athlex-gray": {
-          "100": "#f3f4f6",
-          "200": "#e5e7eb",
-          "300": "#d1d5db",
-          "400": "#9ca3af",
-          "500": "#6b7280",
-          "600": "#4b5563",  // Added missing color
-          "700": "#374151",
-          "800": "#1f2937",
-          "900": "#111827",
+          "100": "#f8f9fa",
+          "200": "#e9ecef",
+          "300": "#dee2e6",
+          "400": "#ced4da",
+          "500": "#adb5bd",
+          "600": "#6c757d", 
+          "700": "#495057",
+          "800": "#343a40",
+          "900": "#212529",
         },
       },
       borderRadius: {
@@ -84,13 +84,13 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
-        // Add the missing glow animation keyframes
+        // Update the glow animation for light theme
         "glow": {
           "0%, 100%": { 
-            boxShadow: "0 0 5px rgba(155, 135, 245, 0.6), 0 0 10px rgba(155, 135, 245, 0.4)" 
+            boxShadow: "0 0 5px rgba(155, 135, 245, 0.4), 0 0 10px rgba(155, 135, 245, 0.2)" 
           },
           "50%": { 
-            boxShadow: "0 0 20px rgba(155, 135, 245, 0.8), 0 0 30px rgba(155, 135, 245, 0.6)" 
+            boxShadow: "0 0 15px rgba(155, 135, 245, 0.6), 0 0 25px rgba(155, 135, 245, 0.4)" 
           }
         },
       },
