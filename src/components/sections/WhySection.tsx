@@ -18,7 +18,8 @@ const WhySection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 lg:gap-12 max-w-5xl mx-auto px-4 md:px-0">
+        {/* Explicitly set to 1 column on small screens, 2 columns on md and above */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 max-w-5xl mx-auto px-6 md:px-4">
           <ValueCard
             icon={<Layers className="w-6 h-6 md:w-8 md:h-8 text-athlex-accent" />}
             title="Unified Platform"
@@ -55,7 +56,7 @@ const ValueCard = ({
   description: string,
 }) => {
   return (
-    <div className="group bg-white border border-athlex-gray-200 p-4 md:p-6 lg:p-8 rounded-lg hover:bg-athlex-gray-50 transition-all duration-500 transform hover:scale-[1.02] hover:shadow-lg shadow-sm animate-fade-in">
+    <div className="group bg-white border border-athlex-gray-200 p-5 md:p-6 lg:p-8 rounded-lg hover:bg-athlex-gray-50 transition-all duration-500 transform hover:scale-[1.02] hover:shadow-lg shadow-sm animate-fade-in w-full">
       <div className="flex items-center mb-4 md:mb-6">
         <div className="p-2 md:p-3 rounded-full bg-athlex-accent/10 border border-athlex-accent/30 group-hover:animate-pulse-soft">
           {icon}
