@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Trophy, Medal, Award, GraduationCap } from 'lucide-react';
+import { Layers, Globe, Zap, LineChart } from 'lucide-react';
 
 const WhySection = () => {
   return (
@@ -18,30 +18,26 @@ const WhySection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
-          <ComparisonCard
-            negative="Scattered Tools"
-            positive="Unified Platform"
-            description="Replace disjointed systems with a single platform for all your athletic development needs."
-            icon={<Trophy className="w-8 h-8" />}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+          <ValueCard
+            icon={<Layers className="w-8 h-8 text-athlex-accent" />}
+            title="Unified Platform"
+            description="All your athletic development needs in a single, integrated ecosystem—track, train, connect, and grow."
           />
-          <ComparisonCard
-            negative="Hidden Talent"
-            positive="Intelligent Discovery"
-            description="Make talent visible with AI-powered matching between athletes and opportunities."
-            icon={<Medal className="w-8 h-8" />}
+          <ValueCard
+            icon={<Zap className="w-8 h-8 text-athlex-accent" />}
+            title="Intelligent Discovery"
+            description="AI-powered matching connects athletes with the right opportunities based on performance, potential, and goals."
           />
-          <ComparisonCard
-            negative="Local Exposure"
-            positive="Global Reach"
-            description="Break geographical barriers and connect with opportunities worldwide."
-            icon={<Award className="w-8 h-8" />}
+          <ValueCard
+            icon={<Globe className="w-8 h-8 text-athlex-accent" />}
+            title="Global Reach"
+            description="Break geographical barriers and connect with opportunities worldwide, expanding your athletic horizons."
           />
-          <ComparisonCard
-            negative="Fragmented Support"
-            positive="Integrated Growth Tools"
-            description="Access a comprehensive ecosystem of tools designed for holistic athletic development."
-            icon={<GraduationCap className="w-8 h-8" />}
+          <ValueCard
+            icon={<LineChart className="w-8 h-8 text-athlex-accent" />}
+            title="Integrated Growth Tools"
+            description="Access a comprehensive toolkit designed for holistic athletic development—physical, mental, and strategic."
           />
         </div>
       </div>
@@ -49,35 +45,24 @@ const WhySection = () => {
   );
 };
 
-const ComparisonCard = ({ 
-  negative, 
-  positive, 
-  description, 
-  icon 
+const ValueCard = ({ 
+  icon, 
+  title, 
+  description 
 }: { 
-  negative: string, 
-  positive: string, 
+  icon: React.ReactNode, 
+  title: string, 
   description: string,
-  icon: React.ReactNode
 }) => {
   return (
     <div className="group bg-white border border-athlex-gray-200 p-8 rounded-lg hover:bg-athlex-gray-50 transition-all duration-500 transform hover:scale-[1.02] hover:shadow-lg shadow-sm animate-fade-in">
-      <div className="flex items-start mb-6">
-        <div className="mr-5 flex flex-col items-center">
-          <div className="text-red-500 text-2xl flex items-center justify-center mb-3 opacity-80">❌</div>
-          <div className="h-20 w-px bg-gradient-to-b from-red-500/50 to-athlex-accent/50 my-1"></div>
-          <div className="text-athlex-accent p-2 rounded-full bg-athlex-accent/10 border border-athlex-accent/30 mt-2 group-hover:animate-pulse-soft">
-            {icon}
-          </div>
+      <div className="flex items-center mb-6">
+        <div className="p-3 rounded-full bg-athlex-accent/10 border border-athlex-accent/30 group-hover:animate-pulse-soft">
+          {icon}
         </div>
-        <div className="flex-1">
-          <div className="mb-6">
-            <p className="text-red-400 line-through text-lg mb-2 opacity-90">{negative}</p>
-            <h3 className="text-athlex-accent font-bold text-xl group-hover:text-athlex-accent-alt transition-colors duration-300">{positive}</h3>
-          </div>
-          <p className="text-athlex-gray-700 text-base group-hover:text-athlex-gray-900 transition-colors duration-300">{description}</p>
-        </div>
+        <h3 className="ml-4 text-athlex-accent font-bold text-xl group-hover:text-athlex-accent-alt transition-colors duration-300">{title}</h3>
       </div>
+      <p className="text-athlex-gray-700 text-base group-hover:text-athlex-gray-900 transition-colors duration-300">{description}</p>
     </div>
   );
 };

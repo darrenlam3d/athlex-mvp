@@ -1,152 +1,128 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-
-// Define the quote data structure
-interface Quote {
-  text: string;
-  author: string;
-  highlight: string; // The phrase to highlight in purple
-}
+import { ArrowLeft, ArrowRight, Star } from 'lucide-react';
 
 const QuoteSection = () => {
-  // Array of quotes with highlighted phrases
-  const quotes: Quote[] = [
+  // State for current mockup index
+  const [currentMockupIndex, setCurrentMockupIndex] = useState(0);
+  
+  const mockups = [
     {
-      text: "I've missed more than 9000 shots in my career. I've lost almost 300 games. 26 times, I've been trusted to take the game winning shot and missed. I've failed over and over and over again in my life. And that is why I succeed.",
-      author: "Michael Jordan",
-      highlight: "And that is why I succeed"
+      id: 1,
+      title: "Performance Dashboard",
+      description: "Track your athletic progress with customizable metrics",
+      image: "/lovable-uploads/fffd7d28-3179-4c1e-acd9-cdde0b892e61.png" // Using an existing image as placeholder
     },
     {
-      text: "Champions keep playing until they get it right.",
-      author: "Billie Jean King",
-      highlight: "until they get it right"
+      id: 2,
+      title: "Goal Setting Interface",
+      description: "Set and monitor your training objectives",
+      image: "/lovable-uploads/fffd7d28-3179-4c1e-acd9-cdde0b892e61.png" // Using an existing image as placeholder
     },
     {
-      text: "The miracle isn't that I finished. The miracle is that I had the courage to start.",
-      author: "John Bingham",
-      highlight: "The miracle is that I had the courage to start"
-    },
-    {
-      text: "Run when you can, walk if you have to, crawl if you must; just never give up.",
-      author: "Dean Karnazes",
-      highlight: "just never give up"
-    },
-    {
-      text: "Obstacles don't have to stop you. If you run into a wall, don't turn around and give up. Figure out how to climb it, go through it, or work around it.",
-      author: "Michael Jordan",
-      highlight: "Figure out how to climb it, go through it, or work around it"
+      id: 3,
+      title: "Opportunity Discovery",
+      description: "Find camps, trials and scholarships matching your profile",
+      image: "/lovable-uploads/fffd7d28-3179-4c1e-acd9-cdde0b892e61.png" // Using an existing image as placeholder
     }
   ];
 
-  // State for current quote index and fade animation
-  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
-  const [fadeState, setFadeState] = useState('fade-in');
-  
-  // Auto-rotate quotes every 8 seconds
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      handleNextQuote();
-    }, 8000);
-    
-    // Clear interval on component unmount
-    return () => clearInterval(intervalId);
-  }, [currentQuoteIndex]);
-
-  // Handle navigating to the next quote
-  const handleNextQuote = () => {
-    setFadeState('fade-out');
-    
-    // Wait for fade out animation to complete before changing quote
-    setTimeout(() => {
-      setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-      setFadeState('fade-in');
-    }, 300);
+  // Handle navigating to the next mockup
+  const handleNextMockup = () => {
+    setCurrentMockupIndex((prevIndex) => (prevIndex + 1) % mockups.length);
   };
 
-  // Handle navigating to the previous quote
-  const handlePreviousQuote = () => {
-    setFadeState('fade-out');
-    
-    // Wait for fade out animation to complete before changing quote
-    setTimeout(() => {
-      setCurrentQuoteIndex((prevIndex) => 
-        prevIndex === 0 ? quotes.length - 1 : prevIndex - 1
-      );
-      setFadeState('fade-in');
-    }, 300);
-  };
-
-  // Function to render quote text with highlighted phrase
-  const renderQuoteWithHighlight = (quote: Quote) => {
-    if (!quote || !quote.text || !quote.highlight) {
-      return quote?.text || "";
-    }
-    
-    // Split the quote text by the highlight phrase
-    const parts = quote.text.split(quote.highlight);
-    
-    return (
-      <>
-        {parts.map((part, index) => (
-          <React.Fragment key={index}>
-            {part}
-            {index < parts.length - 1 && (
-              <span className="text-athlex-accent font-medium">{quote.highlight}</span>
-            )}
-          </React.Fragment>
-        ))}
-      </>
+  // Handle navigating to the previous mockup
+  const handlePreviousMockup = () => {
+    setCurrentMockupIndex((prevIndex) => 
+      prevIndex === 0 ? mockups.length - 1 : prevIndex - 1
     );
   };
 
   return (
-    <section className="section-padding bg-athlex-gray-50">
-      <div className="container max-w-4xl mx-auto">
-        <div className="relative min-h-[300px] flex flex-col items-center">
-          <div className="text-6xl md:text-8xl text-athlex-accent opacity-30 absolute top-0 left-0 transform -translate-y-1/2">
-            "
-          </div>
-          
-          <blockquote 
-            className={`text-xl md:text-2xl lg:text-3xl font-light text-center px-8 md:px-16 leading-relaxed transition-opacity duration-300 ${
-              fadeState === 'fade-in' ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <p className="mb-6 text-athlex-gray-800">
-              {renderQuoteWithHighlight(quotes[currentQuoteIndex])}
-            </p>
-            <footer className="text-lg md:text-xl text-athlex-gray-600">
-              — {quotes[currentQuoteIndex].author}
-            </footer>
-          </blockquote>
-          
-          <div className="text-6xl md:text-8xl text-athlex-accent opacity-30 absolute bottom-0 right-0 transform translate-y-1/2">
-            "
-          </div>
-          
-          {/* Navigation buttons */}
-          <div className="flex justify-center gap-4 mt-8">
-            <Button 
-              variant="outline" 
-              size="icon"
-              onClick={handlePreviousQuote}
-              className="border-athlex-accent/30 hover:border-athlex-accent hover:bg-athlex-accent/10"
-            >
-              <ArrowLeft className="h-5 w-5" />
-              <span className="sr-only">Previous quote</span>
-            </Button>
+    <section className="section-padding bg-athlex-gray-50 py-24 md:py-32">
+      <div className="container">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Testimonial Column */}
+          <div className="bg-white p-8 rounded-lg shadow-lg border border-athlex-gray-200">
+            <div className="flex items-center mb-6">
+              <div className="flex space-x-1 text-amber-400 mb-4">
+                <Star size={20} fill="currentColor" />
+                <Star size={20} fill="currentColor" />
+                <Star size={20} fill="currentColor" />
+                <Star size={20} fill="currentColor" />
+                <Star size={20} fill="currentColor" />
+              </div>
+            </div>
             
-            <Button 
-              variant="outline" 
-              size="icon"
-              onClick={handleNextQuote}
-              className="border-athlex-accent/30 hover:border-athlex-accent hover:bg-athlex-accent/10"
-            >
-              <ArrowRight className="h-5 w-5" />
-              <span className="sr-only">Next quote</span>
-            </Button>
+            <blockquote className="text-lg lg:text-xl font-light text-athlex-gray-800 mb-6 leading-relaxed">
+              "ATHLEX helped me connect with scouts I never would have met otherwise. The performance tracking tools showed me exactly where I needed to improve, and three months later I received an offer from a Division 1 school."
+            </blockquote>
+            
+            <div className="flex items-center">
+              <div className="h-12 w-12 rounded-full bg-athlex-accent/20 flex items-center justify-center text-athlex-accent font-bold text-lg">
+                MS
+              </div>
+              <div className="ml-4">
+                <p className="font-medium text-athlex-gray-900">Michael S.</p>
+                <p className="text-sm text-athlex-gray-600">Track & Field Athlete, Class of 2023</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Mockup Slider Column */}
+          <div className="relative">
+            <div className="bg-white p-4 rounded-xl shadow-lg border border-athlex-gray-200 overflow-hidden">
+              <div className="bg-athlex-gray-900 rounded-lg p-2">
+                <img 
+                  src={mockups[currentMockupIndex].image} 
+                  alt={mockups[currentMockupIndex].title} 
+                  className="rounded-lg shadow-inner w-full"
+                />
+              </div>
+              <div className="mt-4 text-center">
+                <h3 className="text-lg font-bold text-athlex-gray-900">{mockups[currentMockupIndex].title}</h3>
+                <p className="text-sm text-athlex-gray-600">{mockups[currentMockupIndex].description}</p>
+              </div>
+            </div>
+            
+            {/* Navigation buttons */}
+            <div className="flex justify-center gap-4 mt-6">
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={handlePreviousMockup}
+                className="border-athlex-accent/30 hover:border-athlex-accent hover:bg-athlex-accent/10"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span className="sr-only">Previous mockup</span>
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={handleNextMockup}
+                className="border-athlex-accent/30 hover:border-athlex-accent hover:bg-athlex-accent/10"
+              >
+                <ArrowRight className="h-5 w-5" />
+                <span className="sr-only">Next mockup</span>
+              </Button>
+            </div>
+            
+            {/* Dots */}
+            <div className="flex justify-center gap-2 mt-4">
+              {mockups.map((_, index) => (
+                <button
+                  key={index}
+                  className={`h-2 rounded-full transition-all ${
+                    index === currentMockupIndex ? "w-6 bg-athlex-accent" : "w-2 bg-athlex-gray-300"
+                  }`}
+                  onClick={() => setCurrentMockupIndex(index)}
+                  aria-label={`Go to mockup ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

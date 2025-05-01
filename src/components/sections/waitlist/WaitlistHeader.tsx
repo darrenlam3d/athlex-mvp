@@ -5,11 +5,11 @@ const WaitlistHeader = () => {
   return (
     <div className="text-center mb-12">
       <h2 className="text-3xl md:text-4xl font-bold mb-4 text-athlex-gray-900">
-        Join the Movement.<br />
-        <span className="text-athlex-accent">Elevate the Next Generation.</span>
+        Get Early Access.<br />
+        <span className="text-athlex-accent">Join the Waitlist Today.</span>
       </h2>
       <p className="text-athlex-gray-700 text-lg mb-2">
-        Experience ATHLEX—where athletes, coaches, and scouts unite to redefine the future of athletic development and inspire the next generation of global champions.
+        Be among the first to experience ATHLEX—where athletes, coaches, and scouts come together to transform athletic development and discovery.
       </p>
     </div>
   );

@@ -1,10 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Share2, Linkedin, Twitter } from "lucide-react";
+import { Share2, Linkedin, Twitter, ThumbsUp } from "lucide-react";
 import { toast } from 'sonner';
 
 const CommunitySection = () => {
+  const [feedback, setFeedback] = useState("");
+  
   const handleFormRedirect = () => {
     // Link to the provided Google form
     window.open("https://docs.google.com/forms/d/e/1FAIpQLSfQLtY1m837BH7MMNSEMdHGPLK6v7TPj7wSGAjhN7o_I5GTrw/viewform?usp=header", "_blank");
@@ -36,22 +38,58 @@ const CommunitySection = () => {
     window.open(shareUrl, "_blank");
   };
   
+  const handleQuickFeedback = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (feedback.trim()) {
+      toast.success("Thank you for your feedback!");
+      setFeedback("");
+    } else {
+      toast.error("Please enter your feedback before submitting");
+    }
+  };
+  
   return (
-    <section id="community" className="section-padding bg-white">
+    <section id="community" className="section-padding py-24 md:py-32 bg-white">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {/* Feedback Column */}
           <div className="bg-athlex-gray-50 border border-athlex-gray-200 rounded-lg p-6 md:p-8 shadow-sm">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-athlex-gray-800">Tell Us What Matters to You</h3>
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-athlex-gray-800">Shape ATHLEX Together</h3>
             <p className="text-athlex-gray-700 mb-6">
-              Your input is invaluable as we build ATHLEX. Help shape the platform by sharing your thoughts, needs, and expectations.
+              Tell us what matters most to you as we build the future of athlete development and discovery.
             </p>
-            <Button 
-              className="cta-button w-full md:w-auto"
-              onClick={handleFormRedirect}
-            >
-              Share Your Input
-            </Button>
+            
+            <form onSubmit={handleQuickFeedback} className="mb-6">
+              <div className="mb-4">
+                <label htmlFor="feedback" className="block text-sm font-medium text-athlex-gray-700 mb-1">
+                  What feature would help you most?
+                </label>
+                <textarea 
+                  id="feedback"
+                  rows={3}
+                  className="w-full border border-athlex-gray-300 rounded-md p-3 text-athlex-gray-800"
+                  placeholder="I'd love to see..."
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                ></textarea>
+              </div>
+              <div className="flex gap-4">
+                <Button 
+                  type="submit"
+                  className="cta-button"
+                >
+                  Submit Feedback
+                </Button>
+                <Button 
+                  type="button"
+                  variant="outline"
+                  className="border-athlex-accent text-athlex-accent hover:bg-athlex-accent/10"
+                  onClick={handleFormRedirect}
+                >
+                  Complete Full Survey
+                </Button>
+              </div>
+            </form>
           </div>
           
           {/* Share Column */}
@@ -61,7 +99,7 @@ const CommunitySection = () => {
               Help us reach athletes, coaches, and sports organizations who could benefit from ATHLEX.
             </p>
             
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
               <Button 
                 variant="outline" 
                 className="border-athlex-gray-300 hover:bg-athlex-accent/10 flex items-center justify-center"
@@ -99,6 +137,20 @@ const CommunitySection = () => {
                 <Share2 className="mr-2 h-5 w-5" />
                 <span className="sr-only md:not-sr-only md:text-sm">Copy Link</span>
               </Button>
+            </div>
+
+            <div className="bg-white p-4 rounded-lg border border-athlex-gray-200 flex items-center justify-between">
+              <div className="flex items-center">
+                <ThumbsUp className="text-athlex-accent mr-3" />
+                <p className="text-sm text-athlex-gray-700">
+                  <span className="font-medium">247 people</span> joined our waitlist this week
+                </p>
+              </div>
+              <a href="#signup">
+                <Button size="sm" variant="default" className="cta-button">
+                  Join Now
+                </Button>
+              </a>
             </div>
           </div>
         </div>
