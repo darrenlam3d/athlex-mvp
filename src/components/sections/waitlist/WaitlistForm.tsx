@@ -95,7 +95,6 @@ const WaitlistForm = () => {
             <SelectContent className="bg-white border-athlex-gray-300">
               <SelectItem value="athlete">Athlete</SelectItem>
               <SelectItem value="coach">Coach</SelectItem>
-              <SelectItem value="scout">Scout</SelectItem>
               <SelectItem value="parent">Parent of Athlete</SelectItem>
               <SelectItem value="federation">Federation/Organization</SelectItem>
               <SelectItem value="other">Other</SelectItem>

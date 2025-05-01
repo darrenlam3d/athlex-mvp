@@ -57,7 +57,7 @@ const QuoteSection = () => {
             </div>
             
             <blockquote className="text-lg lg:text-xl font-light text-athlex-gray-800 mb-6 leading-relaxed">
-              "ATHLEX helped me connect with scouts I never would have met otherwise. The performance tracking tools showed me exactly where I needed to improve, and three months later I received an offer from a Division 1 school."
+              "ATHLEX helped me track my performance in ways I never could before. The insights showed me exactly where I needed to improve, and three months later I received an opportunity to join a development academy."
             </blockquote>
             
             <div className="flex items-center">

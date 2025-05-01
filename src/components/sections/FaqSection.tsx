@@ -11,14 +11,14 @@ const FaqSection = () => {
   const faqCategories = [
     { id: "general", name: "General" },
     { id: "athletes", name: "For Athletes" },
-    { id: "coaches", name: "For Coaches & Scouts" }
+    { id: "coaches", name: "For Coaches" }
   ];
 
   const faqs = {
     general: [
       {
         question: "What is ATHLEX?",
-        answer: "ATHLEX is a digital performance and discovery platform designed for athletes, coaches, and scouts. It helps athletes track growth, showcase their journey, and connect with real opportunities — all in one trusted space."
+        answer: "ATHLEX is a digital performance and discovery platform designed for athletes and coaches. It helps athletes track growth, showcase their journey, and connect with real opportunities — all in one trusted space."
       },
       {
         question: "Where is ATHLEX launching first?",
@@ -36,7 +36,7 @@ const FaqSection = () => {
     athletes: [
       {
         question: "What can athletes do on ATHLEX?",
-        answer: "Build a verified profile with performance data and highlights. Track development over time with smart metrics. Receive tailored training insights. Discover global camps, scholarships, and trial opportunities. Connect with coaches, scouts, and peers."
+        answer: "Build a verified profile with performance data and highlights. Track development over time with smart metrics. Receive tailored training insights. Discover global camps, scholarships, and trial opportunities. Connect with coaches and peers."
       },
       {
         question: "What sports are supported?",
@@ -49,16 +49,16 @@ const FaqSection = () => {
     ],
     coaches: [
       {
-        question: "How does ATHLEX help coaches and scouts?",
-        answer: "ATHLEX offers searchable athlete databases, development trends, shortlisting tools, and verified data — making it easier to scout talent, track growth, and connect with athletes globally."
+        question: "How does ATHLEX help coaches?",
+        answer: "ATHLEX offers searchable athlete databases, development trends, shortlisting tools, and verified data — making it easier to track talent growth and connect with athletes globally."
       },
       {
         question: "Can I verify my coaching credentials?",
-        answer: "Yes, ATHLEX provides verification processes for coaches and scouts to establish trusted profiles that athletes and parents can rely on."
+        answer: "Yes, ATHLEX provides verification processes for coaches to establish trusted profiles that athletes and parents can rely on."
       },
       {
         question: "How do I find specific types of athletes?",
-        answer: "Our search engine allows filtering by sport, position, age, location, and specific performance metrics that matter most for your recruitment needs."
+        answer: "Our search engine allows filtering by sport, position, age, location, and specific performance metrics that matter most for your coaching needs."
       }
     ]
   };

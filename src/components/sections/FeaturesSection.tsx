@@ -51,7 +51,7 @@ const FeaturesSection = () => {
                 For Athletes
               </TabsTrigger>
               <TabsTrigger value="coaches" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "coaches" ? "text-athlex-gray-900 gradient-text" : "text-athlex-gray-600"}`}>
-                For Coaches & Scouts
+                For Coaches
               </TabsTrigger>
             </TabsList>
           </div>
@@ -81,7 +81,7 @@ const FeaturesSection = () => {
               <FeatureCard 
                 icon={<Trophy size={28} className="text-athlex-accent" />} 
                 title="Global Opportunity Discovery" 
-                description="Connect with scouts, coaches, and opportunities worldwide." />
+                description="Connect with coaches and opportunities worldwide." />
             </div>
           </TabsContent>
 
