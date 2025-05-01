@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { HelpCircle } from 'lucide-react';
@@ -29,8 +28,8 @@ const FaqSection = () => {
         answer: "Yes — ATHLEX will launch with a freemium model. Core features are free for athletes, with optional upgrades for deeper insights, visibility, and performance tools."
       },
       {
-        question: "What is ATHLEX Edge?",
-        answer: "ATHLEX Edge is our weekly newsletter for athletes and coaches. It delivers elite training insights, mental tools, recovery routines, and global opportunities — all curated to give you an edge."
+        question: "What is Built Different?",
+        answer: "Built Different is our weekly newsletter for athletes and coaches. It delivers elite training insights, mental tools, recovery routines, and global opportunities — all curated to give you an edge."
       }
     ],
     athletes: [
