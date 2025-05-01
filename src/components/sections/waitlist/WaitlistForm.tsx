@@ -40,14 +40,14 @@ const WaitlistForm = () => {
     <form onSubmit={handleSubmit}>
       <div className="space-y-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium mb-2">
+          <label htmlFor="name" className="block text-sm font-medium mb-2 text-athlex-gray-800">
             Full Name <span className="text-red-400">*</span>
           </label>
           <Input
             id="name"
             type="text"
             placeholder="Your Name"
-            className="bg-athlex-gray-900 border-athlex-gray-700"
+            className="bg-white border-athlex-gray-300"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -55,14 +55,14 @@ const WaitlistForm = () => {
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2">
+          <label htmlFor="email" className="block text-sm font-medium mb-2 text-athlex-gray-800">
             Email Address <span className="text-red-400">*</span>
           </label>
           <Input
             id="email"
             type="email"
             placeholder="your@email.com"
-            className="bg-athlex-gray-900 border-athlex-gray-700"
+            className="bg-white border-athlex-gray-300"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -70,29 +70,29 @@ const WaitlistForm = () => {
         </div>
 
         <div>
-          <label htmlFor="phoneNumber" className="block text-sm font-medium mb-2 flex items-center gap-2">
+          <label htmlFor="phoneNumber" className="block text-sm font-medium mb-2 flex items-center gap-2 text-athlex-gray-800">
             <Phone size={16} />
-            Phone Number <span className="text-white/50 text-xs">(Optional)</span>
+            Phone Number <span className="text-athlex-gray-500 text-xs">(Optional)</span>
           </label>
           <Input
             id="phoneNumber"
             type="tel"
             placeholder="+1 (234) 567-8910"
-            className="bg-athlex-gray-900 border-athlex-gray-700"
+            className="bg-white border-athlex-gray-300"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>
 
         <div>
-          <label htmlFor="role" className="block text-sm font-medium mb-2">
+          <label htmlFor="role" className="block text-sm font-medium mb-2 text-athlex-gray-800">
             Your Role <span className="text-red-400">*</span>
           </label>
           <Select value={role} onValueChange={setRole}>
-            <SelectTrigger className="bg-athlex-gray-900 border-athlex-gray-700">
+            <SelectTrigger className="bg-white border-athlex-gray-300">
               <SelectValue placeholder="Select your role" />
             </SelectTrigger>
-            <SelectContent className="bg-athlex-gray-900 border-athlex-gray-700">
+            <SelectContent className="bg-white border-athlex-gray-300">
               <SelectItem value="athlete">Athlete</SelectItem>
               <SelectItem value="coach">Coach</SelectItem>
               <SelectItem value="scout">Scout</SelectItem>
@@ -104,7 +104,7 @@ const WaitlistForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-3">
+          <label className="block text-sm font-medium mb-3 text-athlex-gray-800">
             I'm interested in <span className="text-red-400">*</span>
           </label>
           <div className="space-y-3">
@@ -122,7 +122,7 @@ const WaitlistForm = () => {
                   }}
                   className="mr-2"
                 />
-                <label htmlFor={option.id} className="text-sm text-white/90">
+                <label htmlFor={option.id} className="text-sm text-athlex-gray-700">
                   {option.label}
                 </label>
               </div>
@@ -131,13 +131,13 @@ const WaitlistForm = () => {
         </div>
 
         <div>
-          <label htmlFor="feedback" className="block text-sm font-medium mb-2">
+          <label htmlFor="feedback" className="block text-sm font-medium mb-2 text-athlex-gray-800">
             If you have any questions or would like further clarification about ATHLEX, feel free to let us know.
           </label>
           <Textarea
             id="feedback"
             placeholder="Share your thoughts..."
-            className="bg-athlex-gray-900 border-athlex-gray-700"
+            className="bg-white border-athlex-gray-300"
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
           />
@@ -150,7 +150,7 @@ const WaitlistForm = () => {
             onCheckedChange={() => setGdprConsent(!gdprConsent)}
             className="mt-1"
           />
-          <label htmlFor="gdpr" className="ml-2 text-sm text-white/70">
+          <label htmlFor="gdpr" className="ml-2 text-sm text-athlex-gray-600">
             I consent to ATHLEX collecting and storing the information I've provided. 
             I understand I can withdraw my consent at any time. 
             <a href="#" className="text-athlex-accent hover:underline ml-1">Privacy Policy</a>

@@ -143,6 +143,10 @@
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
   }
 
+  .text-shadow-black {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  }
+
   /* Custom scrollbar for webkit browsers */
   ::-webkit-scrollbar {
     width: 8px;

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Shield, Award, Target, TrendingUp, Users, Search } from 'lucide-react';
@@ -50,7 +51,7 @@ const HeroSection = () => {
       
       <div className="container relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 animate-fade-in text-shadow-black">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 animate-fade-in text-white text-shadow-black">
             By <span className="text-athlex-accent">Athletes</span>, For <span className="text-athlex-accent">Athletes</span>.
           </h1>
           

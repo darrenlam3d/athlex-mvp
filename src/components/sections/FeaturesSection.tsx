@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Smartphone, Award, Users, Video, Handshake, Lock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+
 const FeaturesSection = () => {
   const [activeTab, setActiveTab] = useState("edge");
 
@@ -33,11 +35,13 @@ const FeaturesSection = () => {
       window.removeEventListener('tabChange', handleTabChange as EventListener);
     };
   }, []);
-  return <section id="features" className="section-padding py-24 md:py-32 bg-gradient-to-b from-athlex-background to-athlex-gray-900">
+
+  return (
+    <section id="features" className="section-padding py-24 md:py-32 bg-gradient-to-b from-athlex-background to-athlex-gray-100">
       <div className="container">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text inline-block">Platform Features</h2>
-          <p className="text-white/70 text-lg mb-4 font-bold">
+          <p className="text-athlex-gray-700 text-lg mb-4 font-bold">
             Empowering athletes at every level with{" "}
             <span className="text-athlex-accent">technology</span> that drives{" "}
             <span className="text-athlex-accent">growth</span>, elevates{" "}
@@ -48,12 +52,12 @@ const FeaturesSection = () => {
 
         <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="flex justify-center mb-16">
-            <TabsList className="bg-athlex-gray-800 p-1">
-              <TabsTrigger value="edge" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "edge" ? "text-white gradient-text" : "text-white/60"}`}>Built Different</TabsTrigger>
-              <TabsTrigger value="athletes" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "athletes" ? "text-white gradient-text" : "text-white/60"}`}>
+            <TabsList className="bg-athlex-gray-100 p-1">
+              <TabsTrigger value="edge" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "edge" ? "text-athlex-gray-900 gradient-text" : "text-athlex-gray-600"}`}>Built Different</TabsTrigger>
+              <TabsTrigger value="athletes" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "athletes" ? "text-athlex-gray-900 gradient-text" : "text-athlex-gray-600"}`}>
                 For Athletes
               </TabsTrigger>
-              <TabsTrigger value="coaches" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "coaches" ? "text-white gradient-text" : "text-white/60"}`}>
+              <TabsTrigger value="coaches" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "coaches" ? "text-athlex-gray-900 gradient-text" : "text-athlex-gray-600"}`}>
                 For Coaches & Scouts
               </TabsTrigger>
             </TabsList>
@@ -61,7 +65,7 @@ const FeaturesSection = () => {
 
           <TabsContent value="edge" className="animate-fade-in">
             <div className="mb-8 text-center max-w-3xl mx-auto">
-              <p className="text-white/80 text-lg mb-6">'Built Different' is the official newsletter and early-access community for the ATHLEX platform. It serves as the inner circle for athletes, coaches, scouts, and performance leaders who want to grow with ATHLEX from the ground up.</p>
+              <p className="text-athlex-gray-700 text-lg mb-6">'Built Different' is the official newsletter and early-access community for the ATHLEX platform. It serves as the inner circle for athletes, coaches, scouts, and performance leaders who want to grow with ATHLEX from the ground up.</p>
               <div className="mt-8">
                 <Link to="/edge-signup">
                   
@@ -102,8 +106,10 @@ const FeaturesSection = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 const FeatureCard = ({
   icon,
   title,
@@ -113,10 +119,13 @@ const FeatureCard = ({
   title: string;
   description: string;
 }) => {
-  return <div className="bg-athlex-gray-800/40 border border-athlex-gray-700 p-8 rounded-lg hover:border-athlex-accent transition-all duration-300">
+  return (
+    <div className="bg-white border border-athlex-gray-200 p-8 rounded-lg hover:border-athlex-accent transition-all duration-300 shadow-sm hover:shadow-md">
       <div className="text-4xl mb-5">{icon}</div>
-      <h3 className="text-xl font-semibold mb-4">{title}</h3>
-      <p className="text-white/70">{description}</p>
-    </div>;
+      <h3 className="text-xl font-semibold mb-4 text-athlex-gray-800">{title}</h3>
+      <p className="text-athlex-gray-600">{description}</p>
+    </div>
+  );
 };
+
 export default FeaturesSection;

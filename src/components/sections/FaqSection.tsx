@@ -48,30 +48,30 @@ const FaqSection = () => {
   ];
 
   return (
-    <section id="faq" className="section-padding bg-gradient-to-b from-athlex-background to-athlex-gray-900/70">
+    <section id="faq" className="section-padding bg-gradient-to-b from-white to-athlex-gray-100">
       <div className="container max-w-3xl mx-auto">
         <div className="text-center mb-12">
           <div className="inline-block p-3 bg-athlex-accent/10 rounded-full mb-4">
             <HelpCircle className="w-8 h-8 text-athlex-accent" />
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">Frequently Asked Questions</h2>
-          <p className="text-white/70 text-lg">
+          <p className="text-athlex-gray-700 text-lg">
             Everything you need to know about ATHLEX before joining the waitlist.
           </p>
         </div>
 
-        <div className="bg-athlex-gray-800/50 rounded-2xl p-6 border border-athlex-gray-700/50 shadow-lg shadow-athlex-accent/5">
+        <div className="bg-white rounded-2xl p-6 border border-athlex-gray-200 shadow-lg">
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="border-athlex-gray-700/50 py-2"
+                className="border-athlex-gray-200 py-2"
               >
-                <AccordionTrigger className="text-left text-lg font-medium py-4 hover:text-athlex-accent group">
+                <AccordionTrigger className="text-left text-lg font-medium py-4 hover:text-athlex-accent group text-athlex-gray-800">
                   <span className="group-hover:translate-x-1 transition-transform duration-300">{faq.question}</span>
                 </AccordionTrigger>
-                <AccordionContent className="text-white/70 pb-4 text-base pl-2 border-l-2 border-athlex-accent/30">
+                <AccordionContent className="text-athlex-gray-600 pb-4 text-base pl-2 border-l-2 border-athlex-accent/30">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

@@ -4,10 +4,10 @@ import { Trophy, Medal, Award, GraduationCap } from 'lucide-react';
 
 const WhySection = () => {
   return (
-    <section id="why" className="section-padding py-24 md:py-32 relative overflow-hidden">
+    <section id="why" className="section-padding py-24 md:py-32 relative overflow-hidden bg-white">
       {/* Background athlete image with overlay */}
       <div 
-        className="absolute inset-0 z-0 opacity-15"
+        className="absolute inset-0 z-0 opacity-10"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2000&auto=format&fit=crop')`,
           backgroundSize: 'cover',
@@ -15,8 +15,8 @@ const WhySection = () => {
           filter: 'grayscale(60%)',
         }}
       >
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-athlex-gray-900/90"></div>
+        {/* Light Overlay */}
+        <div className="absolute inset-0 bg-white/80"></div>
       </div>
       
       <div className="container relative z-10">
@@ -24,7 +24,7 @@ const WhySection = () => {
           <h2 className="text-3xl md:text-5xl font-bold mb-6 gradient-text inline-block">
             Why ATHLEX
           </h2>
-          <p className="text-white/80 text-lg md:text-xl">
+          <p className="text-athlex-gray-700 text-lg md:text-xl">
             ATHLEX transforms the sports ecosystem by addressing critical gaps in athlete development and discovery.
           </p>
         </div>
@@ -72,7 +72,7 @@ const ComparisonCard = ({
   icon: React.ReactNode
 }) => {
   return (
-    <div className="group bg-athlex-gray-800/40 border border-athlex-gray-700 p-8 rounded-lg hover:bg-athlex-gray-800/60 transition-all duration-500 transform hover:scale-[1.02] hover:shadow-[0_0_15px_rgba(155,135,245,0.3)] animate-fade-in">
+    <div className="group bg-white border border-athlex-gray-200 p-8 rounded-lg hover:bg-athlex-gray-50 transition-all duration-500 transform hover:scale-[1.02] hover:shadow-lg shadow-sm animate-fade-in">
       <div className="flex items-start mb-6">
         <div className="mr-5 flex flex-col items-center">
           <div className="text-red-500 text-2xl flex items-center justify-center mb-3 opacity-80">❌</div>
@@ -84,9 +84,9 @@ const ComparisonCard = ({
         <div className="flex-1">
           <div className="mb-6">
             <p className="text-red-400 line-through text-lg mb-2 opacity-90">{negative}</p>
-            <h3 className="text-athlex-accent font-bold text-xl group-hover:text-white transition-colors duration-300">{positive}</h3>
+            <h3 className="text-athlex-accent font-bold text-xl group-hover:text-athlex-accent-alt transition-colors duration-300">{positive}</h3>
           </div>
-          <p className="text-white/80 text-base group-hover:text-white/95 transition-colors duration-300">{description}</p>
+          <p className="text-athlex-gray-700 text-base group-hover:text-athlex-gray-900 transition-colors duration-300">{description}</p>
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-athlex-gray-900 pt-16 pb-8 border-t border-athlex-gray-800">
+    <footer className="bg-athlex-gray-100 pt-16 pb-8 border-t border-athlex-gray-200">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand Column */}
@@ -28,17 +28,17 @@ const Footer = () => {
             <a href="#" className="flex items-center mb-4">
               <span className="text-xl font-bold gradient-text">ATHLEX</span>
             </a>
-            <p className="text-white/60 mb-4">
+            <p className="text-athlex-gray-600 mb-4">
               Built by athletes, for athletes. Take control of your journey, track your growth, and get discovered—<span className="font-bold text-athlex-accent">globally</span>.
             </p>
             <div className="flex space-x-4 mt-6">
-              <a href="#" className="text-white/60 hover:text-athlex-accent" aria-label="LinkedIn">
+              <a href="#" className="text-athlex-gray-500 hover:text-athlex-accent" aria-label="LinkedIn">
                 <Linkedin size={20} />
               </a>
-              <a href="#" className="text-white/60 hover:text-athlex-accent" aria-label="Instagram">
+              <a href="#" className="text-athlex-gray-500 hover:text-athlex-accent" aria-label="Instagram">
                 <Instagram size={20} />
               </a>
-              <a href="mailto:contact@athlex.example" className="text-white/60 hover:text-athlex-accent" aria-label="Email">
+              <a href="mailto:contact@athlex.example" className="text-athlex-gray-500 hover:text-athlex-accent" aria-label="Email">
                 <Mail size={20} />
               </a>
             </div>
@@ -46,30 +46,30 @@ const Footer = () => {
           
           {/* Links Columns */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4 text-athlex-gray-800">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#features" className="text-white/60 hover:text-athlex-accent">Features</a></li>
-              <li><a href="#why" className="text-white/60 hover:text-athlex-accent">Why ATHLEX</a></li>
-              <li><a href="#community" className="text-white/60 hover:text-athlex-accent">Community</a></li>
-              <li><a href="#faq" className="text-white/60 hover:text-athlex-accent">FAQ</a></li>
+              <li><a href="#features" className="text-athlex-gray-600 hover:text-athlex-accent">Features</a></li>
+              <li><a href="#why" className="text-athlex-gray-600 hover:text-athlex-accent">Why ATHLEX</a></li>
+              <li><a href="#community" className="text-athlex-gray-600 hover:text-athlex-accent">Community</a></li>
+              <li><a href="#faq" className="text-athlex-gray-600 hover:text-athlex-accent">FAQ</a></li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Legal</h3>
+            <h3 className="text-lg font-semibold mb-4 text-athlex-gray-800">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-white/60 hover:text-athlex-accent">
+                <a href="#" className="text-athlex-gray-600 hover:text-athlex-accent">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="text-white/60 hover:text-athlex-accent">
+                <a href="#" className="text-athlex-gray-600 hover:text-athlex-accent">
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a href="#" className="text-white/60 hover:text-athlex-accent">
+                <a href="#" className="text-athlex-gray-600 hover:text-athlex-accent">
                   Cookie Policy
                 </a>
               </li>
@@ -78,14 +78,14 @@ const Footer = () => {
           
           {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Stay Updated</h3>
-            <p className="text-white/60 mb-4">Subscribe to our newsletter for the latest updates.</p>
+            <h3 className="text-lg font-semibold mb-4 text-athlex-gray-800">Stay Updated</h3>
+            <p className="text-athlex-gray-600 mb-4">Subscribe to our newsletter for the latest updates.</p>
             <form onSubmit={handleNewsletterSubmit} className="flex">
               <Input 
                 type="email" 
                 name="email"
                 placeholder="Your email"
-                className="bg-athlex-gray-800 border-athlex-gray-700 rounded-r-none"
+                className="bg-white border-athlex-gray-300 rounded-r-none"
                 required
               />
               <Button 
@@ -98,16 +98,16 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-athlex-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-white/60 text-sm">
+        <div className="border-t border-athlex-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-athlex-gray-500 text-sm">
             &copy; {currentYear} ATHLEX. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0">
-            <a href="#" className="text-white/60 hover:text-athlex-accent text-sm">
+            <a href="#" className="text-athlex-gray-500 hover:text-athlex-accent text-sm">
               Legal Policies
             </a>
-            <span className="mx-2 text-white/30">|</span>
-            <a href="mailto:athlex.gaia@gmail.com" className="text-white/60 hover:text-athlex-accent text-sm">
+            <span className="mx-2 text-athlex-gray-400">|</span>
+            <a href="mailto:athlex.gaia@gmail.com" className="text-athlex-gray-500 hover:text-athlex-accent text-sm">
               Contact Us
             </a>
           </div>
