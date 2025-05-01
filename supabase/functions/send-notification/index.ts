@@ -30,25 +30,15 @@ serve(async (req) => {
       emailContent = `
         <h2>New Waitlist Registration</h2>
         <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Name:</strong> ${data.name || 'Not provided'}</p>
         <p><strong>Phone:</strong> ${data.phone_number || 'Not provided'}</p>
         <p><strong>Role:</strong> ${data.role}</p>
+        <p><strong>Interests:</strong> ${data.interests ? data.interests.join(', ') : 'None'}</p>
         <p><strong>Feedback:</strong> ${data.feedback || 'No feedback provided'}</p>
         <p><strong>GDPR Consent:</strong> ${data.gdpr_consent ? 'Yes' : 'No'}</p>
         <p><em>Submitted at: ${new Date().toISOString()}</em></p>
       `;
       console.log("Processing waitlist registration notification");
-    } else if (type === 'edge') {
-      subject = 'New ATHLEX Edge Signup';
-      emailContent = `
-        <h2>New ATHLEX Edge Signup</h2>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Role:</strong> ${data.role}</p>
-        <p><strong>Interests:</strong> ${data.interests ? data.interests.join(', ') : 'None'}</p>
-        <p><strong>Feedback:</strong> ${data.feedback || 'No feedback provided'}</p>
-        <p><em>Submitted at: ${new Date().toISOString()}</em></p>
-      `;
-      console.log("Processing edge signup notification");
     } else {
       throw new Error(`Unknown notification type: ${type}`);
     }
