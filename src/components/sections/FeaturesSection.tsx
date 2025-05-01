@@ -46,11 +46,17 @@ const FeaturesSection = () => {
 
         <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab} className="w-full">
           <div className="flex justify-center mb-16">
-            <TabsList className="bg-athlex-gray-100 p-1">
-              <TabsTrigger value="athletes" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "athletes" ? "text-athlex-gray-900 gradient-text" : "text-athlex-gray-600"}`}>
+            <TabsList className="bg-athlex-gray-100 p-1 rounded-lg overflow-hidden shadow-sm">
+              <TabsTrigger 
+                value="athletes" 
+                className={`px-6 py-3 transition-all duration-300 ${activeTab === "athletes" ? "text-athlex-gray-900 gradient-text" : "text-athlex-gray-600 hover:text-athlex-gray-800"}`}
+              >
                 For Athletes
               </TabsTrigger>
-              <TabsTrigger value="coaches" className={`px-6 py-3 transition-all duration-300 font-semibold ${activeTab === "coaches" ? "text-athlex-gray-900 gradient-text" : "text-athlex-gray-600"}`}>
+              <TabsTrigger 
+                value="coaches" 
+                className={`px-6 py-3 transition-all duration-300 ${activeTab === "coaches" ? "text-athlex-gray-900 gradient-text" : "text-athlex-gray-600 hover:text-athlex-gray-800"}`}
+              >
                 For Coaches
               </TabsTrigger>
             </TabsList>
