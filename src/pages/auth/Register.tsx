@@ -120,7 +120,7 @@ const Register = () => {
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <Link to="/" className="flex justify-center">
-            <img src="/lovable-uploads/b84ddeca-bec0-41af-8ad4-07c922bd1508.png" alt="ATHLEX Logo" className="h-12 w-auto" />
+            
           </Link>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-athlex-gray-900">
             Create your account
