@@ -1,9 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
 import { useAuth } from '@/contexts/AuthContext';
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -13,6 +15,7 @@ const Navbar = () => {
     signOut
   } = useAuth();
   const location = useLocation();
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -26,10 +29,11 @@ const Navbar = () => {
   if (location.pathname.startsWith('/auth/')) {
     return null;
   }
+
   return <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}>
       <div className="container flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          
+          <img src="/lovable-uploads/8d80a549-8677-40a4-b998-647de9823d7b.png" alt="ATHLEX" className="h-8 w-auto" />
         </Link>
         
         {/* Desktop Navigation */}
@@ -62,12 +66,13 @@ const Navbar = () => {
           <SheetContent side="right" className="w-[80vw]">
             <div className="flex justify-between items-center mb-8">
               <Link to="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
-                <img src="/lovable-uploads/3b9cb1f8-3d77-492e-840f-6b43dfe99a5f.png" alt="ATHLEX" className="h-8 w-auto" />
+                <img src="/lovable-uploads/8d80a549-8677-40a4-b998-647de9823d7b.png" alt="ATHLEX" className="h-8 w-auto" />
               </Link>
               <Button variant="ghost" onClick={() => setMobileMenuOpen(false)}>
                 <X className="h-5 w-5" />
               </Button>
             </div>
+            
             <nav className="flex flex-col space-y-4">
               <MobileNavLinks handleClick={() => setMobileMenuOpen(false)} />
               {isAuthenticated ? <>
@@ -122,4 +127,5 @@ const MobileNavLinks = ({
       <a href="/#community" className="py-2 text-athlex-gray-700 hover:text-athlex-accent" onClick={handleClick}>Community</a>
     </>;
 };
+
 export default Navbar;

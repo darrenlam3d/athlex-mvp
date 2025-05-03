@@ -9,7 +9,7 @@ const ParentalConsentPending = () => {
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
         <div className="flex justify-center mb-6">
           <img 
-            src="/lovable-uploads/3b9cb1f8-3d77-492e-840f-6b43dfe99a5f.png" 
+            src="/lovable-uploads/8d80a549-8677-40a4-b998-647de9823d7b.png" 
             alt="ATHLEX Logo" 
             className="h-12 w-auto" 
           />

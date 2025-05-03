@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -27,7 +28,7 @@ const HeroSection = () => {
         <div className="max-w-3xl mx-auto text-center">
           <div className="flex justify-center mb-8">
             <img 
-              src="/lovable-uploads/3b9cb1f8-3d77-492e-840f-6b43dfe99a5f.png" 
+              src="/lovable-uploads/8d80a549-8677-40a4-b998-647de9823d7b.png" 
               alt="ATHLEX" 
               className="h-16 w-auto mb-6"
             />
