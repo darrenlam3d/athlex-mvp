@@ -131,7 +131,7 @@ const ParentalConsentVerify = () => {
         <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
           <div className="flex justify-center mb-6">
             <img 
-              src="/lovable-uploads/b84ddeca-bec0-41af-8ad4-07c922bd1508.png" 
+              src="/lovable-uploads/3cd27ffa-40d7-43b5-9b23-15ebb1fb585c.png" 
               alt="ATHLEX Logo" 
               className="h-12 w-auto" 
             />
@@ -169,7 +169,7 @@ const ParentalConsentVerify = () => {
         <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
           <div className="flex justify-center mb-6">
             <img 
-              src="/lovable-uploads/b84ddeca-bec0-41af-8ad4-07c922bd1508.png" 
+              src="/lovable-uploads/3cd27ffa-40d7-43b5-9b23-15ebb1fb585c.png" 
               alt="ATHLEX Logo" 
               className="h-12 w-auto" 
             />
@@ -207,7 +207,7 @@ const ParentalConsentVerify = () => {
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
         <div className="flex justify-center mb-6">
           <img 
-            src="/lovable-uploads/b84ddeca-bec0-41af-8ad4-07c922bd1508.png" 
+            src="/lovable-uploads/3cd27ffa-40d7-43b5-9b23-15ebb1fb585c.png" 
             alt="ATHLEX Logo" 
             className="h-12 w-auto" 
           />
