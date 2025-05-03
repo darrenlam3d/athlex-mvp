@@ -36,7 +36,7 @@ const Navbar = () => {
       <div className="container flex justify-between items-center">
         <Link to="/" className="flex items-center">
           <img 
-            src="/lovable-uploads/3cd27ffa-40d7-43b5-9b23-15ebb1fb585c.png" 
+            src="/lovable-uploads/3b9cb1f8-3d77-492e-840f-6b43dfe99a5f.png" 
             alt="ATHLEX" 
             className="h-10 w-auto"
           />
@@ -77,7 +77,7 @@ const Navbar = () => {
             <div className="flex justify-between items-center mb-8">
               <Link to="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
                 <img 
-                  src="/lovable-uploads/3cd27ffa-40d7-43b5-9b23-15ebb1fb585c.png" 
+                  src="/lovable-uploads/3b9cb1f8-3d77-492e-840f-6b43dfe99a5f.png" 
                   alt="ATHLEX" 
                   className="h-8 w-auto"
                 />

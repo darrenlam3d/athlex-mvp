@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
@@ -131,7 +130,7 @@ const ParentalConsentVerify = () => {
         <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
           <div className="flex justify-center mb-6">
             <img 
-              src="/lovable-uploads/3cd27ffa-40d7-43b5-9b23-15ebb1fb585c.png" 
+              src="/lovable-uploads/3b9cb1f8-3d77-492e-840f-6b43dfe99a5f.png" 
               alt="ATHLEX Logo" 
               className="h-12 w-auto" 
             />
@@ -169,7 +168,7 @@ const ParentalConsentVerify = () => {
         <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
           <div className="flex justify-center mb-6">
             <img 
-              src="/lovable-uploads/3cd27ffa-40d7-43b5-9b23-15ebb1fb585c.png" 
+              src="/lovable-uploads/3b9cb1f8-3d77-492e-840f-6b43dfe99a5f.png" 
               alt="ATHLEX Logo" 
               className="h-12 w-auto" 
             />
@@ -207,7 +206,7 @@ const ParentalConsentVerify = () => {
       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
         <div className="flex justify-center mb-6">
           <img 
-            src="/lovable-uploads/3cd27ffa-40d7-43b5-9b23-15ebb1fb585c.png" 
+            src="/lovable-uploads/3b9cb1f8-3d77-492e-840f-6b43dfe99a5f.png" 
             alt="ATHLEX Logo" 
             className="h-12 w-auto" 
           />
