@@ -1,10 +1,14 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Shield, TrendingUp, Target, Award, Users, Search, Play } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useAuth } from '@/contexts/AuthContext';
 
 const HeroSection = () => {
+  const { user, isAuthenticated } = useAuth();
+  
   // Function to handle click on the "Join Waitlist" button
   const scrollToSignup = () => {
     const signupSection = document.getElementById('signup');
@@ -35,13 +39,33 @@ const HeroSection = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row justify-center gap-4 mt-10 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-            <Button 
-              variant="default" 
-              className="cta-button text-base sm:text-lg w-full sm:w-auto"
-              onClick={scrollToSignup}
-            >
-              Join the Waitlist
-            </Button>
+            {isAuthenticated ? (
+              <Button 
+                variant="default" 
+                className="cta-button text-base sm:text-lg w-full sm:w-auto"
+                asChild
+              >
+                <Link to="/dashboard">Go to Dashboard</Link>
+              </Button>
+            ) : (
+              <>
+                <Button 
+                  variant="default" 
+                  className="cta-button text-base sm:text-lg w-full sm:w-auto"
+                  onClick={scrollToSignup}
+                >
+                  Join the Waitlist
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  className="text-base sm:text-lg w-full sm:w-auto border-athlex-accent text-athlex-accent hover:bg-athlex-accent/10"
+                  asChild
+                >
+                  <Link to="/auth/login">Sign In</Link>
+                </Button>
+              </>
+            )}
             
             <DemoModal />
           </div>

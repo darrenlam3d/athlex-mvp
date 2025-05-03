@@ -76,6 +76,53 @@ export type Database = {
           },
         ]
       }
+      athlete_profiles: {
+        Row: {
+          athlete_id: string
+          birth_date: string | null
+          country: string | null
+          created_at: string
+          experience_years: number | null
+          height_cm: number | null
+          primary_sport: string
+          school_name: string | null
+          updated_at: string
+          weight_kg: number | null
+        }
+        Insert: {
+          athlete_id: string
+          birth_date?: string | null
+          country?: string | null
+          created_at?: string
+          experience_years?: number | null
+          height_cm?: number | null
+          primary_sport: string
+          school_name?: string | null
+          updated_at?: string
+          weight_kg?: number | null
+        }
+        Update: {
+          athlete_id?: string
+          birth_date?: string | null
+          country?: string | null
+          created_at?: string
+          experience_years?: number | null
+          height_cm?: number | null
+          primary_sport?: string
+          school_name?: string | null
+          updated_at?: string
+          weight_kg?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "athlete_profiles_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       athlete_stats: {
         Row: {
           age: number | null
@@ -600,6 +647,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          age_verified: boolean | null
           avatar_url: string | null
           bio: string | null
           created_at: string | null
@@ -612,6 +660,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          age_verified?: boolean | null
           avatar_url?: string | null
           bio?: string | null
           created_at?: string | null
@@ -624,6 +673,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          age_verified?: boolean | null
           avatar_url?: string | null
           bio?: string | null
           created_at?: string | null
