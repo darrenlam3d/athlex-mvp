@@ -87,7 +87,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, currentSession) => {
         setSession(currentSession);
-        setUser(currentSession?.user ?? null);
+        // Fixed: Cast the User to UserWithRole
+        setUser(currentSession?.user ? {...currentSession.user} as UserWithRole : null);
         
         if (event === 'SIGNED_IN' && currentSession?.user) {
           console.log('User signed in', currentSession?.user);
@@ -107,7 +108,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Then check for an existing session
     supabase.auth.getSession().then(async ({ data: { session: currentSession } }) => {
       setSession(currentSession);
-      setUser(currentSession?.user ?? null);
+      // Fixed: Cast the User to UserWithRole
+      setUser(currentSession?.user ? {...currentSession.user} as UserWithRole : null);
       
       if (currentSession?.user) {
         await checkUserRole();
