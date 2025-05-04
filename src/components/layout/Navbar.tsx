@@ -104,7 +104,7 @@ const NavLinks = () => {
       <a href="/#features" className="text-athlex-gray-700 hover:text-athlex-accent transition-colors">Features</a>
       <a href="/#why" className="text-athlex-gray-700 hover:text-athlex-accent transition-colors">Why ATHLEX</a>
       
-      <a href="/#faqs" className="text-athlex-gray-700 hover:text-athlex-accent transition-colors">FAQs</a>
+      
       
     </>;
 };
