@@ -26,10 +26,10 @@ serve(async (req) => {
     
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Find the consent record with this token
+    // Find the consent record with this token in parental_consents table
     const { data, error: findError } = await supabase
-      .from('parental_consent')
-      .select('child_user_id, consent_status')
+      .from('parental_consents')
+      .select('athlete_id, consent_status')
       .eq('verification_token', token)
       .single();
 
@@ -38,7 +38,7 @@ serve(async (req) => {
     }
 
     // If already processed, just return the status
-    if (data.consent_status !== 'pending') {
+    if (data.consent_status !== false) {
       return new Response(JSON.stringify({ 
         success: true, 
         message: "This consent request has already been processed", 
@@ -51,10 +51,10 @@ serve(async (req) => {
 
     // Update the consent record
     const { error: updateError } = await supabase
-      .from('parental_consent')
+      .from('parental_consents')
       .update({
-        consent_status: approved ? 'approved' : 'rejected',
-        consent_date: new Date().toISOString()
+        consent_status: approved,
+        consent_granted_at: new Date().toISOString()
       })
       .eq('verification_token', token);
       
@@ -63,9 +63,9 @@ serve(async (req) => {
     // If approved, update the user's age_verified status
     if (approved) {
       await supabase
-        .from('profiles')
+        .from('athletes')
         .update({ age_verified: true })
-        .eq('id', data.child_user_id);
+        .eq('id', data.athlete_id);
     }
     
     return new Response(JSON.stringify({ 

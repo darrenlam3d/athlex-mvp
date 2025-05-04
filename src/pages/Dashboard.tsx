@@ -28,26 +28,50 @@ const Dashboard = () => {
       }
 
       try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('role, first_name, last_name, age_verified')
+        let roleData;
+        
+        // First check if user is an athlete
+        const { data: athleteData, error: athleteError } = await supabase
+          .from('athletes')
+          .select('first_name, last_name, age_verified')
           .eq('id', user.id)
-          .single();
+          .maybeSingle();
+          
+        if (athleteData) {
+          roleData = {
+            role: 'athlete' as const,
+            ...athleteData
+          };
+          
+          // If user is an athlete and not age verified, check for consent status
+          if (!athleteData.age_verified) {
+            const { data: consentData, error: consentError } = await supabase
+              .from('parental_consents')
+              .select('consent_status')
+              .eq('athlete_id', user.id)
+              .maybeSingle();
 
-        if (error) throw error;
-        setProfile(data);
-
-        // If user is an athlete and not age verified, check for consent status
-        if (data.role === 'athlete' && !data.age_verified) {
-          const { data: consentData, error: consentError } = await supabase
-            .from('parental_consent')
-            .select('consent_status')
-            .eq('child_user_id', user.id)
+            if (consentError) throw consentError;
+            setNeedsConsent(consentData?.consent_status !== true);
+          }
+        } else {
+          // If not an athlete, check if user is a coach
+          const { data: coachData, error: coachError } = await supabase
+            .from('coaches')
+            .select('first_name, last_name')
+            .eq('id', user.id)
             .maybeSingle();
-
-          if (consentError) throw consentError;
-          setNeedsConsent(consentData?.consent_status !== 'approved');
+            
+          if (coachData) {
+            roleData = {
+              role: 'coach' as const,
+              ...coachData,
+              age_verified: true // Coaches don't need age verification
+            };
+          }
         }
+        
+        setProfile(roleData || null);
       } catch (error) {
         console.error('Error loading user profile:', error);
       } finally {
