@@ -4,15 +4,22 @@ import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { useToast } from "@/hooks/use-toast";
 
+// Define the extended user interface to include role information
+interface UserWithRole extends User {
+  role?: 'athlete' | 'coach';
+}
+
 // Define the type for our context
 interface AuthContextProps {
-  user: User | null;
+  user: UserWithRole | null;
   session: Session | null;
   loading: boolean;
   signUp: (email: string, password: string, userData: any) => Promise<{ error: any | null }>;
   signIn: (email: string, password: string) => Promise<{ error: any | null }>;
   signOut: () => Promise<void>;
   isAuthenticated: boolean;
+  userRole: 'athlete' | 'coach' | null;
+  checkUserRole: () => Promise<'athlete' | 'coach' | null>;
 }
 
 // Create the context with a default value
@@ -24,6 +31,8 @@ export const AuthContext = createContext<AuthContextProps>({
   signIn: async () => ({ error: null }),
   signOut: async () => {},
   isAuthenticated: false,
+  userRole: null,
+  checkUserRole: async () => null,
 });
 
 // Hook for using the auth context
@@ -31,10 +40,46 @@ export const useAuth = () => useContext(AuthContext);
 
 // Provider component that wraps your app and provides the auth context value
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserWithRole | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState<'athlete' | 'coach' | null>(null);
   const { toast } = useToast();
+
+  const checkUserRole = async (): Promise<'athlete' | 'coach' | null> => {
+    if (!user) return null;
+    
+    try {
+      // Check if user is an athlete
+      const { data: athlete, error: athleteError } = await supabase
+        .from('athletes')
+        .select('id')
+        .eq('id', user.id)
+        .maybeSingle();
+      
+      if (athlete) {
+        setUserRole('athlete');
+        return 'athlete';
+      }
+      
+      // If not an athlete, check if user is a coach
+      const { data: coach, error: coachError } = await supabase
+        .from('coaches')
+        .select('id')
+        .eq('id', user.id)
+        .maybeSingle();
+      
+      if (coach) {
+        setUserRole('coach');
+        return 'coach';
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Error checking user role:', error);
+      return null;
+    }
+  };
 
   // Effect to handle auth state changes
   useEffect(() => {
@@ -43,20 +88,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       (event, currentSession) => {
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
-        setLoading(false);
-
-        if (event === 'SIGNED_IN') {
+        
+        if (event === 'SIGNED_IN' && currentSession?.user) {
           console.log('User signed in', currentSession?.user);
+          // Don't call checkUserRole directly within onAuthStateChange to avoid potential deadlock
+          setTimeout(() => {
+            checkUserRole();
+          }, 0);
         } else if (event === 'SIGNED_OUT') {
           console.log('User signed out');
+          setUserRole(null);
         }
+        
+        setLoading(false);
       }
     );
 
     // Then check for an existing session
-    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+    supabase.auth.getSession().then(async ({ data: { session: currentSession } }) => {
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
+      
+      if (currentSession?.user) {
+        await checkUserRole();
+      }
+      
       setLoading(false);
     });
 
@@ -73,12 +129,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email,
         password,
         options: {
-          data: {
-            first_name: userData.firstName,
-            last_name: userData.lastName,
-            role: userData.role,
-            age_verified: userData.ageVerified || false
-          },
+          data: userData,
         },
       });
       
@@ -122,6 +173,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
+      setUserRole(null);
     } catch (error) {
       console.error('Error signing out:', error);
       toast({
@@ -141,6 +193,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signIn,
     signOut,
     isAuthenticated: !!user,
+    userRole,
+    checkUserRole,
   };
 
   return (

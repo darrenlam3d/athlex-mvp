@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,40 +7,47 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
 interface LoginFormValues {
   email: string;
   password: string;
 }
+
 const Login = () => {
-  const {
-    signIn
-  } = useAuth();
+  const { signIn, checkUserRole } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
 
   // Use the state passed via redirect
-  const from = location.state?.from?.pathname || '/dashboard';
+  const from = location.state?.from?.pathname || '/athlete/dashboard'; // Default to athlete dashboard
+
   const {
     register,
     handleSubmit,
-    formState: {
-      errors
-    }
+    formState: { errors }
   } = useForm<LoginFormValues>();
+
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     try {
-      const {
-        error
-      } = await signIn(data.email, data.password);
+      const { error } = await signIn(data.email, data.password);
       if (error) throw error;
 
-      // Success - navigate to the page the user was trying to access
+      // Check the user's role to determine where to redirect them
+      const role = await checkUserRole();
+      
+      // Redirect based on role
+      if (role === 'athlete') {
+        navigate('/athlete/dashboard', { replace: true });
+      } else if (role === 'coach') {
+        navigate('/coach/dashboard', { replace: true });
+      } else {
+        // If role is not yet set, navigate to the default dashboard
+        navigate('/dashboard', { replace: true });
+      }
+      
       toast.success('Login successful!');
-      navigate(from, {
-        replace: true
-      });
     } catch (error: any) {
       console.error('Login error:', error);
       // Error is already handled in the auth context
@@ -47,11 +55,13 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-  return <div className="flex min-h-screen bg-athlex-gray-50">
+
+  return (
+    <div className="flex min-h-screen bg-athlex-gray-50">
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <Link to="/" className="flex justify-center">
-            
+            <img src="/lovable-uploads/8d80a549-8677-40a4-b998-647de9823d7b.png" alt="ATHLEX" className="h-12 w-auto" />
           </Link>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-athlex-gray-900">
             Sign in to your account
@@ -72,13 +82,19 @@ const Login = () => {
                   Email address
                 </Label>
                 <div className="mt-1">
-                  <Input id="email" type="email" autoComplete="email" {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address"
-                  }
-                })} className={errors.email ? "border-red-500" : ""} />
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    autoComplete="email" 
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid email address"
+                      }
+                    })} 
+                    className={errors.email ? "border-red-500" : ""} 
+                  />
                   {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
                 </div>
               </div>
@@ -88,20 +104,31 @@ const Login = () => {
                   Password
                 </Label>
                 <div className="mt-1">
-                  <Input id="password" type="password" autoComplete="current-password" {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters"
-                  }
-                })} className={errors.password ? "border-red-500" : ""} />
+                  <Input 
+                    id="password" 
+                    type="password" 
+                    autoComplete="current-password" 
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters"
+                      }
+                    })} 
+                    className={errors.password ? "border-red-500" : ""} 
+                  />
                   {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>}
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 rounded border-gray-300 text-athlex-accent focus:ring-athlex-accent" />
+                  <input 
+                    id="remember-me" 
+                    name="remember-me" 
+                    type="checkbox" 
+                    className="h-4 w-4 rounded border-gray-300 text-athlex-accent focus:ring-athlex-accent" 
+                  />
                   <label htmlFor="remember-me" className="ml-2 block text-sm text-athlex-gray-700">
                     Remember me
                   </label>
@@ -126,9 +153,15 @@ const Login = () => {
       
       {/* Right side - Image */}
       <div className="hidden lg:block relative w-0 flex-1">
-        <img className="absolute inset-0 h-full w-full object-cover" src="/lovable-uploads/e12dab71-5a90-458e-88cc-029beadad04e.png" alt="Athletes training" />
+        <img 
+          className="absolute inset-0 h-full w-full object-cover" 
+          src="/lovable-uploads/e12dab71-5a90-458e-88cc-029beadad04e.png" 
+          alt="Athletes training" 
+        />
         <div className="absolute inset-0 bg-athlex-accent/30"></div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Login;

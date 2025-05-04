@@ -173,6 +173,42 @@ export type Database = {
           },
         ]
       }
+      athletes: {
+        Row: {
+          age_verified: boolean | null
+          birth_date: string | null
+          created_at: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          sport: string
+          updated_at: string | null
+        }
+        Insert: {
+          age_verified?: boolean | null
+          birth_date?: string | null
+          created_at?: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          sport: string
+          updated_at?: string | null
+        }
+        Update: {
+          age_verified?: boolean | null
+          birth_date?: string | null
+          created_at?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          sport?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       coach_athletes: {
         Row: {
           athlete_id: string
@@ -245,6 +281,39 @@ export type Database = {
           sport?: string
           team_name?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      coaches: {
+        Row: {
+          coach_role: Database["public"]["Enums"]["coach_role"] | null
+          created_at: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          organization: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          coach_role?: Database["public"]["Enums"]["coach_role"] | null
+          created_at?: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          organization?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          coach_role?: Database["public"]["Enums"]["coach_role"] | null
+          created_at?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          organization?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -594,6 +663,47 @@ export type Database = {
             columns: ["child_user_id"]
             isOneToOne: true
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      parental_consents: {
+        Row: {
+          athlete_id: string
+          consent_granted_at: string | null
+          consent_status: boolean | null
+          created_at: string | null
+          id: string
+          parent_email: string
+          updated_at: string | null
+          verification_token: string
+        }
+        Insert: {
+          athlete_id: string
+          consent_granted_at?: string | null
+          consent_status?: boolean | null
+          created_at?: string | null
+          id?: string
+          parent_email: string
+          updated_at?: string | null
+          verification_token: string
+        }
+        Update: {
+          athlete_id?: string
+          consent_granted_at?: string | null
+          consent_status?: boolean | null
+          created_at?: string | null
+          id?: string
+          parent_email?: string
+          updated_at?: string | null
+          verification_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "parental_consents_athlete_id_fkey"
+            columns: ["athlete_id"]
+            isOneToOne: false
+            referencedRelation: "athletes"
             referencedColumns: ["id"]
           },
         ]
@@ -1091,6 +1201,7 @@ export type Database = {
       }
     }
     Enums: {
+      coach_role: "head_coach" | "assistant_coach" | "trainer"
       coaching_level: "beginner" | "club" | "academy" | "pro"
       completion_status: "not_started" | "in_progress" | "completed" | "missed"
       consent_status: "pending" | "approved" | "rejected"
@@ -1230,6 +1341,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      coach_role: ["head_coach", "assistant_coach", "trainer"],
       coaching_level: ["beginner", "club", "academy", "pro"],
       completion_status: ["not_started", "in_progress", "completed", "missed"],
       consent_status: ["pending", "approved", "rejected"],

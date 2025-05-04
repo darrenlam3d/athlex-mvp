@@ -10,7 +10,10 @@ import Register from "@/pages/auth/Register"
 import ParentalConsentPending from "@/pages/auth/ParentalConsentPending"
 import ParentalConsentVerify from "@/pages/auth/ParentalConsentVerify"
 import Dashboard from "@/pages/Dashboard"
+import AthleteDashboard from "@/pages/athlete/Dashboard"
+import CoachDashboard from "@/pages/coach/Dashboard"
 import ProtectedRoute from "@/components/ProtectedRoute"
+import NavBar from "@/components/layout/Navbar"
 
 const App = () => {
   return (
@@ -19,6 +22,7 @@ const App = () => {
         <Toaster />
         <Sonner position="top-center" />
         <BrowserRouter>
+          <NavBar />
           <Routes>
             <Route path="/" element={<Landing />} />
             
@@ -34,6 +38,25 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Role-Specific Dashboards */}
+            <Route 
+              path="/athlete/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <AthleteDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route 
+              path="/coach/dashboard" 
+              element={
+                <ProtectedRoute>
+                  <CoachDashboard />
                 </ProtectedRoute>
               } 
             />

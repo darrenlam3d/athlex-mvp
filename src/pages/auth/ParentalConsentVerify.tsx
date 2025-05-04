@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
@@ -11,7 +12,7 @@ const ParentalConsentVerify = () => {
   const [loading, setLoading] = useState(true);
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [childName, setChildName] = useState<string | null>(null);
+  const [athleteName, setAthleteName] = useState<string | null>(null);
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -23,32 +24,32 @@ const ParentalConsentVerify = () => {
 
       try {
         // Find the consent record with this token
-        const { data, error: findError } = await supabase
-          .from('parental_consent')
-          .select('child_user_id, consent_status')
+        const { data: consentData, error: findError } = await supabase
+          .from('parental_consents')
+          .select('athlete_id, consent_status')
           .eq('verification_token', token)
           .single();
 
-        if (findError || !data) {
+        if (findError || !consentData) {
           throw new Error("Invalid or expired verification token");
         }
 
         // If already approved, just show success
-        if (data.consent_status === 'approved') {
+        if (consentData.consent_status) {
           setVerified(true);
           setLoading(false);
           return;
         }
 
-        // Get child's name for display
-        const { data: userData, error: userError } = await supabase
-          .from('profiles')
+        // Get athlete's name for display
+        const { data: athleteData, error: athleteError } = await supabase
+          .from('athletes')
           .select('first_name, last_name')
-          .eq('id', data.child_user_id)
+          .eq('id', consentData.athlete_id)
           .single();
 
-        if (userData) {
-          setChildName(`${userData.first_name} ${userData.last_name}`);
+        if (athleteData) {
+          setAthleteName(`${athleteData.first_name} ${athleteData.last_name}`);
         }
 
         setLoading(false);
@@ -70,10 +71,10 @@ const ParentalConsentVerify = () => {
     try {
       // Update the consent record
       const { error: updateError } = await supabase
-        .from('parental_consent')
+        .from('parental_consents')
         .update({
-          consent_status: approve ? 'approved' : 'rejected',
-          consent_date: new Date().toISOString()
+          consent_status: approve,
+          consent_granted_at: approve ? new Date().toISOString() : null
         })
         .eq('verification_token', token);
         
@@ -82,16 +83,16 @@ const ParentalConsentVerify = () => {
       // If approved, update the user's age_verified status
       if (approve) {
         const { data: consentData } = await supabase
-          .from('parental_consent')
-          .select('child_user_id')
+          .from('parental_consents')
+          .select('athlete_id')
           .eq('verification_token', token)
           .single();
           
         if (consentData) {
           await supabase
-            .from('profiles')
+            .from('athletes')
             .update({ age_verified: true })
-            .eq('id', consentData.child_user_id);
+            .eq('id', consentData.athlete_id);
         }
         
         setVerified(true);
@@ -184,7 +185,7 @@ const ParentalConsentVerify = () => {
               Thank You!
             </h1>
             <p className="text-athlex-gray-600">
-              You have successfully provided parental consent for {childName || "your child"}'s ATHLEX account.
+              You have successfully provided parental consent for {athleteName || "your child"}'s ATHLEX account.
             </p>
             <p className="mt-2 text-athlex-gray-600">
               They now have full access to the platform.
@@ -218,7 +219,7 @@ const ParentalConsentVerify = () => {
         
         <div className="space-y-4 text-athlex-gray-700">
           <p>
-            Your child, <span className="font-semibold">{childName || "a minor"}</span>, has created an account on ATHLEX, 
+            Your child, <span className="font-semibold">{athleteName || "a minor"}</span>, has created an account on ATHLEX, 
             a platform for athlete performance tracking and talent discovery.
           </p>
           

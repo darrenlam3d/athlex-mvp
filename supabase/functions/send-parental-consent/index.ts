@@ -1,6 +1,11 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
+import { createClient } from "npm:@supabase/supabase-js@2";
+
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "https://dndudgqkoiybenqnavoi.supabase.co";
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -16,12 +21,25 @@ serve(async (req) => {
   }
 
   try {
-    const { token, parentEmail, athleteName } = await req.json();
-    console.log(`Processing parental consent email for ${athleteName}`);
+    const { token, parentEmail, athleteId } = await req.json();
     
-    if (!token || !parentEmail || !athleteName) {
+    if (!token || !parentEmail || !athleteId) {
       throw new Error("Missing required parameters");
     }
+
+    // Get the athlete's name
+    const { data: athlete, error: athleteError } = await supabase
+      .from('athletes')
+      .select('first_name, last_name')
+      .eq('id', athleteId)
+      .single();
+
+    if (athleteError || !athlete) {
+      throw new Error("Could not find athlete information");
+    }
+
+    const athleteName = `${athlete.first_name} ${athlete.last_name}`;
+    console.log(`Processing parental consent email for ${athleteName}`);
 
     // Create verification URL with token
     const baseUrl = req.headers.get("origin") || Deno.env.get("PUBLIC_URL") || "https://athlex.info";
@@ -35,7 +53,7 @@ serve(async (req) => {
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 20px;">
-            <img src="https://athlex.info/lovable-uploads/b84ddeca-bec0-41af-8ad4-07c922bd1508.png" alt="ATHLEX Logo" style="height: 50px; width: auto;">
+            <img src="https://athlex.info/lovable-uploads/8d80a549-8677-40a4-b998-647de9823d7b.png" alt="ATHLEX Logo" style="height: 50px; width: auto;">
           </div>
           
           <h1 style="color: #333; font-size: 24px; margin-bottom: 20px;">Parental Consent Required</h1>
